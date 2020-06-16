@@ -1,4 +1,4 @@
-#include "../include/init.h"
+#include "init.h"
 
 static void initSDL(const char*, uint16_t, uint16_t);
 static void initAudioContext(void);
@@ -21,8 +21,10 @@ void toggleDebugMode(bool db) {
 }
 
 /*
- * Initializes the SDL context, renderer, and
- * window.
+ * Initializes the SDL context, renderer, and window.
+ * 
+ * @param window name, window width, and window height.
+ * @return none.
  */
 static void initSDL(const char* windowName, uint16_t windowWidth, uint16_t windowHeight) {
   int8_t rendererFlags;
@@ -75,7 +77,11 @@ static void initSDL(const char* windowName, uint16_t windowWidth, uint16_t windo
 }
 
 /*
- *
+ * Initializes the SDL audio context, and allocates the necessary
+ * memory for the number of channels allowed by Standards.
+ * 
+ * @param none.
+ * @return void.
  */
 static void initAudioContext(void) {
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 1024) == -1) {
@@ -88,6 +94,9 @@ static void initAudioContext(void) {
 
 /*
  * Cleans up the SDL context and game upon closing the application.
+ * 
+ * @param none.
+ * @return void.
  */
 static void cleanup(void) {
   if (debugMode) {

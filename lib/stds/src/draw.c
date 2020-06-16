@@ -1,4 +1,4 @@
-#include "../include/draw.h"
+#include "draw.h"
 
 static SDL_Texture* getTexture(char*);
 static void addTextureToCache(char*, SDL_Texture*);
@@ -180,6 +180,7 @@ void fillCircle(int32_t x, int32_t y, uint32_t radius, uint8_t r, uint8_t g, uin
   d = radius - 1;
   status = 0;
   SDL_SetRenderDrawColor(app.renderer, r, g, b, a);
+  
   while (offsety >= offsetx) {
       status += SDL_RenderDrawLine(app.renderer, x - offsety, y + offsetx, x + offsety, y + offsetx);
       status += SDL_RenderDrawLine(app.renderer, x - offsetx, y + offsety, x + offsetx, y + offsety);
@@ -232,7 +233,6 @@ SDL_Color combineFadeColor(FadeColor* f) {
   return c;
 }
 
-
 SDL_Texture* loadTexture(char* fileName) {
   SDL_Texture* texture;
 
@@ -240,18 +240,19 @@ SDL_Texture* loadTexture(char* fileName) {
 
   if (texture == NULL) {
     texture = IMG_LoadTexture(app.renderer, fileName);
-
-    if (texture == NULL) {
-      SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not load image from path %s.", fileName);
-      exit(EXIT_FAILURE);
-    }
-    
     addTextureToCache(fileName, texture);
   }
 
   return texture;
 }
 
+/*
+ * Searches through the SDL_Texture list to see if we have previously
+ * loaded in this texture. If so, it is returned. Otherwise, NULL.
+ * 
+ * @param file name of SDL_Texture.
+ * @return SDL_Texture pointer - either NULL or object.
+ */
 static SDL_Texture* getTexture(char* fileName) {
   Texture* t;
 
@@ -262,6 +263,15 @@ static SDL_Texture* getTexture(char* fileName) {
   }
 }
 
+/*
+ * If a SDL_Texture has not been previously loaded in, we add it to
+ * the cache here. The cache is a linked-list of SDL_Texture pointers
+ * that store references to each texture so we do not waste resources
+ * opening the input stream and loading the data back in.
+ * 
+ * @param file name, and pointer to the texture.
+ * @return void.
+ */
 static void addTextureToCache(char* fileName, SDL_Texture* sdlTexture) {
   Texture* texture;
 
