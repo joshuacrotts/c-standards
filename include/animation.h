@@ -2,6 +2,7 @@
 #define ANIMATION_H
 
 #include "stds.h"
+#include "draw.h"
 
 extern App app;
 
@@ -38,10 +39,5 @@ extern void animation_draw(Entity*);
  *
  */
 extern void animation_die(Entity*);
-
-extern SDL_Texture* loadTexture(const char*);
-extern void blit(SDL_Texture*, float, float, bool);
-extern void blitRect(SDL_Texture*, SDL_Rect*, float, float);
-extern void blitRotated(SDL_Texture*, float, float, uint16_t);
 
 #endif

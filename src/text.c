@@ -15,6 +15,8 @@ void initFonts(void) {
     SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Failed to initialize TTF_Init: %s.\n", SDL_GetError());
     exit(EXIT_ERROR);
   }
+
+  font = TTF_OpenFont("res/fonts/nes.ttf", DEFAULT_FONT_SIZE);
 }
 
 void drawText(float x, float y, uint8_t r, uint8_t g, uint8_t b, const char* text, ...) {
@@ -46,4 +48,8 @@ void freeFonts() {
   SDL_FreeSurface(messageSurface);
   TTF_CloseFont(font);
   TTF_Quit();
+}
+
+void getStringSize(char* s, int* w, int* h) {
+  TTF_SizeText(font, s, w, h);
 }

@@ -1,4 +1,4 @@
-#include "game.h"
+#include "../include/game.h"
 
 static uint16_t currentFPS;
 

@@ -3,8 +3,8 @@
 
 #define LEVEL_WIDTH             4000
 #define LEVEL_HEIGHT            4000
-#define SCREEN_WIDTH            1280
-#define SCREEN_HEIGHT           720
+#define SCREEN_WIDTH            960
+#define SCREEN_HEIGHT           960
 #define EXIT_ERROR              1
 #define EXIT_SUCCESS            0
 #define MAX_KEYBOARD_KEYS       350

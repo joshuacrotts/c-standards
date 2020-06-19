@@ -1,4 +1,4 @@
-#include "draw.h"
+#include "../include/draw.h"
 
 static SDL_Texture* getTexture(char*);
 static void addTextureToCache(char*, SDL_Texture*);
@@ -240,6 +240,11 @@ SDL_Texture* loadTexture(char* fileName) {
 
   if (texture == NULL) {
     texture = IMG_LoadTexture(app.renderer, fileName);
+    if (texture == NULL) {
+      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Error: could not load image %s. Error Code: %s.\n", fileName, SDL_GetError());
+      exit(EXIT_FAILURE);
+    }
+    
     addTextureToCache(fileName, texture);
   }
 

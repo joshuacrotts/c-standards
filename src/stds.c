@@ -73,3 +73,7 @@ void print(const char* str, ...) {
 
   SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, textBuffer);
 }
+
+float toRadians(float degrees) {
+  return (float) (degrees * (PI / 180.0));
+}

@@ -1,4 +1,4 @@
-#include "init.h"
+#include "../include/init.h"
 
 static void initSDL(const char*, uint16_t, uint16_t);
 static void initAudioContext(void);

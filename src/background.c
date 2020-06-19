@@ -1,6 +1,8 @@
 #include "../include/background.h"
 
-void init_background(void) {
+Background* init_background(char* file) {
+  Background* background;
+  
   background = malloc(sizeof(Background));
   memset(background, 0, sizeof(Background));
 
@@ -10,6 +12,7 @@ void init_background(void) {
   uint32_t w;
   uint32_t h;
 
+  background->backgroundTexture = loadTexture(file);
   SDL_QueryTexture(background->backgroundTexture, NULL, NULL, &w, &h);
 
   background->w = w;
@@ -17,20 +20,19 @@ void init_background(void) {
   background->scaleX = 1.0;
   background->scaleY = 1.0;
 
-  SDL_Color c1;
-  SDL_Color c2;
+  return background;
 }
 
-void background_update(void) {
+void background_update(Background* background) {
   background->x = 0 - app.camera.x;
   background->y = 0 - app.camera.y;
 }
 
-void background_draw(void) {
+void background_draw(Background* background) {
   blitTextureScaled(background->backgroundTexture, background->x, background->y, background->scaleX, background->scaleY, 0);
 }
 
-void background_die(void) {
+void background_die(Background* background) {
   SDL_DestroyTexture(background->backgroundTexture);
   free(background);
 }
