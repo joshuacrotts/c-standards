@@ -3,7 +3,7 @@
 
 #define LEVEL_WIDTH             4000
 #define LEVEL_HEIGHT            4000
-#define SCREEN_WIDTH            960
+#define SCREEN_WIDTH            590
 #define SCREEN_HEIGHT           960
 #define EXIT_ERROR              1
 #define EXIT_SUCCESS            0
@@ -33,14 +33,10 @@ enum GameState {
 };
 
 enum SoundChannel{
-  CH_ANY = -1,
-  CH_BRICK
+  CH_ANY = -1
 };
 
 enum SFX{
-  SND_BRICK_SHATTER,
-  SND_BRICK_BREAK,
-  SND_PAUSE,
   SND_MAX
 };
 
