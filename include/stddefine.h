@@ -9,7 +9,7 @@
 #define EXIT_SUCCESS            0
 #define MAX_KEYBOARD_KEYS       350
 #define FPS                     60
-#define MAX_SND_CHANNELS        8
+#define MAX_SND_CHANNELS        16
 #define MAX_LINE_LENGTH         1024
 #define SMALL_TEXT_BUFFER       32
 #define MAX_KEYBOARD_KEYS       350
@@ -27,22 +27,20 @@
 
 enum GameState {
   RUNNING,
+  PREGAME,
+  INIT,
   PAUSED
 };
 
 enum SoundChannel{
   CH_ANY = -1,
-  CH_PLAYER,
-  CH_ALIEN_FIRE,
-  CH_POINTS
+  CH_BRICK
 };
 
 enum SFX{
-  SND_PLAYER_FIRE,
-  SND_ALIEN_FIRE,
-  SND_PLAYER_DIE,
-  SND_ALIEN_DIE,
-  SND_POINTS,
+  SND_BRICK_SHATTER,
+  SND_BRICK_BREAK,
+  SND_PAUSE,
   SND_MAX
 };
 

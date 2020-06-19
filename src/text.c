@@ -53,3 +53,7 @@ void freeFonts() {
 void getStringSize(char* s, int* w, int* h) {
   TTF_SizeText(font, s, w, h);
 }
+
+void getStringSizeFont(char* s, TTF_Font* f, int* w, int* h) {
+  TTF_SizeText(f, s, w, h);
+}

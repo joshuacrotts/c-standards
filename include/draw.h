@@ -40,14 +40,25 @@ extern void blit(SDL_Texture*, float, float, bool);
  *
  * @param SDL_Texture* pointer to texture object.
  * @param float x coordinate.
- * @param int y coordinate.
- * @param int angle of rotation (0 to 360).
+ * @param float y coordinate.
+ * @param uint16_t angle of rotation (0 to 360).
  */
 extern void blitRotated(SDL_Texture*, float, float, uint16_t);
 
 /*
  * Blits a rotated SDL texture at an x and y coordinate with a given
  * scale. A color is also provided to alter the color of the texture.
+ * 
+ * @param SDL_Texture* pointer to texture object.
+ * @param float x coordinate.
+ * @param float y coordinate.
+ * @param scaleX scale factor on x-axis.
+ * @param scaleY scale factor on y-axis.
+ * @param uint16_t angle of rotation (0 to 360).
+ * @param uint8_t r color value.
+ * @param uint8_t g color value.
+ * @param uint8_t b color value.
+ * @param uint8_t a color value.
  */
 extern void blitColorTextureScaled(SDL_Texture*, float, float, float, float, uint16_t, uint8_t, uint8_t, uint8_t, uint8_t);
 
