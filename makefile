@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = lib/stds/src/init.c lib/stds/include/init.h lib/stds/src/draw.c lib/stds/include/draw.h lib/stds/include/stds.h lib/stds/include/input.h lib/stds/src/input.c lib/stds/include/structs.h lib/stds/include/stddefine.h  lib/stds/src/stds.c lib/stds/src/sound.c lib/stds/include/sound.h lib/stds/src/text.c lib/stds/include/text.h lib/stds/src/game.c lib/stds/include/game.h lib/stds/src/camera.c lib/stds/include/camera.h lib/stds/src/animation.c lib/stds/include/animation.h include/commons.h src/main.c include/main.h include/game_defs.h include/game_structs.h src/particle.c include/particle.h src/background.c include/background.h src/emitter.c include/emitter.h
+OBJS = src/init.c include/init.h src/draw.c include/draw.h include/stds.h include/input.h src/input.c include/structs.h include/stddefine.h  src/stds.c src/sound.c include/sound.h src/text.c include/text.h src/trail.c include/trail.h src/game.c include/game.h src/camera.c include/camera.h src/animation.c include/animation.h tests/src/main.c tests/include/main.h tests/include/player.h tests/src/player.c tests/include/game_defs.h tests/include/game_structs.h
 
 #CC specifies which compiler we're using
 CC = gcc
