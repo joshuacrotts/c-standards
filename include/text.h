@@ -14,7 +14,7 @@ init_fonts(void);
 
 
 /*
- *
+ * Loads fonts in from files.
  */
 extern void 
 load_fonts(void);
