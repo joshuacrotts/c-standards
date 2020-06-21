@@ -12,6 +12,12 @@ init_parallax_background(char *directory, size_t count, float normal_scroll_spee
 
   for (int i = 0; i < count; i++) {
     layer = malloc(sizeof(parallax_background_t));
+
+    if (layer == NULL) {
+      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for parallax_background_t. %s.\n", SDL_GetError());
+      exit(EXIT_FAILURE);      
+    }
+
     memset(layer, 0, sizeof(parallax_background_t));
 
     itoa(i, number_buffer, 10);
