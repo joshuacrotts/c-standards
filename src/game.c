@@ -36,7 +36,7 @@ loop() {
  * @param pointers to the times from the previous iteration,
  *        and remainder.
  * 
- * @return void
+ * @return void.
  */
 static void 
 cap_framerate(long *then, float *remainder) {
@@ -59,8 +59,6 @@ cap_framerate(long *then, float *remainder) {
 
 
 /*
- * @TODO: Add the ability to keep the original title!
- * 
  * Callback function to the SDL_AddTimer function that changes
  * the SDL_Window title to a set value with the FPS concatenated
  * onto the end. 
@@ -82,11 +80,14 @@ update_window_title(uint32_t interval, void *args) {
   // Convert fps to string - store in num_buffer.
   itoa(fps, num_buffer, 10);
 
+  // Copy the title to the buffer.
+  strcpy(window_buffer, app.original_title);
+
   // Create temp variable for title.
-  char *title = "Standards C Library - FPS: ";
+  char *title = " | FPS: ";
 
   // Move temp var to buffer. Receive ptr.
-  strcpy(window_buffer, title);
+  strcat(window_buffer, title);
 
   // Concatenate number to title variable.
   strcat(window_buffer, num_buffer);

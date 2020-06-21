@@ -261,7 +261,7 @@ combine_fade_color(fade_color_t *f) {
 
 
 SDL_Texture* 
-load_texture(char* fileName) {
+load_texture(char *fileName) {
   SDL_Texture* texture;
 
   texture = get_texture(fileName);

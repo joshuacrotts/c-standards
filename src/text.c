@@ -25,7 +25,7 @@ init_fonts(void) {
 
 
 void 
-draw_text(float x, float y, uint8_t r, uint8_t g, uint8_t b, char* font_string, uint16_t font_size, const char* text, ...) {
+draw_text(float x, float y, uint8_t r, uint8_t g, uint8_t b, char *font_string, uint16_t font_size, const char *text, ...) {
   message_rect.x = (uint16_t) x;
   message_rect.y = (uint16_t) y;
 
@@ -71,7 +71,7 @@ free_fonts() {
 
 
 void 
-get_string_size(char* s, char* font, uint16_t size, int* w, int* h) {
+get_string_size(char *s, char *font, uint16_t size, int* w, int* h) {
   TTF_Font* f;
   f = get_font(font, size);
 
@@ -87,7 +87,7 @@ get_string_size(char* s, char* font, uint16_t size, int* w, int* h) {
  *
  */
 static TTF_Font* 
-get_font(char* font_str, uint16_t font_size) {
+get_font(char *font_str, uint16_t font_size) {
   font_t* f;
 
   for (f = app.font_head.next; f != NULL; f = f->next) {
@@ -113,7 +113,7 @@ load_fonts() {
  *
  */
 static void 
-add_font(char* font_file, uint16_t size) {
+add_font(char *font_file, uint16_t size) {
   font_t* f;
   f = malloc(sizeof(font_t));
 

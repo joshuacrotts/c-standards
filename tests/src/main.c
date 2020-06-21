@@ -11,7 +11,7 @@ static void draw_trails(void);
 
 // Barebones game. This is the minimum amount of code
 // necessary to run a window.
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   init_game("Trail Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   init_scene();
   loop();

@@ -11,7 +11,7 @@ extern app_t app;
  * Initializes the background image specified by char*.
  * It is drawn at (0, 0), or the top-left of the window.
  * 
- * @param char* file location of background image.
+ * @param char *file location of background image.
  * 
  * @return void.
  */

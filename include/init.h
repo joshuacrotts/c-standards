@@ -10,7 +10,7 @@ app_t app;
  * Calls the remainder of the initialization functions, and 
  * sets up the game loop structure.
  * 
- * @param const char* window title.
+ * @param const char *window title.
  * @param uint16_t window width.
  * @param uint16_t window height.
  * 

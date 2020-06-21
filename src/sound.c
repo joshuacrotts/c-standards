@@ -17,7 +17,7 @@ init_sounds(void) {
 
 
 void 
-load_music(const char* fileName) {
+load_music(const char *fileName) {
   if (music != NULL) {
     Mix_HaltMusic();
     Mix_FreeMusic(music);

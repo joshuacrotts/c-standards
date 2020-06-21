@@ -4,7 +4,7 @@ static char input_buffer[MAX_BUFFER_SIZE];
 
 
 animation_t* 
-add_spritesheet(char* directory, uint8_t no_of_frames, float frame_delay, uint16_t x, uint16_t y) {
+add_spritesheet(char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x, uint16_t y) {
   animation_t *a;
 
   a = malloc(sizeof(animation_t));
@@ -35,7 +35,7 @@ add_spritesheet(char* directory, uint8_t no_of_frames, float frame_delay, uint16
 
 
 animation_t* 
-add_animation(char* directory, uint8_t no_of_frames, float frame_delay) {
+add_animation(char *directory, uint8_t no_of_frames, float frame_delay) {
   animation_t *a;
   a = malloc(sizeof(animation_t));
 
@@ -57,12 +57,12 @@ add_animation(char* directory, uint8_t no_of_frames, float frame_delay) {
   a->flags |= ANIMATION_ACTIVE_MASK;
 
   char number_buffer[3];
-  char* file_extsn = ".png";
+  char *file_extsn = ".png";
   for (int i = 0; i < a->number_of_frames; i++) {
     itoa(i, number_buffer, 10);
     strcpy(input_buffer, directory);
-    char* file_name = strcat(input_buffer, number_buffer);
-    char* file_name_ext = strcat(input_buffer, file_extsn);
+    char *file_name = strcat(input_buffer, number_buffer);
+    char *file_name_ext = strcat(input_buffer, file_extsn);
     a->frames[i] = load_texture(file_name_ext);
     memset(input_buffer, '\0', sizeof(input_buffer));
   }

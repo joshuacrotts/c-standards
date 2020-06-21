@@ -118,6 +118,7 @@ struct Mouse {
  */
 struct App{
   uint16_t        keyboard[MAX_KEYBOARD_KEYS];
+  const char      *original_title;
 
   SDL_Renderer    *renderer;
   SDL_Window      *window;

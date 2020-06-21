@@ -12,7 +12,7 @@ init_game(const char *window_name, uint16_t window_width, uint16_t window_height
   init_SDL(window_name, window_width, window_height);
   init_sounds();
   init_fonts();
-
+  app.original_title = window_name;
   // Assigns the callback function to clean up the
   // SDL context when closing the program.
   atexit(cleanup);
@@ -32,7 +32,7 @@ toggle_debug_mode(bool db) {
  * @return none.
  */
 static void 
-init_SDL(const char* window_name, uint16_t window_width, uint16_t window_height) {
+init_SDL(const char *window_name, uint16_t window_width, uint16_t window_height) {
   int8_t renderer_flags;
   int8_t window_flags;
 

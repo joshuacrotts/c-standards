@@ -79,7 +79,7 @@ getDistance(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
 
 
 void 
-print(const char* str, ...) {
+print(const char *str, ...) {
   va_list args;
   memset(&text_buffer, '\0', sizeof(text_buffer));
 
