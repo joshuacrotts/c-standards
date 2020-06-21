@@ -2,6 +2,7 @@
 #include "../../include/game.h"
 #include "../../include/init.h"
 #include "../../include/draw.h"
+#include "../../include/background.h"
 
 #ifndef MAIN_H
 #define MAIN_H

@@ -6,6 +6,8 @@
 #define VELOCITY      5.0f
 
 static void key_input_listener(void);
+static void check_bounds(void);
+
 
 void 
 init_player() {
@@ -24,23 +26,31 @@ init_player() {
     SDL_QueryTexture(player->texture[0], NULL, NULL, &player->w, &player->h);
 }
 
+
 void 
 player_update(void) {
     player->dx *= DECELERATION;
     player->dy *= DECELERATION;
 
     key_input_listener();
-    add_trail(player, DECAY_RATE, INITIAL_ALPHA);
 
     player->x += player->dx;
     player->y += player->dy;
+
+    check_bounds();
+    add_trail(player, DECAY_RATE, INITIAL_ALPHA);
 }
+
 
 void 
 player_draw(void) {
     blit_texture(player->texture[0], player->x, player->y, false);
 }
 
+
+/*
+ *
+ */
 static void 
 key_input_listener(void) {
     if (app.keyboard[SDL_SCANCODE_W]) {
@@ -59,3 +69,26 @@ key_input_listener(void) {
         player->dx = VELOCITY;
     }      
 }
+
+
+/*
+ *
+ */
+static void
+check_bounds(void) {
+    if (player->x < 0) {
+        player->x = 0;
+    }
+
+    if (player->x + player->w > SCREEN_WIDTH) {
+        player->x = SCREEN_WIDTH - player->w;
+    }
+
+    if (player->y < 0) {
+        player->y = 0;
+    }
+
+    if (player->y + player->h > SCREEN_HEIGHT) {
+        player->y = SCREEN_HEIGHT - player->h;
+    }
+ }
