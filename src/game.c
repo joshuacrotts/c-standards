@@ -1,11 +1,13 @@
 #include "../include/game.h"
 
-static uint16_t currentFPS;
+static uint16_t current_fps;
 
-static void capFrameRate(long*, float*);
-static uint32_t updateWindowTitle(uint32_t, void*);
+static void cap_framerate(long*, float*);
+static uint32_t update_window_title(uint32_t, void*);
 
-void loop() {
+
+void 
+loop() {
   long timer;
   long then;
   float remainder;
@@ -13,18 +15,19 @@ void loop() {
   then = SDL_GetTicks();
   remainder = 0;
 
-  SDL_AddTimer(WINDOW_UPDATE_TIMER, updateWindowTitle, &currentFPS);
+  SDL_AddTimer(WINDOW_UPDATE_TIMER, update_window_title, &current_fps);
 
   // Main game loop.
   while (true) {
-    prepareScene();
-    processInput();
+    prepare_scene();
+    process_input();
     app.delegate.tick();
     app.delegate.draw();
-    presentScene();
-    capFrameRate(&then, &remainder);
+    present_scene();
+    cap_framerate(&then, &remainder);
   }
 }
+
 
 /*
  * Halts the framerate to approximately sixty frames 
@@ -35,23 +38,25 @@ void loop() {
  * 
  * @return void
  */
-static void capFrameRate(long* then, float* remainder) {
-  long wait, frameTime;
+static void 
+cap_framerate(long *then, float *remainder) {
+  long wait, frame_time;
 
   wait = (int32_t) (16 + *remainder);
-  *remainder -= (int)*remainder;
-  frameTime = SDL_GetTicks() - *then;
-  wait -= frameTime;
+  *remainder -= (int) *remainder;
+  frame_time = SDL_GetTicks() - *then;
+  wait -= frame_time;
   if (wait < 1) {
     wait = 1;
   }
   
   SDL_Delay(wait);
 
-  currentFPS = 1000 / wait;
+  current_fps = 1000 / wait;
   *remainder += (0.667f);
   *then = SDL_GetTicks();
 }
+
 
 /*
  * @TODO: Add the ability to keep the original title!
@@ -65,30 +70,31 @@ static void capFrameRate(long* then, float* remainder) {
  * 
  * @return interval time for callback function.
  */
-static uint32_t updateWindowTitle(uint32_t interval, void* args) {
+static uint32_t 
+update_window_title(uint32_t interval, void *args) {
   uint16_t fps = *(uint16_t*) args;
   // Create text window buffer.
-  char windowBuffer[SMALL_TEXT_BUFFER];
+  char window_buffer[SMALL_TEXT_BUFFER];
 
   // Buffer for FPS string representation.
-  char numBuffer[3];
+  char num_buffer[3];
 
-  // Convert fps to string - store in numBuffer.
-  itoa(fps, numBuffer, 10);
+  // Convert fps to string - store in num_buffer.
+  itoa(fps, num_buffer, 10);
 
   // Create temp variable for title.
-  char* title = "Standards C Library - FPS: ";
+  char *title = "Standards C Library - FPS: ";
 
   // Move temp var to buffer. Receive ptr.
-  strcpy(windowBuffer, title);
+  strcpy(window_buffer, title);
 
   // Concatenate number to title variable.
-  strcat(windowBuffer, numBuffer);
+  strcat(window_buffer, num_buffer);
 
-  SDL_SetWindowTitle(app.window, windowBuffer);
+  SDL_SetWindowTitle(app.window, window_buffer);
 
-  memset(numBuffer, '\0', sizeof(numBuffer));
-  memset(windowBuffer, '\0', sizeof(windowBuffer));
+  memset(num_buffer, '\0', sizeof(num_buffer));
+  memset(window_buffer, '\0', sizeof(window_buffer));
 
   return interval;
 }

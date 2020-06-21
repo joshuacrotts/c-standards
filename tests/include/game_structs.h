@@ -3,10 +3,10 @@
 
 #include "../../include/stds.h"
 
-typedef struct Stage Stage;
+typedef struct Stage stage_t;
 
 struct Stage {
-    Trail trailHead, *trailTail;
+    trail_t trail_head, *trail_tail;
 };
 
 #endif

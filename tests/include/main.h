@@ -6,6 +6,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-App app;
+app_t app;
 
 #endif

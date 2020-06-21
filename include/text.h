@@ -3,22 +3,29 @@
 
 #include "stds.h"
 
-extern App app;
+extern app_t app;
+
 
 /*
  * Initializes the TTF font library for use.
  */
-extern void initFonts(void);
+extern void 
+init_fonts(void);
+
 
 /*
  *
  */
-extern void loadFonts(void);
+extern void 
+load_fonts(void);
+
 
 /*
  * Frees the fonts that are in use by the standards library.
  */
-extern void freeFonts(void);
+extern void 
+free_fonts(void);
+
 
 /* 
  * Draws a string of text specified by the const char* parameter, supplemented 
@@ -34,10 +41,12 @@ extern void freeFonts(void);
  * @param const char* string to draw.
  * @param ... formatting args.
  * 
- * To center a string, call getStringSize() or getStringSizeFont (if using a non
+ * To center a string, call get_string_size() or get_string_sizeFont (if using a non
  * standard font), and draw the string at SCREEN_WIDTH / 2 - fontWidth / 2.
  */
-extern void drawText(float, float, uint8_t, uint8_t, uint8_t, char*, uint16_t, const char*, ...);
+extern void 
+drawText(float, float, uint8_t, uint8_t, uint8_t, char*, uint16_t, const char*, ...);
+
 
 /*
  * Computes the size of the string with the default font were it to be drawn
@@ -50,6 +59,7 @@ extern void drawText(float, float, uint8_t, uint8_t, uint8_t, char*, uint16_t, c
  * @param pointer to integer (int) where the width of the string is stored.
  * @param pointer to integer (int) where the height of the string is stored.
  */
-extern void getStringSize(char*, char*, uint16_t, int*, int*);
+extern void 
+get_string_size(char*, char*, uint16_t, int*, int*);
 
 #endif

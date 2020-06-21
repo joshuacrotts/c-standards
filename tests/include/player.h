@@ -5,8 +5,8 @@
 #include "../../include/draw.h"
 #include "../../include/trail.h"
 
-Entity* player;
-extern App app;
+entity_t* player;
+extern app_t app;
 
 extern void init_player(void);
 extern void player_update(void);

@@ -33,11 +33,11 @@ enum GameState {
   PAUSED
 };
 
-enum SoundChannel{
+enum SoundChannel {
   CH_ANY = -1
 };
 
-enum SFX{
+enum SFX {
   SND_MAX
 };
 

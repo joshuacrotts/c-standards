@@ -12,7 +12,7 @@ static void draw_trails(void);
 // Barebones game. This is the minimum amount of code
 // necessary to run a window.
 int main(int argc, char* argv[]) {
-  initGame("Trail Test", SCREEN_WIDTH, SCREEN_HEIGHT);
+  init_game("Trail Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   init_scene();
   loop();
 
@@ -32,9 +32,9 @@ static void init_scene(void) {
   app.delegate.tick = tick;
   app.delegate.draw = draw;
 
-  app.textureTail = &app.textureHead;
-  app.fontTail = &app.fontHead;
-  app.trailTail = &app.trailHead;
+  app.texture_tail = &app.texture_head;
+  app.font_tail = &app.font_head;
+  app.trail_tail = &app.trail_head;
 
   init_player();
 }
@@ -51,17 +51,17 @@ static void tick(void) {
  *
  */
 static void update_trails(void) {
-    Trail* t;
-    Trail* prev;
+    trail_t *t;
+    trail_t *prev;
 
-    prev = &app.trailHead;
+    prev = &app.trail_head;
 
-    for (t = app.trailHead.next; t != NULL; t = t->next) {
+    for (t = app.trail_head.next; t != NULL; t = t->next) {
         trail_update(t);
 
         if (t->flags & DEATH_MASK) {
-            if (t == app.trailTail) {
-                app.trailTail = prev;
+            if (t == app.trail_tail) {
+                app.trail_tail = prev;
             }
 
             prev->next = t->next;
@@ -84,9 +84,9 @@ static void draw(void) {
  *
  */
 static void draw_trails(void) {
-    Trail* t;
+    trail_t *t;
 
-    for (t = app.trailHead.next; t != NULL; t = t->next) {
+    for (t = app.trail_head.next; t != NULL; t = t->next) {
         trail_draw(t);
     }
 }

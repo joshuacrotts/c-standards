@@ -1,38 +1,45 @@
 #include "../include/sound.h"
 
-static void loadSounds(void);
+static void load_sounds(void);
 
 static Mix_Chunk* sounds[SND_MAX];
 static Mix_Music* music;
 
-void initSounds(void) {
+
+void 
+init_sounds(void) {
   memset(sounds, 0, sizeof(Mix_Chunk*) * SND_MAX);
 
   music = NULL;
 
-  loadSounds();
+  load_sounds();
 }
 
- void loadMusic(const char* fileName) {
-   if (music != NULL) {
-     Mix_HaltMusic();
-     Mix_FreeMusic(music);
-     music = NULL;
-   }
+
+void 
+load_music(const char* fileName) {
+  if (music != NULL) {
+    Mix_HaltMusic();
+    Mix_FreeMusic(music);
+    music = NULL;
+  }
 
    music = Mix_LoadMUS(fileName);
  }
 
-void playMusic(bool loop) {
+
+void 
+play_music(bool loop) {
   Mix_PlayMusic(music, loop ? -1 : 0);
 }
 
-void playSound(int16_t id, int16_t channel) {
+
+void 
+play_sound(int16_t id, int16_t channel) {
   Mix_PlayChannel(channel, sounds[id], 0);
 }
 
-/*
- *
- */
-void loadSounds(void) {
+
+static void 
+load_sounds(void) {
 }
