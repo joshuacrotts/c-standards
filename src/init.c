@@ -7,7 +7,8 @@ static void init_audio_context(void);
 static void cleanup(void);
 
 
-void init_game(const char *window_name, uint16_t window_width, uint16_t window_height) {
+void 
+init_game(const char *window_name, uint16_t window_width, uint16_t window_height) {
   init_SDL(window_name, window_width, window_height);
   init_sounds();
   init_fonts();
@@ -18,7 +19,8 @@ void init_game(const char *window_name, uint16_t window_width, uint16_t window_h
 }
 
 
-void toggle_debug_mode(bool db) {
+void 
+toggle_debug_mode(bool db) {
   debug_mode = db;
 }
 
@@ -29,7 +31,8 @@ void toggle_debug_mode(bool db) {
  * @param window name, window width, and window height.
  * @return none.
  */
-static void init_SDL(const char* window_name, uint16_t window_width, uint16_t window_height) {
+static void 
+init_SDL(const char* window_name, uint16_t window_width, uint16_t window_height) {
   int8_t renderer_flags;
   int8_t window_flags;
 
