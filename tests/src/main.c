@@ -176,4 +176,3 @@ static void
 cleanup_stage(void) {
     free(player);
 }
-

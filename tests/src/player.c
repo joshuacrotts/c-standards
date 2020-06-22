@@ -2,8 +2,9 @@
 
 #define DECAY_RATE    4
 #define INITIAL_ALPHA 90
-#define DECELERATION  0.90f
+#define DECELERATION  0.50f
 #define VELOCITY      5.0f
+#define GRAVITY       1
 
 static void key_input_listener(void);
 static void check_bounds(void);
@@ -30,7 +31,7 @@ init_player() {
 void 
 player_update(void) {
     player->dx *= DECELERATION;
-    player->dy *= DECELERATION;
+    player->dy += GRAVITY;
 
     key_input_listener();
 
@@ -54,7 +55,7 @@ player_draw(void) {
 static void 
 key_input_listener(void) {
     if (app.keyboard[SDL_SCANCODE_W]) {
-        player->dy = -VELOCITY;
+        player->dy = -5;
     }
 
     if (app.keyboard[SDL_SCANCODE_S]) {

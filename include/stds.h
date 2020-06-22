@@ -1,3 +1,6 @@
+#ifndef STDS_H
+#define STDS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -119,3 +122,5 @@ print(const char*, ...);
  */
 float 
 to_radians(float);
+
+#endif

@@ -32,6 +32,14 @@ enum GameState {
   PAUSED
 };
 
+enum CollisionSide {
+  SIDE_TOP,
+  SIDE_LEFT,
+  SIDE_RIGHT,
+  SIDE_BOTTOM,
+  SIDE_NONE = -1
+};
+
 enum SoundChannel {
   CH_ANY = -1
 };
