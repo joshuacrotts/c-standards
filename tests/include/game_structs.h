@@ -5,6 +5,7 @@
 
 typedef struct Stage stage_t;
 
+
 struct Stage {
     trail_t trail_head, *trail_tail;
 };

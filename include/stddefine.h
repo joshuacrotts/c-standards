@@ -3,8 +3,8 @@
 
 #define LEVEL_WIDTH             4000
 #define LEVEL_HEIGHT            4000
-#define SCREEN_WIDTH            1020
-#define SCREEN_HEIGHT           1020
+#define SCREEN_WIDTH            1088
+#define SCREEN_HEIGHT           640
 #define EXIT_ERROR              1
 #define EXIT_SUCCESS            0
 #define MAX_KEYBOARD_KEYS       350
@@ -24,7 +24,6 @@
 #define SPRITE_SHEET_MASK       2
 #define STD_ANIMATION_MASK      1
 #define ANIMATION_ACTIVE_MASK   0x01000000
-
 
 enum GameState {
   RUNNING,
