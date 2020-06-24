@@ -1,20 +1,19 @@
 #include "../include/main.h"
 #include "../include/player.h"
 
-static button_t *play_button;
-
-static void init_play_button(void);
-
 static void init_scene(void);
 static void cleanup_stage(void);
 static void draw(void);
 static void tick(void);
+static void check_enemy_collision(void);
 
 static void update_trails(void);
 static void update_parallax_backgrounds(void);
 
 static void draw_trails(void);
 static void draw_parallax_backgrounds(void);
+
+static entity_t *enemy1;
 
 
 // Barebones game. This is the minimum amount of code
@@ -45,7 +44,7 @@ init_scene(void) {
     app.delegate.draw = draw;
     
     init_player();
-    init_play_button();
+    enemy1 = add_enemy(200, 200);
 
     uint8_t parallax_frames = 5;
 
@@ -58,37 +57,12 @@ init_scene(void) {
  *
  */
 static void 
-init_play_button(void) {
-    SDL_Color fc;
-    fc.r = 0xff;
-    fc.g = 0xff;
-    fc.b = 0xff;
-    play_button = add_button_texture(200, 200, "tests/res/img/ui/buttonStock1.png", "tests/res/fonts/nes.ttf", 24, &fc, "PLAY");
-    play_button->texture[1] = load_texture("tests/res/img/ui/buttonStock1h.png");
-    app.button_tail->next = play_button;
-    app.button_tail = play_button;    
-}
-
-
-/*
- *
- */
-static void 
 tick(void) {
     update_parallax_backgrounds();
     update_trails();
-    update_buttons();
     player_update();
-
-    if (is_mouse_over_button(play_button)) {
-        play_button->texture_id = 1;
-    } else {
-        play_button->texture_id = 0;
-    }
-
-    if (is_button_clicked(play_button, SDL_BUTTON_LEFT)) {
-        print("CLICKED");
-    }
+    enemy_update(enemy1);
+    check_enemy_collision();
 }
 
 
@@ -138,8 +112,8 @@ static void
 draw(void) {
     draw_parallax_backgrounds();
     draw_trails();
-    draw_buttons();
     player_draw();
+    enemy_draw(enemy1);
 }
 
 
@@ -166,6 +140,23 @@ draw_parallax_backgrounds(void) {
     for (p = app.parallax_head.next; p != NULL; p = p->next) {
         parallax_background_draw(p);
     }    
+}
+
+
+/*
+ *
+ */
+static void 
+check_enemy_collision(void) {
+    enum CollisionSide s = check_aabb_collision(player, enemy1);
+
+    if (s == SIDE_TOP || s == SIDE_BOTTOM) {
+        player->dy = 0;
+    }
+
+    if (s == SIDE_LEFT || s == SIDE_RIGHT) {
+        player->dx = 0;
+    }
 }
 
 
