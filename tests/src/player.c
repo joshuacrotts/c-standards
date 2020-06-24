@@ -7,90 +7,86 @@
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
-static void key_input_listener(void);
-static void check_bounds(void);
+static void key_input_listener( void );
+static void check_bounds( void );
 
-
-void 
+void
 init_player() {
-    player = malloc(sizeof(entity_t));
+  player = malloc( sizeof( entity_t ) );
 
-    if (player == NULL) {
-        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for player_t. %s.\n", SDL_GetError());
-        exit(EXIT_FAILURE);
-    }    
+  if ( player == NULL ) {
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for player_t. %s.\n",
+                 SDL_GetError() );
+    exit( EXIT_FAILURE );
+  }
 
-    memset(player, 0, sizeof(entity_t));
+  memset( player, 0, sizeof( entity_t ) );
 
-    player->x = SCREEN_WIDTH / 2;
-    player->y = SCREEN_HEIGHT / 2;
-    player->texture[0] = load_texture("tests/res/img/player.png");
-    SDL_QueryTexture(player->texture[0], NULL, NULL, &player->w, &player->h);
+  player->x          = SCREEN_WIDTH / 2;
+  player->y          = SCREEN_HEIGHT / 2;
+  player->texture[0] = load_texture( "tests/res/img/player.png" );
+  SDL_QueryTexture( player->texture[0], NULL, NULL, &player->w, &player->h );
 }
 
+void
+player_update( void ) {
+  player->dx *= DECELERATION;
+  player->dy *= DECELERATION;
 
-void 
-player_update(void) {
-    player->dx *= DECELERATION;
-    player->dy *= DECELERATION;
+  key_input_listener();
 
-    key_input_listener();
+  player->x += player->dx;
+  player->y += player->dy;
 
-    player->x += player->dx;
-    player->y += player->dy;
-
-    check_bounds();
-    add_trail(player, DECAY_RATE, INITIAL_ALPHA);
+  check_bounds();
+  add_trail( player, DECAY_RATE, INITIAL_ALPHA );
 }
 
-
-void 
-player_draw(void) {
-    blit_texture(player->texture[0], player->x, player->y, false);
+void
+player_draw( void ) {
+  blit_texture( player->texture[0], player->x, player->y, false );
 }
-
-
-/*
- *
- */
-static void 
-key_input_listener(void) {
-    if (app.keyboard[SDL_SCANCODE_W]) {
-        player->dy = -VELOCITY;
-    }
-
-    if (app.keyboard[SDL_SCANCODE_S]) {
-        player->dy = VELOCITY;
-    }
-
-    if (app.keyboard[SDL_SCANCODE_A]) {
-        player->dx = -VELOCITY;
-    }
-
-    if (app.keyboard[SDL_SCANCODE_D]) {
-        player->dx = VELOCITY;
-    }      
-}
-
 
 /*
  *
  */
 static void
-check_bounds(void) {
-    if (player->x < 0) {
-        player->x = 0;
-    }
+key_input_listener( void ) {
+  if ( app.keyboard[SDL_SCANCODE_W] ) {
+    player->dy = -VELOCITY;
+  }
 
-    if (player->x + player->w > SCREEN_WIDTH) {
-        player->x = SCREEN_WIDTH - player->w;
-    }
+  if ( app.keyboard[SDL_SCANCODE_S] ) {
+    player->dy = VELOCITY;
+  }
 
-    if (player->y < 0) {
-        player->y = 0;
-    }
+  if ( app.keyboard[SDL_SCANCODE_A] ) {
+    player->dx = -VELOCITY;
+  }
 
-    if (player->y + player->h > SCREEN_HEIGHT) {
-        player->y = SCREEN_HEIGHT - player->h;
-    }
- }
+  if ( app.keyboard[SDL_SCANCODE_D] ) {
+    player->dx = VELOCITY;
+  }
+}
+
+/*
+ *
+ */
+static void
+check_bounds( void ) {
+  if ( player->x < 0 ) {
+    player->x = 0;
+  }
+
+  if ( player->x + player->w > SCREEN_WIDTH ) {
+    player->x = SCREEN_WIDTH - player->w;
+  }
+
+  if ( player->y < 0 ) {
+    player->y = 0;
+  }
+
+  if ( player->y + player->h > SCREEN_HEIGHT ) {
+    player->y = SCREEN_HEIGHT - player->h;
+  }
+}
