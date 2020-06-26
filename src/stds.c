@@ -77,8 +77,9 @@ print( const char *str, ... ) {
   SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, text_buffer );
 }
 
-bool is_mouse_over_rect( float x, float y, SDL_Rect rect ){
-	return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
+bool
+is_mouse_over_rect( float x, float y, SDL_Rect rect ) {
+  return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
 }
 
 float
@@ -88,6 +89,9 @@ to_radians( float degrees ) {
 
 char *
 str_substring( char *str, int first, int last ) {
+  uint32_t s_len = strlen( str );
+  assert( s_len > 0 && first < last && first >= 0 && last <= s_len );
+
   char *s = malloc( sizeof( char ) * ( last - first ) );
   memcpy( s, str + first, last - first );
   return s;
@@ -95,6 +99,11 @@ str_substring( char *str, int first, int last ) {
 
 int32_t
 str_index_of( char *s, const char *search_str ) {
+  uint32_t s_len          = strlen( s );
+  uint32_t search_str_len = strlen( search_str );
+
+  assert( s_len > 0 && s_len >= search_str_len );
+
   const char *ptr = strstr( s, search_str );
 
   if ( ptr ) {
@@ -106,14 +115,14 @@ str_index_of( char *s, const char *search_str ) {
 }
 
 char *
-strcat_int( char *s, int n ) {
+strcat_int( char *s, int32_t n ) {
   // Create a char buffer with the number of digits with an
   // extra character for null terminator.
   int32_t digits = ( int32_t ) ceil( log10( n ) ) + 1;
   char *  buffer = malloc( ( sizeof( char ) * strlen( s ) ) + digits );
   strcpy( buffer, s );
   char num_buf[MAX_INT_DIGITS];
-  sprintf( num_buf, "%d", n);
+  sprintf( num_buf, "%d", n );
   strcat( buffer, num_buf );
   return buffer;
 }
