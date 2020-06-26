@@ -22,8 +22,8 @@ init_player() {
 
   memset( player, 0, sizeof( entity_t ) );
 
-  player->x          = SCREEN_WIDTH / 2;
-  player->y          = SCREEN_HEIGHT / 2;
+  player->x          = SCREEN_WIDTH / 2.0f;
+  player->y          = SCREEN_HEIGHT / 2.0f;
   player->texture[0] = load_texture( "tests/res/img/player.png" );
   SDL_QueryTexture( player->texture[0], NULL, NULL, &player->w, &player->h );
 }
@@ -78,15 +78,15 @@ check_bounds( void ) {
     player->x = 0;
   }
 
-  if ( player->x + player->w > SCREEN_WIDTH ) {
-    player->x = SCREEN_WIDTH - player->w;
+  if ( player->x + player->w > LEVEL_WIDTH ) {
+    player->x = LEVEL_WIDTH - player->w;
   }
 
   if ( player->y < 0 ) {
     player->y = 0;
   }
 
-  if ( player->y + player->h > SCREEN_HEIGHT ) {
-    player->y = SCREEN_HEIGHT - player->h;
+  if ( player->y + player->h > LEVEL_HEIGHT ) {
+    player->y = LEVEL_HEIGHT - player->h;
   }
 }

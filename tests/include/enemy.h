@@ -5,16 +5,26 @@
 #include "../../include/draw.h"
 #include "../../include/trail.h"
 
+
+/*
+ *
+ */
 extern entity_t*
-add_enemy(float, float);
+add_enemy( float x, float y );
 
 
+/*
+ *
+ */
 extern void
-enemy_update(entity_t*);
+enemy_update( entity_t *e );
 
 
+/*
+ *
+ */
 extern void
-enemy_draw(entity_t*);
+enemy_draw( entity_t *e );
 
 
 #endif

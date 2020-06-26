@@ -102,10 +102,7 @@ init_background( char *file ) {
 }
 
 void
-background_update( background_t *background ) {
-  background->x = 0 - app.camera.x;
-  background->y = 0 - app.camera.y;
-}
+background_update( background_t *background ) {}
 
 void
 background_draw( background_t *background ) {

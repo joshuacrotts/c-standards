@@ -1,6 +1,10 @@
 #include "../include/main.h"
 #include "../include/player.h"
 
+static entity_t *    enemy1;
+static entity_t *    enemy2;
+static background_t *bg;
+
 static void init_scene( void );
 static void cleanup_stage( void );
 static void draw( void );
@@ -10,10 +14,10 @@ static void check_enemy_collision( void );
 static void update_trails( void );
 static void update_parallax_backgrounds( void );
 
-static void draw_trails( void );
-static void draw_parallax_backgrounds( void );
-
-static entity_t *enemy1;
+static void         draw_trails( void );
+static void         draw_parallax_backgrounds( void );
+static fade_color_t f;
+static SDL_Rect     screen_edge;
 
 // Barebones game. This is the minimum amount of code
 // necessary to run a window.
@@ -43,12 +47,29 @@ init_scene( void ) {
 
   init_player();
   enemy1 = add_enemy( 200, 200 );
+  enemy2 = add_enemy( 400, 400 );
 
   uint8_t parallax_frames = 5;
 
   float parallax_scroll[5] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f};
   init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 16.0f,
                             parallax_scroll, true );
+  bg = init_background( "tests/res/img/space.jpg" );
+
+  SDL_Color c1;
+  c1.r = 0xff;
+  c1.g = 0xff;
+  c1.b = 0;
+
+  SDL_Color c2;
+  c1.r = 0;
+  c1.g = 0;
+  c1.b = 0xff;
+
+  f.c1    = c1;
+  f.c2    = c2;
+  f.time  = 0.0f;
+  f.alpha = 0.01f;
 }
 
 /*
@@ -56,10 +77,13 @@ init_scene( void ) {
  */
 static void
 tick( void ) {
-  update_parallax_backgrounds();
+  update_camera( player );
+  // update_parallax_backgrounds();
+  background_update( bg );
   update_trails();
   player_update();
   enemy_update( enemy1 );
+  enemy_update( enemy2 );
   check_enemy_collision();
 }
 
@@ -105,10 +129,15 @@ update_parallax_backgrounds( void ) {
  */
 static void
 draw( void ) {
-  draw_parallax_backgrounds();
+  // draw_parallax_backgrounds();
+  background_draw( bg );
+
+  SDL_Color c = combine_fade_color( &f );
+  draw_rect_stroke( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 8, c.r, c.g, c.b, 0xff );
   draw_trails();
   player_draw();
   enemy_draw( enemy1 );
+  enemy_draw( enemy2 );
 }
 
 /*
