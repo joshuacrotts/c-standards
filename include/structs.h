@@ -74,6 +74,7 @@ struct Animation {
   float    y;
   uint32_t w;
   uint32_t h;
+  uint16_t angle;
   uint16_t start_x;
   uint16_t start_y;
   uint32_t sprite_sheet_width;

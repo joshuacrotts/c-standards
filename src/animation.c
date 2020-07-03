@@ -120,53 +120,10 @@ animation_update( animation_t *a ) {
 }
 
 void
-animation_entity_update( entity_t *e ) {
-  animation_t *a = e->animation;
-  if ( a->flags & ANIMATION_ACTIVE_MASK ) {
-    a->frame_timer -= 1;
-
-    if ( a->frame_timer < 0 ) {
-      // Resets the frame countdown.
-      a->frame_timer = a->frame_delay * FPS;
-      a->current_frame_id += 1;
-
-      // If we have a spritesheet, we advance x coordinate
-      // of the sprite. Otherwise, we advance the pointer
-      // referencing which sprite to render in the
-      if ( a->id_flags & SPRITE_SHEET_MASK ) {
-        a->x += a->sprite_sheet_width / a->number_of_frames;
-      } else {
-        a->current_texture = a->frames[a->current_frame_id];
-      }
-
-      // If we reach the end of the animation sequence,
-      // return to the start.
-      if ( a->current_frame_id >= a->number_of_frames ) {
-        a->current_frame_id = 0;
-        if ( a->id_flags & SPRITE_SHEET_MASK ) {
-          a->x = 0;
-        } else {
-          a->current_frame_id = 0;
-        }
-
-        // If we have the flag enabled to cycle through the animation
-        // only once (and we just finished), deactivate the flag to
-        // continue and quit.
-        if ( a->cycle_once ) {
-          a->flags ^= ANIMATION_ACTIVE_MASK;
-          a->cycle_once = false;
-          return;
-        }
-      }
-    }
-  }
-}
-
-void
 animation_draw( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STD_ANIMATION_MASK ) {
-      blit_texture( a->frames[a->current_frame_id], a->x, a->y, false );
+      blit_texture_rotated( a->frames[a->current_frame_id], a->x, a->y, a->angle );
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       // Yes, the math IS correct; don't second-guess yourself!
       // The offset is due to the RECTANGLE!
@@ -182,32 +139,7 @@ animation_draw( animation_t *a ) {
 }
 
 void
-animation_entity_draw( entity_t *e ) {
-  if ( e != NULL ) {
-    animation_t *a = e->animation;
-    if ( a->flags & ANIMATION_ACTIVE_MASK ) {
-      if ( a->id_flags & STD_ANIMATION_MASK ) {
-        blit_texture_rotated( a->frames[a->current_frame_id], ( e->x + e->w / 2 ) - app.camera.x,
-                              ( e->y + e->h / 2 ) - app.camera.y, e->angle );
-      } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
-        // Yes, the math IS correct; don't second-guess yourself!
-        // The offset is due to the RECTANGLE!
-        SDL_Rect curr_rect;
-        curr_rect.x = ( int32_t ) a->x;
-        curr_rect.y = ( int32_t ) a->y;
-        curr_rect.w = a->w;
-        curr_rect.h = a->h;
-
-        blit_rect( a->current_texture, &curr_rect, e->x - app.camera.x, e->y - app.camera.y );
-      }
-    }
-  }
-}
-
-void
-animation_die( entity_t *e ) {
-  animation_t *a = e->animation;
-
+animation_die( animation_t *a ) {
   for ( int i = 0; i < a->number_of_frames; i++ ) {
     SDL_DestroyTexture( a->frames[i] );
   }

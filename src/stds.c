@@ -23,16 +23,13 @@ random_float( float min, float max ) {
   return min + scale * ( max - min );
 }
 
-int32_t
-clamp( int32_t value, int32_t min, int32_t max ) {
-  int newValue = value;
-  if ( value < min ) {
-    newValue = min;
-  } else if ( value > max ) {
-    newValue = max;
+void
+clamp( int32_t *value, int32_t min, int32_t max ) {
+  if ( *value < min ) {
+    *value = min;
+  } else if ( *value > max ) {
+    *value = max;
   }
-
-  return newValue;
 }
 
 void
@@ -84,7 +81,12 @@ is_mouse_over_rect( float x, float y, SDL_Rect rect ) {
 
 float
 to_radians( float degrees ) {
-  return ( float ) ( degrees * ( PI / 180.0 ) );
+  return ( float ) ( degrees * ( PI / 180.0f ) );
+}
+
+float
+to_degrees( float radians ) {
+  return ( float ) ( radians * ( 180.0f / PI ) );
 }
 
 char *
@@ -114,15 +116,15 @@ str_index_of( char *s, const char *search_str ) {
   return -1;
 }
 
-char *
-strcat_int( char *s, int32_t n ) {
+void
+strcat_int( char **s, int32_t n ) {
   // Create a char buffer with the number of digits with an
   // extra character for null terminator.
   int32_t digits = ( int32_t ) ceil( log10( n ) ) + 1;
-  char *  buffer = malloc( ( sizeof( char ) * strlen( s ) ) + digits );
-  strcpy( buffer, s );
+  char *  buffer = malloc( ( sizeof( char ) * strlen( *s ) ) + digits );
+  strncpy( buffer, *s, digits + strlen( *s ) );
   char num_buf[MAX_INT_DIGITS];
   sprintf( num_buf, "%d", n );
-  strcat( buffer, num_buf );
-  return buffer;
+  strncat( buffer, num_buf, digits );
+  *s = buffer;
 }

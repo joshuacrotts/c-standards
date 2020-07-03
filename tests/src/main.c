@@ -52,9 +52,8 @@ init_scene( void ) {
   uint8_t parallax_frames = 5;
 
   float parallax_scroll[5] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f};
-  init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 16.0f,
-                            parallax_scroll, true );
-  bg = init_background( "tests/res/img/space.jpg" );
+  //init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 16.0f,parallax_scroll, true );
+  bg = init_background( "tests/res/img/background_0.png" );
 
   SDL_Color c1;
   c1.r = 0xff;

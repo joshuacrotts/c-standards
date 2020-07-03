@@ -7,6 +7,8 @@
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
+static bool is_moving_forward = false;
+
 static void key_input_listener( void );
 static void check_bounds( void );
 
@@ -24,16 +26,30 @@ init_player() {
 
   player->x          = SCREEN_WIDTH / 2.0f;
   player->y          = SCREEN_HEIGHT / 2.0f;
-  player->texture[0] = load_texture( "tests/res/img/player.png" );
+  player->texture[0] = load_texture( "tests/res/img/player_blue.png" );
+  player->angle = 0;
   SDL_QueryTexture( player->texture[0], NULL, NULL, &player->w, &player->h );
 }
 
 void
 player_update( void ) {
-  player->dx *= DECELERATION;
-  player->dy *= DECELERATION;
-
   key_input_listener();
+
+  if ( is_moving_forward ) {
+    player->dx += ( float ) cos( to_radians( player->angle ) ) * 0.2f;
+    player->dy += ( float ) sin( to_radians( player->angle ) ) * 0.2f;
+  } else {
+    player->dx *= 0.99f;
+    player->dy *= 0.99f;
+  }
+
+  float maxSpeed = 5.0f;
+  float speed    = ( float ) sqrt( player->dx * player->dx + player->dy * player->dy );
+
+  if ( speed > maxSpeed ) {
+    player->dx *= maxSpeed / speed;
+    player->dy *= maxSpeed / speed;
+  }
 
   player->x += player->dx;
   player->y += player->dy;
@@ -44,7 +60,7 @@ player_update( void ) {
 
 void
 player_draw( void ) {
-  blit_texture( player->texture[0], player->x, player->y, false );
+  blit_texture_rotated( player->texture[0], player->x, player->y, player->angle );
 }
 
 /*
@@ -52,20 +68,14 @@ player_draw( void ) {
  */
 static void
 key_input_listener( void ) {
-  if ( app.keyboard[SDL_SCANCODE_W] ) {
-    player->dy = -VELOCITY;
-  }
-
-  if ( app.keyboard[SDL_SCANCODE_S] ) {
-    player->dy = VELOCITY;
-  }
+  is_moving_forward = app.keyboard[SDL_SCANCODE_W];
 
   if ( app.keyboard[SDL_SCANCODE_A] ) {
-    player->dx = -VELOCITY;
+    player->angle -= 3;
   }
 
   if ( app.keyboard[SDL_SCANCODE_D] ) {
-    player->dx = VELOCITY;
+    player->angle += 3;
   }
 }
 

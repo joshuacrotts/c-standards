@@ -82,6 +82,7 @@ blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x
     SDL_SetTextureColorMod( texture, r, g, b );
     SDL_SetTextureAlphaMod( texture, a );
   }
+
   SDL_RenderCopyExF( app.renderer, texture, NULL, &dest_rect, angle, NULL, SDL_FLIP_NONE );
 }
 
@@ -97,7 +98,7 @@ void
 draw_rect( SDL_Rect *rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a, bool is_filled ) {
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
   SDL_SetRenderDrawColor( app.renderer, r, g, b, a );
-  
+
   rect->x -= app.camera.x;
   rect->y -= app.camera.y;
 
@@ -253,14 +254,18 @@ combine_fade_color( fade_color_t *f ) {
     f->is_first_color = true;
   }
 
-  int r = ( int ) ( f->time * f->c2.r + ( 1.0f - f->time ) * f->c1.r );
-  int g = ( int ) ( f->time * f->c2.g + ( 1.0f - f->time ) * f->c1.g );
-  int b = ( int ) ( f->time * f->c2.b + ( 1.0f - f->time ) * f->c1.b );
+  int32_t r = ( int ) ( f->time * f->c2.r + ( 1.0f - f->time ) * f->c1.r );
+  int32_t g = ( int ) ( f->time * f->c2.g + ( 1.0f - f->time ) * f->c1.g );
+  int32_t b = ( int ) ( f->time * f->c2.b + ( 1.0f - f->time ) * f->c1.b );
 
   SDL_Color c;
-  c.r = clamp( r, 0, 0xff );
-  c.g = clamp( g, 0, 0xff );
-  c.b = clamp( b, 0, 0xff );
+  clamp( &r, 0, 0xff );
+  clamp( &g, 0, 0xff );
+  clamp( &b, 0, 0xff );
+
+  c.r = r;
+  c.g = g;
+  c.b = b;
 
   return c;
 }
