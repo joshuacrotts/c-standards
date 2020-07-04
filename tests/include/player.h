@@ -4,6 +4,7 @@
 #include "../../include/stds.h"
 #include "../../include/draw.h"
 #include "../../include/trail.h"
+#include "../../include/animation.h"
 
 entity_t* player;
 extern app_t app;

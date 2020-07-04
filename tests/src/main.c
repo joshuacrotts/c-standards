@@ -52,8 +52,8 @@ init_scene( void ) {
   uint8_t parallax_frames = 5;
 
   float parallax_scroll[5] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f};
-  //init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 16.0f,parallax_scroll, true );
-  bg = init_background( "tests/res/img/background_0.png" );
+  init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 4.0f, parallax_scroll, true );
+  //bg = init_background( "tests/res/img/background_0.png" );
 
   SDL_Color c1;
   c1.r = 0xff;
@@ -77,8 +77,8 @@ init_scene( void ) {
 static void
 tick( void ) {
   update_camera( player );
-  // update_parallax_backgrounds();
-  background_update( bg );
+  update_parallax_backgrounds();
+  //background_update( bg );
   update_trails();
   player_update();
   enemy_update( enemy1 );
@@ -128,8 +128,8 @@ update_parallax_backgrounds( void ) {
  */
 static void
 draw( void ) {
-  // draw_parallax_backgrounds();
-  background_draw( bg );
+  draw_parallax_backgrounds();
+ // background_draw( bg );
 
   SDL_Color c = combine_fade_color( &f );
   draw_rect_stroke( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 8, c.r, c.g, c.b, 0xff );

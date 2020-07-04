@@ -1,9 +1,9 @@
 #include "../include/trail.h"
 
 void
-add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha ) {
+add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, SDL_RendererFlip flip ) {
   trail_t *t;
-  
+
   t = malloc( sizeof( trail_t ) );
 
   if ( t == NULL ) {
@@ -14,9 +14,16 @@ add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha ) {
 
   memset( t, 0, sizeof( trail_t ) );
 
-  t->x                = parent->x;
-  t->y                = parent->y;
-  t->texture          = parent->texture[0];
+  t->x    = parent->x;
+  t->y    = parent->y;
+  t->flip = flip;
+
+  if ( parent->animation != NULL ) {
+    t->texture = parent->animation->frames[parent->animation->current_frame_id];
+  } else {
+    t->texture = parent->texture[0];
+  }
+
   t->alpha            = initial_alpha;
   t->alpha_decay_rate = alpha_decay;
 
@@ -34,8 +41,8 @@ trail_update( trail_t *t ) {
 
 void
 trail_draw( trail_t *t ) {
-  SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
+  // SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
-  blit_texture( t->texture, t->x, t->y, false );
-  SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_NONE );
+  blit_texture_rotated( t->texture, t->x, t->y, 0, t->flip);
+  // SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_NONE );
 }

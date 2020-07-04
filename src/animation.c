@@ -81,7 +81,7 @@ add_animation( char *directory, uint8_t no_of_frames, float frame_delay ) {
 void
 animation_update( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK )
-  a->frame_timer -= 1;
+    a->frame_timer -= 1;
 
   if ( a->frame_timer < 0 ) {
     // Resets the frame countdown.
@@ -92,7 +92,7 @@ animation_update( animation_t *a ) {
     // of the sprite. Otherwise, we advance the pointer
     // referencing which sprite to render in the
     if ( a->id_flags & SPRITE_SHEET_MASK ) {
-      a->x += a->sprite_sheet_width / a->number_of_frames;
+      a->splice_x += a->sprite_sheet_width / a->number_of_frames;
     } else {
       a->current_texture = a->frames[a->current_frame_id];
     }
@@ -102,7 +102,7 @@ animation_update( animation_t *a ) {
     if ( a->current_frame_id >= a->number_of_frames ) {
       a->current_frame_id = 0;
       if ( a->id_flags & SPRITE_SHEET_MASK ) {
-        a->x = 0;
+        a->splice_x = 0;
       } else {
         a->current_frame_id = 0;
       }
@@ -123,17 +123,19 @@ void
 animation_draw( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STD_ANIMATION_MASK ) {
-      blit_texture_rotated( a->frames[a->current_frame_id], a->x, a->y, a->angle );
+      blit_texture_rotated( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip);
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       // Yes, the math IS correct; don't second-guess yourself!
       // The offset is due to the RECTANGLE!
+      //
+      // This rectangle splices the correct frame
+      // from the sprite sheet.
       SDL_Rect curr_rect;
-      curr_rect.x = ( int32_t ) a->x;
-      curr_rect.y = ( int32_t ) a->y;
+      curr_rect.x = ( int32_t ) a->splice_x;
+      curr_rect.y = ( int32_t ) a->splice_y;
       curr_rect.w = a->w;
       curr_rect.h = a->h;
-
-      blit_rect( a->current_texture, &curr_rect, a->x, a->y );
+      blit_rect( a->current_texture, &curr_rect, a->pos_x, a->pos_y );
     }
   }
 }

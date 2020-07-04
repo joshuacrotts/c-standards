@@ -61,7 +61,8 @@ struct Trail {
   int16_t  alpha_decay_rate;
   uint32_t flags;
 
-  SDL_Texture *texture;
+  SDL_RendererFlip flip;
+  SDL_Texture *    texture;
 
   trail_t *next;
 };
@@ -70,8 +71,11 @@ struct Trail {
  *
  */
 struct Animation {
-  float    x;
-  float    y;
+  float pos_x;
+  float pos_y;
+
+  uint32_t splice_x;
+  uint32_t splice_y;
   uint32_t w;
   uint32_t h;
   uint16_t angle;
@@ -87,6 +91,8 @@ struct Animation {
   size_t   number_of_frames;
   float    frame_delay;
   float    frame_timer;
+
+  SDL_RendererFlip flip;
 
   SDL_Texture * current_texture;
   SDL_Texture * default_texture;

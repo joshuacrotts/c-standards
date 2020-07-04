@@ -7,7 +7,9 @@
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
-static bool is_moving_forward = false;
+static bool         is_moving = false;
+static animation_t *idle_animation;
+static animation_t *walk_animation;
 
 static void key_input_listener( void );
 static void check_bounds( void );
@@ -24,43 +26,37 @@ init_player() {
 
   memset( player, 0, sizeof( entity_t ) );
 
-  player->x          = SCREEN_WIDTH / 2.0f;
-  player->y          = SCREEN_HEIGHT / 2.0f;
-  player->texture[0] = load_texture( "tests/res/img/player_blue.png" );
+  player->x     = SCREEN_WIDTH / 2.0f;
+  player->y     = SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
-  SDL_QueryTexture( player->texture[0], NULL, NULL, &player->w, &player->h );
+
+  idle_animation = add_animation( "tests/res/img/player/idle/tile00", 8, 0.09f );
+  walk_animation = add_animation( "tests/res/img/player/run/tile00", 8, 0.09f );
 }
 
 void
 player_update( void ) {
   key_input_listener();
 
-  if ( is_moving_forward ) {
-    player->dx += ( float ) cos( to_radians( player->angle ) ) * 0.2f;
-    player->dy += ( float ) sin( to_radians( player->angle ) ) * 0.2f;
-  } else {
-    player->dx *= 0.99f;
-    player->dy *= 0.99f;
-  }
-
-  float maxSpeed = 5.0f;
-  float speed    = ( float ) sqrt( player->dx * player->dx + player->dy * player->dy );
-
-  if ( speed > maxSpeed ) {
-    player->dx *= maxSpeed / speed;
-    player->dy *= maxSpeed / speed;
-  }
+  player->animation = is_moving ? walk_animation : idle_animation;
 
   player->x += player->dx;
   player->y += player->dy;
 
+  player->animation->pos_x = player->x;
+  player->animation->pos_y = player->y;
+
   check_bounds();
-  add_trail( player, DECAY_RATE, INITIAL_ALPHA );
+  animation_update( player->animation );
+
+  if ( is_moving ) {
+    add_trail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
+  }
 }
 
 void
 player_draw( void ) {
-  blit_texture_rotated( player->texture[0], player->x, player->y, player->angle );
+  animation_draw( player->animation );
 }
 
 /*
@@ -68,14 +64,20 @@ player_draw( void ) {
  */
 static void
 key_input_listener( void ) {
-  is_moving_forward = app.keyboard[SDL_SCANCODE_W];
+  is_moving = app.keyboard[SDL_SCANCODE_A] | app.keyboard[SDL_SCANCODE_D];
 
   if ( app.keyboard[SDL_SCANCODE_A] ) {
-    player->angle -= 3;
+    player->dx              = -VELOCITY;
+    player->animation->flip = SDL_FLIP_HORIZONTAL;
   }
 
-  if ( app.keyboard[SDL_SCANCODE_D] ) {
-    player->angle += 3;
+  else if ( app.keyboard[SDL_SCANCODE_D] ) {
+    player->dx              = VELOCITY;
+    player->animation->flip = SDL_FLIP_NONE;
+  }
+
+  else {
+    player->dx = 0;
   }
 }
 

@@ -48,7 +48,7 @@ blit_rect( SDL_Texture *texture, SDL_Rect *src, float x, float y ) {
 }
 
 void
-blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle ) {
+blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle, SDL_RendererFlip flip ) {
   SDL_FRect dest;
   dest.x = ( x - app.camera.x );
   dest.y = ( y - app.camera.y );
@@ -59,12 +59,12 @@ blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle ) {
   dest.w = ( float ) w;
   dest.h = ( float ) h;
 
-  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest, angle, NULL, SDL_FLIP_NONE );
+  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest, angle, NULL, flip );
 }
 
 void
 blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x, float scale_y,
-                           uint16_t angle, uint8_t r, uint8_t g, uint8_t b, uint8_t a ) {
+                           uint16_t angle, SDL_RendererFlip flip, int16_t r, int16_t g, int16_t b, int16_t a ) {
   uint32_t texture_width  = 0;
   uint32_t texture_height = 0;
 
@@ -83,15 +83,15 @@ blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x
     SDL_SetTextureAlphaMod( texture, a );
   }
 
-  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest_rect, angle, NULL, SDL_FLIP_NONE );
+  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest_rect, angle, NULL, flip );
 }
 
 void
 blit_texture_scaled( SDL_Texture *texture, float x, float y, float scale_x, float scale_y,
-                     uint16_t angle ) {
+                     uint16_t angle, SDL_RendererFlip flip ) {
 
   // Camera offsets are applied in color_scaled method.
-  blit_texture_color_scaled( texture, x, y, scale_x, scale_y, angle, -1, -1, -1, -1 );
+  blit_texture_color_scaled( texture, x, y, scale_x, scale_y, angle, flip, -1, -1, -1, -1);
 }
 
 void
