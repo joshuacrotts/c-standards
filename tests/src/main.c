@@ -1,8 +1,6 @@
 #include "../include/main.h"
 #include "../include/player.h"
 
-static entity_t *    enemy1;
-static entity_t *    enemy2;
 static background_t *bg;
 
 static void init_scene( void );
@@ -12,10 +10,13 @@ static void tick( void );
 static void check_enemy_collision( void );
 
 static void update_trails( void );
+static void update_enemies( void );
 static void update_parallax_backgrounds( void );
 
-static void         draw_trails( void );
-static void         draw_parallax_backgrounds( void );
+static void draw_trails( void );
+static void draw_enemies( void );
+static void draw_parallax_backgrounds( void );
+
 static fade_color_t f;
 static SDL_Rect     screen_edge;
 
@@ -44,16 +45,24 @@ static void
 init_scene( void ) {
   app.delegate.tick = tick;
   app.delegate.draw = draw;
+  stage.enemy_tail  = &stage.enemy_head;
 
   init_player();
-  enemy1 = add_enemy( 200, 200 );
-  enemy2 = add_enemy( 400, 400 );
+
+  for ( int i = 0, x = 0; i < 30; i++, x += 64 ) {
+    entity_t *e;
+    e = add_enemy( x, 620 );
+
+    stage.enemy_tail->next = e;
+    stage.enemy_tail       = e;
+  }
 
   uint8_t parallax_frames = 5;
 
   float parallax_scroll[5] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f};
-  init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 4.0f, parallax_scroll, true );
-  //bg = init_background( "tests/res/img/background_0.png" );
+  init_parallax_background( "tests/res/img/background_3/Layer", parallax_frames, 4.0f,
+                            parallax_scroll, true );
+  // bg = init_background( "tests/res/img/background_0.png" );
 
   SDL_Color c1;
   c1.r = 0xff;
@@ -78,12 +87,9 @@ static void
 tick( void ) {
   update_camera( player );
   update_parallax_backgrounds();
-  //background_update( bg );
   update_trails();
+  update_enemies();
   player_update();
-  enemy_update( enemy1 );
-  enemy_update( enemy2 );
-  check_enemy_collision();
 }
 
 /*
@@ -127,16 +133,33 @@ update_parallax_backgrounds( void ) {
  *
  */
 static void
+update_enemies( void ) {
+  entity_t *e;
+
+  for ( e = stage.enemy_head.next; e != NULL; e = e->next ) {
+    enum CollisionSide s = check_aabb_collision( player, e );
+
+    if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
+      player->dy = 0;
+    }
+
+    if ( s == SIDE_LEFT || s == SIDE_RIGHT ) {
+      player->dx = 0;
+    }
+  }
+}
+
+/*
+ *
+ */
+static void
 draw( void ) {
   draw_parallax_backgrounds();
- // background_draw( bg );
-
   SDL_Color c = combine_fade_color( &f );
   draw_rect_stroke( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 8, c.r, c.g, c.b, 0xff );
   draw_trails();
+  draw_enemies();
   player_draw();
-  enemy_draw( enemy1 );
-  enemy_draw( enemy2 );
 }
 
 /*
@@ -167,15 +190,11 @@ draw_parallax_backgrounds( void ) {
  *
  */
 static void
-check_enemy_collision( void ) {
-  enum CollisionSide s = check_aabb_collision( player, enemy1 );
+draw_enemies( void ) {
+  entity_t *e;
 
-  if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
-    player->dy = 0;
-  }
-
-  if ( s == SIDE_LEFT || s == SIDE_RIGHT ) {
-    player->dx = 0;
+  for ( e = stage.enemy_head.next; e != NULL; e = e->next ) {
+    enemy_draw( e );
   }
 }
 

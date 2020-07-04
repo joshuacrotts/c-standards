@@ -3,7 +3,7 @@
 #define DECAY_RATE    4
 #define INITIAL_ALPHA 90
 #define DECELERATION  0.95f
-#define JUMP_VEL      12.0f;
+#define JUMP_VEL      -8.0f
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
@@ -40,6 +40,11 @@ player_update( void ) {
 
   player->animation = is_moving ? walk_animation : idle_animation;
 
+  SDL_QueryTexture( player->animation->frames[player->animation->current_frame_id], NULL, NULL,
+                    &player->w, &player->h );
+
+  player->dy += GRAVITY;
+
   player->x += player->dx;
   player->y += player->dy;
 
@@ -65,6 +70,11 @@ player_draw( void ) {
 static void
 key_input_listener( void ) {
   is_moving = app.keyboard[SDL_SCANCODE_A] | app.keyboard[SDL_SCANCODE_D];
+
+  if ( app.keyboard[SDL_SCANCODE_W] ) {
+    player->dy                   = JUMP_VEL;
+    app.keyboard[SDL_SCANCODE_W] = 0;
+  }
 
   if ( app.keyboard[SDL_SCANCODE_A] ) {
     player->dx              = -VELOCITY;
