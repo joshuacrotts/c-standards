@@ -60,6 +60,7 @@ struct Trail {
   int16_t  alpha;
   int16_t  alpha_decay_rate;
   uint32_t flags;
+  bool     is_texture;
 
   SDL_RendererFlip flip;
   SDL_Texture *    texture;

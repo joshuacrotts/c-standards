@@ -15,11 +15,13 @@ extern app_t app;
  * @param int16_t rate at which the alpha decreases (should be between 0
  *        and 255, the higher it is, the faster it goes).
  * @param int16_t starting alpha of the object.
+ * @param bool blends the alpha a different way if it is a texture or not.
  * @param SDL_RendererFlip flip enum for if the trail should be flipped.
  *
  * @return void.
  */
-extern void add_trail( entity_t *parent_entity, int16_t alpha_decay_rate, int16_t starting_alpha, SDL_RendererFlip flip );
+extern void add_trail( entity_t *parent_entity, int16_t alpha_decay_rate, int16_t starting_alpha,
+                       bool is_texture, SDL_RendererFlip flip );
 
 /**
  * Updates the trail by iterating through the trail's linked lists,

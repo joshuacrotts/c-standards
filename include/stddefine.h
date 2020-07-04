@@ -3,8 +3,8 @@
 
 #define LEVEL_WIDTH             3000
 #define LEVEL_HEIGHT            700
-#define SCREEN_WIDTH            1000
-#define SCREEN_HEIGHT           700
+#define SCREEN_WIDTH            590
+#define SCREEN_HEIGHT           960
 #define EXIT_ERROR              1
 #define EXIT_SUCCESS            0
 #define MAX_KEYBOARD_KEYS       350
@@ -29,6 +29,7 @@ enum GameState {
   RUNNING,
   PREGAME,
   INIT,
+  TRANSITION,
   PAUSED
 };
 
@@ -41,10 +42,16 @@ enum CollisionSide {
 };
 
 enum SoundChannel {
-  CH_ANY = -1
+  CH_ANY = -1,
+  CH_BRICK
 };
 
 enum SFX {
+  SND_COIN,
+  SND_EXTRA_LIFE,
+  SND_PAUSE,
+  SND_BRICK_BREAK,
+  SND_BRICK_SHATTER,
   SND_MAX
 };
 
