@@ -59,8 +59,8 @@ init_scene( void ) {
 
   uint8_t parallax_frames = 1;
 
-  float parallax_scroll[1] = {0.10f};//, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f, 0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
-  init_parallax_background( "tests/res/img/background_5/layer_", parallax_frames, 1.0f,
+  float parallax_scroll[1] = {0.30f};//, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f, 0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
+  init_parallax_background( "tests/res/img/background_5/layer_", parallax_frames, 2.0f,
                             parallax_scroll, false );
   // bg = init_background( "tests/res/img/background_0.png" );
 

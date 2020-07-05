@@ -33,8 +33,8 @@ clamp( int32_t *value, int32_t min, int32_t max ) {
 }
 
 void
-calc_slope( int x1, int y1, int x2, int y2, float *dx, float *dy ) {
-  int steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
+calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
+  int32_t steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
     *dx = *dy = 0;

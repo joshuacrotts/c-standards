@@ -1,7 +1,7 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-#define LEVEL_WIDTH             3000
+#define LEVEL_WIDTH             5000
 #define LEVEL_HEIGHT            700
 #define SCREEN_WIDTH            700
 #define SCREEN_HEIGHT           500

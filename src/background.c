@@ -51,22 +51,16 @@ init_parallax_background( char *directory, size_t count, float normal_scroll_spe
 
 void
 parallax_background_update( parallax_background_t *p ) {
-  // p->background->x -= parent->dx;
-  if ( p->background->x < -SCREEN_WIDTH ) {
-    p->background->x = 0;
-  } else if ( p->background->x > SCREEN_WIDTH ) {
-    p->background->x = 0;
+  if ( !p->infinite_scroll ) {
+    p->background->x =
+        ( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
+    p->background->x = ( float ) fmod( p->background->x, p->background->w );
+  } else {
+    p->background->x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
+    if ( p->background->x < -p->background->w ) {
+      p->background->x = 0;
+    }
   }
-  // if ( !p->infinite_scroll ) {
-  //   p->background->x =
-  //       ( int32_t )( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed )
-  //       );
-  // } else {
-  //   p->background->x -= ( int32_t )( p->normal_scroll_speed * p->parallax_scroll_speed );
-  //   if ( p->background->x < -p->background->w ) {
-  //     p->background->x = 0;
-  //   }
-  // }
 }
 
 void
