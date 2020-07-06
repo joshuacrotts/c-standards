@@ -50,8 +50,8 @@ calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy
 
 float
 get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
-  float angle = ( float ) ( -90 + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
-  return angle >= 0 ? angle : 360 + angle;
+  float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
+  return angle >= 0 ? angle : 360.0f + angle;
 }
 
 int32_t

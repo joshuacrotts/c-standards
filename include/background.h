@@ -30,8 +30,6 @@ extern void init_parallax_background( char *bg_directory, size_t n, float defaul
                                       float modified_scroll_speeds[], bool is_infinite );
 
 /**
- * @update 7/5/20: Fixed offset bug with modulo?
- * 
  * Updates the position of the parallax background element.
  * The offset is applied by multiplying the default scroll speed
  * multiplied by the scroll offset to give the illusion of
