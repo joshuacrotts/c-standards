@@ -49,13 +49,19 @@ struct Particle {
   float    y;
   float    dx;
   float    dy;
+  float    delta_accel_x;
+  float    delta_accel_y;
+  float    delta_alpha;
   uint32_t w;
   uint32_t h;
+  uint32_t angle;
   int32_t  life;
+  uint32_t id_flags;
   uint32_t flags;
 
   animation_t *animation;
 
+  SDL_Color    color;
   SDL_Texture *current_texture;
 
   void ( *particle_update )( particle_t * );

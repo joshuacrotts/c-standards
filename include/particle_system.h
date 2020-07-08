@@ -17,7 +17,7 @@ extern particle_system_t *create_particle_system( int32_t max_particles );
  * Adds a particle to the particle system. Returns 0 if a successful insertion
  * occurred, and 1 otherwise (generally meaning the emitter is full).
  */
-extern int32_t add_particle( particle_system_t *ps, particle_t *p );
+extern int32_t insert_particle( particle_system_t *ps, particle_t *p );
 
 /*
  *

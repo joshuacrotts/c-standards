@@ -23,7 +23,7 @@ create_particle_system( int32_t max_particles ) {
 }
 
 int32_t
-add_particle( particle_system_t *ps, particle_t *p ) {
+insert_particle( particle_system_t *ps, particle_t *p ) {
   if ( ps->alive_count == ps->max_particles - 1 ) {
     return 1;
   }
