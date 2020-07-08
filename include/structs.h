@@ -15,6 +15,8 @@ typedef struct ParallaxBackground parallax_background_t;
 typedef struct Font               font_t;
 typedef struct Trail              trail_t;
 typedef struct Button             button_t;
+typedef struct ParticleSystem     particle_system_t;
+typedef struct Particle           particle_t;
 
 /*
  *
@@ -23,8 +25,8 @@ struct Button {
   const char *text;
   const char *font_path;
   bool        is_filled;
-  uint8_t     texture_id;
 
+  uint8_t  texture_id;
   int32_t  text_x;
   int32_t  text_y;
   uint16_t font_size;
@@ -37,6 +39,37 @@ struct Button {
   SDL_Rect     rect;
 
   button_t *next;
+};
+
+/*
+ *
+ */
+struct Particle {
+  float    x;
+  float    y;
+  float    dx;
+  float    dy;
+  uint32_t w;
+  uint32_t h;
+  int32_t  life;
+  uint32_t flags;
+
+  animation_t *animation;
+
+  SDL_Texture *current_texture;
+
+  void ( *particle_update )( particle_t * );
+  void ( *particle_draw )( particle_t * );
+};
+
+/*
+ *
+ */
+struct ParticleSystem {
+  int32_t     alive_count;
+  int32_t     dead_index;
+  int32_t     max_particles;
+  particle_t *particles;
 };
 
 /*
