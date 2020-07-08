@@ -48,6 +48,8 @@ draw_text( float x, float y, uint8_t r, uint8_t g, uint8_t b, const char *font_s
 
   message_texture = SDL_CreateTextureFromSurface( app.renderer, message_surface );
   SDL_RenderCopy( app.renderer, message_texture, NULL, &message_rect );
+  SDL_DestroyTexture( message_texture );
+  SDL_FreeSurface( message_surface );
 }
 
 void
@@ -115,7 +117,6 @@ load_fonts() {
 static void
 add_font( const char *font_file, uint16_t size ) {
   font_t *f;
-  DEBUG_PRINT("Mallocing font.\n", "");
   f = malloc( sizeof( font_t ) );
 
   if ( f == NULL ) {

@@ -11,7 +11,6 @@ init_parallax_background( const char *directory, size_t count, float normal_scro
   char *                 file_extsn = ".png";
 
   for ( int i = 0; i < count; i++ ) {
-    DEBUG_PRINT("Mallocing parallax.\n", "");
     layer = malloc( sizeof( parallax_background_t ) );
 
     if ( layer == NULL ) {
@@ -63,7 +62,6 @@ parallax_background_draw( parallax_background_t *p ) {
 background_t *
 init_background( const char *file ) {
   background_t *background;
-DEBUG_PRINT("Mallocing bg.\n", "");
   background = malloc( sizeof( background_t ) );
 
   if ( background == NULL ) {

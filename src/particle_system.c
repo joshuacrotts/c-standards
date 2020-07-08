@@ -3,7 +3,6 @@
 particle_system_t *
 create_particle_system( int32_t max_particles ) {
   particle_system_t *ps;
-  DEBUG_PRINT("Mallocing ps.\n", "");
   ps = malloc( sizeof( particle_system_t ) );
 
   if ( ps == NULL ) {

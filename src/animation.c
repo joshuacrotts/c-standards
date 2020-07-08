@@ -6,7 +6,6 @@ animation_t *
 add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
                  uint16_t y ) {
   animation_t *a;
-  DEBUG_PRINT("Mallocing ss.\n", "");
   a = malloc( sizeof( animation_t ) );
 
   if ( a == NULL ) {
@@ -38,7 +37,6 @@ add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay,
 animation_t *
 add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) {
   animation_t *a;
-  DEBUG_PRINT("Mallocing animation.\n", "");
   a = malloc( sizeof( animation_t ) );
 
   if ( a == NULL ) {
@@ -48,7 +46,6 @@ add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) 
   }
 
   memset( a, 0, sizeof( animation_t ) );
-  DEBUG_PRINT("Mallocing frames.\n", "");
   a->frames = malloc( sizeof( SDL_Texture * ) * no_of_frames );
 
   if ( a->frames == NULL ) {
