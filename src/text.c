@@ -115,6 +115,7 @@ load_fonts() {
 static void
 add_font( const char *font_file, uint16_t size ) {
   font_t *f;
+  DEBUG_PRINT("Mallocing font.\n", "");
   f = malloc( sizeof( font_t ) );
 
   if ( f == NULL ) {

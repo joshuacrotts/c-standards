@@ -25,6 +25,7 @@
 arraylist_t *
 arraylist_create() {
   arraylist_t *new_list = malloc( sizeof( arraylist_t ) );
+  DEBUG_PRINT("Mallocing arraylist.\n", "");
   new_list->size        = 0;
   // Allocate the array
   new_list->body = malloc( sizeof( void * ) * ARRAYLIST_INITIAL_CAPACITY );

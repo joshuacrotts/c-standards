@@ -21,7 +21,7 @@ button_t *
 add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char *font_path,
             uint16_t size, SDL_Color *fc, const char *text ) {
   button_t *button;
-
+DEBUG_PRINT("Mallocing button.\n", "");
   button = malloc( sizeof( button_t ) );
 
   if ( button == NULL ) {
@@ -55,7 +55,7 @@ button_t *
 add_button_texture( float x, float y, const char *file_path, const char *font_path, uint16_t size,
                     SDL_Color *fc, const char *text ) {
   button_t *button;
-
+DEBUG_PRINT("Mallocing buttontext.\n", "");
   button = malloc( sizeof( button_t ) );
 
   if ( button == NULL ) {
