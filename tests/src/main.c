@@ -92,7 +92,7 @@ init_scene( void ) {
   f.time  = 0.0f;
   f.alpha = 0.01f;
 
-  ps = create_particle_system( 128 );
+  ps = create_particle_system( 5000 );
 }
 
 /*

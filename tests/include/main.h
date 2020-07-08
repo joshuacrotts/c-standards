@@ -9,7 +9,6 @@
 #include "../../include/game.h"
 #include "../../include/init.h"
 #include "../../include/particle_system.h"
-#include "../../include/particle.h"
 #include "../../include/stds.h"
 
 #include "../include/game_structs.h"

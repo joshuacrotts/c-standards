@@ -28,7 +28,7 @@ add_particle( particle_system_t *ps, particle_t *p ) {
     return 1;
   }
 
-  ps->particles[++( ps->alive_count )] = *p;
+  ps->particles[( ps->alive_count )++] = *p;
   return 0;
 }
 
@@ -36,7 +36,9 @@ void
 particle_system_update( particle_system_t *ps ) {
   for ( int i = 0; i < ps->alive_count; i++ ) {
     particle_t *p = &ps->particles[i];
-    particle_update( p );
+    if ( p->particle_update ) {
+      p->particle_update( p );
+    }
 
     if ( p->flags & DEATH_MASK ) {
 
@@ -55,7 +57,9 @@ particle_system_update( particle_system_t *ps ) {
 void
 particle_system_draw( particle_system_t *ps ) {
   for ( int i = 0; i < ps->alive_count; i++ ) {
-    particle_t p = ps->particles[i];
-    particle_draw( &p );
+    particle_t *p = &ps->particles[i];
+    if ( p->particle_draw ) {
+      p->particle_draw( p );
+    }
   }
 }
