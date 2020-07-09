@@ -1,3 +1,61 @@
+//=============================================================================================//
+// FILENAME :       draw.c
+//
+// DESCRIPTION :
+//        This file defines the various procedures for drawing primitives (lines, rectangles, circles),
+//        textures, blitting rectangles, and texture caching/loading.
+//
+// PUBLIC FUNCTIONS :
+//        void          prepare_scene( void );
+//        void          present_scene( void );
+//        void          blit_rect( SDL_Texture *texture, SDL_Rect *src, float x, float y, bool camera_offset );
+//        void          blit_texture( SDL_Texture *texture, float x, float y, bool is_center,
+//                                    bool camera_offset );
+//        void          blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle,
+//                                            SDL_RendererFlip flip, bool camera_offset );
+//        void          blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x,
+//                                                 float scale_y, uint16_t angle, SDL_RendererFlip flip,
+//                                                 SDL_Color *c, bool camera_offset );
+//        void          blit_texture_scaled( SDL_Texture *texture, float x, float y, float scale_x,
+//                                           float scale_y, uint16_t angle, SDL_RendererFlip flip,
+//                                           bool camera_offset );
+//        void          draw_rect( SDL_Rect *rect, SDL_Color *c, bool is_filled, bool camera_offset );
+//        void          draw_frect( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offset );
+//        void          draw_rect_stroke( int32_t x, int32_t y, uint32_t w, uint32_t h, uint32_t thickness,
+//                                        SDL_Color *c, bool camera_offset );
+//        void          draw_circle( int32_t center_x, int32_t center_y, uint32_t radius, SDL_Color *c );
+//        void          fill_circle( int32_t center_x, int32_t center_y, uint32_t radius, SDL_Color *c );
+//        void          draw_line( float x1, float y1, float x2, float y2, SDL_Color *c );
+//        SDL_Texture   *load_texture( const char *directory );
+//        SDL_Color     combine_fade_color( fade_color_t *fade_color );
+//
+//  PRIVATE/STATIC FUNCTIONS:
+//        SDL_Texture   *get_texture( const char * );
+//        void          cache_texture( const char *, SDL_Texture * );
+//
+// NOTES :
+//        Permission is hereby granted, free of charge, to any person obtaining a copy
+//        of this software and associated documentation files (the "Software"), to deal
+//        in the Software without restriction, including without limitation the rights
+//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//        copies of the Software, and to permit persons to whom the Software is
+//        furnished to do so, subject to the following conditions:
+//
+//        The above copyright notice and this permission notice shall be included in all
+//        copies or substantial portions of the Software.
+//
+//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//        SOFTWARE.
+//
+// AUTHOR :   Joshua Crotts        START DATE :    22 Jun 2020
+//
+//=============================================================================================//
+
 #include "../include/draw.h"
 
 static SDL_Texture *get_texture( const char * );

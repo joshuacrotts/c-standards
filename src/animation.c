@@ -8,12 +8,12 @@
 //        animation will not move, rotate, etc.
 //
 // PUBLIC FUNCTIONS :
-//        extern animation_t *add_spritesheet( const char *file_directory, uint8_t n, float frame_time,
+//        animation_t   *add_spritesheet( const char *file_directory, uint8_t n, float frame_time,
 //                                     uint16_t start_x, uint16_t start_y );
-//        extern animation_t *add_animation( const char *files_directory, uint8_t n, float frame_time );
-//        extern void animation_update( animation_t *animation );
-//        extern void animation_draw( animation_t *animation );
-//        extern void animation_die( animation_t *animation );
+//        animation_t   *add_animation( const char *files_directory, uint8_t n, float frame_time );
+//        void          animation_update( animation_t *animation );
+//        void          animation_draw( animation_t *animation );
+//        void          animation_die( animation_t *animation );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy

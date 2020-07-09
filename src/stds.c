@@ -1,3 +1,49 @@
+//=============================================================================================//
+// FILENAME :       stds.c
+//
+// DESCRIPTION :
+//        This file defines the standard functions and procedures for math, trigonometry,
+//        simple non string.h string manipulation, random numbers, etc. stds.h also defines
+//        a few simple macros for min and max.
+//
+// PUBLIC FUNCTIONS :
+//        int32_t   random_int( int32_t min, int32_t max );
+//        int32_t   str_index_of( const char *s, const char *search_str );
+//        int32_t   get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+//        float     random_float( float min, float max );
+//        float     get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+//        float     to_radians( float degree_angle );
+//        float     to_degrees( float radian_angle );
+//        bool      is_mouse_over_rect( float x, float y, SDL_Rect rect );
+//        char      *str_substring( const char *str, int first, int last );
+//        char      *strcat_int( const char *s, int32_t n );
+//        void      clamp( int32_t *n, int32_t min, int32_t max );
+//        void      calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *x_slope, float *y_slope );
+//        void      print( const char * s, ... );
+//
+// NOTES :
+//        Permission is hereby granted, free of charge, to any person obtaining a copy
+//        of this software and associated documentation files (the "Software"), to deal
+//        in the Software without restriction, including without limitation the rights
+//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//        copies of the Software, and to permit persons to whom the Software is
+//        furnished to do so, subject to the following conditions:
+//
+//        The above copyright notice and this permission notice shall be included in all
+//        copies or substantial portions of the Software.
+//
+//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//        SOFTWARE.
+//
+// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
+//
+//=============================================================================================//
+
 #include "../include/stds.h"
 
 static char number_buffer[MAX_INT_DIGITS];

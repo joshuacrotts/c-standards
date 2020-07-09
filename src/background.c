@@ -5,15 +5,15 @@
 //        This file defines the background fuctionality, both regular and parallax.
 //
 // PUBLIC FUNCTIONS :
-//        extern void init_parallax_background( const char *bg_directory, size_t n,
+//        void init_parallax_background( const char *bg_directory, size_t n,
 //                                    float default_scroll_speed, float modified_scroll_speeds[],
 //                                    bool is_infinite );
-//        extern void parallax_background_update( parallax_background_t *parallax );
-//        extern void parallax_background_draw( parallax_background_t *parallax );
-//        extern background_t *init_background( const char *bg_directory );
-//        extern void background_update( background_t *bg );
-//        extern void background_draw( background_t *bg );
-//        extern void background_die( background_t *bg );
+//        void parallax_background_update( parallax_background_t *parallax );
+//        void parallax_background_draw( parallax_background_t *parallax );
+//        background_t *init_background( const char *bg_directory );
+//        void background_update( background_t *bg );
+//        void background_draw( background_t *bg );
+//        void background_die( background_t *bg );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
