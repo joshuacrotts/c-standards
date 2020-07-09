@@ -9,21 +9,15 @@ OBJS = src/*.c include/*.h tests/src/*.c tests/include/*.h lib/structures/src/*.
 CC = gcc
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = 0
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = 0
 
 ifeq ($(OS), Windows_NT)
 	INCLUDE_PATHS = -IC:\MinGW\include\SDL2
-else
-	INCLUDE_PATHS = ""
 endif 
 
 ifeq ($(OS), Windows_NT)
 	LIBRARY_PATHS = -LC:\MinGW\lib
-else
-	LIBRARY_PATHS = ""
 endif
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
@@ -37,7 +31,7 @@ LINKER_FLAGS = 0
 ifeq ($(OS), Windows_NT)
 	LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 else
-	LINKER_FLAGS = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+	LINKER_FLAGS = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 endif
 
 #OBJ_NAME specifies the name of our exectuable
