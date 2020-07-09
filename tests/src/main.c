@@ -123,7 +123,7 @@ update_trails( void ) {
       }
 
       prev->next = t->next;
-      DEBUG_PRINT("Freeing trailllll.\n", "");
+      printf("Freeing trailllll.\n");
       free( t );
       t = prev;
     }
@@ -217,7 +217,7 @@ draw_enemies( void ) {
  */
 static void
 cleanup_stage( void ) {
-  DEBUG_PRINT("Freeing player.\n", "");
+  printf("Freeing player.\n");
   free( player );
 }
 

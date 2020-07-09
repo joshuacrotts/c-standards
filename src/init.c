@@ -147,7 +147,7 @@ cleanup( void ) {
   while ( app.parallax_head.next ) {
     pbg                    = app.parallax_head.next;
     app.parallax_head.next = pbg->next;
-    DEBUG_PRINT("Freeing parallax.\n", "");
+    printf("Freeing parallax.\n");
     free( pbg );
   }
 
@@ -158,7 +158,7 @@ cleanup( void ) {
   while ( app.texture_head.next ) {
     t                     = app.texture_head.next;
     app.texture_head.next = t->next;
-    DEBUG_PRINT("Freeing txt.\n", "");
+    printf("Freeing txt.\n");
     free( t );
   }
 
@@ -169,7 +169,7 @@ cleanup( void ) {
   while ( app.trail_head.next ) {
     tr                  = app.trail_head.next;
     app.trail_head.next = tr->next;
-    DEBUG_PRINT("Freeing tra.\n", "");
+    printf("Freeing tra.\n");
     free( tr );
   }
 
@@ -180,7 +180,7 @@ cleanup( void ) {
   while ( app.button_head.next ) {
     b                    = app.button_head.next;
     app.button_head.next = b->next;
-    DEBUG_PRINT("Freeing b.\n", "");
+    printf("Freeing b.\n");
     free( b );
   }
 
