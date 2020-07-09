@@ -99,7 +99,6 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
           uint32_t level_width, uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
-
   renderer_flags = SDL_RENDERER_ACCELERATED;
   window_flags   = 0;
 
@@ -126,7 +125,6 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
   // Initialize the SDL window.
   app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                  window_width, window_height, window_flags );
-
   if ( !app.window ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not open window. %s.\n", SDL_GetError() );
     exit( EXIT_ERROR );
@@ -140,7 +138,6 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
 
   // Create renderer with the default graphics context.
   app.renderer = SDL_CreateRenderer( app.window, -1, renderer_flags );
-
   if ( !app.renderer ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize renderer: %s.\n",
                  SDL_GetError() );

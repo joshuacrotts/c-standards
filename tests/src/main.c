@@ -42,7 +42,6 @@ static particle_system_t *ps;
  */
 int
 main( int argc, char *argv[] ) {
-
   init_game( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
   init_app_structures();
   init_scene();
@@ -102,7 +101,6 @@ tick( void ) {
   if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
     add_particles( app.mouse.x, app.mouse.y, 32 );
   }
-
   update_camera( player );
   particle_system_update( ps );
   update_parallax_backgrounds();

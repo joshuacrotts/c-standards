@@ -138,8 +138,8 @@ void
 blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x, float scale_y,
                            uint16_t angle, SDL_RendererFlip flip, SDL_Color *c,
                            bool camera_offset ) {
-  uint32_t texture_width  = 0;
-  uint32_t texture_height = 0;
+  int32_t texture_width  = 0;
+  int32_t texture_height = 0;
 
   SDL_QueryTexture( texture, NULL, NULL, &texture_width, &texture_height );
 
@@ -491,6 +491,8 @@ get_texture( const char *file_name ) {
       return t->texture;
     }
   }
+
+  return NULL;
 }
 
 /*
