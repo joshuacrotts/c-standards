@@ -19,11 +19,20 @@ The only dependencies for this library are SDL components.
 
 ## Rebuilding C - Standards
 
-To rebuild the code, clone the repository to your computer. This project is compiled with MinGW and a makefile. Depending on how you want to compile the project, you will need to alter the makefile to fit your needs and make sure you have SDL and its extensions installed correctly.
+**Windows**: To rebuild the code, clone the repository to your computer. This project is compiled with MinGW and a makefile. Depending on how you want to compile the project, you will need to alter the makefile to fit your needs and make sure you have SDL and its extensions installed correctly. Compile the code via <code>mingw32-make</code>.
+
+**Linux (Ubuntu/Debian)**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Run the following commands (or their distro-equivalent) in your terminal:
+
+1. <code>sudo apt-get install libsdl2-dev</code>
+2. <code>sudo apt-get install libsdl2-image-dev</code>
+3. <code>sudo apt-get install libsdl2-ttf-dev</code>
+4. <code>sudo apt-get install libsdl2-mixer-dev</code>
+
+Then, compile via <code>make</code>.
 
 ## Reporting Bugs
 
 See the Issues Tab.
 
 ## Version History
-The **master** branch encompasses all changes. A development branch is in the works.
+The **master** branch encompasses all changes. The **development** branch has in-progress additions and updates that are not yet ready for the master branch.
