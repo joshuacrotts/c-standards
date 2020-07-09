@@ -1,3 +1,5 @@
+
+
 #include "../include/main.h"
 #include "../include/player.h"
 
@@ -27,11 +29,16 @@ static fade_color_t       f;
 static SDL_Rect           screen_edge;
 static particle_system_t *ps;
 
-/*
+/**
  * Barebones game. This is the minimum amount of code
  * necessary to run a window. To redefine the level/screen
  * dimensions, just #undef SCREEN_WIDTH/HEIGHT or LEVEL_WIDTH/HEIGHT
  * and redefine them immediately below it.
+ * 
+ * @param int argc, number of cmd arguments.
+ * @param char** array of string arguments.
+ * 
+ * @return status code.
  */
 int
 main( int argc, char *argv[] ) {
@@ -45,7 +52,7 @@ main( int argc, char *argv[] ) {
   return 0;
 }
 
-/*
+/**
  * Initializes the delegation structure to use the
  * tick and draw methods for rendering and updating
  * the game. These methods must be defined because the
@@ -123,7 +130,6 @@ update_trails( void ) {
       }
 
       prev->next = t->next;
-      printf("Freeing trailllll.\n");
       free( t );
       t = prev;
     }

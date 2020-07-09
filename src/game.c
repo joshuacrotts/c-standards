@@ -1,3 +1,44 @@
+//=============================================================================================//
+// FILENAME :       game.c
+//
+// DESCRIPTION :
+//        Initializes the game structures and pointers for the linked list
+//        structures. The game loop is also initialized here.
+//
+// PUBLIC FUNCTIONS :
+//        void        prepare_scene( void );
+//        void        process_input( void );
+//        void        present_scene( void );
+//        void        loop( void );
+//        void        init_app_structures( void );
+//
+// PRIVATE/STATIC FUNCTIONS :
+//        void        cap_frame_rate( long *, float * );
+//        uint32_t    update_window_title( uint32_t, void * );
+//
+// NOTES :
+//        Permission is hereby granted, free of charge, to any person obtaining a copy
+//        of this software and associated documentation files (the "Software"), to deal
+//        in the Software without restriction, including without limitation the rights
+//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//        copies of the Software, and to permit persons to whom the Software is
+//        furnished to do so, subject to the following conditions:
+//
+//        The above copyright notice and this permission notice shall be included in all
+//        copies or substantial portions of the Software.
+//
+//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//        SOFTWARE.
+//
+// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
+//
+//=============================================================================================//
+
 #include "../include/game.h"
 
 static uint16_t current_fps;
@@ -5,8 +46,15 @@ static uint16_t current_fps;
 static void     cap_framerate( long *, float * );
 static uint32_t update_window_title( uint32_t, void * );
 
+/**
+ * Initializes the app linked list data structures.
+ *
+ * @param void.
+ *
+ * @return void.
+ */
 void
-init_app_structures() {
+init_app_structures( void ) {
   app.parallax_tail = &app.parallax_head;
   app.texture_tail  = &app.texture_head;
   app.button_tail   = &app.button_head;
@@ -14,8 +62,16 @@ init_app_structures() {
   app.font_tail     = &app.font_head;
 }
 
+/**
+ * Runs the game loop, processing input and SDL events as close
+ * to the target framerate as possible.
+ *
+ * @param void.
+ *
+ * @return void.
+ */
 void
-loop() {
+loop( void ) {
   long  timer;
   long  then;
   float remainder;
@@ -36,7 +92,7 @@ loop() {
   }
 }
 
-/*
+/**
  * Halts the framerate to approximately sixty frames
  * per second when possible.
  *
@@ -50,9 +106,10 @@ cap_framerate( long *then, float *remainder ) {
   long wait, frame_time;
 
   wait = ( int32_t )( FPS_TIME + *remainder );
-  *remainder -= ( int ) *remainder;
+  *remainder -= ( int32_t ) *remainder;
   frame_time = SDL_GetTicks() - *then;
   wait -= frame_time;
+
   if ( wait < 1 ) {
     wait = 1;
   }
@@ -64,7 +121,7 @@ cap_framerate( long *then, float *remainder ) {
   *then = SDL_GetTicks();
 }
 
-/*
+/**
  * Callback function to the SDL_AddTimer function that changes
  * the SDL_Window title to a set value with the FPS concatenated
  * onto the end.

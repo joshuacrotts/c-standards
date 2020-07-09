@@ -5,29 +5,10 @@
 
 extern app_t app;
 
-/**
- *
- */
 extern void prepare_scene( void );
-
-/**
- *
- */
 extern void process_input( void );
-
-/**
- *
- */
 extern void present_scene( void );
-
-/**
- *
- */
 extern void loop( void );
-
-/**
- *
- */
 extern void init_app_structures( void );
 
 #endif // GAME_H
