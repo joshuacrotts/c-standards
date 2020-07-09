@@ -180,7 +180,6 @@ cleanup( void ) {
     free( b );
   }
 
-  free( &app );
   free_fonts();
   SDL_Quit();
 
