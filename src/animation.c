@@ -84,6 +84,8 @@ add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay,
   a->current_frame_id = 0;
   a->id_flags |= SPRITE_SHEET_MASK;
   a->flags |= ANIMATION_ACTIVE_MASK;
+
+  return a;
 }
 
 /**
@@ -142,6 +144,8 @@ add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) 
   }
   a->current_texture = a->frames[0];
   a->default_texture = a->frames[0];
+
+  return a;
 }
 
 /**

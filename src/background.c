@@ -167,8 +167,8 @@ init_background( const char *file ) {
   background->x = 0;
   background->y = 0;
 
-  uint32_t w;
-  uint32_t h;
+  int32_t w;
+  int32_t h;
 
   background->background_texture = load_texture( file );
   SDL_QueryTexture( background->background_texture, NULL, NULL, &w, &h );

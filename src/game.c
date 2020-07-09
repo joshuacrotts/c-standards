@@ -63,6 +63,22 @@ init_app_structures( void ) {
 }
 
 /**
+ * Enables the SDL timer to continuously draw the current frames
+ * per second to the title bar. For some reason, MacOS doesn't play
+ * nicely with this setup, so if we're on a Mac, this is disabled.
+ *
+ * @param void.
+ *
+ * @return void.
+ */
+void 
+init_window_fps( void  ) {
+  #ifndef __APPLE__
+  SDL_AddTimer( WINDOW_UPDATE_TIMER, update_window_title, &current_fps );
+  #endif
+}
+
+/**
  * Runs the game loop, processing input and SDL events as close
  * to the target framerate as possible.
  *
@@ -77,10 +93,7 @@ loop( void ) {
   float remainder;
 
   then      = SDL_GetTicks();
-  remainder = 0;
-
-  SDL_AddTimer( WINDOW_UPDATE_TIMER, update_window_title, &current_fps );
-
+  
   // Main game loop.
   while ( true ) {
     prepare_scene();
@@ -151,8 +164,6 @@ update_window_title( uint32_t interval, void *args ) {
 
   // Concatenate number to title variable.
   window_buffer = strcat_int( window_buffer, fps );
-
   SDL_SetWindowTitle( app.window, window_buffer );
-
   return interval;
 }
