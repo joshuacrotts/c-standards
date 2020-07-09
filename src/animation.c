@@ -149,6 +149,7 @@ animation_die( animation_t *a ) {
   }
 
   SDL_DestroyTexture( a->current_texture );
+  DEBUG_PRINT("Freeing animation.\n", "");
   free( a->frames );
   free( a );
 }

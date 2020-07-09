@@ -63,6 +63,7 @@ free_fonts() {
   while ( f != NULL ) {
     f                  = app.font_head.next;
     app.font_head.next = f->next;
+    DEBUG_PRINT("Freeing font.\n", "");
     free( f );
   }
 

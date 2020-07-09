@@ -97,6 +97,7 @@ update_window_title( uint32_t interval, void *args ) {
 
   SDL_SetWindowTitle( app.window, window_buffer );
 
+  DEBUG_PRINT("Freeing window buffer.\n", "");
   free( window_buffer );
 
   return interval;
