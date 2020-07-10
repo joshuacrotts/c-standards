@@ -17,6 +17,10 @@ extern void blit_texture( SDL_Texture *texture, float x, float y, bool is_center
 extern void blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle,
                                   SDL_RendererFlip flip, bool camera_offset );
                                   
+extern void blit_texture_resize( SDL_Texture *texture, float x, float y, int32_t w,
+                                 int32_t h, uint16_t angle, SDL_RendererFlip flip,
+                                 bool camera_offset );
+
 extern void blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x,
                                        float scale_y, uint16_t angle, SDL_RendererFlip flip,
                                        SDL_Color *c, bool camera_offset );

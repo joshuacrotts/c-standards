@@ -38,5 +38,8 @@ endif
 OBJ_NAME = Game
 
 #This is the target that compiles our executable
+#
+# -g -O -c generates .o files.
+# -shared -o
 all : $(OBJS)
 	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)

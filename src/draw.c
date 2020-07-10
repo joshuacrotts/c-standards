@@ -13,6 +13,9 @@
 //                                    bool camera_offset );
 //        void          blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle,
 //                                            SDL_RendererFlip flip, bool camera_offset );
+//        void          blit_texture_resize( SDL_Texture *texture, float x, float y, int32_t w,
+//                                           int32_t h, uint16_t angle, SDL_RendererFlip flip,
+//                                           bool camera_offset );
 //        void          blit_texture_color_scaled( SDL_Texture *texture, float x, float y, float scale_x,
 //                                                 float scale_y, uint16_t angle, SDL_RendererFlip flip,
 //                                                 SDL_Color *c, bool camera_offset );
@@ -92,12 +95,11 @@ present_scene() {
  * SDL_Texture* to render by the size attributes of the
  * SDL_Rect* pointer.
  *
- * @param
- * @param
- * @param
- * @param
- * @param
- * @param
+ * @param SDL_Texture * pointer to texture.
+ * @param float x coordinate.
+ * @param float y coordinate,
+ * @param bool either centers the texture or not (based on dimensions).
+ * @param bool either applies the camera offset or not.
  *
  * @return void.
  */
@@ -174,6 +176,34 @@ blit_texture_rotated( SDL_Texture *texture, float x, float y, uint16_t angle, SD
   dest.h = ( float ) h;
 
   SDL_RenderCopyExF( app.renderer, texture, NULL, &dest, angle, NULL, flip );
+}
+
+/**
+ * Blits a rotated SDL texture at an x and y coordinate with a given
+ * size.
+ *
+ * @param SDL_Texture* pointer to texture object.
+ * @param float x coordinate.
+ * @param float y coordinate.
+ * @param int32_t desired width of texture.
+ * @param int32_t desired height of texture.
+ * @param uint16_t angle of rotation (0 to 360).
+ * @param SDL_RendererFlip flip status (SDL_FLIP_HORIZONTAL/VERTICAL)
+ * @param bool applies camera offset or not.
+ *
+ * @return void.
+ */
+void
+blit_texture_resize( SDL_Texture *texture, float x, float y, int32_t w, int32_t h,
+                           uint16_t angle, SDL_RendererFlip flip, bool camera_offset ) {
+  SDL_FRect dest_rect;
+
+  dest_rect.x = camera_offset ? x - app.camera.x : x;
+  dest_rect.y = camera_offset ? y - app.camera.y : y;
+  dest_rect.w = w;
+  dest_rect.h = h;
+
+  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest_rect, angle, NULL, flip );
 }
 
 /**
@@ -488,9 +518,9 @@ combine_fade_color( fade_color_t *f ) {
     f->is_first_color = true;
   }
 
-  int32_t r = ( int ) ( f->time * f->c2.r + ( 1.0f - f->time ) * f->c1.r );
-  int32_t g = ( int ) ( f->time * f->c2.g + ( 1.0f - f->time ) * f->c1.g );
-  int32_t b = ( int ) ( f->time * f->c2.b + ( 1.0f - f->time ) * f->c1.b );
+  int32_t r = ( int32_t ) ( f->time * f->c2.r + ( 1.0f - f->time ) * f->c1.r );
+  int32_t g = ( int32_t ) ( f->time * f->c2.g + ( 1.0f - f->time ) * f->c1.g );
+  int32_t b = ( int32_t ) ( f->time * f->c2.b + ( 1.0f - f->time ) * f->c1.b );
 
   SDL_Color c;
   clamp( &r, 0, 0xff );

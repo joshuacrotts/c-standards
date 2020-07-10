@@ -27,7 +27,8 @@ static void draw_parallax_backgrounds( void );
 
 static fade_color_t       f;
 static SDL_Rect           screen_edge;
-static particle_system_t *ps;
+static SDL_Texture        *shadow_texture;
+static particle_system_t  *ps;
 
 /**
  * Barebones game. This is the minimum amount of code
@@ -91,6 +92,7 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   ps = create_particle_system( 512 );
+  shadow_texture = load_texture("tests/res/img/shadow.png");
 }
 
 /*
@@ -178,6 +180,7 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
+  blit_texture_resize(shadow_texture, 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 0, false, false );
 }
 
 /**
