@@ -22,15 +22,6 @@
 #define STD_ANIMATION_MASK      1
 #define ANIMATION_ACTIVE_MASK   0x01000000
 
-SDL_Color white  = {0xff, 0xff, 0xff, 0xff};
-SDL_Color black  = {0, 0, 0, 0};
-SDL_Color red    = {0xff, 0, 0, 0xff};
-SDL_Color blue   = {0, 0xff, 0, 0xff};
-SDL_Color green  = {0, 0, 0xff, 0xff};
-SDL_Color yellow = {0xff, 0xff, 0, 0xff};
-SDL_Color orange = {0xff, 0xa5, 0, 0xff};
-SDL_Color purple = {0x80, 0, 0x80, 0xff};
-
 enum GameState {
   RUNNING,
   PREGAME,
