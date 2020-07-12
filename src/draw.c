@@ -12,7 +12,7 @@
 //        void          blit_texture( SDL_Texture *texture, f32 x, f32 y, bool is_center,
 //                                    bool camera_offset );
 //        void          blit_texture_rotated( SDL_Texture *texture, f32 x, f32 y, uint16_t angle,
-//                                            SDL_RendererFlip flip, bool camera_offset );
+//                                            SDL_RendererFlip flip, SDL_FPoint *p, bool camera_offset );
 //        void          blit_texture_resize( SDL_Texture *texture, f32 x, f32 y, int32_t w,
 //                                           int32_t h, uint16_t angle, SDL_RendererFlip flip,
 //                                           bool camera_offset );
@@ -158,13 +158,14 @@ blit_rect( SDL_Texture *texture, SDL_Rect *src, f32 x, f32 y, bool camera_offset
  * @param f32 y coordinate.
  * @param uint16_t angle of rotation in degrees (0 to 360).
  * @param SDL_RendererFlip flip status (SDL_FLIP_HORIZONTAL/VERTICAL).
+ * @param SDL_FPoint pointer to rotation point.
  * @param bool applies the camera offset or not.
  *
  * @return void.
  */
 void
 blit_texture_rotated( SDL_Texture *texture, f32 x, f32 y, uint16_t angle, SDL_RendererFlip flip,
-                      bool camera_offset ) {
+                      SDL_FPoint *rotate_point, bool camera_offset ) {
   SDL_FRect dest;
   dest.x = camera_offset ? x - app.camera.x : x;
   dest.y = camera_offset ? y - app.camera.y : y;
@@ -175,7 +176,7 @@ blit_texture_rotated( SDL_Texture *texture, f32 x, f32 y, uint16_t angle, SDL_Re
   dest.w = ( f32 ) w;
   dest.h = ( f32 ) h;
 
-  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest, angle, NULL, flip );
+  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest, angle, rotate_point, flip );
 }
 
 /**
@@ -318,7 +319,6 @@ void
 draw_frect( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offset ) {
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
   SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
-
   if ( camera_offset ) {
     frect->x -= app.camera.x;
     frect->y -= app.camera.y;
@@ -453,8 +453,8 @@ draw_circle( circle_t *circle, SDL_Color *c ) {
  */
 void
 fill_circle( circle_t *circle, SDL_Color *c ) {
-  f32 offsetx, offsety, d;
-  int status;
+  f32     offsetx, offsety, d;
+  int32_t status;
 
   offsetx = 0;
   offsety = circle->radius;
@@ -528,6 +528,7 @@ combine_fade_color( fade_color_t *f ) {
   c.r = r;
   c.g = g;
   c.b = b;
+  c.a = 0xff;
 
   return c;
 }

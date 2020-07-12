@@ -52,8 +52,6 @@ player_update( void ) {
     player->animation = idle_animation;
   }
 
-  //print("%d, %d, %d", is_attacking, is_moving, attack_animation->flags);
-
   SDL_QueryTexture( player->animation->frames[player->animation->current_frame_id], NULL, NULL,
                     &player->w, &player->h );
 

@@ -15,7 +15,7 @@ extern void blit_texture( SDL_Texture *texture, f32 x, f32 y, bool is_center,
                           bool camera_offset );
 
 extern void blit_texture_rotated( SDL_Texture *texture, f32 x, f32 y, uint16_t angle,
-                                  SDL_RendererFlip flip, bool camera_offset );
+                                  SDL_RendererFlip flip, SDL_FPoint *p, bool camera_offset );
                                   
 extern void blit_texture_resize( SDL_Texture *texture, f32 x, f32 y, int32_t w,
                                  int32_t h, uint16_t angle, SDL_RendererFlip flip,

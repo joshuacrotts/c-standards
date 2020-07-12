@@ -1,6 +1,8 @@
 #ifndef DEFS_H
 #define DEFS_H
 
+typedef        float              f32;
+
 #define EXIT_ERROR              1
 #define EXIT_SUCCESS            0
 #define MAX_KEYBOARD_KEYS       350

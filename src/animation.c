@@ -214,7 +214,7 @@ animation_draw( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STD_ANIMATION_MASK ) {
       blit_texture_rotated( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
-                            true );
+                            NULL, true );
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       // This rectangle splices the correct frame
       // from the sprite sheet.

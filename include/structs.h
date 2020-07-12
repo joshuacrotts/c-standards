@@ -3,8 +3,6 @@
 
 #include "stds.h"
 
-typedef        float              f32;
-
 typedef struct Delegate           delegate_t;
 typedef struct Entity             entity_t;
 typedef struct Mouse              mouse_t;
