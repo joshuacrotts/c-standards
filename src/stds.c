@@ -10,15 +10,15 @@
 //        int32_t   random_int( int32_t min, int32_t max );
 //        int32_t   str_index_of( const char *s, const char *search_str );
 //        int32_t   get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        float     random_float( float min, float max );
-//        float     get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        float     to_radians( float degree_angle );
-//        float     to_degrees( float radian_angle );
-//        bool      is_mouse_over_rect( float x, float y, SDL_Rect rect );
+//        f32     random_f32( f32 min, f32 max );
+//        f32     get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+//        f32     to_radians( f32 degree_angle );
+//        f32     to_degrees( f32 radian_angle );
+//        bool      is_mouse_over_rect( f32 x, f32 y, SDL_Rect rect );
 //        char      *str_substring( const char *str, int first, int last );
 //        char      *strcat_int( const char *s, int32_t n );
 //        void      clamp( int32_t *n, int32_t min, int32_t max );
-//        void      calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *x_slope, float *y_slope );
+//        void      calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, f32 *x_slope, f32 *y_slope );
 //        void      print( const char * s, ... );
 //
 // NOTES :
@@ -69,22 +69,22 @@ random_int( int32_t min, int32_t max ) {
 }
 
 /**
- * Returns a random floating point variable between
+ * Returns a random f32ing point variable between
  * the interval specified, inclusive.
  *
- * @param float minimum number to choose from.
- * @param float maximum number to choose from.
+ * @param f32 minimum number to choose from.
+ * @param f32 maximum number to choose from.
  *
- * @return float random number in the set [min, max].
+ * @return f32 random number in the set [min, max].
  */
-float
-random_float( float min, float max ) {
+f32
+random_f32( f32 min, f32 max ) {
   if ( !seed ) {
     srand( ( uint32_t ) time( NULL ) );
     seed = true;
   }
 
-  float scale = rand() / ( float ) RAND_MAX;
+  f32 scale = rand() / ( f32 ) RAND_MAX;
   return min + scale * ( max - min );
 }
 
@@ -114,13 +114,13 @@ clamp( int32_t *value, int32_t min, int32_t max ) {
  * @param int32_t y1
  * @param int32_t x2
  * @param int32_t y2
- * @param float* pointer to store x slope.
- * @param float* pointer to store y slope.
+ * @param f32* pointer to store x slope.
+ * @param f32* pointer to store y slope.
  *
  * @return void.
  */
 void
-calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
+calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, f32 *dx, f32 *dy ) {
   int32_t steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
@@ -143,11 +143,11 @@ calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy
  * @param int32_t x2
  * @param int32_t y2
  *
- * @return float angle.
+ * @return f32 angle.
  */
-float
+f32
 get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
-  float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
+  f32 angle = ( f32 ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
 }
 
@@ -202,33 +202,33 @@ print( const char *str, ... ) {
  * @return
  */
 bool
-is_mouse_over_rect( float x, float y, SDL_Rect rect ) {
+is_mouse_over_rect( f32 x, f32 y, SDL_Rect rect ) {
   return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
 }
 
 /**
- * Converts a float variable in degrees to radians.
+ * Converts a f32 variable in degrees to radians.
  *
- * @param float angle in degrees (0.0f to 360.0f)
+ * @param f32 angle in degrees (0.0f to 360.0f)
  *
- * @return float angle in radians.
+ * @return f32 angle in radians.
  */
-float
-to_radians( float degrees ) {
-  return ( float ) ( degrees * ( PI / 180.0f ) );
+f32
+to_radians( f32 degrees ) {
+  return ( f32 ) ( degrees * ( PI / 180.0f ) );
 }
 
 /**
- * Converts a float variable in radians to degrees.
+ * Converts a f32 variable in radians to degrees.
  * This is best used with the tangental functions.
  *
- * @param float angle in radians (0 to 2PI)
+ * @param f32 angle in radians (0 to 2PI)
  *
- * @return float angle in degrees.
+ * @return f32 angle in degrees.
  */
-float
-to_degrees( float radians ) {
-  return ( float ) ( radians * ( 180.0f / PI ) );
+f32
+to_degrees( f32 radians ) {
+  return ( f32 ) ( radians * ( 180.0f / PI ) );
 }
 
 /**

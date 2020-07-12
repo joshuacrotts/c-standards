@@ -7,10 +7,10 @@
 // PUBLIC FUNCTIONS :
 //        void      init_fonts( void );
 //        void      free_fonts( void );
-//        void      draw_text( float x, float y, uint8_t r, uint8_t g, uint8_t b,
-//                              const char *font_directory, uint16_t font_size, const char *str, ... );
+//        void      draw_text( f32 x, f32 y, SDL_Color *c, const char *font_directory, 
+//                             uint16_t font_size, const char *str, ... );
 //        void      get_string_size( const char *str, const char *font_name, uint16_t font_size,
-//                              int *stored_width, int *stored_height );
+//                                   int32_t *stored_width, int32_t *stored_height );
 //
 // PRIVATE/STATIC FUNCTIONS :
 //        TTF_Font  *get_font( const char *, uint16_t );
@@ -76,8 +76,8 @@ init_fonts( void ) {
  * Draws a string of text specified by the const char *parameter, supplemented
  * by whatever formatting arguments are necessary.
  *
- * @param float x coordinate (top-left) of string.
- * @param float y coordinate (top-left) of string.
+ * @param f32 x coordinate (top-left) of string.
+ * @param f32 y coordinate (top-left) of string.
  * @param uint8_t red color value (0-255).
  * @param uint8_t green color value (0-255).
  * @param uint8_t blue color value (0-255).
@@ -92,7 +92,7 @@ init_fonts( void ) {
  * @return void.
  */
 void
-draw_text( float x, float y, uint8_t r, uint8_t g, uint8_t b, const char *font_string,
+draw_text( f32 x, f32 y, SDL_Color *c, const char *font_string,
            uint16_t font_size, const char *text, ... ) {
   message_rect.x = ( uint16_t ) x;
   message_rect.y = ( uint16_t ) y;
@@ -104,9 +104,8 @@ draw_text( float x, float y, uint8_t r, uint8_t g, uint8_t b, const char *font_s
   vsprintf( text_buffer, text, args );
   va_end( args );
 
-  SDL_Color textColor = {r, g, b};
   TTF_Font *font      = get_font( font_string, font_size );
-  message_surface     = TTF_RenderText_Solid( font, text_buffer, textColor );
+  message_surface     = TTF_RenderText_Solid( font, text_buffer, *c );
   TTF_SizeText( font, text_buffer, &message_rect.w, &message_rect.h );
 
   if ( message_surface == NULL ) {
@@ -153,13 +152,13 @@ free_fonts() {
  * @param const char *string.
  * @param const char *font name.
  * @param uint16_t font size.
- * @param pointer to integer (int) where the width of the string is stored.
- * @param pointer to integer (int) where the height of the string is stored.
+ * @param pointer to integer (int32_t) where the width of the string is stored.
+ * @param pointer to integer (int32_t) where the height of the string is stored.
  *
  * @return void.
  */
 void
-get_string_size( const char *s, const char *font, uint16_t size, int *w, int *h ) {
+get_string_size( const char *s, const char *font, uint16_t size, int32_t *w, int32_t *h ) {
   TTF_Font *f;
   f = get_font( font, size );
 

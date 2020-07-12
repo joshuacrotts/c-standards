@@ -78,7 +78,7 @@ init_scene( void ) {
 
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+  f32 parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
   init_parallax_background( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
                             parallax_scroll, false );
@@ -92,7 +92,7 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   ps = create_particle_system( 512 );
-  shadow_texture = load_texture("tests/res/img/shadow.png");
+  //shadow_texture = load_texture("tests/res/img/shadow.png");
 }
 
 /*
@@ -180,7 +180,7 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
-  blit_texture_resize(shadow_texture, 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 0, false, false );
+//  blit_texture_resize(shadow_texture, 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 0, false, false );
 }
 
 /**
@@ -238,8 +238,8 @@ add_particles( int32_t x, int32_t y, size_t n ) {
     p.x               = x;
     p.y               = y;
     p.life            = random_int( 100, 300 );
-    p.dx              = random_float( -5, 5 );
-    p.dy              = random_float( -5, 5 );
+    p.dx              = random_f32( -5, 5 );
+    p.dy              = random_f32( -5, 5 );
     p.w               = random_int( 1, 5 );
     p.h               = p.w;
     p.particle_update = red_particle_update;

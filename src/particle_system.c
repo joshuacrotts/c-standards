@@ -106,7 +106,6 @@ particle_system_update( particle_system_t *ps ) {
     }
 
     if ( p->flags & DEATH_MASK ) {
-
       //  Find the rear of the alive particles and grab it.
       ps->dead_index            = --( ps->alive_count );
       particle_t *back_particle = &ps->particles[ps->dead_index];

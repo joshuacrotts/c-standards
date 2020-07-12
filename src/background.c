@@ -6,7 +6,7 @@
 //
 // PUBLIC FUNCTIONS :
 //        void init_parallax_background( const char *bg_directory, size_t n,
-//                                    float default_scroll_speed, float modified_scroll_speeds[],
+//                                    f32 default_scroll_speed, f32 modified_scroll_speeds[],
 //                                    bool is_infinite );
 //        void parallax_background_update( parallax_background_t *parallax );
 //        void parallax_background_draw( parallax_background_t *parallax );
@@ -53,8 +53,8 @@ static char input_buffer[MAX_BUFFER_SIZE];
  *
  * @param const char* string to directory of parallax background images.
  * @param size_t number of parallax frames.
- * @param float default scroll speed shared across all frames.
- * @param float[] array of modified scroll speeds. These values alter
+ * @param f32 default scroll speed shared across all frames.
+ * @param f32[] array of modified scroll speeds. These values alter
  *        the default scroll speed of each frame. These values
  *        f1 <= f2 <= ... < fn, as implied, should be listed in
  *        back-to-front speed.
@@ -63,8 +63,8 @@ static char input_buffer[MAX_BUFFER_SIZE];
  *        of an infinite background.
  */
 void
-init_parallax_background( const char *directory, size_t count, float normal_scroll_speed,
-                          float scroll_speeds[], bool infinite_scroll ) {
+init_parallax_background( const char *directory, size_t count, f32 normal_scroll_speed,
+                          f32 scroll_speeds[], bool infinite_scroll ) {
 
   parallax_background_t *layer;
 
@@ -115,7 +115,7 @@ parallax_background_update( parallax_background_t *p ) {
         ( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
 
     /* Repositions the background according to where it is relative to the camera. */
-    p->background->x = ( float ) fmod( p->background->x, p->background->w );
+    p->background->x = ( f32 ) fmod( p->background->x, p->background->w );
   } else {
     p->background->x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
     if ( p->background->x < -p->background->w ) {
