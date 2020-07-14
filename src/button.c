@@ -8,10 +8,10 @@
 // PUBLIC FUNCTIONS :
 //        void      update_buttons( void );
 //        void      draw_buttons( void );
-//        button_t *add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool filled,
-//                                     const char *font_directory, uint16_t font_size, SDL_Color *font_color,
-//                                     const char *text );
-//        button_t *add_button_texture( f32 x, f32 y, const char *texture_directory,
+//        button_t *add_button( float x, float y, uint32_t w, uint32_t h, bool filled,
+//                                     const char *font_directory, uint16_t font_size, SDL_Color
+//                                     *font_color, const char *text );
+//        button_t *add_button_texture( float x, float y, const char *texture_directory,
 //                                             const char *font_directory, uint16_t font_size,
 //                                             SDL_Color *color, const char *text );
 //        void     button_update( button_t *button );
@@ -79,8 +79,8 @@ draw_buttons( void ) {
  * Adds a button with no texture. This is useful for buttons that have to change colors overtime, or
  * just don't have an accompanying texture. Make sure to change the color with button->color = ...
  *
- * @param f32 x top-left x pos of button.
- * @param f32 y top-left y pos of button.
+ * @param float x top-left x pos of button.
+ * @param float y top-left y pos of button.
  * @param uint32_t w width of button.
  * @param uint32_t h height of button.
  * @param bool true if the button should be filled with color, false otherwise.
@@ -92,7 +92,7 @@ draw_buttons( void ) {
  * @return button_t pointer.
  */
 button_t *
-add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool is_filled, const char *font_path,
+add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char *font_path,
             uint16_t size, SDL_Color *fc, const char *text ) {
   button_t *button;
   button = malloc( sizeof( button_t ) );
@@ -104,7 +104,7 @@ add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool is_filled, const char *fo
   }
 
   memset( button, 0, sizeof( button_t ) );
-  SDL_Color black    = {0, 0, 0};
+  SDL_Color black    = { 0, 0, 0 };
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
   button->rect.w     = w;
@@ -116,7 +116,7 @@ add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool is_filled, const char *fo
   button->is_filled  = is_filled;
 
   int fw, fh;
-  get_string_size( text, button->font_path, button->font_size, &fw, &fh );
+  Stds_GetStringSize( text, button->font_path, button->font_size, &fw, &fh );
 
   button->text_x = button->rect.x + ( ( button->rect.w - fw ) / 2 );
   button->text_y = button->rect.y + ( ( button->rect.h - fh ) / 2 );
@@ -127,8 +127,8 @@ add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool is_filled, const char *fo
 /**
  * Adds a button with a texture.
  *
- * @param f32 x top-left x pos of button.
- * @param f32 y top-left y pos of button.
+ * @param float x top-left x pos of button.
+ * @param float y top-left y pos of button.
  * @param const char* string to texture for button.
  * @param const char* string to font path used for the text.
  * @param uint16_t size of font.
@@ -138,7 +138,7 @@ add_button( f32 x, f32 y, uint32_t w, uint32_t h, bool is_filled, const char *fo
  * @return button_t pointer.
  */
 button_t *
-add_button_texture( f32 x, f32 y, const char *file_path, const char *font_path, uint16_t size,
+add_button_texture( float x, float y, const char *file_path, const char *font_path, uint16_t size,
                     SDL_Color *fc, const char *text ) {
   button_t *button;
   button = malloc( sizeof( button_t ) );
@@ -152,7 +152,7 @@ add_button_texture( f32 x, f32 y, const char *file_path, const char *font_path, 
   memset( button, 0, sizeof( button_t ) );
 
   button->texture_id                  = 0;
-  button->texture[button->texture_id] = load_texture( file_path );
+  button->texture[button->texture_id] = Stds_LoadTexture( file_path );
 
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
@@ -167,7 +167,7 @@ add_button_texture( f32 x, f32 y, const char *file_path, const char *font_path, 
                     &button->rect.h );
 
   int32_t fw, fh;
-  get_string_size( text, button->font_path, button->font_size, &fw, &fh );
+  Stds_GetStringSize( text, button->font_path, button->font_size, &fw, &fh );
 
   button->text_x = button->rect.x + ( ( button->rect.w - fw ) / 2 );
   button->text_y = button->rect.y + ( ( button->rect.h - fh ) / 2 );
@@ -195,13 +195,12 @@ button_update( button_t *b ) {}
 void
 button_draw( button_t *b ) {
   if ( b->texture[b->texture_id] != NULL ) {
-    blit_texture_scaled( b->texture[b->texture_id], b->rect.x, b->rect.y, b->scale_x, b->scale_y, 0,
-                         SDL_FLIP_NONE, true );
+    Stds_BlitTextureScale( b->texture[b->texture_id], b->rect.x, b->rect.y, b->scale_x, b->scale_y, 0,
+                         SDL_FLIP_NONE, NULL, true );
   } else {
-    draw_rect( &b->rect, &b->color, b->is_filled, true );
+    Stds_DrawRect( &b->rect, &b->color, b->is_filled, true );
   }
-  draw_text( b->text_x, b->text_y, &b->text_color, b->font_path,
-             b->font_size, b->text );
+  Stds_DrawText( b->text_x, b->text_y, &b->text_color, b->font_path, b->font_size, b->text );
 }
 
 /**

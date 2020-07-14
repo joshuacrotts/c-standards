@@ -5,10 +5,10 @@
 //        This file defines the particle system backed in static memory.
 //
 // PUBLIC FUNCTIONS :
-//        particle_system_t *create_particle_system( int32_t max_particles );
-//        int32_t           insert_particle( particle_system_t *ps, particle_t *p );
-//        void              particle_system_update( particle_system_t *ps );
-//        void              particle_system_draw( particle_system_t *ps );
+//        particle_system_t *Stds_CreateParticleSystem( int32_t max_particles );
+//        int32_t           Stds_InsertParticle( particle_system_t *ps, particle_t *p );
+//        void              Stds_ParticleSystemUpdate( particle_system_t *ps );
+//        void              Stds_ParticleSystemDraw( particle_system_t *ps );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,7 +44,7 @@
  * @return particle_system_t * pointer to emitter.
  */
 particle_system_t *
-create_particle_system( int32_t max_particles ) {
+Stds_CreateParticleSystem( int32_t max_particles ) {
   particle_system_t *ps;
   ps = malloc( sizeof( particle_system_t ) );
 
@@ -75,7 +75,7 @@ create_particle_system( int32_t max_particles ) {
  * @return void.
  */
 int32_t
-insert_particle( particle_system_t *ps, particle_t *p ) {
+Stds_InsertParticle( particle_system_t *ps, particle_t *p ) {
   if ( ps->alive_count == ps->max_particles - 1 ) {
     return PS_FULL;
   }
@@ -98,7 +98,7 @@ insert_particle( particle_system_t *ps, particle_t *p ) {
  * @return void.
  */
 void
-particle_system_update( particle_system_t *ps ) {
+Stds_ParticleSystemUpdate( particle_system_t *ps ) {
   for ( int i = 0; i < ps->alive_count; i++ ) {
     particle_t *p = &ps->particles[i];
     if ( p->particle_update ) {
@@ -126,7 +126,7 @@ particle_system_update( particle_system_t *ps ) {
  * @return void.
  */
 void
-particle_system_draw( particle_system_t *ps ) {
+Stds_ParticleSystemDraw( particle_system_t *ps ) {
   for ( int i = 0; i < ps->alive_count; i++ ) {
     particle_t *p = &ps->particles[i];
     if ( p->particle_draw ) {

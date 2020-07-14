@@ -23,9 +23,9 @@ typedef struct Particle           particle_t;
  *
  */
 struct Circle {
-    f32  center_x;
-    f32  center_y;
-    f32  radius;
+    float  center_x;
+    float  center_y;
+    float  radius;
 };
 
 /*
@@ -40,8 +40,8 @@ struct Button {
   int32_t  text_x;
   int32_t  text_y;
   uint16_t font_size;
-  f32    scale_x;
-  f32    scale_y;
+  float    scale_x;
+  float    scale_y;
 
   SDL_Texture *texture[TEXTURE_BUFFER_SIZE];
   SDL_Color    color;
@@ -55,13 +55,13 @@ struct Button {
  *
  */
 struct Particle {
-  f32    x;
-  f32    y;
-  f32    dx;
-  f32    dy;
-  f32    delta_accel_x;
-  f32    delta_accel_y;
-  f32    delta_alpha;
+  float    x;
+  float    y;
+  float    dx;
+  float    dy;
+  float    delta_accel_x;
+  float    delta_accel_y;
+  float    delta_alpha;
   int32_t w;
   int32_t h;
   uint32_t angle;
@@ -93,8 +93,8 @@ struct ParticleSystem {
  *
  */
 struct ParallaxBackground {
-  f32   parallax_scroll_speed;
-  f32   normal_scroll_speed;
+  float   parallax_scroll_speed;
+  float   normal_scroll_speed;
   bool  infinite_scroll;
 
   background_t *         background;
@@ -105,8 +105,8 @@ struct ParallaxBackground {
  *
  */
 struct Trail {
-  f32      x;
-  f32      y;
+  float      x;
+  float      y;
   int16_t  alpha;
   int16_t  alpha_decay_rate;
   uint32_t flags;
@@ -122,10 +122,10 @@ struct Trail {
  *
  */
 struct Animation {
-  f32      pos_x;
-  f32      pos_y;
-  f32      frame_delay;
-  f32      frame_timer;
+  float      pos_x;
+  float      pos_y;
+  float      frame_delay;
+  float      frame_timer;
   uint32_t splice_x;
   uint32_t splice_y;
   uint32_t id_flags;
@@ -156,12 +156,12 @@ struct Animation {
  *
  */
 struct Background {
-  f32 x;
-  f32 y;
-  f32 scroll_x;
-  f32 scroll_y;
-  f32 scale_x;
-  f32 scale_y;
+  float x;
+  float y;
+  float scroll_x;
+  float scroll_y;
+  float scale_x;
+  float scale_y;
 
   int32_t w;
   int32_t h;
@@ -242,8 +242,8 @@ struct App {
  */
 struct FadeColor {
   bool is_first_color;
-  f32  alpha;
-  f32  time;
+  float  alpha;
+  float  time;
 
   SDL_Color c1;
   SDL_Color c2;
@@ -253,27 +253,27 @@ struct FadeColor {
  *
  */
 struct Entity {
-  f32 x;
-  f32 y;
+  float x;
+  float y;
 
   //  Miscellaneous positioning variable.
-  f32 variability;
+  float variability;
 
   // Scales the entity in either the x or y
   // direction. This should default to 1.
-  f32 scale_x;
-  f32 scale_y;
+  float scale_x;
+  float scale_y;
 
   //  Directional velocity (yes, I know it's redundant).
-  f32 dx;
-  f32 dy;
+  float dx;
+  float dy;
 
   //  Acceleration or deceleration factors.
-  f32 delta_accel_x;
-  f32 delta_accel_y;
+  float delta_accel_x;
+  float delta_accel_y;
 
   // Change rate of alpha value.
-  f32 delta_alpha;
+  float delta_alpha;
 
   // Size of entity if not defined by a rectangle. These
   // should either be set manually, or defined by a call

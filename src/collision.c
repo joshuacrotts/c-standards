@@ -7,8 +7,8 @@
 //        primitive rectangle-overlap test.
 //
 // PUBLIC FUNCTIONS :
-//        enum CollisionSide check_aabb_collision( entity_t *, entity_t * );
-//        bool check_intersection( f32, f32, int32_t, int32_t, f32, f32, int32_t, int32_t )
+//        enum CollisionSide Stds_CheckAABBCollision( entity_t *, entity_t * );
+//        bool Stds_CheckIntersection( float, float, int32_t, int32_t, float, float, int32_t, int32_t )
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,15 +44,15 @@
  * @return enum side that a collided onto b with (the side of b).
  */
 enum CollisionSide
-check_aabb_collision( entity_t *a, entity_t *b ) {
-  f32 w  = 0.5f * ( b->w + a->w );
-  f32 h  = 0.5f * ( b->h + a->h );
-  f32 dx = ( b->x + b->w / 2.0f ) - ( a->x + a->w / 2.0f );
-  f32 dy = ( b->y + b->h / 2.0f ) - ( a->y + a->h / 2.0f );
+Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
+  float w  = 0.5f * ( b->w + a->w );
+  float h  = 0.5f * ( b->h + a->h );
+  float dx = ( b->x + b->w / 2.0f ) - ( a->x + a->w / 2.0f );
+  float dy = ( b->y + b->h / 2.0f ) - ( a->y + a->h / 2.0f );
 
   if ( fabs( dx ) < w && fabs( dy ) < h ) {
-    f32 wy = w * dy;
-    f32 hx = h * dx;
+    float wy = w * dy;
+    float hx = h * dx;
 
     if ( wy >= hx ) {
       if ( wy > -hx ) { // top
@@ -91,7 +91,7 @@ check_aabb_collision( entity_t *a, entity_t *b ) {
  * @return true if overlap exists, false otherwise.
  */
 bool
-check_intersection( f32 x1, f32 y1, int32_t w1, int32_t h1, f32 x2, f32 y2, int32_t w2,
+Stds_CheckIntersection( float x1, float y1, int32_t w1, int32_t h1, float x2, float y2, int32_t w2,
                     int32_t h2 ) {
   return ( MAX( x1, x2 ) < MIN( x1 + w1, x2 + w2 ) ) && ( MAX( y1, y2 ) < MIN( y1 + h1, y2 + h2 ) );
 }

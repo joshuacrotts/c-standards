@@ -7,7 +7,7 @@
 //        something from being updated, just re-add the valuesx + app.camera.x, y + app.camera.y.
 //
 // PUBLIC FUNCTIONS :
-//        void update_camera( entity_t * );
+//        void Stds_CameraUpdate( entity_t * );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -45,7 +45,7 @@
  * @return void.
  */
 void
-update_camera( entity_t *focus_point ) {
+Stds_CameraUpdate( entity_t *focus_point ) {
   if ( focus_point != NULL ) {
     app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( app.SCREEN_WIDTH >> 1 );
     app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( app.SCREEN_HEIGHT >> 1 );

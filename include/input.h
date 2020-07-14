@@ -5,7 +5,7 @@
 
 extern app_t app;
 
-extern void process_input( void );
+extern void Stds_ProcessInput( void );
 
 #endif // INPUT_H
  

@@ -15,5 +15,5 @@ void
 red_particle_draw( particle_t *p ) {
   SDL_FRect r = {p->x, p->y, p->w, p->h};
   SDL_Color c = {p->color.r, p->color.g, p->color.b, p->color.a};
-  draw_frect( &r, &c, true, false );
+  Stds_DrawRectF( &r, &c, true, false );
 }

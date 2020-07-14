@@ -7,19 +7,19 @@
 //        a few simple macros for min and max.
 //
 // PUBLIC FUNCTIONS :
-//        int32_t   random_int( int32_t min, int32_t max );
-//        int32_t   str_index_of( const char *s, const char *search_str );
-//        int32_t   get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        f32     random_f32( f32 min, f32 max );
-//        f32     get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        f32     to_radians( f32 degree_angle );
-//        f32     to_degrees( f32 radian_angle );
-//        bool      is_mouse_over_rect( f32 x, f32 y, SDL_Rect rect );
-//        char      *str_substring( const char *str, int first, int last );
-//        char      *strcat_int( const char *s, int32_t n );
-//        void      clamp( int32_t *n, int32_t min, int32_t max );
-//        void      calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, f32 *x_slope, f32 *y_slope );
-//        void      print( const char * s, ... );
+//        int32_t   Stds_RandomInt( int32_t min, int32_t max );
+//        int32_t   Stds_IndexOf( const char *s, const char *search_str );
+//        int32_t   Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+//        float     Stds_RandomFloat( float min, float max );
+//        float     Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+//        float     Stds_ToRadians( float degree_angle );
+//        float     Stds_ToDegrees( float radian_angle );
+//        bool      Stds_IsMouseOverRect( float x, float y, SDL_Rect rect );
+//        char      *Stds_Substring( const char *str, int first, int last );
+//        char      *Stds_StrCatInt( const char *s, int32_t n );
+//        void      Stds_ClampInt( int32_t *n, int32_t min, int32_t max );
+//        void      Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *x_slope, float *y_slope );
+//        void      Stds_Print( const char * s, ... );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -60,7 +60,7 @@ static bool seed = false;
  * @return int32_t random number in the set [min, max].
  */
 int32_t
-random_int( int32_t min, int32_t max ) {
+Stds_RandomInt( int32_t min, int32_t max ) {
   if ( !seed ) {
     srand( ( uint32_t ) time( NULL ) );
     seed = true;
@@ -69,36 +69,36 @@ random_int( int32_t min, int32_t max ) {
 }
 
 /**
- * Returns a random f32ing point variable between
+ * Returns a random floating point variable between
  * the interval specified, inclusive.
  *
- * @param f32 minimum number to choose from.
- * @param f32 maximum number to choose from.
+ * @param float minimum number to choose from.
+ * @param float maximum number to choose from.
  *
- * @return f32 random number in the set [min, max].
+ * @return float random number in the set [min, max].
  */
-f32
-random_f32( f32 min, f32 max ) {
+float
+Stds_RandomFloat( float min, float max ) {
   if ( !seed ) {
     srand( ( uint32_t ) time( NULL ) );
     seed = true;
   }
 
-  f32 scale = rand() / ( f32 ) RAND_MAX;
+  float scale = rand() / ( float ) RAND_MAX;
   return min + scale * ( max - min );
 }
 
 /**
  * Bounds an integer n in-between the interval [min, max].
  *
- * @param int32_t* pointer to number to clamp.
+ * @param int32_t* pointer to number to Stds_ClampInt.
  * @param int32_t min number n can be (n >= min).
  * @param int32_t max number n can be (n <= max).
  *
  * @return void.
  */
 void
-clamp( int32_t *value, int32_t min, int32_t max ) {
+Stds_ClampInt( int32_t *value, int32_t min, int32_t max ) {
   if ( *value < min ) {
     *value = min;
   } else if ( *value > max ) {
@@ -114,13 +114,13 @@ clamp( int32_t *value, int32_t min, int32_t max ) {
  * @param int32_t y1
  * @param int32_t x2
  * @param int32_t y2
- * @param f32* pointer to store x slope.
- * @param f32* pointer to store y slope.
+ * @param float* pointer to store x slope.
+ * @param float* pointer to store y slope.
  *
  * @return void.
  */
 void
-calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, f32 *dx, f32 *dy ) {
+Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
   int32_t steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
@@ -143,11 +143,11 @@ calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, f32 *dx, f32 *dy ) {
  * @param int32_t x2
  * @param int32_t y2
  *
- * @return f32 angle.
+ * @return float angle.
  */
-f32
-get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
-  f32 angle = ( f32 ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
+float
+Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+  float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
 }
 
@@ -162,7 +162,7 @@ get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  * @return int32_t distance.
  */
 int32_t
-get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
   int x = x2 - x1;
   int y = y2 - y1;
 
@@ -170,7 +170,7 @@ get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
 }
 
 /**
- * Prints to the SDL LogInfo stream. This is just to
+ * Stds_Prints to the SDL LogInfo stream. This is just to
  * prevent having to type out the long line if you
  * want to do simple debugging. Supports varargs
  * and formatting.
@@ -181,7 +181,7 @@ get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  * @return void.
  */
 void
-print( const char *str, ... ) {
+Stds_Print( const char *str, ... ) {
   va_list args;
   memset( &text_buffer, '\0', sizeof( text_buffer ) );
 
@@ -202,33 +202,33 @@ print( const char *str, ... ) {
  * @return
  */
 bool
-is_mouse_over_rect( f32 x, f32 y, SDL_Rect rect ) {
+Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
   return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
 }
 
 /**
- * Converts a f32 variable in degrees to radians.
+ * Converts a float variable in degrees to radians.
  *
- * @param f32 angle in degrees (0.0f to 360.0f)
+ * @param float angle in degrees (0.0f to 360.0f)
  *
- * @return f32 angle in radians.
+ * @return float angle in radians.
  */
-f32
-to_radians( f32 degrees ) {
-  return ( f32 ) ( degrees * ( PI / 180.0f ) );
+float
+Stds_ToRadians( float degrees ) {
+  return ( float ) ( degrees * ( PI / 180.0f ) );
 }
 
 /**
- * Converts a f32 variable in radians to degrees.
+ * Converts a float variable in radians to degrees.
  * This is best used with the tangental functions.
  *
- * @param f32 angle in radians (0 to 2PI)
+ * @param float angle in radians (0 to 2PI)
  *
- * @return f32 angle in degrees.
+ * @return float angle in degrees.
  */
-f32
-to_degrees( f32 radians ) {
-  return ( f32 ) ( radians * ( 180.0f / PI ) );
+float
+Stds_ToDegrees( float radians ) {
+  return ( float ) ( radians * ( 180.0f / PI ) );
 }
 
 /**
@@ -247,7 +247,7 @@ to_degrees( f32 radians ) {
  * @return char* substring.
  */
 char *
-str_substring( const char *str, int first, int last ) {
+Stds_Substring( const char *str, int first, int last ) {
   uint32_t s_len = strlen( str );
   assert( s_len > 0 && first < last && first >= 0 && last <= s_len );
 
@@ -266,7 +266,7 @@ str_substring( const char *str, int first, int last ) {
  * @return int32_t >= 0 for index, -1 if not in string.
  */
 int32_t
-str_index_of( const char *s, const char *search_str ) {
+Stds_IndexOf( const char *s, const char *search_str ) {
   uint32_t s_len          = strlen( s );
   uint32_t search_str_len = strlen( search_str );
 
@@ -292,7 +292,7 @@ str_index_of( const char *s, const char *search_str ) {
  * @return void.
  */
 char *
-strcat_int( const char *s, int32_t n ) {
+Stds_StrCatInt( const char *s, int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
   int32_t digits = sprintf( number_buffer, "%d", n );

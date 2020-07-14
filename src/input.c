@@ -6,13 +6,13 @@
 //        Controller support may come at a future date.
 //
 // PUBLIC FUNCTIONS :
-//        void          process_input ( void );
+//        void          Stds_ProcessInput ( void );
 //
 //  PRIVATE/STATIC FUNCTIONS:
-//        void          key_pressed( SDL_KeyboardEvent * );
-//        void          key_released( SDL_KeyboardEvent * );
-//        void          mouse_pressed( SDL_MouseButtonEvent * );
-//        void          mouse_released( SDL_MouseButtonEvent * );
+//        void          Stds_KeyPressed( SDL_KeyboardEvent * );
+//        void          Stds_KeyReleased( SDL_KeyboardEvent * );
+//        void          Stds_MousePressed( SDL_MouseButtonEvent * );
+//        void          Stds_MouseReleased( SDL_MouseButtonEvent * );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,12 +41,12 @@
 
 static int16_t previous_frame_key = -1;
 
-static void key_pressed( SDL_KeyboardEvent * );
-static void key_released( SDL_KeyboardEvent * );
-static void mouse_pressed( SDL_MouseButtonEvent * );
-static void mouse_released( SDL_MouseButtonEvent * );
+static void Stds_KeyPressed( SDL_KeyboardEvent * );
+static void Stds_KeyReleased( SDL_KeyboardEvent * );
+static void Stds_MousePressed( SDL_MouseButtonEvent * );
+static void Stds_MouseReleased( SDL_MouseButtonEvent * );
 
-/*
+/**
  * Starts the SDL event loop.
  * 
  * @param void.
@@ -54,7 +54,7 @@ static void mouse_released( SDL_MouseButtonEvent * );
  * @return void.
  */
 void
-process_input( void ) {
+Stds_ProcessInput( void ) {
   SDL_Event event;
 
   while ( SDL_PollEvent( &event ) ) {
@@ -64,16 +64,16 @@ process_input( void ) {
       exit( EXIT_SUCCESS );
       break;
     case SDL_KEYDOWN:
-      key_pressed( &event.key );
+      Stds_KeyPressed( &event.key );
       break;
     case SDL_KEYUP:
-      key_released( &event.key );
+      Stds_KeyReleased( &event.key );
       break;
     case SDL_MOUSEBUTTONDOWN:
-      mouse_pressed( &event.button );
+      Stds_MousePressed( &event.button );
       break;
     case SDL_MOUSEBUTTONUP:
-      mouse_released( &event.button );
+      Stds_MouseReleased( &event.button );
       break;
     case SDL_MOUSEWHEEL:
       app.mouse.wheel = event.wheel.y;
@@ -84,31 +84,43 @@ process_input( void ) {
   }
 }
 
-/*
+/**
  *
+ * 
+ * @param
+ * 
+ * @return void.
  */
 static void
-key_pressed( SDL_KeyboardEvent *event ) {
+Stds_KeyPressed( SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
     app.keyboard[event->keysym.scancode] = 1;
   }
 }
 
-/*
+/**
  *
+ * 
+ * @param
+ * 
+ * @return void.
  */
 static void
-key_released( SDL_KeyboardEvent *event ) {
+Stds_KeyReleased( SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
     app.keyboard[event->keysym.scancode] = 0;
   }
 }
 
-/*
+/**
  *
+ * 
+ * @param
+ * 
+ * @return void.
  */
 static void
-mouse_pressed( SDL_MouseButtonEvent *event ) {
+Stds_MousePressed( SDL_MouseButtonEvent *event ) {
   app.mouse.button[event->button] = 1;
 }
 
@@ -116,6 +128,6 @@ mouse_pressed( SDL_MouseButtonEvent *event ) {
  *
  */
 static void
-mouse_released( SDL_MouseButtonEvent *event ) {
+Stds_MouseReleased( SDL_MouseButtonEvent *event ) {
   app.mouse.button[event->button] = 0;
 }

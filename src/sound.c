@@ -6,13 +6,13 @@
 //        effects and music.
 //
 // PUBLIC FUNCTIONS :
-//        void          init_sounds( void );
-//        void          load_music( const char *music_path );
-//        void          play_music( bool is_playing );
-//        void          play_sound( int16_t sound_effect_id, int16_t channel );
+//        void          Stds_InitSounds( void );
+//        void          Stds_LoadMusic( const char *music_path );
+//        void          Stds_PlayMusic( bool is_playing );
+//        void          Stds_PlaySounds( int16_t sound_effect_id, int16_t channel );
 //
 //  PRIVATE/STATIC FUNCTIONS:
-//        void          load_sounds( void );
+//        void          Stds_LoadSounds( void );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -39,7 +39,7 @@
 
 #include "../include/sound.h"
 
-static void load_sounds( void );
+static void Stds_LoadSounds( void );
 
 static Mix_Chunk *sounds[SND_MAX];
 static Mix_Music *music;
@@ -52,12 +52,12 @@ static Mix_Music *music;
  * @return void.
  */
 void
-init_sounds( void ) {
+Stds_InitSounds( void ) {
   memset( sounds, 0, sizeof( Mix_Chunk * ) * SND_MAX );
 
   music = NULL;
 
-  load_sounds();
+  Stds_LoadSounds();
 }
 
 /**
@@ -68,7 +68,7 @@ init_sounds( void ) {
  * @return void.
  */
 void
-load_music( const char *fileName ) {
+Stds_LoadMusic( const char *fileName ) {
   if ( music != NULL ) {
     Mix_HaltMusic();
     Mix_FreeMusic( music );
@@ -86,7 +86,7 @@ load_music( const char *fileName ) {
  * @return void.
  */
 void
-play_music( bool loop ) {
+Stds_PlayMusic( bool loop ) {
   Mix_PlayMusic( music, loop ? -1 : 0 );
 }
 
@@ -94,7 +94,7 @@ play_music( bool loop ) {
  * Plays a sound with the respective channel and ID of the SFX.
  * For instance,
  *
- * Ex: play_sound(SND_BRICK_BREAKER, CH_ANY).
+ * Ex: Stds_PlaySounds(SND_BRICK_BREAKER, CH_ANY).
  *
  * @param int16_t sound effect ID from enum.
  * @param int16_t channel from enum.
@@ -102,7 +102,7 @@ play_music( bool loop ) {
  * @return void.
  */
 void
-play_sound( int16_t id, int16_t channel ) {
+Stds_PlaySounds( int16_t id, int16_t channel ) {
   Mix_PlayChannel( channel, sounds[id], 0 );
 }
 
@@ -114,7 +114,7 @@ play_sound( int16_t id, int16_t channel ) {
  * @return void.
  */
 static void
-load_sounds( void ) {
+Stds_LoadSounds( void ) {
   sounds[SND_BRICK_SHATTER] = Mix_LoadWAV( "res/sfx/explode_1.ogg" );
   sounds[SND_BRICK_BREAK]   = Mix_LoadWAV( "res/sfx/explode_2.ogg" );
   sounds[SND_COIN]          = Mix_LoadWAV( "res/sfx/coin0.ogg" );

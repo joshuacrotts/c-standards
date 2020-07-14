@@ -5,10 +5,10 @@
 //        This file defines trail functionality with alpha-blending support.
 //
 // PUBLIC FUNCTIONS :
-//        void      add_trail( entity_t *parent_entity, int16_t alpha_decay_rate, int16_t starting_alpha,
+//        void      Stds_AddTrail( entity_t *parent_entity, int16_t alpha_decay_rate, int16_t starting_alpha,
 //                             bool is_texture, SDL_RendererFlip flip );
-//        void      trail_update( trail_t *t );
-//        void      trail_draw( trail_t *t );
+//        void      Stds_TrailUpdate( trail_t *t );
+//        void      Stds_TrailDraw( trail_t *t );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -50,7 +50,7 @@
  * @return void.
  */
 void
-add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
+Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
            SDL_RendererFlip flip ) {
   trail_t *t;
   t = malloc( sizeof( trail_t ) );
@@ -84,7 +84,7 @@ add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is
 /**
  * Updates the trail by iterating through the trail's linked lists,
  * and constantly decreasing its alpha value. Once any arbitrary
- * tail node has an alpha of 0 or less (clamped to 0), it is
+ * tail node has an alpha of 0 or less (Stds_ClampInted to 0), it is
  * removed.
  *
  * @param trail_t struct to update.
@@ -92,7 +92,7 @@ add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is
  * @return void
  */
 void
-trail_update( trail_t *t ) {
+Stds_TrailUpdate( trail_t *t ) {
   t->alpha -= t->alpha_decay_rate;
   if ( t->alpha <= 0 ) {
     t->flags |= DEATH_MASK;
@@ -107,13 +107,13 @@ trail_update( trail_t *t ) {
  * @return void.
  */
 void
-trail_draw( trail_t *t ) {
+Stds_TrailDraw( trail_t *t ) {
   if ( !t->is_texture ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
   }
 
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
-  blit_texture_rotated( t->texture, t->x, t->y, 0, t->flip, NULL, true );
+  Stds_BlitTextureRotate( t->texture, t->x, t->y, 0, t->flip, NULL, true );
 
   if ( !t->is_texture ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_NONE );

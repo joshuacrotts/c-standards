@@ -6,15 +6,15 @@
 //        structures. The game loop is also initialized here.
 //
 // PUBLIC FUNCTIONS :
-//        void        prepare_scene( void );
-//        void        process_input( void );
-//        void        present_scene( void );
-//        void        loop( void );
-//        void        init_app_structures( void );
+//        void        Stds_PrepareScene( void );
+//        void        Stds_ProcessInput( void );
+//        void        Stds_PresentScene( void );
+//        void        Stds_GameLoop( void );
+//        void        Stds_InitAppStructures( void );
 //
 // PRIVATE/STATIC FUNCTIONS :
-//        void        cap_frame_rate( long *, f32 * );
-//        uint32_t    update_window_title( uint32_t, void * );
+//        void        Stds_CapFramerate( long *, float * );
+//        uint32_t    Stds_UpdateWindowTitle( uint32_t, void * );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -43,8 +43,8 @@
 
 static uint16_t current_fps;
 
-static void     cap_framerate( long *, f32 * );
-static uint32_t update_window_title( uint32_t, void * );
+static void     cap_framerate( long *, float * );
+static uint32_t Stds_UpdateWindowTitle( uint32_t, void * );
 
 /**
  * Initializes the app linked list data structures.
@@ -54,7 +54,7 @@ static uint32_t update_window_title( uint32_t, void * );
  * @return void.
  */
 void
-init_app_structures( void ) {
+Stds_InitAppStructures( void ) {
   app.parallax_tail = &app.parallax_head;
   app.texture_tail  = &app.texture_head;
   app.button_tail   = &app.button_head;
@@ -76,7 +76,7 @@ init_app_structures( void ) {
 void 
 init_window_fps( void  ) {
   #ifndef __APPLE__
-  SDL_AddTimer( WINDOW_UPDATE_TIMER, update_window_title, &current_fps );
+  SDL_AddTimer( WINDOW_UPDATE_TIMER, Stds_UpdateWindowTitle, &current_fps );
   #endif
 }
 
@@ -89,20 +89,20 @@ init_window_fps( void  ) {
  * @return void.
  */
 void
-loop( void ) {
+Stds_GameLoop( void ) {
   long  timer;
   long  then;
-  f32 remainder;
+  float remainder;
 
   then      = SDL_GetTicks();
   
   // Main game loop.
   while ( true ) {
-    prepare_scene();
-    process_input();
+    Stds_PrepareScene();
+    Stds_ProcessInput();
     app.delegate.tick();
     app.delegate.draw();
-    present_scene();
+    Stds_PresentScene();
     cap_framerate( &then, &remainder );
   }
 }
@@ -117,7 +117,7 @@ loop( void ) {
  * @return void.
  */
 static void
-cap_framerate( long *then, f32 *remainder ) {
+cap_framerate( long *then, float *remainder ) {
   long wait, frame_time;
 
   wait = ( int32_t )( FPS_TIME + *remainder );
@@ -147,7 +147,7 @@ cap_framerate( long *then, f32 *remainder ) {
  * @return interval time for callback function.
  */
 static uint32_t
-update_window_title( uint32_t interval, void *args ) {
+Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   uint16_t fps = *( uint16_t * ) args;
   // Create text window buffer.
   char *window_buffer = malloc( sizeof( char ) * SMALL_TEXT_BUFFER );
@@ -165,7 +165,7 @@ update_window_title( uint32_t interval, void *args ) {
   strcat( window_buffer, " | FPS: " );
 
   // Concatenate number to title variable.
-  window_buffer = strcat_int( window_buffer, fps );
+  window_buffer = Stds_StrCatInt( window_buffer, fps );
   SDL_SetWindowTitle( app.window, window_buffer );
   return interval;
 }

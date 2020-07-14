@@ -5,13 +5,13 @@
 //        Defines the procedures and functions for the SDL context.
 //
 // PUBLIC FUNCTIONS :
-//        void        init_game( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        toggle_debug_mode( bool );
+//        void        Stds_InitGame( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
+//        void        Stds_ToggleDebugMode( bool );
 //
 // PRIVATE/STATIC FUNCTIONS :
-//        void        init_SDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        init_audio_context( void );
-//        void        cleanup( void );
+//        void        Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
+//        void        Stds_InitAudioContext( void );
+//        void        Stds_Cleanup( void );
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,9 +40,9 @@
 
 static bool debug_mode = false;
 
-static void init_SDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-static void init_audio_context( void );
-static void cleanup( void );
+static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
+static void Stds_InitAudioContext( void );
+static void Stds_Cleanup( void );
 
 /**
  * Calls the remainder of the initialization functions, and
@@ -57,29 +57,29 @@ static void cleanup( void );
  * @return void.
  */
 void
-init_game( const char *window_name, uint32_t window_width, uint32_t window_height,
+Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_height,
            uint32_t level_width, uint32_t level_height ) {
-  init_SDL( window_name, window_width, window_height, level_width, level_height );
-  init_sounds();
-  init_fonts();
+  Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
+  Stds_InitSounds();
+  Stds_InitFonts();
 
   app.original_title = window_name;
 
   // Assigns the callback function to clean up the
   // SDL context when closing the program.
-  atexit( cleanup );
+  atexit( Stds_Cleanup );
 }
 
 /**
  * Toggles debug mode either on or off. When on, debug messages
- * are printed to the console.
+ * are Stds_Printed to the console.
  *
  * @param bool true for debug mode on, false otherwise.
  *
  * @return void.
  */
 void
-toggle_debug_mode( bool db ) {
+Stds_ToggleDebugMode( bool db ) {
   debug_mode = db;
 }
 
@@ -95,7 +95,7 @@ toggle_debug_mode( bool db ) {
  * @return void.
  */
 static void
-init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height,
+Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_height,
           uint32_t level_width, uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
@@ -154,7 +154,7 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
   //  Remove cursor.
   SDL_ShowCursor( true );
 
-  init_audio_context();
+  Stds_InitAudioContext();
 }
 
 /**
@@ -166,7 +166,7 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
  * @return void.
  */
 static void
-init_audio_context( void ) {
+Stds_InitAudioContext( void ) {
   if ( debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing audio context and SDL Mixer." );
   }
@@ -187,7 +187,7 @@ init_audio_context( void ) {
  * @return void.
  */
 static void
-cleanup( void ) {
+Stds_Cleanup( void ) {
   if ( debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
   }
@@ -246,6 +246,6 @@ cleanup( void ) {
     free( b );
   }
 
-  free_fonts();
+  Stds_FreeFonts();
   SDL_Quit();
 }
