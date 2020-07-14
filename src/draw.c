@@ -5,37 +5,6 @@
 //        This file defines the various procedures for drawing primitives (lines, rectangles,
 //        circles), textures, blitting rectangles, and texture caching/loading.
 //
-// PUBLIC FUNCTIONS :
-//        void          Stds_PrepareScene( void );
-//        void          Stds_PresentScene( void );
-//        void          Stds_BlitTextureRect( SDL_Texture *texture, SDL_Rect *src, float x, float y, bool
-//                                 camera_offset );
-//        void          Stds_BlitTexture( SDL_Texture *texture, float x, float y, bool
-//                                        is_center, bool camera_offset );
-//        void          Stds_BlitTextureRotate( SDL_Texture *texture, float x, float y, uint16_t
-//                                            angle, SDL_RendererFlip flip, SDL_FPoint *p, bool
-//                                            camera_offset );
-//        void          Stds_BlitTextureResize( SDL_Texture *texture, float x, float y, int32_t w,
-//                                           int32_t h, uint16_t angle, SDL_RendererFlip flip,
-//                                           bool camera_offset );
-//        void          Stds_BlitTextureScale( SDL_Texture *texture, float x, float y, float scale_x,
-//                                           float scale_y, uint16_t angle, SDL_RendererFlip flip,
-//                                           bool camera_offset );
-//        void          Stds_DrawRect( SDL_Rect *rect, SDL_Color *c, bool is_filled, bool camera_offset); 
-//        void          Stds_DrawRectF( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offset ); 
-//        void          Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h,
-//                                        uint32_t thickness, SDL_Color *c, bool camera_offset );
-//        void          Stds_DrawCircle( circle_t *circle, SDL_Color *c, bool is_filled );
-//        void          Stds_DrawLine( float x1, float y1, float x2, float y2, SDL_Color *c );
-//        SDL_Texture   *Stds_LoadTexture( const char *directory );
-//        SDL_Color     Stds_CombineFadeColor( fade_color_t *fade_color );
-//
-//  PRIVATE/STATIC FUNCTIONS:
-//        SDL_Texture   *Stds_GetTexture( const char * );
-//        void          Stds_CacheTexture( const char *, SDL_Texture * );
-//        void          Stds_DrawCircleHelper( circle_t *, SDL_Color * );
-//        void          Stds_FillCircleHelper( circle_t *, SDL_Color * );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -133,7 +102,7 @@ Stds_BlitTexture( SDL_Texture *texture, float x, float y, bool is_center, bool c
  * coordinates (x, y). You may pass in both integers or
  * floating-point numbers to this function.
  *
- * @param SDL_Texture*
+ * @param SDL_Texture* pointer to texture to draw.
  * @param float x
  * @param float y
  * @param bool if the texture should be centered or not.

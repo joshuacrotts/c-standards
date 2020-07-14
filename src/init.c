@@ -4,15 +4,6 @@
 // DESCRIPTION :
 //        Defines the procedures and functions for the SDL context.
 //
-// PUBLIC FUNCTIONS :
-//        void        Stds_InitGame( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        Stds_ToggleDebugMode( bool );
-//
-// PRIVATE/STATIC FUNCTIONS :
-//        void        Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        Stds_InitAudioContext( void );
-//        void        Stds_Cleanup( void );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

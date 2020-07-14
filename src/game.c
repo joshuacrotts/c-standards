@@ -5,17 +5,6 @@
 //        Initializes the game structures and pointers for the linked list
 //        structures. The game loop is also initialized here.
 //
-// PUBLIC FUNCTIONS :
-//        void        Stds_PrepareScene( void );
-//        void        Stds_ProcessInput( void );
-//        void        Stds_PresentScene( void );
-//        void        Stds_GameLoop( void );
-//        void        Stds_InitAppStructures( void );
-//
-// PRIVATE/STATIC FUNCTIONS :
-//        void        Stds_CapFramerate( long *, float * );
-//        uint32_t    Stds_UpdateWindowTitle( uint32_t, void * );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +32,8 @@
 
 static uint16_t current_fps;
 
-static void     cap_framerate( long *, float * );
+static void     Stds_InitWindowFPS( void );
+static void     Stds_CapFramerate( long *, float * );
 static uint32_t Stds_UpdateWindowTitle( uint32_t, void * );
 
 /**
@@ -61,23 +51,7 @@ Stds_InitAppStructures( void ) {
   app.trail_tail    = &app.trail_head;
   app.font_tail     = &app.font_head;
 
-  init_window_fps();
-}
-
-/**
- * Enables the SDL timer to continuously draw the current frames
- * per second to the title bar. For some reason, MacOS doesn't play
- * nicely with this setup, so if we're on a Mac, this is disabled.
- *
- * @param void.
- *
- * @return void.
- */
-void 
-init_window_fps( void  ) {
-  #ifndef __APPLE__
-  SDL_AddTimer( WINDOW_UPDATE_TIMER, Stds_UpdateWindowTitle, &current_fps );
-  #endif
+  Stds_InitWindowFPS();
 }
 
 /**
@@ -94,8 +68,8 @@ Stds_GameLoop( void ) {
   long  then;
   float remainder;
 
-  then      = SDL_GetTicks();
-  
+  then = SDL_GetTicks();
+
   // Main game loop.
   while ( true ) {
     Stds_PrepareScene();
@@ -103,8 +77,24 @@ Stds_GameLoop( void ) {
     app.delegate.tick();
     app.delegate.draw();
     Stds_PresentScene();
-    cap_framerate( &then, &remainder );
+    Stds_CapFramerate( &then, &remainder );
   }
+}
+
+/**
+ * Enables the SDL timer to continuously draw the current frames
+ * per second to the title bar. For some reason, MacOS doesn't play
+ * nicely with this setup, so if we're on a Mac, this is disabled.
+ *
+ * @param void.
+ *
+ * @return void.
+ */
+static void
+Stds_InitWindowFPS( void ) {
+#ifndef __APPLE__
+  SDL_AddTimer( WINDOW_UPDATE_TIMER, Stds_UpdateWindowTitle, &current_fps );
+#endif
 }
 
 /**
@@ -117,7 +107,7 @@ Stds_GameLoop( void ) {
  * @return void.
  */
 static void
-cap_framerate( long *then, float *remainder ) {
+Stds_CapFramerate( long *then, float *remainder ) {
   long wait, frame_time;
 
   wait = ( int32_t )( FPS_TIME + *remainder );

@@ -4,12 +4,6 @@
 // DESCRIPTION :
 //        This file defines the particle system backed in static memory.
 //
-// PUBLIC FUNCTIONS :
-//        particle_system_t *Stds_CreateParticleSystem( int32_t max_particles );
-//        int32_t           Stds_InsertParticle( particle_system_t *ps, particle_t *p );
-//        void              Stds_ParticleSystemUpdate( particle_system_t *ps );
-//        void              Stds_ParticleSystemDraw( particle_system_t *ps );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

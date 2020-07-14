@@ -3,12 +3,8 @@
 //
 // DESCRIPTION :
 //        This file defines the primary collision detectin functions. As of 7/9/2020, we have
-//        an AABB collision-response function (returning an enum of the collision side), and a 
+//        an AABB collision-response function (returning an enum of the collision side), and a
 //        primitive rectangle-overlap test.
-//
-// PUBLIC FUNCTIONS :
-//        enum CollisionSide Stds_CheckAABBCollision( entity_t *, entity_t * );
-//        bool Stds_CheckIntersection( float, float, int32_t, int32_t, float, float, int32_t, int32_t )
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -79,19 +75,20 @@ Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
 /**
  * Determines if two rectangles are collided.
  *
- * @param
- * @param
- * @param
- * @param
- * @param
- * @param
- * @param
- * @param
- * 
+ * @param float x1
+ * @param float y1
+ * @param int32_t w1
+ * @param int32_t h1 
+ * @param float x2
+ * @param float y2
+ * @param int32_t w2
+ * @param int32_t h2
+ *
  * @return true if overlap exists, false otherwise.
  */
 bool
 Stds_CheckIntersection( float x1, float y1, int32_t w1, int32_t h1, float x2, float y2, int32_t w2,
-                    int32_t h2 ) {
-  return ( MAX( x1, x2 ) < MIN( x1 + w1, x2 + w2 ) ) && ( MAX( y1, y2 ) < MIN( y1 + h1, y2 + h2 ) );
+                        int32_t h2 ) {
+  return ( fmax( x1, x2 ) < fmin( x1 + w1, x2 + w2 ) ) &&
+         ( fmax( y1, y2 ) < fmin( y1 + h1, y2 + h2 ) );
 }

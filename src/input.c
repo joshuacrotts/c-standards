@@ -5,15 +5,6 @@
 //        This file defines input handling. As of now, it only supports mouse and keyboard input.
 //        Controller support may come at a future date.
 //
-// PUBLIC FUNCTIONS :
-//        void          Stds_ProcessInput ( void );
-//
-//  PRIVATE/STATIC FUNCTIONS:
-//        void          Stds_KeyPressed( SDL_KeyboardEvent * );
-//        void          Stds_KeyReleased( SDL_KeyboardEvent * );
-//        void          Stds_MousePressed( SDL_MouseButtonEvent * );
-//        void          Stds_MouseReleased( SDL_MouseButtonEvent * );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

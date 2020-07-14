@@ -6,21 +6,6 @@
 //        simple non string.h string manipulation, random numbers, etc. stds.h also defines
 //        a few simple macros for min and max.
 //
-// PUBLIC FUNCTIONS :
-//        int32_t   Stds_RandomInt( int32_t min, int32_t max );
-//        int32_t   Stds_IndexOf( const char *s, const char *search_str );
-//        int32_t   Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        float     Stds_RandomFloat( float min, float max );
-//        float     Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
-//        float     Stds_ToRadians( float degree_angle );
-//        float     Stds_ToDegrees( float radian_angle );
-//        bool      Stds_IsMouseOverRect( float x, float y, SDL_Rect rect );
-//        char      *Stds_Substring( const char *str, int first, int last );
-//        char      *Stds_StrCatInt( const char *s, int32_t n );
-//        void      Stds_ClampInt( int32_t *n, int32_t min, int32_t max );
-//        void      Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *x_slope, float *y_slope );
-//        void      Stds_Print( const char * s, ... );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -121,7 +106,7 @@ Stds_ClampInt( int32_t *value, int32_t min, int32_t max ) {
  */
 void
 Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
-  int32_t steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
+  int32_t steps = ( int32_t ) fmax( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
     *dx = *dy = 0;

@@ -4,19 +4,6 @@
 // DESCRIPTION :
 //        This file defines font and text-drawing functions.
 //
-// PUBLIC FUNCTIONS :
-//        void      Stds_InitFonts( void );
-//        void      Stds_FreeFonts( void );
-//        void      Stds_DrawText( float x, float y, SDL_Color *c, const char *font_directory, 
-//                             uint16_t font_size, const char *str, ... );
-//        void      Stds_GetStringSize( const char *str, const char *font_name, uint16_t font_size,
-//                                   int32_t *stored_width, int32_t *stored_height );
-//
-// PRIVATE/STATIC FUNCTIONS :
-//        TTF_Font  *Stds_GetFont( const char *, uint16_t );
-//        void      Stds_LoadFonts( void );
-//        void      Stds_AddFonts( const char *, uint16_t );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

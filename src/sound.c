@@ -5,15 +5,6 @@
 //        This file defines the SDL sound mixer initialization, and how to play/pause both sound
 //        effects and music.
 //
-// PUBLIC FUNCTIONS :
-//        void          Stds_InitSounds( void );
-//        void          Stds_LoadMusic( const char *music_path );
-//        void          Stds_PlayMusic( bool is_playing );
-//        void          Stds_PlaySounds( int16_t sound_effect_id, int16_t channel );
-//
-//  PRIVATE/STATIC FUNCTIONS:
-//        void          Stds_LoadSounds( void );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

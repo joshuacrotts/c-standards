@@ -23,11 +23,6 @@
 #define MAX_INT_DIGITS 11
 #define DEBUG          1
 
-#define MAX( a, b )     ( ( a ) > ( b ) ? ( a ) : ( b ) )
-#define MIN( a, b )     ( ( a ) < ( b ) ? ( a ) : ( b ) )
-#define MAX3( a, b, c ) ( MAX( MAX( a, b ), c ) )
-#define MIN3( a, b, c ) ( MIN( MIN( a, b ), c ) )
-
 extern int32_t Stds_RandomInt( int32_t min, int32_t max );
 
 extern float Stds_RandomFloat( float min, float max );

@@ -4,12 +4,6 @@
 // DESCRIPTION :
 //        This file defines trail functionality with alpha-blending support.
 //
-// PUBLIC FUNCTIONS :
-//        void      Stds_AddTrail( entity_t *parent_entity, int16_t alpha_decay_rate, int16_t starting_alpha,
-//                             bool is_texture, SDL_RendererFlip flip );
-//        void      Stds_TrailUpdate( trail_t *t );
-//        void      Stds_TrailDraw( trail_t *t );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -84,7 +78,7 @@ Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, boo
 /**
  * Updates the trail by iterating through the trail's linked lists,
  * and constantly decreasing its alpha value. Once any arbitrary
- * tail node has an alpha of 0 or less (Stds_ClampInted to 0), it is
+ * tail node has an alpha of 0 or less (Stds_ClampInt'd to 0), it is
  * removed.
  *
  * @param trail_t struct to update.

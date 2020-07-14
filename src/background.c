@@ -4,17 +4,6 @@
 // DESCRIPTION :
 //        This file defines the background fuctionality, both regular and parallax.
 //
-// PUBLIC FUNCTIONS :
-//        void Stds_AddParallaxBackground( const char *bg_directory, size_t n,
-//                                    float default_scroll_speed, float modified_scroll_speeds[],
-//                                    bool is_infinite );
-//        void Stds_ParallaxBackgroundUpdate( parallax_background_t *parallax );
-//        void Stds_ParallaxBackgroundDraw( parallax_background_t *parallax );
-//        background_t *Stds_AddBackground( const char *bg_directory );
-//        void Stds_BackgroundUpdate( background_t *bg );
-//        void Stds_BackgroundDraw( background_t *bg );
-//        void Stds_BackgroundDie( background_t *bg );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

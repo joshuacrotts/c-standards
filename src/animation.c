@@ -7,14 +7,6 @@
 //        flip variables accordingly per the entity using the animation. If not, the
 //        animation will not move, rotate, etc.
 //
-// PUBLIC FUNCTIONS :
-//        animation_t   *Stds_AddSpritesheet( const char *file_directory, uint8_t n, float frame_time,
-//                                     uint16_t start_x, uint16_t start_y );
-//        animation_t   *Stds_AddAnimation( const char *files_directory, uint8_t n, float frame_time );
-//        void          Stds_AnimationUpdate( animation_t *animation );
-//        void          Stds_AnimationDraw( animation_t *animation );
-//        void          Stds_AnimationDie( animation_t *animation );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal

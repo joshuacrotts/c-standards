@@ -6,9 +6,6 @@
 //        this should be the player. All offsets are pre-applied to the draw functions. To keep 
 //        something from being updated, just re-add the valuesx + app.camera.x, y + app.camera.y.
 //
-// PUBLIC FUNCTIONS :
-//        void Stds_CameraUpdate( entity_t * );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
