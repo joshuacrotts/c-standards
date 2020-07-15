@@ -144,6 +144,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
   SDL_ShowCursor( true );
 
   Stds_InitAudioContext();
+  Stds_SetRandomSeed();
 }
 
 /**

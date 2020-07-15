@@ -36,6 +36,21 @@ static char text_buffer[MAX_LINE_LENGTH];
 static bool seed = false;
 
 /**
+ * Sets the seed for the randomization. This should be called prior to
+ * any RNG. It is called by default in the init.c file.
+ * @param void.
+ *
+ * @return void.
+ */
+void
+Stds_SetRandomSeed( void ) {
+  if ( !seed ) {
+    srand( ( uint32_t ) time( NULL ) );
+    seed = true;
+  }
+}
+
+/**
  * Returns a random integer variable between
  * the interval specified, inclusive.
  *
@@ -44,13 +59,31 @@ static bool seed = false;
  *
  * @return int32_t random number in the set [min, max].
  */
-int32_t
+inline int32_t
 Stds_RandomInt( int32_t min, int32_t max ) {
-  if ( !seed ) {
-    srand( ( uint32_t ) time( NULL ) );
-    seed = true;
-  }
   return ( rand() % ( max - min + 1 ) ) + min;
+}
+
+/**
+ * Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max).
+ * For instance, to generate a number between -10 and 10, but no lower than
+ * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter;
+ *
+ * @param min
+ * @param min_upper_bound
+ * @param max_lower_bound
+ * @param max
+ *
+ * In the end, 
+ * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
+ */
+inline int32_t
+Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound, int32_t max ) {
+  int32_t n;
+  do {
+    n = Stds_RandomInt( min, max );
+  } while ( ( n < min || n > min_upper_bound ) && ( n < max_lower_bound || n > max ) );
+  return n;
 }
 
 /**
@@ -62,15 +95,32 @@ Stds_RandomInt( int32_t min, int32_t max ) {
  *
  * @return float random number in the set [min, max].
  */
-float
+inline float
 Stds_RandomFloat( float min, float max ) {
-  if ( !seed ) {
-    srand( ( uint32_t ) time( NULL ) );
-    seed = true;
-  }
-
   float scale = rand() / ( float ) RAND_MAX;
   return min + scale * ( max - min );
+}
+
+/**
+ * Generates a floating-point number between [min, min_upper_bound) U (max_lower_bound, max).
+ * For instance, to generate a number between -10.f and 10.f, but no lower than
+ * -5.f or 5.f, do Stds_RandomFloatBounded( -10.f, -5.f, 5.f, 10.f). Precision doesn't really matter;
+ *
+ * @param min
+ * @param min_upper_bound
+ * @param max_lower_bound
+ * @param max
+ *
+ * In the end, 
+ * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
+ */
+inline float
+Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound, float max ) {
+  float n;
+  do {
+    n = Stds_RandomFloat( min, max );
+  } while ( ( n < min || n > min_upper_bound ) && ( n < max_lower_bound || n > max ) );
+  return n;
 }
 
 /**
