@@ -32,16 +32,18 @@
 
 static int16_t previous_frame_key = -1;
 
-static void Stds_KeyPressed( SDL_KeyboardEvent * );
-static void Stds_KeyReleased( SDL_KeyboardEvent * );
-static void Stds_MousePressed( SDL_MouseButtonEvent * );
-static void Stds_MouseReleased( SDL_MouseButtonEvent * );
+static inline void Stds_UpdateMouseState( void );
+static inline void Stds_KeyPressed( const SDL_KeyboardEvent * );
+static inline void Stds_KeyReleased( const SDL_KeyboardEvent * );
+static inline void Stds_MousePressed( const SDL_MouseButtonEvent * );
+static inline void Stds_MouseReleased( const SDL_MouseButtonEvent * );
+static inline void Stds_MouseMoved( const SDL_MouseMotionEvent * );
 
 /**
  * Starts the SDL event loop.
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 void
@@ -49,7 +51,8 @@ Stds_ProcessInput( void ) {
   SDL_Event event;
 
   while ( SDL_PollEvent( &event ) ) {
-    SDL_GetMouseState( &app.mouse.x, &app.mouse.y );
+    Stds_UpdateMouseState();
+
     switch ( event.type ) {
     case SDL_QUIT:
       exit( EXIT_SUCCESS );
@@ -69,6 +72,8 @@ Stds_ProcessInput( void ) {
     case SDL_MOUSEWHEEL:
       app.mouse.wheel = event.wheel.y;
       break;
+    case SDL_MOUSEMOTION:
+      Stds_MouseMoved( &event.motion );
     default:
       break;
     }
@@ -78,12 +83,25 @@ Stds_ProcessInput( void ) {
 /**
  *
  * 
- * @param
+ * @param void.
  * 
  * @return void.
  */
-static void
-Stds_KeyPressed( SDL_KeyboardEvent *event ) {
+static inline void 
+Stds_UpdateMouseState( void ) {
+  SDL_GetMouseState( &app.mouse.x, &app.mouse.y );
+  app.mouse.is_moving = false;
+}
+
+/**
+ *
+ *
+ * @param
+ *
+ * @return void.
+ */
+static inline void
+Stds_KeyPressed( const SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
     app.keyboard[event->keysym.scancode] = 1;
   }
@@ -91,13 +109,13 @@ Stds_KeyPressed( SDL_KeyboardEvent *event ) {
 
 /**
  *
- * 
+ *
  * @param
- * 
+ *
  * @return void.
  */
-static void
-Stds_KeyReleased( SDL_KeyboardEvent *event ) {
+static inline void
+Stds_KeyReleased( const SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
     app.keyboard[event->keysym.scancode] = 0;
   }
@@ -105,20 +123,28 @@ Stds_KeyReleased( SDL_KeyboardEvent *event ) {
 
 /**
  *
- * 
+ *
  * @param
- * 
+ *
  * @return void.
  */
-static void
-Stds_MousePressed( SDL_MouseButtonEvent *event ) {
+static inline void
+Stds_MousePressed( const SDL_MouseButtonEvent *event ) {
   app.mouse.button[event->button] = 1;
 }
 
-/*
+/**
  *
  */
-static void
-Stds_MouseReleased( SDL_MouseButtonEvent *event ) {
+static inline void
+Stds_MouseReleased( const SDL_MouseButtonEvent *event ) {
   app.mouse.button[event->button] = 0;
 }
+
+/**
+ * 
+ */
+static inline void
+Stds_MouseMoved( const SDL_MouseMotionEvent *e ) {
+  app.mouse.is_moving = true;
+} 

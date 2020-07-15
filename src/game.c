@@ -139,7 +139,7 @@ Stds_CapFramerate( long *then, float *remainder ) {
 static uint32_t
 Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   uint16_t fps = *( uint16_t * ) args;
-  // Create text window buffer.
+  /* Create text window buffer. */
   char *window_buffer = malloc( sizeof( char ) * SMALL_TEXT_BUFFER );
 
   if ( window_buffer == NULL ) {

@@ -29,8 +29,6 @@
 
 #include "../include/init.h"
 
-static bool debug_mode = false;
-
 static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
 static void Stds_InitAudioContext( void );
 static void Stds_Cleanup( void );
@@ -71,7 +69,7 @@ Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_h
  */
 void
 Stds_ToggleDebugMode( bool db ) {
-  debug_mode = db;
+  app.is_debug_mode = db;
 }
 
 /**
@@ -93,7 +91,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
   renderer_flags = SDL_RENDERER_ACCELERATED;
   window_flags   = 0;
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
   }
 
@@ -109,7 +107,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
     exit( EXIT_ERROR );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
   }
 
@@ -123,7 +121,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
 
   SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
   }
 
@@ -135,7 +133,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
     exit( EXIT_ERROR );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization Completed." );
   }
 
@@ -158,7 +156,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
  */
 static void
 Stds_InitAudioContext( void ) {
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing audio context and SDL Mixer." );
   }
 
@@ -179,7 +177,7 @@ Stds_InitAudioContext( void ) {
  */
 static void
 Stds_Cleanup( void ) {
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
   }
 
@@ -193,7 +191,7 @@ Stds_Cleanup( void ) {
   button_t *             b;
   trail_t *              tr;
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   }
 
@@ -204,7 +202,7 @@ Stds_Cleanup( void ) {
     free( pbg );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
   }
 
@@ -215,7 +213,7 @@ Stds_Cleanup( void ) {
     free( t );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
   }
 
@@ -226,7 +224,7 @@ Stds_Cleanup( void ) {
     free( tr );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
   }
 

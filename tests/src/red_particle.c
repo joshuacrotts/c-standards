@@ -1,11 +1,14 @@
 #include "../include/red_particle.h"
 
+#define GRAVITY 0.2f
+
 void
 red_particle_update( particle_t *p ) {
   if ( --p->life <= 0 ) {
     p->flags |= DEATH_MASK;
     return;
   }
+  p->dy += GRAVITY;
 
   p->x += p->dx;
   p->y += p->dy;

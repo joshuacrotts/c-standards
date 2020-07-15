@@ -31,10 +31,7 @@
 
 #define DEFAULT_FONT_COLOR 0xFF
 
-static char         text_buffer[MAX_LINE_LENGTH];
-static SDL_Surface *message_surface;
-static SDL_Texture *message_texture;
-static SDL_Rect     message_rect;
+static char text_buffer[MAX_LINE_LENGTH];
 
 static TTF_Font *Stds_GetFont( const char *, uint16_t );
 static void      Stds_LoadFonts();
@@ -42,9 +39,9 @@ static void      add_font( const char *, uint16_t );
 
 /**
  * Initializes the TTF font library for use.
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 void
@@ -79,8 +76,9 @@ Stds_InitFonts( void ) {
  * @return void.
  */
 void
-Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string,
-           uint16_t font_size, const char *text, ... ) {
+Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t font_size,
+               const char *text, ... ) {
+  SDL_Rect message_rect;
   message_rect.x = ( uint16_t ) x;
   message_rect.y = ( uint16_t ) y;
 
@@ -91,8 +89,8 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string,
   vsprintf( text_buffer, text, args );
   va_end( args );
 
-  TTF_Font *font      = Stds_GetFont( font_string, font_size );
-  message_surface     = TTF_RenderText_Solid( font, text_buffer, *c );
+  TTF_Font *   font            = Stds_GetFont( font_string, font_size );
+  SDL_Surface *message_surface = TTF_RenderText_Solid( font, text_buffer, *c );
   TTF_SizeText( font, text_buffer, &message_rect.w, &message_rect.h );
 
   if ( message_surface == NULL ) {
@@ -100,7 +98,7 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string,
     exit( EXIT_ERROR );
   }
 
-  message_texture = SDL_CreateTextureFromSurface( app.renderer, message_surface );
+  SDL_Texture *message_texture = SDL_CreateTextureFromSurface( app.renderer, message_surface );
   SDL_RenderCopy( app.renderer, message_texture, NULL, &message_rect );
   SDL_DestroyTexture( message_texture );
   SDL_FreeSurface( message_surface );
@@ -108,23 +106,23 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string,
 
 /**
  * Frees the fonts that are in use by the standards library.
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 void
 Stds_FreeFonts() {
-  SDL_DestroyTexture( message_texture );
-  SDL_FreeSurface( message_surface );
-
   font_t *f;
   f = app.font_head.next;
+
+  if ( app.is_debug_mode ) {
+    Stds_Print( "Freeing font.\n" );
+  }
 
   while ( f != NULL ) {
     f                  = app.font_head.next;
     app.font_head.next = f->next;
-    Stds_Print("Freeing font.\n");
     free( f );
   }
 
@@ -158,10 +156,10 @@ Stds_GetStringSize( const char *s, const char *font, uint16_t size, int32_t *w, 
 
 /**
  *
- * 
+ *
  * @param
  * @param
- * 
+ *
  * @return void.
  */
 static TTF_Font *
@@ -183,9 +181,9 @@ Stds_GetFont( const char *font_str, uint16_t font_size ) {
 
 /**
  *
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 static void
@@ -196,9 +194,9 @@ Stds_LoadFonts( void ) {
 }
 
 /**
- * 
- * 
- * @param 
+ *
+ *
+ * @param
  * @param
  *
  * @return void.

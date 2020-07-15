@@ -32,9 +32,8 @@
 
 static SDL_Texture *Stds_GetTexture( const char * );
 static void         Stds_CacheTexture( const char *, SDL_Texture * );
-static void         Stds_FillCircleHelper( circle_t *, SDL_Color *);
-static void         Stds_DrawCircleHelper( circle_t *, SDL_Color *);
-
+static void         Stds_FillCircleHelper( circle_t *, SDL_Color * );
+static void         Stds_DrawCircleHelper( circle_t *, SDL_Color * );
 
 /**
  * Clears the screen with a black color.
@@ -136,8 +135,8 @@ Stds_BlitTextureRect( SDL_Texture *texture, SDL_Rect *src, float x, float y, boo
  * @return void.
  */
 void
-Stds_BlitTextureRotate( SDL_Texture *texture, float x, float y, uint16_t angle, SDL_RendererFlip flip,
-                      SDL_FPoint *rotate_point, bool camera_offset ) {
+Stds_BlitTextureRotate( SDL_Texture *texture, float x, float y, uint16_t angle,
+                        SDL_RendererFlip flip, SDL_FPoint *rotate_point, bool camera_offset ) {
   SDL_FRect dest;
   dest.x = camera_offset ? x - app.camera.x : x;
   dest.y = camera_offset ? y - app.camera.y : y;
@@ -167,8 +166,8 @@ Stds_BlitTextureRotate( SDL_Texture *texture, float x, float y, uint16_t angle, 
  * @return void.
  */
 void
-Stds_BlitTextureResize( SDL_Texture *texture, float x, float y, int32_t w, int32_t h, uint16_t angle,
-                        SDL_RendererFlip flip, bool camera_offset ) {
+Stds_BlitTextureResize( SDL_Texture *texture, float x, float y, int32_t w, int32_t h,
+                        uint16_t angle, SDL_RendererFlip flip, bool camera_offset ) {
   SDL_FRect dest_rect;
 
   dest_rect.x = camera_offset ? x - app.camera.x : x;
@@ -298,7 +297,7 @@ Stds_DrawRectF( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offs
  */
 void
 Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, uint32_t stroke, SDL_Color *c,
-                  bool camera_offset ) {
+                     bool camera_offset ) {
   if ( stroke <= 0 ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                  "Error: stroke %d cannot be a negative or zero value!", stroke );
@@ -331,11 +330,11 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, uint32_t stroke, 
 /**
  * Draws a line with the specified color to the screen.
  *
- * @param
- * @param
- * @param
- * @param
- * @param
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
+ * @param SDL_Color * pointer to color.
  *
  * @return void.
  */
@@ -447,13 +446,15 @@ Stds_GetTexture( const char *file_name ) {
   return NULL;
 }
 
-/**s
+/**
  * If a SDL_Texture has not been previously loaded in, we add it to
  * the cache here. The cache is a linked-list of SDL_Texture pointers
  * that store references to each texture so we do not waste resources
  * opening the input stream and loading the data back in.
  *
- * @param file name, and pointer to the texture.
+ * @param const char* name
+ * @param SDL_Texture * pointer to the texture.
+ *
  * @return void.
  */
 static void
@@ -479,8 +480,8 @@ Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
  * Draws a circle outline with the specified color. This function
  * actually describes the algorithm.
  *
- * @param
- * @param
+ * @param circle_t * pointer to circle structure.
+ * @param SDL_Color * pointer to color.
  *
  * @return void.
  */
@@ -524,8 +525,8 @@ Stds_DrawCircleHelper( circle_t *circle, SDL_Color *c ) {
  * Fills a circle with the specified color. This function actually
  * describes the algorithm.
  *
- * @param
- * @param
+ * @param circle_t * pointer to circle structure.
+ * @param SDL_Color * pointer to color.
  *
  * @return void.
  */

@@ -4,7 +4,8 @@
 // DESCRIPTION :
 //        This file defines the primary collision detectin functions. As of 7/9/2020, we have
 //        an AABB collision-response function (returning an enum of the collision side), and a
-//        primitive rectangle-overlap test.
+//        primitive rectangle-overlap test. As of 7/15/2020, circular collision is added along with
+//        a primitive response function.
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -68,8 +69,52 @@ Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
       }
     }
   }
-
   return SIDE_NONE;
+}
+
+/**
+ * Checks the center coordinates of both circles to see
+ * if a collision occurs. If the distance between the foci
+ * is smaller than the radii of both circles combined, 
+ * a collision occurred.
+ * 
+ * @param circle_t * pointer to first circle.
+ * @param circle_t * pointer to second circle.
+ * 
+ * @return true if collision occurs, false otherwise.
+ */
+bool
+Stds_CheckCircularCollision( circle_t *c1, circle_t *c2 ) {
+  float distance_x = fabs(c1->center_x - c2->center_x);
+  float distance_y = fabs(c1->center_y - c2->center_y);
+
+  float radii_sum = c1->radius + c2->radius;
+  return ( distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum);
+}
+
+/**
+ * Repositions the first circle to its correct spot if a collision occurs.
+ * This function is not required; rather it is just a sample.
+ * 
+ * @param circle_t * pointer to first circle.
+ * @param circle_t * pointer to second circle.
+ * 
+ * @return void.
+ */
+void Stds_ResolveCircularCollision( circle_t *c1, circle_t *c2 ) {
+  float distance_x = c1->center_x - c2->center_x;
+  float distance_y = c1->center_y - c2->center_y;
+
+  float radii_sum = c1->radius + c2->radius;
+  float length = sqrt(distance_x * distance_x + distance_y * distance_y);
+  float unit_x = distance_x / length;
+  float unit_y = distance_y / length;
+
+  float tmp_c1_x = c1->center_x;
+  float tmp_c2_y = c1->center_y;
+
+  c1->center_x = c2->center_x + (radii_sum + 1) * unit_x;
+  c1->center_y = c2->center_y + (radii_sum + 1) * unit_y;
 }
 
 /**
@@ -78,7 +123,7 @@ Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
  * @param float x1
  * @param float y1
  * @param int32_t w1
- * @param int32_t h1 
+ * @param int32_t h1
  * @param float x2
  * @param float y2
  * @param int32_t w2

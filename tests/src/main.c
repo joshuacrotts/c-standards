@@ -27,18 +27,17 @@ static void draw_parallax_backgrounds( void );
 
 static fade_color_t       f;
 static SDL_Rect           screen_edge;
-static SDL_Texture        *shadow_texture;
-static particle_system_t  *ps;
+static particle_system_t *ps;
 
 /**
  * Barebones game. This is the minimum amount of code
  * necessary to run a window. To redefine the level/screen
  * dimensions, just #undef SCREEN_WIDTH/HEIGHT or LEVEL_WIDTH/HEIGHT
  * and redefine them immediately below it.
- * 
+ *
  * @param int argc, number of cmd arguments.
  * @param char** array of string arguments.
- * 
+ *
  * @return status code.
  */
 int
@@ -78,13 +77,13 @@ init_scene( void ) {
 
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
+  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
   Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
-                            parallax_scroll, false );
+                              parallax_scroll, false );
 
-  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
-  SDL_Color c2 = {0, 0, 0xff, 0xff};
+  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
+  SDL_Color c2 = { 0, 0, 0xff, 0xff };
 
   f.c1    = c1;
   f.c2    = c2;
@@ -92,7 +91,6 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   ps = Stds_CreateParticleSystem( 512 );
-  //shadow_texture = Stds_LoadTexture("tests/res/img/shadow.png");
 }
 
 /*
@@ -180,7 +178,6 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
-//  Stds_BlitTextureResize(shadow_texture, 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 0, false, false );
 }
 
 /**
@@ -224,7 +221,7 @@ draw_enemies( void ) {
  */
 static void
 cleanup_stage( void ) {
-  Stds_Print("Freeing player.\n");
+  Stds_Print( "Freeing player.\n" );
   free( player );
 }
 
@@ -238,8 +235,8 @@ add_particles( int32_t x, int32_t y, size_t n ) {
     p.x               = x;
     p.y               = y;
     p.life            = Stds_RandomInt( 100, 300 );
-    p.dx              = Stds_RandomFloat( -5, 5 );
-    p.dy              = Stds_RandomFloat( -5, 5 );
+    p.dx              = Stds_RandomFloat( -5.f, 5.f );
+    p.dy              = Stds_RandomFloat( -10.f, -7.f );
     p.w               = Stds_RandomInt( 1, 5 );
     p.h               = p.w;
     p.particle_update = red_particle_update;

@@ -23,9 +23,9 @@ typedef struct Particle           particle_t;
  *
  */
 struct Circle {
-    float  center_x;
-    float  center_y;
-    float  radius;
+  float center_x;
+  float center_y;
+  float radius;
 };
 
 /*
@@ -62,8 +62,8 @@ struct Particle {
   float    delta_accel_x;
   float    delta_accel_y;
   float    delta_alpha;
-  int32_t w;
-  int32_t h;
+  int32_t  w;
+  int32_t  h;
   uint32_t angle;
   int32_t  life;
   uint32_t id_flags;
@@ -93,8 +93,8 @@ struct ParticleSystem {
  *
  */
 struct ParallaxBackground {
-  float   parallax_scroll_speed;
-  float   normal_scroll_speed;
+  float parallax_scroll_speed;
+  float normal_scroll_speed;
   bool  infinite_scroll;
 
   background_t *         background;
@@ -105,15 +105,15 @@ struct ParallaxBackground {
  *
  */
 struct Trail {
-  float      x;
-  float      y;
+  float    x;
+  float    y;
   int16_t  alpha;
   int16_t  alpha_decay_rate;
   uint32_t flags;
   bool     is_texture;
 
   SDL_RendererFlip flip;
-  SDL_Texture      *texture;
+  SDL_Texture *    texture;
 
   trail_t *next;
 };
@@ -122,10 +122,10 @@ struct Trail {
  *
  */
 struct Animation {
-  float      pos_x;
-  float      pos_y;
-  float      frame_delay;
-  float      frame_timer;
+  float    pos_x;
+  float    pos_y;
+  float    frame_delay;
+  float    frame_timer;
   uint32_t splice_x;
   uint32_t splice_y;
   uint32_t id_flags;
@@ -140,7 +140,7 @@ struct Animation {
   uint8_t  current_frame_id;
   size_t   number_of_frames;
 
-  bool     cycle_once;
+  bool cycle_once;
 
   SDL_RendererFlip flip;
 
@@ -207,6 +207,7 @@ struct Mouse {
   int32_t y;
   uint8_t button[MAX_MOUSE_BUTTONS];
   uint8_t wheel;
+  bool    is_moving;
 };
 
 /*
@@ -215,16 +216,18 @@ struct Mouse {
 struct App {
   uint16_t keyboard[MAX_KEYBOARD_KEYS];
 
-  uint32_t    SCREEN_WIDTH;
-  uint32_t    SCREEN_HEIGHT;
-  uint32_t    LEVEL_WIDTH;
-  uint32_t    LEVEL_HEIGHT;
+  uint32_t SCREEN_WIDTH;
+  uint32_t SCREEN_HEIGHT;
+  uint32_t LEVEL_WIDTH;
+  uint32_t LEVEL_HEIGHT;
+
+  bool        is_debug_mode;
   const char *original_title;
 
-  SDL_Renderer   *renderer;
-  SDL_Window     *window;
-  SDL_FRect      screen_bounds;
-  SDL_FRect      camera;
+  SDL_Renderer *renderer;
+  SDL_Window *  window;
+  SDL_FRect     screen_bounds;
+  SDL_FRect     camera;
 
   mouse_t               mouse;
   delegate_t            delegate;
@@ -241,9 +244,9 @@ struct App {
  *
  */
 struct FadeColor {
-  bool is_first_color;
-  float  alpha;
-  float  time;
+  bool  is_first_color;
+  float alpha;
+  float time;
 
   SDL_Color c1;
   SDL_Color c2;
