@@ -75,46 +75,47 @@ Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
 /**
  * Checks the center coordinates of both circles to see
  * if a collision occurs. If the distance between the foci
- * is smaller than the radii of both circles combined, 
+ * is smaller than the radii of both circles combined,
  * a collision occurred.
- * 
+ *
  * @param circle_t * pointer to first circle.
  * @param circle_t * pointer to second circle.
- * 
+ *
  * @return true if collision occurs, false otherwise.
  */
 bool
 Stds_CheckCircularCollision( circle_t *c1, circle_t *c2 ) {
-  float distance_x = fabs(c1->center_x - c2->center_x);
-  float distance_y = fabs(c1->center_y - c2->center_y);
+  float distance_x = ( float ) fabs( c1->center_x - c2->center_x );
+  float distance_y = ( float ) fabs( c1->center_y - c2->center_y );
 
   float radii_sum = c1->radius + c2->radius;
-  return ( distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum);
+  return ( distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum );
 }
 
 /**
  * Repositions the first circle to its correct spot if a collision occurs.
  * This function is not required; rather it is just a sample.
- * 
+ *
  * @param circle_t * pointer to first circle.
  * @param circle_t * pointer to second circle.
- * 
+ *
  * @return void.
  */
-void Stds_ResolveCircularCollision( circle_t *c1, circle_t *c2 ) {
-  float distance_x = c1->center_x - c2->center_x;
-  float distance_y = c1->center_y - c2->center_y;
+void
+Stds_ResolveCircularCollision( circle_t *c1, circle_t *c2 ) {
+  float distance_x = ( float ) c1->center_x - c2->center_x;
+  float distance_y = ( float ) c1->center_y - c2->center_y;
 
   float radii_sum = c1->radius + c2->radius;
-  float length = sqrt(distance_x * distance_x + distance_y * distance_y);
-  float unit_x = distance_x / length;
-  float unit_y = distance_y / length;
+  float length    = ( float ) sqrt( distance_x * distance_x + distance_y * distance_y );
+  float unit_x    = distance_x / length;
+  float unit_y    = distance_y / length;
 
   float tmp_c1_x = c1->center_x;
   float tmp_c2_y = c1->center_y;
 
-  c1->center_x = c2->center_x + (radii_sum + 1) * unit_x;
-  c1->center_y = c2->center_y + (radii_sum + 1) * unit_y;
+  c1->center_x = c2->center_x + ( radii_sum + 1 ) * unit_x;
+  c1->center_y = c2->center_y + ( radii_sum + 1 ) * unit_y;
 }
 
 /**
