@@ -27,13 +27,13 @@ extern void Stds_SetRandomSeed( void );
 
 extern int32_t Stds_RandomInt( int32_t min, int32_t max );
 
-extern int32_t Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound,
-                                             int32_t max_lower_bound, int32_t max );
+extern int32_t Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound,
+                                      int32_t max );
 
 extern float Stds_RandomFloat( float min, float max );
 
-extern float Stds_RandomFloatBounded( float min, float min_upper_bound,
-                                             float max_lower_bound, float max );
+extern float Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound,
+                                      float max );
 
 extern void Stds_ClampInt( int32_t *n, int32_t min, int32_t max );
 
@@ -51,6 +51,10 @@ extern float Stds_ToRadians( float degree_angle );
 extern float Stds_ToDegrees( float radian_angle );
 
 extern bool Stds_IsMouseOverRect( float x, float y, SDL_Rect rect );
+
+extern SDL_Color Stds_ConvertARGBToColor( uint32_t c );
+
+extern uint32_t Stds_ConvertARGBToColor( SDL_Color *c );
 
 extern char *Stds_Substring( const char *str, int first, int last );
 

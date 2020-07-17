@@ -74,11 +74,12 @@ Stds_RandomInt( int32_t min, int32_t max ) {
  * @param max_lower_bound
  * @param max
  *
- * In the end, 
+ * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline int32_t
-Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound, int32_t max ) {
+Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound,
+                       int32_t max ) {
   int32_t n;
   do {
     n = Stds_RandomInt( min, max );
@@ -104,14 +105,15 @@ Stds_RandomFloat( float min, float max ) {
 /**
  * Generates a floating-point number between [min, min_upper_bound) U (max_lower_bound, max).
  * For instance, to generate a number between -10.f and 10.f, but no lower than
- * -5.f or 5.f, do Stds_RandomFloatBounded( -10.f, -5.f, 5.f, 10.f). Precision doesn't really matter;
+ * -5.f or 5.f, do Stds_RandomFloatBounded( -10.f, -5.f, 5.f, 10.f). Precision doesn't really
+ * matter;
  *
  * @param min
  * @param min_upper_bound
  * @param max_lower_bound
  * @param max
  *
- * In the end, 
+ * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline float
@@ -264,6 +266,44 @@ Stds_ToRadians( float degrees ) {
 float
 Stds_ToDegrees( float radians ) {
   return ( float ) ( radians * ( 180.0f / PI ) );
+}
+
+/**
+ * Converts an integer into an SDL_Color object. The number should
+ * be an unsigned 32-bit integer in the form
+ *
+ * 0xAARRGGBB (ARGB)
+ *
+ * @param uint32_t color to be converted.
+ *
+ * @return SDL_Color object.
+ */
+SDL_Color
+Stds_ConvertARGBToColor( uint32_t c ) {
+  uint8_t   r     = c >> 16 & 0xff;
+  uint8_t   g     = c >> 8 & 0xff;
+  uint8_t   b     = c & 0xff;
+  uint8_t   a     = c >> 24 & 0xff;
+  SDL_Color color = {r, g, b, a};
+  return color;
+}
+
+/**
+ * Converts a SDL_Color object into an unsigned 32bit integer.
+ *
+ * @param SDL_Color * color to be converted.
+ *
+ * @return uint32_t color integer representation.
+ */
+uint32_t
+Stds_ConvertColorToARGB( SDL_Color *c ) {
+  uint32_t color;
+  color |= c->a << 24;
+  color |= c->r << 16;
+  color |= c->g << 8;
+  color |= c->b;
+
+  return color;
 }
 
 /**
