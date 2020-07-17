@@ -3,11 +3,9 @@
 
 #include "../../../include/stds.h"
 
-#define STDS_VECTOR_MIN_CAP 10
+#include "stds_data.h"
 
 typedef struct stds_vector_t stds_vector_t;
-
-enum SHIFT_DIRECTION { LEFT, RIGHT };
 
 extern struct stds_vector_t *Stds_VectorCreate( size_t element_size );
 
@@ -20,6 +18,8 @@ extern void *Stds_VectorGet( const struct stds_vector_t *v, ssize_t index );
 extern void Stds_VectorRemove( struct stds_vector_t *v, ssize_t index );
 
 extern bool Stds_VectorIsEmpty( const struct stds_vector_t *v );
+
+extern void Stds_VectorClear( struct stds_vector_t *v );
 
 extern size_t Stds_VectorSize( const struct stds_vector_t *v );
 

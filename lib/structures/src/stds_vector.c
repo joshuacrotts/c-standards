@@ -32,16 +32,7 @@ Stds_VectorCreate( size_t element_size ) {
   }
 
   memset( v, 0, sizeof( stds_vector_t ) );
-
-  v->logical_size = 0;
-  v->capacity     = STDS_VECTOR_MIN_CAP;
-  v->element_size = element_size;
-  v->data         = malloc( sizeof( element_size ) * v->capacity );
-
-  if ( v->data == NULL ) {
-    Stds_Print( "Error: could not allocate memory for the data void** in stds_vector_t!\n" );
-    exit( EXIT_FAILURE );
-  }
+  Stds_VectorClear( v );
 
   return v;
 }
@@ -152,18 +143,23 @@ Stds_VectorSize( const stds_vector_t *v ) {
 /**
  * Clears the vector data. The data pointer is reallocated after
  * being freed.
- * 
+ *
  * @param stds_vector_t * pointer to vector.
- * 
+ *
  * @return void.
  */
 void
 Stds_VectorClear( stds_vector_t *v ) {
   free( v->data );
 
-  v->capacity     = 0;
-  v->data         = malloc( sizeof( v->element_size ) * v->capacity );
+  v->capacity     = STDS_STATIC_MIN_CAP;
   v->logical_size = 0;
+  v->data         = malloc( sizeof( v->element_size ) * v->capacity );
+
+  if ( v->data == NULL ) {
+    Stds_Print( "Error: could not allocate memory for the data void** in stds_vector_t!\n" );
+    exit( EXIT_FAILURE );
+  }
 }
 
 /**
