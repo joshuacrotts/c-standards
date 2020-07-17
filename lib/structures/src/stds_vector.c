@@ -1,7 +1,10 @@
 #include "../include/stds_vector.h"
 
+static void Stds_VectorCheckResize( stds_vector_t *, enum SHIFT_DIRECTION );
+static void Stds_VectorShift( stds_vector_t *, size_t, enum SHIFT_DIRECTION );
+
 /**
- *
+ * Vector structure. Acts the same as a vector in C++ or an ArrayList in Java.
  */
 struct stds_vector_t {
   size_t element_size;
@@ -56,11 +59,8 @@ Stds_VectorCreate( size_t element_size ) {
  */
 void
 Stds_VectorAppend( stds_vector_t *v, void *data ) {
-  if ( v->logical_size == v->capacity ) {
-    v->capacity <<= 1;
-    v->data = realloc( v->data, sizeof( v->element_size ) * v->capacity );
-  }
-  Stds_VectorInsert( v, v->logical_size++, data );
+  Stds_VectorCheckResize( v, RIGHT );
+  v->data[++v->logical_size] = data;
 }
 
 /**
@@ -72,18 +72,17 @@ Stds_VectorAppend( stds_vector_t *v, void *data ) {
  *
  * @return void.
  */
-inline void
+void
 Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
-  if ( index < 0 || index >= v->logical_size ) {
+  if ( index < 0 || index >= v->capacity ) {
     Stds_Print( "Failed to insert, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
-
-  /* Up-shift the elements.*/
   v->logical_size++;
-  for ( int i = v->logical_size; i >= index - 1; i-- ) {
-    v->data[i] = v->data[i-1];
-  }
+
+  /* Check size, then up-shift the elements.*/
+  Stds_VectorCheckResize( v, RIGHT );
+  Stds_VectorShift( v, index, RIGHT );
   v->data[index] = data;
 }
 
@@ -95,9 +94,9 @@ Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
  *
  * @return void.
  */
-inline void *
+void *
 Stds_VectorGet( const stds_vector_t *v, ssize_t index ) {
-  if ( index < 0 || index >= v->logical_size ) {
+  if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
     Stds_Print( "Failed to get element, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
@@ -114,38 +113,118 @@ Stds_VectorGet( const stds_vector_t *v, ssize_t index ) {
  */
 void
 Stds_VectorRemove( stds_vector_t *v, ssize_t index ) {
-  if ( index < 0 || index >= v->logical_size ) {
+  if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
     Stds_Print( "Failed to remove, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
-
   void *removed_data = Stds_VectorGet( v, index );
-
   v->logical_size--;
-  /* Down-shift the elements.*/
-  for ( int i = index; i < v->logical_size; i++ ) {
-    v->data[i] = v->data[i + 1];
-  }
+
+  /* Down-shift the elements, then check for capacity problems. */
+  Stds_VectorShift( v, index, LEFT );
+  Stds_VectorCheckResize( v, LEFT );
 }
 
+/**
+ * Checks to see if the vector is empty.
+ *
+ * @param const stds_vector_t * pointer to vector.
+ *
+ * @return bool true if empty, false otherwise.
+ */
 bool
 Stds_VectorIsEmpty( const stds_vector_t *v ) {
   return v->logical_size == 0;
 }
 
+/**
+ * Returns the amount of elements current in the vector.
+ *
+ * @param const stds_vector_t * pointer to vector.
+ *
+ * @return logical size of vector.
+ */
 size_t
 Stds_VectorSize( const stds_vector_t *v ) {
   return v->logical_size;
 }
 
+/**
+ * Clears the vector data. The data pointer is reallocated after
+ * being freed.
+ * 
+ * @param stds_vector_t * pointer to vector.
+ * 
+ * @return void.
+ */
+void
+Stds_VectorClear( stds_vector_t *v ) {
+  free( v->data );
+
+  v->capacity     = 0;
+  v->data         = malloc( sizeof( v->element_size ) * v->capacity );
+  v->logical_size = 0;
+}
+
+/**
+ * Frees the memory allocated by the vector.
+ *
+ * @param stds_vector_t * pointer to vector.
+ *
+ * @return void.
+ */
 void
 Stds_VectorDestroy( stds_vector_t *v ) {
   free( v->data );
   free( v );
 }
 
-// static void
-// Stds_VectorShift( stds_vector_t *v, size_t start, size_t end, enum SHIFT_DIRECTION direction ) {
-//   for (int i = start; i < end; i++) {
-//   })
-// }
+/**
+ * Checks to see if the vector needs to be resized. Both cases are
+ * handled here (upsizing and downsizing).
+ *
+ * @param stds_vector_t * pointer to vector.
+ * @param enum SHIFT_DIRECTION refers to the last action just performed.
+ *        insertions and appends are RIGHT, removals are LEFT.
+ *
+ * @return void.
+ */
+static void
+Stds_VectorCheckResize( stds_vector_t *v, enum SHIFT_DIRECTION direction ) {
+  /* If we need to grow, then the logical size is the same as the capacity. */
+  if ( v->logical_size == v->capacity && direction == RIGHT ) {
+    v->capacity <<= 1;
+    v->data = realloc( v->data, sizeof( v->element_size ) * v->capacity );
+  }
+
+  /* If we need to shrink, then the logical size is the same as the capacity / 2. */
+  else if ( v->logical_size == ( v->capacity >> 1 ) && direction == LEFT ) {
+    v->capacity >>= 1;
+    v->data = realloc( v->data, sizeof( v->element_size ) * v->capacity );
+  }
+}
+
+/**
+ * Shifts the vector elements to the right or left by 1.
+ *
+ * @param stds_vector_t * pointer to vector.
+ * @param size_t index to offset to or from.
+ * @param enum SHIFT_DIRECTION {LEFT, RIGHT} direction to shift.
+ *
+ * @return void.
+ */
+static void
+Stds_VectorShift( stds_vector_t *v, size_t offset_index, enum SHIFT_DIRECTION direction ) {
+  switch ( direction ) {
+  case LEFT:
+    for ( int i = offset_index; i < v->logical_size; i++ ) {
+      v->data[i] = v->data[i + 1];
+    }
+    break;
+  case RIGHT:
+    for ( int i = v->logical_size; i >= offset_index; i-- ) {
+      v->data[i] = v->data[i - 1];
+    }
+    break;
+  }
+}

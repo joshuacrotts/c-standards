@@ -40,16 +40,16 @@ static particle_system_t *ps;
  *
  * @return status code.
  */
-// int
-// main( int argc, char *argv[] ) {
-//   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
-//   Stds_InitAppStructures();
-//   init_scene();
-//   Stds_GameLoop();
+int
+main( int argc, char *argv[] ) {
+  Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
+  Stds_InitAppStructures();
+  init_scene();
+  Stds_GameLoop();
 
-//   atexit( cleanup_stage );
-//   return 0;
-// }
+  atexit( cleanup_stage );
+  return 0;
+}
 
 /**
  * Initializes the delegation structure to use the

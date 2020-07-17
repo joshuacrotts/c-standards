@@ -3,7 +3,7 @@
 
 #include "../../../include/stds.h"
 
-#define STDS_VECTOR_MIN_CAP 32
+#define STDS_VECTOR_MIN_CAP 10
 
 typedef struct stds_vector_t stds_vector_t;
 
