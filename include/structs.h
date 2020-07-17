@@ -14,9 +14,19 @@ typedef struct Background         background_t;
 typedef struct ParallaxBackground parallax_background_t;
 typedef struct Font               font_t;
 typedef struct Trail              trail_t;
+typedef struct Circle             circle_t;
 typedef struct Button             button_t;
 typedef struct ParticleSystem     particle_system_t;
 typedef struct Particle           particle_t;
+
+/*
+ *
+ */
+struct Circle {
+  float center_x;
+  float center_y;
+  float radius;
+};
 
 /*
  *
@@ -52,8 +62,8 @@ struct Particle {
   float    delta_accel_x;
   float    delta_accel_y;
   float    delta_alpha;
-  int32_t w;
-  int32_t h;
+  int32_t  w;
+  int32_t  h;
   uint32_t angle;
   int32_t  life;
   uint32_t id_flags;
@@ -112,26 +122,25 @@ struct Trail {
  *
  */
 struct Animation {
-  float pos_x;
-  float pos_y;
-
+  float    pos_x;
+  float    pos_y;
+  float    frame_delay;
+  float    frame_timer;
   uint32_t splice_x;
   uint32_t splice_y;
-  int32_t  w;
-  int32_t  h;
+  uint32_t id_flags;
+  uint32_t flags;
   uint16_t angle;
   uint16_t start_x;
   uint16_t start_y;
+  int32_t  w;
+  int32_t  h;
   int32_t  sprite_sheet_width;
   int32_t  sprite_sheet_height;
-  bool     cycle_once;
-
-  uint32_t id_flags;
-  uint32_t flags;
   uint8_t  current_frame_id;
   size_t   number_of_frames;
-  float    frame_delay;
-  float    frame_timer;
+
+  bool cycle_once;
 
   SDL_RendererFlip flip;
 
@@ -151,12 +160,11 @@ struct Background {
   float y;
   float scroll_x;
   float scroll_y;
+  float scale_x;
+  float scale_y;
 
   int32_t w;
   int32_t h;
-
-  float scale_x;
-  float scale_y;
 
   SDL_Texture *background_texture;
 };
@@ -199,6 +207,7 @@ struct Mouse {
   int32_t y;
   uint8_t button[MAX_MOUSE_BUTTONS];
   uint8_t wheel;
+  bool    is_moving;
 };
 
 /*
@@ -207,16 +216,18 @@ struct Mouse {
 struct App {
   uint16_t keyboard[MAX_KEYBOARD_KEYS];
 
-  uint32_t    SCREEN_WIDTH;
-  uint32_t    SCREEN_HEIGHT;
-  uint32_t    LEVEL_WIDTH;
-  uint32_t    LEVEL_HEIGHT;
+  uint32_t SCREEN_WIDTH;
+  uint32_t SCREEN_HEIGHT;
+  uint32_t LEVEL_WIDTH;
+  uint32_t LEVEL_HEIGHT;
+
+  bool        is_debug_mode;
   const char *original_title;
 
   SDL_Renderer *renderer;
   SDL_Window *  window;
-  SDL_Rect      screen_bounds;
-  SDL_Rect      camera;
+  SDL_FRect     screen_bounds;
+  SDL_FRect     camera;
 
   mouse_t               mouse;
   delegate_t            delegate;
@@ -297,4 +308,4 @@ struct Entity {
   void ( *die )( entity_t * );
 };
 
-#endif
+#endif // STRUCTS_H

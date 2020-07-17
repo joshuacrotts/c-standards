@@ -32,9 +32,9 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  idle_animation   = add_animation( "tests/res/img/player/8bitidle/idle_", 2, 0.33f );
-  walk_animation   = add_animation( "tests/res/img/player/8bitwalk/walk_", 4, 0.1f );
-  attack_animation = add_animation( "tests/res/img/player/8bitattack/attack_", 7, 0.05f );
+  idle_animation   = Stds_AddAnimation( "tests/res/img/player/8bitidle/idle_", 2, 0.33f );
+  walk_animation   = Stds_AddAnimation( "tests/res/img/player/8bitwalk/walk_", 4, 0.1f );
+  attack_animation = Stds_AddAnimation( "tests/res/img/player/8bitattack/attack_", 7, 0.05f );
 }
 
 void
@@ -52,8 +52,6 @@ player_update( void ) {
     player->animation = idle_animation;
   }
 
-  //print("%d, %d, %d", is_attacking, is_moving, attack_animation->flags);
-
   SDL_QueryTexture( player->animation->frames[player->animation->current_frame_id], NULL, NULL,
                     &player->w, &player->h );
 
@@ -66,16 +64,16 @@ player_update( void ) {
   player->animation->pos_y = player->y;
 
   check_bounds();
-  animation_update( player->animation );
+  Stds_AnimationUpdate( player->animation );
 
    if ( is_attacking ) {
-     add_trail( player, DECAY_RATE, INITIAL_ALPHA, true, player->animation->flip );
+     Stds_AddTrail( player, DECAY_RATE, INITIAL_ALPHA, true, player->animation->flip );
    }
 }
 
 void
 player_draw( void ) {
-  animation_draw( player->animation );
+  Stds_AnimationDraw( player->animation );
 }
 
 /*

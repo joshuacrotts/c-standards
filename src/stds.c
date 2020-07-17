@@ -1,8 +1,54 @@
+//=============================================================================================//
+// FILENAME :       stds.c
+//
+// DESCRIPTION :
+//        This file defines the standard functions and procedures for math, trigonometry,
+//        simple non string.h string manipulation, random numbers, etc. stds.h also defines
+//        a few simple macros for min and max.
+//
+// NOTES :
+//        Permission is hereby granted, free of charge, to any person obtaining a copy
+//        of this software and associated documentation files (the "Software"), to deal
+//        in the Software without restriction, including without limitation the rights
+//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//        copies of the Software, and to permit persons to whom the Software is
+//        furnished to do so, subject to the following conditions:
+//
+//        The above copyright notice and this permission notice shall be included in all
+//        copies or substantial portions of the Software.
+//
+//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//        SOFTWARE.
+//
+// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
+//
+//=============================================================================================//
+
 #include "../include/stds.h"
 
 static char number_buffer[MAX_INT_DIGITS];
 static char text_buffer[MAX_LINE_LENGTH];
 static bool seed = false;
+
+/**
+ * Sets the seed for the randomization. This should be called prior to
+ * any RNG. It is called by default in the init.c file.
+ * @param void.
+ *
+ * @return void.
+ */
+void
+Stds_SetRandomSeed( void ) {
+  if ( !seed ) {
+    srand( ( uint32_t ) time( NULL ) );
+    seed = true;
+  }
+}
 
 /**
  * Returns a random integer variable between
@@ -13,13 +59,31 @@ static bool seed = false;
  *
  * @return int32_t random number in the set [min, max].
  */
-int32_t
-random_int( int32_t min, int32_t max ) {
-  if ( !seed ) {
-    srand( ( uint32_t ) time( NULL ) );
-    seed = true;
-  }
+inline int32_t
+Stds_RandomInt( int32_t min, int32_t max ) {
   return ( rand() % ( max - min + 1 ) ) + min;
+}
+
+/**
+ * Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max).
+ * For instance, to generate a number between -10 and 10, but no lower than
+ * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter;
+ *
+ * @param min
+ * @param min_upper_bound
+ * @param max_lower_bound
+ * @param max
+ *
+ * In the end, 
+ * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
+ */
+inline int32_t
+Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound, int32_t max ) {
+  int32_t n;
+  do {
+    n = Stds_RandomInt( min, max );
+  } while ( ( n < min || n > min_upper_bound ) && ( n < max_lower_bound || n > max ) );
+  return n;
 }
 
 /**
@@ -31,28 +95,45 @@ random_int( int32_t min, int32_t max ) {
  *
  * @return float random number in the set [min, max].
  */
-float
-random_float( float min, float max ) {
-  if ( !seed ) {
-    srand( ( uint32_t ) time( NULL ) );
-    seed = true;
-  }
-
+inline float
+Stds_RandomFloat( float min, float max ) {
   float scale = rand() / ( float ) RAND_MAX;
   return min + scale * ( max - min );
 }
 
 /**
+ * Generates a floating-point number between [min, min_upper_bound) U (max_lower_bound, max).
+ * For instance, to generate a number between -10.f and 10.f, but no lower than
+ * -5.f or 5.f, do Stds_RandomFloatBounded( -10.f, -5.f, 5.f, 10.f). Precision doesn't really matter;
+ *
+ * @param min
+ * @param min_upper_bound
+ * @param max_lower_bound
+ * @param max
+ *
+ * In the end, 
+ * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
+ */
+inline float
+Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound, float max ) {
+  float n;
+  do {
+    n = Stds_RandomFloat( min, max );
+  } while ( ( n < min || n > min_upper_bound ) && ( n < max_lower_bound || n > max ) );
+  return n;
+}
+
+/**
  * Bounds an integer n in-between the interval [min, max].
  *
- * @param int32_t* pointer to number to clamp.
+ * @param int32_t* pointer to number to Stds_ClampInt.
  * @param int32_t min number n can be (n >= min).
  * @param int32_t max number n can be (n <= max).
  *
  * @return void.
  */
 void
-clamp( int32_t *value, int32_t min, int32_t max ) {
+Stds_ClampInt( int32_t *value, int32_t min, int32_t max ) {
   if ( *value < min ) {
     *value = min;
   } else if ( *value > max ) {
@@ -74,8 +155,8 @@ clamp( int32_t *value, int32_t min, int32_t max ) {
  * @return void.
  */
 void
-calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
-  int32_t steps = MAX( abs( x1 - x2 ), abs( y1 - y2 ) );
+Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
+  int32_t steps = ( int32_t ) fmax( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
     *dx = *dy = 0;
@@ -100,7 +181,7 @@ calc_slope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy
  * @return float angle.
  */
 float
-get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
   float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
 }
@@ -116,7 +197,7 @@ get_angle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  * @return int32_t distance.
  */
 int32_t
-get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
   int x = x2 - x1;
   int y = y2 - y1;
 
@@ -124,7 +205,7 @@ get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
 }
 
 /**
- * Prints to the SDL LogInfo stream. This is just to
+ * Stds_Prints to the SDL LogInfo stream. This is just to
  * prevent having to type out the long line if you
  * want to do simple debugging. Supports varargs
  * and formatting.
@@ -135,7 +216,7 @@ get_distance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  * @return void.
  */
 void
-print( const char *str, ... ) {
+Stds_Print( const char *str, ... ) {
   va_list args;
   memset( &text_buffer, '\0', sizeof( text_buffer ) );
 
@@ -156,7 +237,7 @@ print( const char *str, ... ) {
  * @return
  */
 bool
-is_mouse_over_rect( float x, float y, SDL_Rect rect ) {
+Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
   return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
 }
 
@@ -168,7 +249,7 @@ is_mouse_over_rect( float x, float y, SDL_Rect rect ) {
  * @return float angle in radians.
  */
 float
-to_radians( float degrees ) {
+Stds_ToRadians( float degrees ) {
   return ( float ) ( degrees * ( PI / 180.0f ) );
 }
 
@@ -181,7 +262,7 @@ to_radians( float degrees ) {
  * @return float angle in degrees.
  */
 float
-to_degrees( float radians ) {
+Stds_ToDegrees( float radians ) {
   return ( float ) ( radians * ( 180.0f / PI ) );
 }
 
@@ -201,7 +282,7 @@ to_degrees( float radians ) {
  * @return char* substring.
  */
 char *
-str_substring( const char *str, int first, int last ) {
+Stds_Substring( const char *str, int first, int last ) {
   uint32_t s_len = strlen( str );
   assert( s_len > 0 && first < last && first >= 0 && last <= s_len );
 
@@ -220,7 +301,7 @@ str_substring( const char *str, int first, int last ) {
  * @return int32_t >= 0 for index, -1 if not in string.
  */
 int32_t
-str_index_of( const char *s, const char *search_str ) {
+Stds_IndexOf( const char *s, const char *search_str ) {
   uint32_t s_len          = strlen( s );
   uint32_t search_str_len = strlen( search_str );
 
@@ -246,7 +327,7 @@ str_index_of( const char *s, const char *search_str ) {
  * @return void.
  */
 char *
-strcat_int( const char *s, int32_t n ) {
+Stds_StrCatInt( const char *s, int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
   int32_t digits = sprintf( number_buffer, "%d", n );

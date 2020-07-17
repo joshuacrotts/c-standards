@@ -5,20 +5,6 @@
 //        Defines the functions associated with buttons, and detecting
 //        button events like clicking and movement.
 //
-// PUBLIC FUNCTIONS :
-//        extern void      update_buttons( void );
-//        extern void      draw_buttons( void );
-//        extern button_t *add_button( float x, float y, uint32_t w, uint32_t h, bool filled,
-//                                     const char *font_directory, uint16_t font_size, SDL_Color *font_color,
-//                                     const char *text );
-//        extern button_t *add_button_texture( float x, float y, const char *texture_directory,
-//                                             const char *font_directory, uint16_t font_size,
-//                                             SDL_Color *color, const char *text );
-//        extern void     button_update( button_t *button );
-//        extern void     button_draw( button_t *button );
-//        extern bool     is_mouse_over_button( button_t *button );
-//        extern bool     is_button_clicked( button_t *button, int32_t mouse_code );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +90,7 @@ add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char
   }
 
   memset( button, 0, sizeof( button_t ) );
-  SDL_Color black    = {0, 0, 0};
+  SDL_Color black    = { 0, 0, 0 };
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
   button->rect.w     = w;
@@ -116,7 +102,7 @@ add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char
   button->is_filled  = is_filled;
 
   int fw, fh;
-  get_string_size( text, button->font_path, button->font_size, &fw, &fh );
+  Stds_GetStringSize( text, button->font_path, button->font_size, &fw, &fh );
 
   button->text_x = button->rect.x + ( ( button->rect.w - fw ) / 2 );
   button->text_y = button->rect.y + ( ( button->rect.h - fh ) / 2 );
@@ -152,7 +138,7 @@ add_button_texture( float x, float y, const char *file_path, const char *font_pa
   memset( button, 0, sizeof( button_t ) );
 
   button->texture_id                  = 0;
-  button->texture[button->texture_id] = load_texture( file_path );
+  button->texture[button->texture_id] = Stds_LoadTexture( file_path );
 
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
@@ -166,8 +152,8 @@ add_button_texture( float x, float y, const char *file_path, const char *font_pa
   SDL_QueryTexture( button->texture[button->texture_id], NULL, NULL, &button->rect.w,
                     &button->rect.h );
 
-  int fw, fh;
-  get_string_size( text, button->font_path, button->font_size, &fw, &fh );
+  int32_t fw, fh;
+  Stds_GetStringSize( text, button->font_path, button->font_size, &fw, &fh );
 
   button->text_x = button->rect.x + ( ( button->rect.w - fw ) / 2 );
   button->text_y = button->rect.y + ( ( button->rect.h - fh ) / 2 );
@@ -195,13 +181,12 @@ button_update( button_t *b ) {}
 void
 button_draw( button_t *b ) {
   if ( b->texture[b->texture_id] != NULL ) {
-    blit_texture_scaled( b->texture[b->texture_id], b->rect.x, b->rect.y, b->scale_x, b->scale_y, 0,
-                         SDL_FLIP_NONE, true );
+    Stds_BlitTextureScale( b->texture[b->texture_id], b->rect.x, b->rect.y, b->scale_x, b->scale_y, 0,
+                         SDL_FLIP_NONE, NULL, true );
   } else {
-    draw_rect( &b->rect, &b->color, b->is_filled, true );
+    Stds_DrawRect( &b->rect, &b->color, b->is_filled, true );
   }
-  draw_text( b->text_x, b->text_y, b->text_color.r, b->text_color.g, b->text_color.b, b->font_path,
-             b->font_size, b->text );
+  Stds_DrawText( b->text_x, b->text_y, &b->text_color, b->font_path, b->font_size, b->text );
 }
 
 /**

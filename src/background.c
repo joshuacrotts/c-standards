@@ -4,17 +4,6 @@
 // DESCRIPTION :
 //        This file defines the background fuctionality, both regular and parallax.
 //
-// PUBLIC FUNCTIONS :
-//        extern void init_parallax_background( const char *bg_directory, size_t n,
-//                                    float default_scroll_speed, float modified_scroll_speeds[],
-//                                    bool is_infinite );
-//        extern void parallax_background_update( parallax_background_t *parallax );
-//        extern void parallax_background_draw( parallax_background_t *parallax );
-//        extern background_t *init_background( const char *bg_directory );
-//        extern void background_update( background_t *bg );
-//        extern void background_draw( background_t *bg );
-//        extern void background_die( background_t *bg );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +52,7 @@ static char input_buffer[MAX_BUFFER_SIZE];
  *        of an infinite background.
  */
 void
-init_parallax_background( const char *directory, size_t count, float normal_scroll_speed,
+Stds_AddParallaxBackground( const char *directory, size_t count, float normal_scroll_speed,
                           float scroll_speeds[], bool infinite_scroll ) {
 
   parallax_background_t *layer;
@@ -87,7 +76,7 @@ init_parallax_background( const char *directory, size_t count, float normal_scro
     strcpy( input_buffer, directory );
     char *file_name              = strcat( input_buffer, number_buffer );
     char *file_name_ext          = strcat( input_buffer, file_extsn );
-    layer->background            = init_background( file_name_ext );
+    layer->background            = Stds_AddBackground( file_name_ext );
     layer->parallax_scroll_speed = scroll_speeds[i];
     layer->normal_scroll_speed   = normal_scroll_speed;
     layer->infinite_scroll       = infinite_scroll;
@@ -109,7 +98,7 @@ init_parallax_background( const char *directory, size_t count, float normal_scro
  * @return void.
  */
 void
-parallax_background_update( parallax_background_t *p ) {
+Stds_ParallaxBackgroundUpdate( parallax_background_t *p ) {
   if ( !p->infinite_scroll ) {
     p->background->x =
         ( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
@@ -134,13 +123,14 @@ parallax_background_update( parallax_background_t *p ) {
  * @return void.
  */
 void
-parallax_background_draw( parallax_background_t *p ) {
+Stds_ParallaxBackgroundDraw( parallax_background_t *p ) {
   /* Two copies of the image are drawn to give the illusion of depth and parallax. */
-  blit_texture_scaled( p->background->background_texture, p->background->x, p->background->y,
-                       p->background->scale_x, p->background->scale_y, 0, SDL_FLIP_NONE, false );
-  blit_texture_scaled( p->background->background_texture, p->background->x + p->background->w,
+  Stds_BlitTextureScale( p->background->background_texture, p->background->x, p->background->y,
+                       p->background->scale_x, p->background->scale_y, 0, SDL_FLIP_NONE, NULL,
+                       false );
+  Stds_BlitTextureScale( p->background->background_texture, p->background->x + p->background->w,
                        p->background->y, p->background->scale_x, p->background->scale_y, 0,
-                       SDL_FLIP_NONE, false );
+                       SDL_FLIP_NONE, NULL, false );
 }
 
 /**
@@ -152,7 +142,7 @@ parallax_background_draw( parallax_background_t *p ) {
  * @return void.
  */
 background_t *
-init_background( const char *file ) {
+Stds_AddBackground( const char *file ) {
   background_t *background;
   background = malloc( sizeof( background_t ) );
 
@@ -170,7 +160,7 @@ init_background( const char *file ) {
   int32_t w;
   int32_t h;
 
-  background->background_texture = load_texture( file );
+  background->background_texture = Stds_LoadTexture( file );
   SDL_QueryTexture( background->background_texture, NULL, NULL, &w, &h );
 
   background->w       = w;
@@ -191,7 +181,7 @@ init_background( const char *file ) {
  * @return void.
  */
 void
-background_update( background_t *background ) {}
+Stds_BackgroundUpdate( background_t *background ) {}
 
 /**
  * Draws the background at its appropriate location specified by the
@@ -202,9 +192,9 @@ background_update( background_t *background ) {}
  * @return void.
  */
 void
-background_draw( background_t *background ) {
-  blit_texture_scaled( background->background_texture, background->x, background->y,
-                       background->scale_x, background->scale_y, 0, SDL_FLIP_NONE, false );
+Stds_BackgroundDraw( background_t *background ) {
+  Stds_BlitTextureScale( background->background_texture, background->x, background->y,
+                       background->scale_x, background->scale_y, 0, SDL_FLIP_NONE, NULL, false );
 }
 
 /**
@@ -215,7 +205,7 @@ background_draw( background_t *background ) {
  * @return void.
  */
 void
-background_die( background_t *background ) {
+Stds_BackgroundDie( background_t *background ) {
   SDL_DestroyTexture( background->background_texture );
   free( background );
 }

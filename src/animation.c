@@ -7,14 +7,6 @@
 //        flip variables accordingly per the entity using the animation. If not, the
 //        animation will not move, rotate, etc.
 //
-// PUBLIC FUNCTIONS :
-//        extern animation_t *add_spritesheet( const char *file_directory, uint8_t n, float frame_time,
-//                                     uint16_t start_x, uint16_t start_y );
-//        extern animation_t *add_animation( const char *files_directory, uint8_t n, float frame_time );
-//        extern void animation_update( animation_t *animation );
-//        extern void animation_draw( animation_t *animation );
-//        extern void animation_die( animation_t *animation );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -49,13 +41,13 @@ static char input_buffer[MAX_BUFFER_SIZE];
  * @param const char* file directory of sprite sheet.
  * @param uint8_t number of frames.
  * @param float time spent on an individual frame per second.
- * @param uint16_t = starting top-left x pos of the sprite sheet.
- * @param uint16_t = starting top-left y pos of the sprite sheet.
+ * @param uint16_t starting top-left x pos of the sprite sheet.
+ * @param uint16_t starting top-left y pos of the sprite sheet.
  *
  * @return animation_t* struct.
  */
 animation_t *
-add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
+Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
                  uint16_t y ) {
   animation_t *a;
   a = malloc( sizeof( animation_t ) );
@@ -69,7 +61,7 @@ add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay,
   memset( a, 0, sizeof( animation_t ) );
 
   a->number_of_frames = no_of_frames;
-  a->current_texture  = load_texture( directory );
+  a->current_texture  = Stds_LoadTexture( directory );
   a->frame_delay      = frame_delay;
   a->frame_timer      = frame_delay * FPS;
   a->start_x          = x;
@@ -103,7 +95,7 @@ add_spritesheet( const char *directory, uint8_t no_of_frames, float frame_delay,
  * @return animation_t* struct.
  */
 animation_t *
-add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) {
+Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_delay ) {
   animation_t *a;
   a = malloc( sizeof( animation_t ) );
 
@@ -134,12 +126,13 @@ add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) 
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
   char *        file_extsn = ".png";
+
   for ( int i = 0; i < a->number_of_frames; i++ ) {
     sprintf( number_buffer, "%d", i );
     strcpy( input_buffer, directory );
     char *file_name     = strcat( input_buffer, number_buffer );
     char *file_name_ext = strcat( input_buffer, file_extsn );
-    a->frames[i]        = load_texture( file_name_ext );
+    a->frames[i]        = Stds_LoadTexture( file_name_ext );
     memset( input_buffer, '\0', sizeof( input_buffer ) );
   }
   a->current_texture = a->frames[0];
@@ -161,7 +154,7 @@ add_animation( const char *directory, uint8_t no_of_frames, float frame_delay ) 
  * @return void.
  */
 void
-animation_update( animation_t *a ) {
+Stds_AnimationUpdate( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK )
     a->frame_timer -= 1;
 
@@ -210,16 +203,16 @@ animation_update( animation_t *a ) {
  * @return void.
  */
 void
-animation_draw( animation_t *a ) {
+Stds_AnimationDraw( animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STD_ANIMATION_MASK ) {
-      blit_texture_rotated( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
-                            true );
+      Stds_BlitTextureRotate( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
+                            NULL, true );
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       // This rectangle splices the correct frame
       // from the sprite sheet.
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->w, a->h};
-      blit_rect( a->current_texture, &curr_rect, a->pos_x, a->pos_y, true );
+      Stds_BlitTextureRect( a->current_texture, &curr_rect, a->pos_x, a->pos_y, true );
     }
   }
 }
@@ -232,7 +225,7 @@ animation_draw( animation_t *a ) {
  * @return void.
  */
 void
-animation_die( animation_t *a ) {
+Stds_AnimationDie( animation_t *a ) {
   for ( int i = 0; i < a->number_of_frames; i++ ) {
     SDL_DestroyTexture( a->frames[i] );
   }

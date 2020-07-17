@@ -34,18 +34,18 @@ static particle_system_t *ps;
  * necessary to run a window. To redefine the level/screen
  * dimensions, just #undef SCREEN_WIDTH/HEIGHT or LEVEL_WIDTH/HEIGHT
  * and redefine them immediately below it.
- * 
+ *
  * @param int argc, number of cmd arguments.
  * @param char** array of string arguments.
- * 
+ *
  * @return status code.
  */
 int
 main( int argc, char *argv[] ) {
-  init_game( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
-  init_app_structures();
+  Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
+  Stds_InitAppStructures();
   init_scene();
-  loop();
+  Stds_GameLoop();
 
   atexit( cleanup_stage );
   return 0;
@@ -77,20 +77,20 @@ init_scene( void ) {
 
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
-  init_parallax_background( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
-                            parallax_scroll, false );
+  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
+  Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
+                              parallax_scroll, false );
 
-  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
-  SDL_Color c2 = {0, 0, 0xff, 0xff};
+  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
+  SDL_Color c2 = { 0, 0, 0xff, 0xff };
 
   f.c1    = c1;
   f.c2    = c2;
   f.time  = 0.0f;
   f.alpha = 0.01f;
 
-  ps = create_particle_system( 512 );
+  ps = Stds_CreateParticleSystem( 512 );
 }
 
 /*
@@ -101,8 +101,8 @@ tick( void ) {
   if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
     add_particles( app.mouse.x, app.mouse.y, 32 );
   }
-  update_camera( player );
-  particle_system_update( ps );
+  Stds_CameraUpdate( player );
+  Stds_ParticleSystemUpdate( ps );
   update_parallax_backgrounds();
   update_trails();
   update_enemies();
@@ -120,7 +120,7 @@ update_trails( void ) {
   prev = &app.trail_head;
 
   for ( t = app.trail_head.next; t != NULL; t = t->next ) {
-    trail_update( t );
+    Stds_TrailUpdate( t );
 
     if ( t->flags & DEATH_MASK ) {
       if ( t == app.trail_tail ) {
@@ -142,7 +142,7 @@ static void
 update_parallax_backgrounds( void ) {
   parallax_background_t *p;
   for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
-    parallax_background_update( p );
+    Stds_ParallaxBackgroundUpdate( p );
   }
 }
 
@@ -154,7 +154,7 @@ update_enemies( void ) {
   entity_t *e;
 
   for ( e = stage.enemy_head.next; e != NULL; e = e->next ) {
-    enum CollisionSide s = check_aabb_collision( player, e );
+    enum CollisionSide s = Stds_CheckAABBCollision( player, e );
 
     if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
       player->dy = 0;
@@ -172,9 +172,9 @@ update_enemies( void ) {
 static void
 draw( void ) {
   draw_parallax_backgrounds();
-  particle_system_draw( ps );
-  SDL_Color c = combine_fade_color( &f );
-  draw_rect_stroke( 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 8, &c, 0xff );
+  Stds_ParticleSystemDraw( ps );
+  SDL_Color c = Stds_CombineFadeColor( &f );
+  Stds_DrawRectStroke( 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 8, &c, 0xff );
   draw_trails();
   draw_enemies();
   player_draw();
@@ -188,7 +188,7 @@ draw_trails( void ) {
   trail_t *t;
 
   for ( t = app.trail_head.next; t != NULL; t = t->next ) {
-    trail_draw( t );
+    Stds_TrailDraw( t );
   }
 }
 
@@ -200,7 +200,7 @@ draw_parallax_backgrounds( void ) {
   parallax_background_t *p;
 
   for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
-    parallax_background_draw( p );
+    Stds_ParallaxBackgroundDraw( p );
   }
 }
 
@@ -221,7 +221,7 @@ draw_enemies( void ) {
  */
 static void
 cleanup_stage( void ) {
-  printf("Freeing player.\n");
+  Stds_Print( "Freeing player.\n" );
   free( player );
 }
 
@@ -234,10 +234,10 @@ add_particles( int32_t x, int32_t y, size_t n ) {
     particle_t p;
     p.x               = x;
     p.y               = y;
-    p.life            = random_int( 100, 300 );
-    p.dx              = random_float( -5, 5 );
-    p.dy              = random_float( -5, 5 );
-    p.w               = random_int( 1, 5 );
+    p.life            = Stds_RandomInt( 100, 300 );
+    p.dx              = Stds_RandomFloat( -5.f, 5.f );
+    p.dy              = Stds_RandomFloat( -10.f, -7.f );
+    p.w               = Stds_RandomInt( 1, 5 );
     p.h               = p.w;
     p.particle_update = red_particle_update;
     p.particle_draw   = red_particle_draw;
@@ -245,6 +245,6 @@ add_particles( int32_t x, int32_t y, size_t n ) {
     p.color.a         = 0xff;
     p.color.g         = 0;
     p.color.b         = 0;
-    insert_particle( ps, &p );
+    Stds_InsertParticle( ps, &p );
   }
 }

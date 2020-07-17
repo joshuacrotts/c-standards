@@ -4,15 +4,6 @@
 // DESCRIPTION :
 //        Defines the procedures and functions for the SDL context.
 //
-// PUBLIC FUNCTIONS :
-//        void        init_game( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        toggle_debug_mode( bool );
-//
-// PRIVATE/STATIC FUNCTIONS :
-//        void        init_SDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-//        void        init_audio_context( void );
-//        void        cleanup( void );
-//
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
 //        of this software and associated documentation files (the "Software"), to deal
@@ -38,11 +29,9 @@
 
 #include "../include/init.h"
 
-static bool debug_mode = false;
-
-static void init_SDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
-static void init_audio_context( void );
-static void cleanup( void );
+static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
+static void Stds_InitAudioContext( void );
+static void Stds_Cleanup( void );
 
 /**
  * Calls the remainder of the initialization functions, and
@@ -57,30 +46,30 @@ static void cleanup( void );
  * @return void.
  */
 void
-init_game( const char *window_name, uint32_t window_width, uint32_t window_height,
+Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_height,
            uint32_t level_width, uint32_t level_height ) {
-  init_SDL( window_name, window_width, window_height, level_width, level_height );
-  init_sounds();
-  init_fonts();
+  Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
+  Stds_InitSounds();
+  Stds_InitFonts();
 
   app.original_title = window_name;
 
   // Assigns the callback function to clean up the
   // SDL context when closing the program.
-  atexit( cleanup );
+  atexit( Stds_Cleanup );
 }
 
 /**
  * Toggles debug mode either on or off. When on, debug messages
- * are printed to the console.
+ * are Stds_Printed to the console.
  *
  * @param bool true for debug mode on, false otherwise.
  *
  * @return void.
  */
 void
-toggle_debug_mode( bool db ) {
-  debug_mode = db;
+Stds_ToggleDebugMode( bool db ) {
+  app.is_debug_mode = db;
 }
 
 /**
@@ -95,14 +84,14 @@ toggle_debug_mode( bool db ) {
  * @return void.
  */
 static void
-init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height,
+Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_height,
           uint32_t level_width, uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
   renderer_flags = SDL_RENDERER_ACCELERATED;
   window_flags   = 0;
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
   }
 
@@ -118,7 +107,7 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
     exit( EXIT_ERROR );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
   }
 
@@ -132,7 +121,7 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
 
   SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
   }
 
@@ -144,7 +133,7 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
     exit( EXIT_ERROR );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization Completed." );
   }
 
@@ -154,7 +143,8 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
   //  Remove cursor.
   SDL_ShowCursor( true );
 
-  init_audio_context();
+  Stds_InitAudioContext();
+  Stds_SetRandomSeed();
 }
 
 /**
@@ -166,8 +156,8 @@ init_SDL( const char *window_name, uint32_t window_width, uint32_t window_height
  * @return void.
  */
 static void
-init_audio_context( void ) {
-  if ( debug_mode ) {
+Stds_InitAudioContext( void ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing audio context and SDL Mixer." );
   }
 
@@ -187,8 +177,8 @@ init_audio_context( void ) {
  * @return void.
  */
 static void
-cleanup( void ) {
-  if ( debug_mode ) {
+Stds_Cleanup( void ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
   }
 
@@ -202,7 +192,7 @@ cleanup( void ) {
   button_t *             b;
   trail_t *              tr;
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   }
 
@@ -213,7 +203,7 @@ cleanup( void ) {
     free( pbg );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
   }
 
@@ -224,7 +214,7 @@ cleanup( void ) {
     free( t );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
   }
 
@@ -235,7 +225,7 @@ cleanup( void ) {
     free( tr );
   }
 
-  if ( debug_mode ) {
+  if ( app.is_debug_mode ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
   }
 
@@ -246,10 +236,6 @@ cleanup( void ) {
     free( b );
   }
 
-  free_fonts();
+  Stds_FreeFonts();
   SDL_Quit();
-
-  if ( debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Program quit." );
-  }
 }

@@ -1,3 +1,32 @@
+//=============================================================================================//
+// FILENAME :       trail.c
+//
+// DESCRIPTION :
+//        This file defines trail functionality with alpha-blending support.
+//
+// NOTES :
+//        Permission is hereby granted, free of charge, to any person obtaining a copy
+//        of this software and associated documentation files (the "Software"), to deal
+//        in the Software without restriction, including without limitation the rights
+//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//        copies of the Software, and to permit persons to whom the Software is
+//        furnished to do so, subject to the following conditions:
+//
+//        The above copyright notice and this permission notice shall be included in all
+//        copies or substantial portions of the Software.
+//
+//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//        SOFTWARE.
+//
+// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
+//
+//=============================================================================================//
+
 #include "../include/trail.h"
 
 /**
@@ -15,7 +44,7 @@
  * @return void.
  */
 void
-add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
+Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
            SDL_RendererFlip flip ) {
   trail_t *t;
   t = malloc( sizeof( trail_t ) );
@@ -49,7 +78,7 @@ add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is
 /**
  * Updates the trail by iterating through the trail's linked lists,
  * and constantly decreasing its alpha value. Once any arbitrary
- * tail node has an alpha of 0 or less (clamped to 0), it is
+ * tail node has an alpha of 0 or less (Stds_ClampInt'd to 0), it is
  * removed.
  *
  * @param trail_t struct to update.
@@ -57,7 +86,7 @@ add_trail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is
  * @return void
  */
 void
-trail_update( trail_t *t ) {
+Stds_TrailUpdate( trail_t *t ) {
   t->alpha -= t->alpha_decay_rate;
   if ( t->alpha <= 0 ) {
     t->flags |= DEATH_MASK;
@@ -72,13 +101,13 @@ trail_update( trail_t *t ) {
  * @return void.
  */
 void
-trail_draw( trail_t *t ) {
+Stds_TrailDraw( trail_t *t ) {
   if ( !t->is_texture ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
   }
 
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
-  blit_texture_rotated( t->texture, t->x, t->y, 0, t->flip, true );
+  Stds_BlitTextureRotate( t->texture, t->x, t->y, 0, t->flip, NULL, true );
 
   if ( !t->is_texture ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_NONE );

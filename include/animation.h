@@ -6,15 +6,15 @@
 
 extern app_t app;
 
-extern animation_t *add_spritesheet( const char *file_directory, uint8_t n, float frame_time,
+extern animation_t *Stds_AddSpritesheet( const char *file_directory, uint8_t n, float frame_time,
                                      uint16_t start_x, uint16_t start_y );
 
-extern animation_t *add_animation( const char *files_directory, uint8_t n, float frame_time );
+extern animation_t *Stds_AddAnimation( const char *files_directory, uint8_t n, float frame_time );
 
-extern void animation_update( animation_t *animation );
+extern void Stds_AnimationUpdate( animation_t *animation );
 
-extern void animation_draw( animation_t *animation );
+extern void Stds_AnimationDraw( animation_t *animation );
 
-extern void animation_die( animation_t *animation );
+extern void Stds_AnimationDie( animation_t *animation );
 
 #endif // ANIMATION_H
