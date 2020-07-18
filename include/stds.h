@@ -54,7 +54,7 @@ extern bool Stds_IsMouseOverRect( float x, float y, SDL_Rect rect );
 
 extern SDL_Color Stds_ConvertARGBToColor( uint32_t c );
 
-extern uint32_t Stds_ConvertARGBToColor( SDL_Color *c );
+extern uint32_t Stds_ConvertColorToARGB( SDL_Color *c );
 
 extern char *Stds_Substring( const char *str, int first, int last );
 

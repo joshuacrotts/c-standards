@@ -47,7 +47,7 @@ static void Stds_Cleanup( void );
  */
 void
 Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_height,
-           uint32_t level_width, uint32_t level_height ) {
+               uint32_t level_width, uint32_t level_height ) {
   Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
   Stds_InitSounds();
   Stds_InitFonts();
@@ -70,6 +70,11 @@ Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_h
 void
 Stds_ToggleDebugMode( bool db ) {
   app.is_debug_mode = db;
+  if ( app.is_debug_mode ) {
+    SDL_LogSetPriority( SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG );
+  } else {
+    SDL_LogSetPriority( SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO );
+  }
 }
 
 /**
@@ -80,20 +85,18 @@ Stds_ToggleDebugMode( bool db ) {
  * @param uint32_t window height.
  * @param uint32_t width of level (how far the camera is scrolled).
  * @param uint32_t height of level (how far the camera is scrolled).
- * 
+ *
  * @return void.
  */
 static void
 Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_height,
-          uint32_t level_width, uint32_t level_height ) {
+              uint32_t level_width, uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
   renderer_flags = SDL_RENDERER_ACCELERATED;
   window_flags   = 0;
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
 
   memset( &app, 0, sizeof( app_t ) );
   app.SCREEN_WIDTH  = window_width;
@@ -107,9 +110,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
     exit( EXIT_ERROR );
   }
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
 
   // Initialize the SDL window.
   app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -121,9 +122,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
 
   SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
 
   // Create renderer with the default graphics context.
   app.renderer = SDL_CreateRenderer( app.window, -1, renderer_flags );
@@ -133,9 +132,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
     exit( EXIT_ERROR );
   }
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initialization Completed." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization Completed." );
 
   //  Initialize SDL to accept both JPG and PNGs.
   IMG_Init( IMG_INIT_PNG | IMG_INIT_JPG );
@@ -157,9 +154,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
  */
 static void
 Stds_InitAudioContext( void ) {
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Initializing audio context and SDL Mixer." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initializing audio context and SDL Mixer." );
 
   if ( Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 1024 ) == -1 ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not initialize SDL Mixer.\n" );
@@ -178,24 +173,19 @@ Stds_InitAudioContext( void ) {
  */
 static void
 Stds_Cleanup( void ) {
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
 
   SDL_DestroyRenderer( app.renderer );
   SDL_DestroyWindow( app.window );
 
-  // Free the memory of the linked lists defined by
-  // the app struct.
+  /* Free the memory of the linked lists defined by
+     the app struct. */
   parallax_background_t *pbg;
   texture_t *            t;
   button_t *             b;
   trail_t *              tr;
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
-  }
-
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   /* Frees the parallax background linked list. */
   while ( app.parallax_head.next ) {
     pbg                    = app.parallax_head.next;
@@ -203,10 +193,7 @@ Stds_Cleanup( void ) {
     free( pbg );
   }
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
-  }
-
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
   /* Frees the texture linked list. */
   while ( app.texture_head.next ) {
     t                     = app.texture_head.next;
@@ -214,10 +201,7 @@ Stds_Cleanup( void ) {
     free( t );
   }
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
-  }
-
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
   /* Frees the trail linked list. */
   while ( app.trail_head.next ) {
     tr                  = app.trail_head.next;
@@ -225,10 +209,7 @@ Stds_Cleanup( void ) {
     free( tr );
   }
 
-  if ( app.is_debug_mode ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
-  }
-
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
   /* Frees the button linked list. */
   while ( app.button_head.next ) {
     b                    = app.button_head.next;

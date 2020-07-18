@@ -116,11 +116,9 @@ Stds_FreeFonts() {
   font_t *f;
   f = app.font_head.next;
 
-  if ( app.is_debug_mode ) {
-    Stds_Print( "Freeing font.\n" );
-  }
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
 
-  while ( f != NULL ) {
+  while ( f->next ) {
     f                  = app.font_head.next;
     app.font_head.next = f->next;
     free( f );

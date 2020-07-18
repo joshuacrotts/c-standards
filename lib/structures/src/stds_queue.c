@@ -1,6 +1,10 @@
 #include "../include/stds_queue.h"
 
 /**
+ * Queue is currently non-functional!
+ */
+
+/**
  *
  */
 struct stds_queue_t {
@@ -8,14 +12,6 @@ struct stds_queue_t {
   size_t             logical_size;
   stds_queue_node_t *head;
   stds_queue_node_t *tail;
-};
-
-/**
- *
- */
-struct stds_queue_node_t {
-  void *data;
-  void *next;
 };
 
 /**
@@ -42,7 +38,22 @@ Stds_QueueCreate( size_t element_size ) {
  *
  */
 void
-Stds_QueueAdd( struct stds_queue_t *q, void *data ) {}
+Stds_QueueAdd( struct stds_queue_t *q, void *data ) {
+  stds_queue_node_t *n;
+  n = malloc( sizeof( stds_queue_node_t ) );
+  memset( n, 0, sizeof( stds_queue_node_t ) );
+  n->data = data;
+  n->next = NULL;
+
+  /* If there is no head, then we assign it to the head. */
+  if ( Stds_QueueIsEmpty( q ) ) {
+    q->head = n;
+  }
+
+  q->tail->next = n;
+  q->tail = n;
+  q->logical_size++;
+}
 
 /**
  * Removes the first element in the queue.
@@ -60,7 +71,15 @@ Stds_QueuePoll( struct stds_queue_t *q ) {
 
   stds_queue_node_t *n = q->head;
   q->head              = q->head->next;
-  return n;
+  return n->data;
+}
+
+/**
+ *
+ */
+inline stds_queue_node_t *
+Stds_QueueIterator( struct stds_queue_t *q ) {
+  return q->head;
 }
 
 /**
@@ -75,15 +94,25 @@ void
 Stds_QueueClear( struct stds_queue_t *q ) {
   /* First, go through the pointers and clear them out. */
   stds_queue_node_t *n = q->head;
+  stds_queue_node_t *next;
+
+  /* Then, free the memory associated with the list. */
   while ( n != NULL ) {
-    n = q->head->next;
-    free( q->head );
+       next = n->next; 
+       free(n); 
+       n = next; 
   }
 
   /* Now, reset the actual associated data. */
   q->logical_size = 0;
   q->head         = malloc( sizeof( stds_queue_node_t ) );
   q->tail         = malloc( sizeof( stds_queue_node_t ) );
+
+  q->tail       = q->head;
+  q->head       = q->tail;
+
+  q->head->next = NULL;
+  q->tail->next = NULL;
 }
 
 /**
@@ -100,7 +129,7 @@ Stds_QueuePeek( struct stds_queue_t *q ) {
     exit( EXIT_FAILURE );
   }
 
-  return q->head;
+  return q->head->data;
 }
 
 /**
