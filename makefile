@@ -10,11 +10,8 @@ CC = gcc
 
 ifeq ($(OS), Windows_NT)
 	INCLUDE_PATHS = -IC:\MinGW\include\SDL2
-endif 
-
-ifeq ($(OS), Windows_NT)
 	LIBRARY_PATHS = -LC:\MinGW\lib
-endif
+endif 
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresszzes all warnings
