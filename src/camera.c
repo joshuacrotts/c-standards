@@ -35,7 +35,11 @@
  * Applies an offset from the supplied entity, and stores
  * the coordinates in the App struct. Typically, in an overhead
  * style game, this supplied entity will be a reference to the
- * player. 
+ * player. If you want to remove the offset from an entity,
+ * just add the coordinates of the camera to your entity 
+ * x + app.camera.x and y + app.camera.y. Note that if you have
+ * the option to modify the placement via a method in draw.c,
+ * do it there instead.
  *
  * @param entity_t* pointer to parent entity.
  *

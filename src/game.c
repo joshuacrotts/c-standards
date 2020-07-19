@@ -70,7 +70,7 @@ Stds_GameLoop( void ) {
 
   then = SDL_GetTicks();
 
-  // Main game loop.
+  /* Main game loop. */
   while ( true ) {
     Stds_PrepareScene();
     Stds_ProcessInput();
@@ -148,13 +148,13 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
     exit( EXIT_FAILURE );
   }
 
-  // Copy the title to the buffer.
+  /* Copy the title to the buffer. */
   strcpy( window_buffer, app.original_title );
 
-  // Move temp var to buffer. Receive ptr.
+  /* Move temp var to buffer. Receive ptr. */
   strcat( window_buffer, " | FPS: " );
 
-  // Concatenate number to title variable.
+  /* Concatenate number to title variable. */
   window_buffer = Stds_StrCatInt( window_buffer, fps );
   SDL_SetWindowTitle( app.window, window_buffer );
   return interval;

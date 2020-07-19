@@ -9,19 +9,10 @@
 struct entity_t *   player;
 extern struct app_t app;
 
-/*
- *
- */
 extern void init_player( void );
 
-/*
- *
- */
 extern void player_update( void );
 
-/*
- *
- */
 extern void player_draw( void );
 
-#endif
+#endif // PLAYER_H

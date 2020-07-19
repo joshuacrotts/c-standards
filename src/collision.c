@@ -132,7 +132,7 @@ Stds_ResolveCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
  *
  * @return true if overlap exists, false otherwise.
  */
-bool
+inline bool
 Stds_CheckIntersection( float x1, float y1, int32_t w1, int32_t h1, float x2, float y2, int32_t w2,
                         int32_t h2 ) {
   return ( fmax( x1, x2 ) < fmin( x1 + w1, x2 + w2 ) ) &&

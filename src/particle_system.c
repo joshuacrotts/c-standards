@@ -60,11 +60,12 @@ Stds_CreateParticleSystem( int32_t max_particles ) {
 }
 
 /**
- * Adds a particle to the particle system. Returns 0 if a successful insertion
- * occurred, and 1 otherwise (generally meaning the emitter is full).
+ * Adds a particle to the particle system. Returns 0 (PS_SUCCESS) if a successful insertion
+ * occurred, 1 (PS_FULL) if the system is full, and 2 (PS_INVALID_FP) if the particle has
+ * invalid (most likely undefined) function pointers for particle_update and particle_draw.
  *
- * @param
- * @param
+ * @param particle_system_t * pointer to particle system to insert particle into.
+ * @param particle_t * pointer to particle to insert.
  *
  * @return void.
  */
@@ -85,9 +86,13 @@ Stds_InsertParticle( struct particle_system_t *ps, struct particle_t *p ) {
 }
 
 /**
+ * Updates the particle system. The programmer is in charge of determining
+ * when a particle is dead or not. The system only updates and swaps the particles.
+ * When a particle p dies, it is swapped with the last particle in the system, so it
+ * won't be updated any further. In summary, dead particles are at the right-side
+ * of the system, and alive particles are on the left.
  *
- *
- * @param
+ * @param particle_system * pointer to system.
  *
  * @return void.
  */
@@ -97,14 +102,17 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
     struct particle_t *p = &ps->particles[i];
     if ( p->particle_update ) {
       p->particle_update( p );
+    } else {
+      Stds_Print( "Error! p->particle_update function pointer is undefined.\n" );
+      exit( EXIT_FAILURE );
     }
 
     if ( p->flags & DEATH_MASK ) {
-      //  Find the rear of the alive particles and grab it.
+      /*  Find the rear of the alive particles and grab it. */
       ps->dead_index                   = --( ps->alive_count );
       struct particle_t *back_particle = &ps->particles[ps->dead_index];
 
-      // Swap particles.
+      /* Swap particles. */
       struct particle_t tmp = *back_particle;
       *back_particle        = *p;
       *p                    = tmp;
@@ -113,9 +121,10 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
 }
 
 /**
+ * Renders all particles in the system. Make sure your particles have
+ * the function pointer particle_draw defined!
  *
- *
- * @param
+ * @param particle_system_t * pointer to particle system.
  *
  * @return void.
  */
@@ -125,6 +134,9 @@ Stds_ParticleSystemDraw( struct particle_system_t *ps ) {
     struct particle_t *p = &ps->particles[i];
     if ( p->particle_draw ) {
       p->particle_draw( p );
+    } else {
+      Stds_Print( "Error! p->particle_draw is not defined." );
+      exit( EXIT_FAILURE );
     }
   }
 }

@@ -227,19 +227,9 @@ static void
 add_particles( int32_t x, int32_t y, size_t n ) {
   for ( int i = 0; i < n; i++ ) {
     struct particle_t p;
-    p.x               = x;
-    p.y               = y;
-    p.life            = Stds_RandomInt( 100, 300 );
-    p.dx              = Stds_RandomFloat( -5.f, 5.f );
-    p.dy              = Stds_RandomFloat( -10.f, -7.f );
-    p.w               = Stds_RandomInt( 1, 5 );
-    p.h               = p.w;
-    p.particle_update = red_particle_update;
-    p.particle_draw   = red_particle_draw;
-    p.color.r         = 0xff;
-    p.color.a         = 0xff;
-    p.color.g         = 0;
-    p.color.b         = 0;
+
+    /* Adds an animated particle. */
+    p = animated_particle_init( x, y );
     Stds_InsertParticle( ps, &p );
   }
 }

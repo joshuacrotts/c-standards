@@ -14,6 +14,7 @@
 #include "../include/game_structs.h"
 #include "../include/enemy.h"
 #include "../include/red_particle.h"
+#include "../include/animated_particle.h"
 
 struct stage_t stage;
 struct app_t   app;

@@ -7,8 +7,8 @@
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
-static bool         is_moving    = false;
-static bool         is_attacking = false;
+static bool                is_moving    = false;
+static bool                is_attacking = false;
 static struct animation_t *idle_animation;
 static struct animation_t *walk_animation;
 static struct animation_t *attack_animation;
@@ -37,6 +37,9 @@ init_player() {
   attack_animation = Stds_AddAnimation( "tests/res/img/player/8bitattack/attack_", 7, 0.05f );
 }
 
+/**
+ *
+ */
 void
 player_update( void ) {
   key_input_listener();
@@ -45,7 +48,8 @@ player_update( void ) {
     player->animation = walk_animation;
   } else if ( is_attacking ) {
     player->animation = attack_animation;
-    if ( attack_animation->cycle_once && attack_animation->current_frame_id == attack_animation->number_of_frames - 1) {
+    if ( attack_animation->cycle_once &&
+         attack_animation->current_frame_id == attack_animation->number_of_frames - 1 ) {
       is_attacking = false;
     }
   } else {
@@ -66,17 +70,20 @@ player_update( void ) {
   check_bounds();
   Stds_AnimationUpdate( player->animation );
 
-   if ( is_attacking ) {
-     Stds_AddTrail( player, DECAY_RATE, INITIAL_ALPHA, true, player->animation->flip );
-   }
+  if ( is_attacking ) {
+    Stds_AddTrail( player, DECAY_RATE, INITIAL_ALPHA, true, player->animation->flip );
+  }
 }
 
+/**
+ *
+ */
 void
 player_draw( void ) {
   Stds_AnimationDraw( player->animation );
 }
 
-/*
+/**
  *
  */
 static void
@@ -99,8 +106,8 @@ key_input_listener( void ) {
   }
 
   else if ( app.keyboard[SDL_SCANCODE_SPACE] ) {
-    is_attacking = true;
-    attack_animation->flip = player->animation->flip;
+    is_attacking                 = true;
+    attack_animation->flip       = player->animation->flip;
     attack_animation->cycle_once = true;
     attack_animation->flags |= ANIMATION_ACTIVE_MASK;
   }

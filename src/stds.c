@@ -182,7 +182,7 @@ Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float
  *
  * @return float angle.
  */
-float
+inline float
 Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
   float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
@@ -198,7 +198,7 @@ Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  *
  * @return int32_t distance.
  */
-int32_t
+inline int32_t
 Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
   int x = x2 - x1;
   int y = y2 - y1;
@@ -238,7 +238,7 @@ Stds_Print( const char *str, ... ) {
  *
  * @return
  */
-bool
+inline bool
 Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
   return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
 }
@@ -250,7 +250,7 @@ Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
  *
  * @return float angle in radians.
  */
-float
+inline float
 Stds_ToRadians( float degrees ) {
   return ( float ) ( degrees * ( PI / 180.0f ) );
 }
@@ -263,7 +263,7 @@ Stds_ToRadians( float degrees ) {
  *
  * @return float angle in degrees.
  */
-float
+inline float
 Stds_ToDegrees( float radians ) {
   return ( float ) ( radians * ( 180.0f / PI ) );
 }
@@ -284,7 +284,7 @@ Stds_ConvertARGBToColor( uint32_t c ) {
   uint8_t   g     = c >> 8 & 0xff;
   uint8_t   b     = c & 0xff;
   uint8_t   a     = c >> 24 & 0xff;
-  SDL_Color color = {r, g, b, a};
+  SDL_Color color = { r, g, b, a };
   return color;
 }
 
@@ -324,7 +324,22 @@ Stds_ConvertColorToARGB( SDL_Color *c ) {
 char *
 Stds_Substring( const char *str, int first, int last ) {
   uint32_t s_len = strlen( str );
-  assert( s_len > 0 && first < last && first >= 0 && last <= s_len );
+
+  /* Primitive error checking... */
+  if ( s_len <= 0 ) {
+    Stds_Print( "Error: your string cannot be empty: %d.\n", s_len );
+    exit( EXIT_FAILURE );
+  } else if ( first >= last ) {
+    Stds_Print( "Error:: your first index %d cannot more than or equal to your last %d.\n", first,
+                last );
+    exit( EXIT_FAILURE );
+  } else if ( first < 0 ) {
+    Stds_Print( "Error: your first index cannot be less than 0. %d.\n", first );
+    exit( EXIT_FAILURE );
+  } else if ( last >= s_len ) {
+    Stds_Print( "Error: your last index cannot be >= length of your string. %d.\n", last );
+    exit( EXIT_FAILURE );
+  }
 
   char *s = malloc( sizeof( char ) * ( last - first ) );
   memcpy( s, str + first, last - first );
@@ -345,7 +360,14 @@ Stds_IndexOf( const char *s, const char *search_str ) {
   uint32_t s_len          = strlen( s );
   uint32_t search_str_len = strlen( search_str );
 
-  assert( s_len > 0 && s_len >= search_str_len );
+  if ( s_len <= 0 ) {
+    Stds_Print( "Error: your string cannot be empty: %d.\n", s_len );
+    exit( EXIT_FAILURE );
+  } else if ( s_len < search_str_len ) {
+    Stds_Print( "Error: your string length of %d is less than your search string length of %d.\n",
+                s_len, search_str_len );
+    exit( EXIT_FAILURE );
+  }
 
   const char *ptr = strstr( s, search_str );
 

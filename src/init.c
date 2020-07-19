@@ -54,8 +54,8 @@ Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_h
 
   app.original_title = window_name;
 
-  // Assigns the callback function to clean up the
-  // SDL context when closing the program.
+  /* Assigns the callback function to clean up the
+    SDL context when closing the program. */
   atexit( Stds_Cleanup );
 }
 
@@ -104,40 +104,39 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
   app.LEVEL_WIDTH   = level_width;
   app.LEVEL_HEIGHT  = level_height;
 
-  // Initialize SDL and exit if we fail.
+  /* Initialize SDL and exit if we fail. */
   if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not initialize SDL: %s.\n", SDL_GetError() );
-    exit( EXIT_ERROR );
+    Stds_Print( "Could not initialize SDL: %s.\n", SDL_GetError() );
+    exit( EXIT_FAILURE );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
 
-  // Initialize the SDL window.
+  /* Initialize the SDL window. */
   app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                  window_width, window_height, window_flags );
   if ( !app.window ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not open window. %s.\n", SDL_GetError() );
-    exit( EXIT_ERROR );
+    Stds_Print( "Could not open window. %s.\n", SDL_GetError() );
+    exit( EXIT_FAILURE );
   }
 
   SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
 
-  // Create renderer with the default graphics context.
+  /* Create renderer with the default graphics context. */
   app.renderer = SDL_CreateRenderer( app.window, -1, renderer_flags );
   if ( !app.renderer ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize renderer: %s.\n",
-                 SDL_GetError() );
-    exit( EXIT_ERROR );
+    Stds_Print( "Failed to initialize renderer: %s.\n", SDL_GetError() );
+    exit( EXIT_FAILURE );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization Completed." );
 
-  //  Initialize SDL to accept both JPG and PNGs.
+  /* Initialize SDL to accept both JPG and PNGs. */
   IMG_Init( IMG_INIT_PNG | IMG_INIT_JPG );
 
-  //  Remove cursor.
+  /*  Remove cursor. */
   SDL_ShowCursor( true );
 
   Stds_InitAudioContext();
@@ -158,7 +157,7 @@ Stds_InitAudioContext( void ) {
 
   if ( Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 1024 ) == -1 ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not initialize SDL Mixer.\n" );
-    exit( EXIT_ERROR );
+    exit( EXIT_FAILURE );
   }
 
   Mix_AllocateChannels( MAX_SND_CHANNELS );

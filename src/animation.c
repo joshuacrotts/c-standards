@@ -161,21 +161,21 @@ Stds_AnimationUpdate( struct animation_t *a ) {
     a->frame_timer -= 1;
 
   if ( a->frame_timer < 0 ) {
-    // Resets the frame countdown.
+    /* Resets the frame countdown. */
     a->frame_timer = a->frame_delay * FPS;
     a->current_frame_id += 1;
 
-    // If we have a spritesheet, we advance x coordinate
-    // of the sprite. Otherwise, we advance the pointer
-    // referencing which sprite to render in the
+    /* If we have a spritesheet, we advance x coordinate
+       of the sprite. Otherwise, we advance the pointer
+       referencing which sprite to render in the array. */
     if ( a->id_flags & SPRITE_SHEET_MASK ) {
       a->splice_x += a->sprite_sheet_width / a->number_of_frames;
     } else {
       a->current_texture = a->frames[a->current_frame_id];
     }
 
-    // If we reach the end of the animation sequence,
-    // return to the start.
+    /* If we reach the end of the animation sequence,
+       return to the start. */
     if ( a->current_frame_id >= a->number_of_frames ) {
       a->current_frame_id = 0;
       if ( a->id_flags & SPRITE_SHEET_MASK ) {
@@ -184,9 +184,9 @@ Stds_AnimationUpdate( struct animation_t *a ) {
         a->current_frame_id = 0;
       }
 
-      // If we have the flag enabled to cycle through the animation
-      // only once (and we just finished), deactivate the flag to
-      // continue and quit.
+      /* If we have the flag enabled to cycle through the animation
+         only once (and we just finished), deactivate the flag to
+         continue and quit. */
       if ( a->cycle_once ) {
         a->flags ^= ANIMATION_ACTIVE_MASK;
         a->cycle_once       = false;
@@ -211,8 +211,8 @@ Stds_AnimationDraw( struct animation_t *a ) {
       Stds_BlitTextureRotate( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
                               NULL, true );
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
-      // This rectangle splices the correct frame
-      // from the sprite sheet.
+      /* This rectangle splices the correct frame
+         from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->w, a->h};
       Stds_BlitTextureRect( a->current_texture, &curr_rect, a->pos_x, a->pos_y, true );
     }
