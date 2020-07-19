@@ -1,9 +1,9 @@
-ifeq ($(shell uname -s), Darwin)
-	#OBJS specifies which files to compile as part of the project
-	OBJS = src/*.c tests/src/*.c lib/structures/src/*.c
-else
+ifeq ($(OS), Windows_NT)
 	#OBJS specifies which files to compile as part of the project
 	OBJS = src/*.c include/*.h tests/src/*.c tests/include/*.h lib/structures/src/*.c lib/structures/include/*.h
+else ifeq ($(shell uname -s), Darwin)
+	#OBJS specifies which files to compile as part of the project
+	OBJS = src/*.c tests/src/*.c lib/structures/src/*.c
 endif
 
 #CC specifies which compiler we're using
