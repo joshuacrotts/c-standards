@@ -1,10 +1,6 @@
 #include "../include/stds_queue.h"
 
 /**
- * Queue is currently non-functional!
- */
-
-/**
  *
  */
 struct stds_queue_t {
@@ -51,7 +47,7 @@ Stds_QueueAdd( struct stds_queue_t *q, void *data ) {
   }
 
   q->tail->next = n;
-  q->tail = n;
+  q->tail       = n;
   q->logical_size++;
 }
 
@@ -98,9 +94,9 @@ Stds_QueueClear( struct stds_queue_t *q ) {
 
   /* Then, free the memory associated with the list. */
   while ( n != NULL ) {
-       next = n->next; 
-       free(n); 
-       n = next; 
+    next = n->next;
+    free( n );
+    n = next;
   }
 
   /* Now, reset the actual associated data. */
@@ -108,8 +104,8 @@ Stds_QueueClear( struct stds_queue_t *q ) {
   q->head         = malloc( sizeof( stds_queue_node_t ) );
   q->tail         = malloc( sizeof( stds_queue_node_t ) );
 
-  q->tail       = q->head;
-  q->head       = q->tail;
+  q->tail = q->head;
+  q->head = q->tail;
 
   q->head->next = NULL;
   q->tail->next = NULL;
