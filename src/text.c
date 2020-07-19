@@ -113,7 +113,7 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t
  */
 void
 Stds_FreeFonts() {
-  font_t *f;
+  struct font_t *f;
   f = app.font_head.next;
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
@@ -162,7 +162,7 @@ Stds_GetStringSize( const char *s, const char *font, uint16_t size, int32_t *w, 
  */
 static TTF_Font *
 Stds_GetFont( const char *font_str, uint16_t font_size ) {
-  font_t *f;
+  struct font_t *f;
 
   for ( f = app.font_head.next; f != NULL; f = f->next ) {
     if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
@@ -201,8 +201,8 @@ Stds_LoadFonts( void ) {
  */
 static void
 add_font( const char *font_file, uint16_t size ) {
-  font_t *f;
-  f = malloc( sizeof( font_t ) );
+  struct font_t *f;
+  f = malloc( sizeof( struct font_t ) );
 
   if ( f == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for font_t. %s.\n",
@@ -210,7 +210,7 @@ add_font( const char *font_file, uint16_t size ) {
     exit( EXIT_FAILURE );
   }
 
-  memset( f, 0, sizeof( font_t ) );
+  memset( f, 0, sizeof( struct font_t ) );
 
   f->font = TTF_OpenFont( font_file, size );
 

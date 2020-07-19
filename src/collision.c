@@ -41,7 +41,7 @@
  * @return enum side that a collided onto b with (the side of b).
  */
 enum CollisionSide
-Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
+Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b ) {
   float w  = 0.5f * ( b->w + a->w );
   float h  = 0.5f * ( b->h + a->h );
   float dx = ( b->x + b->w / 2.0f ) - ( a->x + a->w / 2.0f );
@@ -84,7 +84,7 @@ Stds_CheckAABBCollision( entity_t *a, entity_t *b ) {
  * @return true if collision occurs, false otherwise.
  */
 bool
-Stds_CheckCircularCollision( circle_t *c1, circle_t *c2 ) {
+Stds_CheckCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
   float distance_x = ( float ) fabs( c1->center_x - c2->center_x );
   float distance_y = ( float ) fabs( c1->center_y - c2->center_y );
 
@@ -102,7 +102,7 @@ Stds_CheckCircularCollision( circle_t *c1, circle_t *c2 ) {
  * @return void.
  */
 void
-Stds_ResolveCircularCollision( circle_t *c1, circle_t *c2 ) {
+Stds_ResolveCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
   float distance_x = ( float ) c1->center_x - c2->center_x;
   float distance_y = ( float ) c1->center_y - c2->center_y;
 

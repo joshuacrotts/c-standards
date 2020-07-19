@@ -32,8 +32,8 @@
 
 static SDL_Texture *Stds_GetTexture( const char * );
 static void         Stds_CacheTexture( const char *, SDL_Texture * );
-static void         Stds_FillCircleHelper( circle_t *, SDL_Color * );
-static void         Stds_DrawCircleHelper( circle_t *, SDL_Color * );
+static void         Stds_FillCircleHelper( struct circle_t *, SDL_Color * );
+static void         Stds_DrawCircleHelper( struct circle_t *, SDL_Color * );
 
 /**
  * Clears the screen with a black color.
@@ -354,7 +354,7 @@ Stds_DrawLine( float x1, float y1, float x2, float y2, SDL_Color *c ) {
  * @return void.
  */
 void
-Stds_DrawCircle( struct Circle *circle, SDL_Color *color, bool is_filled ) {
+Stds_DrawCircle( struct circle_t *circle, SDL_Color *color, bool is_filled ) {
   if ( is_filled ) {
     Stds_FillCircleHelper( circle, color );
   } else {
@@ -371,7 +371,7 @@ Stds_DrawCircle( struct Circle *circle, SDL_Color *color, bool is_filled ) {
  * @return SDL_Color copy of the new color struct.
  */
 SDL_Color
-Stds_CombineFadeColor( fade_color_t *f ) {
+Stds_CombineFadeColor( struct fade_color_t *f ) {
   if ( f->time <= 1.0f && f->is_first_color ) {
     f->time = ( float ) ( f->time + f->alpha );
   } else {
@@ -435,7 +435,7 @@ Stds_LoadTexture( const char *fileName ) {
  */
 static SDL_Texture *
 Stds_GetTexture( const char *file_name ) {
-  texture_t *t;
+  struct texture_t *t;
 
   for ( t = app.texture_head.next; t != NULL; t = t->next ) {
     if ( strcmp( t->name, file_name ) == 0 ) {
@@ -459,8 +459,8 @@ Stds_GetTexture( const char *file_name ) {
  */
 static void
 Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
-  texture_t *texture;
-  texture = malloc( sizeof( texture_t ) );
+  struct texture_t *texture;
+  texture = malloc( sizeof( struct texture_t ) );
 
   if ( texture == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for texture_t. %s.\n",
@@ -468,7 +468,7 @@ Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
     exit( EXIT_FAILURE );
   }
 
-  memset( texture, 0, sizeof( texture_t ) );
+  memset( texture, 0, sizeof( struct texture_t ) );
   app.texture_tail->next = texture;
   app.texture_tail       = texture;
 
@@ -486,7 +486,7 @@ Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
  * @return void.
  */
 static void
-Stds_DrawCircleHelper( circle_t *circle, SDL_Color *c ) {
+Stds_DrawCircleHelper( struct circle_t *circle, SDL_Color *c ) {
   const float diameter = ( circle->radius * 2 );
 
   float x     = ( circle->radius - 1 );
@@ -531,7 +531,7 @@ Stds_DrawCircleHelper( circle_t *circle, SDL_Color *c ) {
  * @return void.
  */
 static void
-Stds_FillCircleHelper( circle_t *circle, SDL_Color *c ) {
+Stds_FillCircleHelper( struct circle_t *circle, SDL_Color *c ) {
   float   offsetx, offsety, d;
   int32_t status;
 

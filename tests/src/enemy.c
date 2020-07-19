@@ -1,11 +1,11 @@
 #include "../include/enemy.h"
 
-entity_t *
+struct entity_t *
 add_enemy( float x, float y ) {
-  entity_t *e;
+  struct entity_t *e;
 
-  e = malloc( sizeof( entity_t ) );
-  memset( e, 0, sizeof( entity_t ) );
+  e = malloc( sizeof( struct entity_t ) );
+  memset( e, 0, sizeof( struct entity_t ) );
 
   e->x          = x;
   e->y          = y;
@@ -16,9 +16,9 @@ add_enemy( float x, float y ) {
 }
 
 void
-enemy_update( entity_t *e ) {}
+enemy_update( struct entity_t *e ) {}
 
 void
-enemy_draw( entity_t *e ) {
+enemy_draw( struct entity_t *e ) {
   Stds_BlitTexture( e->texture[0], e->x, e->y, false, true );
 }

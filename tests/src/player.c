@@ -9,16 +9,16 @@
 
 static bool         is_moving    = false;
 static bool         is_attacking = false;
-static animation_t *idle_animation;
-static animation_t *walk_animation;
-static animation_t *attack_animation;
+static struct animation_t *idle_animation;
+static struct animation_t *walk_animation;
+static struct animation_t *attack_animation;
 
 static void key_input_listener( void );
 static void check_bounds( void );
 
 void
 init_player() {
-  player = malloc( sizeof( entity_t ) );
+  player = malloc( sizeof( struct entity_t ) );
 
   if ( player == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for player_t. %s.\n",
@@ -26,7 +26,7 @@ init_player() {
     exit( EXIT_FAILURE );
   }
 
-  memset( player, 0, sizeof( entity_t ) );
+  memset( player, 0, sizeof( struct entity_t ) );
 
   player->x     = app.SCREEN_WIDTH / 2.0f;
   player->y     = app.SCREEN_HEIGHT / 2.0f;

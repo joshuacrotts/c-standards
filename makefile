@@ -1,7 +1,3 @@
-#Copyright Notice:
-#The files within this zip file are copyrighted by Lazy Foo' Productions (2004-2014)
-#and may not be redistributed without written permission.
-
 ifeq ($(shell uname -s), Darwin)
 	#OBJS specifies which files to compile as part of the project
 	OBJS = src/*.c tests/src/*.c lib/structures/src/*.c

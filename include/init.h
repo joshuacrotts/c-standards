@@ -5,7 +5,7 @@
 #include "stds.h"
 #include "text.h"
 
-app_t app;
+struct app_t app;
 
 extern void Stds_InitGame( const char *title, uint32_t w, uint32_t h, uint32_t lw, uint32_t lh );
 

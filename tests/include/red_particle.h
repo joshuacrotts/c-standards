@@ -7,11 +7,11 @@
 /**
  *
  */
-extern void red_particle_update( particle_t *p );
+extern void red_particle_update( struct particle_t *p );
 
 /**
  *
  */
-extern void red_particle_draw( particle_t *p );
+extern void red_particle_draw( struct particle_t *p );
 
 #endif // RED_PARTICLE_H

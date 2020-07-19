@@ -3,7 +3,7 @@
 
 #include "stds.h"
 
-extern app_t app;
+extern struct app_t app;
 
 extern void Stds_PrepareScene( void );
 

@@ -15,7 +15,7 @@
 #include "../include/enemy.h"
 #include "../include/red_particle.h"
 
-stage_t stage;
-app_t   app;
+struct stage_t stage;
+struct app_t   app;
 
-#endif
+#endif // MAIN_H

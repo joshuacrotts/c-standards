@@ -44,10 +44,10 @@
  * @return void.
  */
 void
-Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
+Stds_AddTrail( struct entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
            SDL_RendererFlip flip ) {
-  trail_t *t;
-  t = malloc( sizeof( trail_t ) );
+  struct trail_t *t;
+  t = malloc( sizeof( struct trail_t ) );
 
   if ( t == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for trail_t. %s.\n",
@@ -55,7 +55,7 @@ Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, boo
     exit( EXIT_FAILURE );
   }
 
-  memset( t, 0, sizeof( trail_t ) );
+  memset( t, 0, sizeof( struct trail_t ) );
 
   t->x          = parent->x;
   t->y          = parent->y;
@@ -86,7 +86,7 @@ Stds_AddTrail( entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, boo
  * @return void
  */
 void
-Stds_TrailUpdate( trail_t *t ) {
+Stds_TrailUpdate( struct trail_t *t ) {
   t->alpha -= t->alpha_decay_rate;
   if ( t->alpha <= 0 ) {
     t->flags |= DEATH_MASK;
@@ -101,7 +101,7 @@ Stds_TrailUpdate( trail_t *t ) {
  * @return void.
  */
 void
-Stds_TrailDraw( trail_t *t ) {
+Stds_TrailDraw( struct trail_t *t ) {
   if ( !t->is_texture ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
   }

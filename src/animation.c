@@ -46,11 +46,11 @@ static char input_buffer[MAX_BUFFER_SIZE];
  *
  * @return animation_t* struct.
  */
-animation_t *
+struct animation_t *
 Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
-                 uint16_t y ) {
-  animation_t *a;
-  a = malloc( sizeof( animation_t ) );
+                     uint16_t y ) {
+  struct animation_t *a;
+  a = malloc( sizeof( struct animation_t ) );
 
   if ( a == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for animation_t. %s.\n",
@@ -58,7 +58,7 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
     exit( EXIT_FAILURE );
   }
 
-  memset( a, 0, sizeof( animation_t ) );
+  memset( a, 0, sizeof( struct animation_t ) );
 
   a->number_of_frames = no_of_frames;
   a->current_texture  = Stds_LoadTexture( directory );
@@ -94,10 +94,10 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
  *
  * @return animation_t* struct.
  */
-animation_t *
+struct animation_t *
 Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_delay ) {
-  animation_t *a;
-  a = malloc( sizeof( animation_t ) );
+  struct animation_t *a;
+  a = malloc( sizeof( struct animation_t ) );
 
   if ( a == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for animation_t. %s.\n",
@@ -105,7 +105,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
     exit( EXIT_FAILURE );
   }
 
-  memset( a, 0, sizeof( animation_t ) );
+  memset( a, 0, sizeof( struct animation_t ) );
   a->frames = malloc( sizeof( SDL_Texture * ) * no_of_frames );
 
   if ( a->frames == NULL ) {
@@ -123,6 +123,8 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
   a->id_flags |= STD_ANIMATION_MASK;
   a->flags |= ANIMATION_ACTIVE_MASK;
 
+  /* Iterate through the files in the directory and store them in
+     the buffer. */
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
   char *        file_extsn = ".png";
@@ -154,7 +156,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
  * @return void.
  */
 void
-Stds_AnimationUpdate( animation_t *a ) {
+Stds_AnimationUpdate( struct animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK )
     a->frame_timer -= 1;
 
@@ -203,11 +205,11 @@ Stds_AnimationUpdate( animation_t *a ) {
  * @return void.
  */
 void
-Stds_AnimationDraw( animation_t *a ) {
+Stds_AnimationDraw( struct animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STD_ANIMATION_MASK ) {
       Stds_BlitTextureRotate( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
-                            NULL, true );
+                              NULL, true );
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       // This rectangle splices the correct frame
       // from the sprite sheet.
@@ -225,7 +227,7 @@ Stds_AnimationDraw( animation_t *a ) {
  * @return void.
  */
 void
-Stds_AnimationDie( animation_t *a ) {
+Stds_AnimationDie( struct animation_t *a ) {
   for ( int i = 0; i < a->number_of_frames; i++ ) {
     SDL_DestroyTexture( a->frames[i] );
   }

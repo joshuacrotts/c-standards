@@ -1,4 +1,4 @@
 #ifndef GAME_DEFS_H
 #define GAME_DEFS_H
 
-#endif
+#endif // GAME_DEFS_H

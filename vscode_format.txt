@@ -1,0 +1,3 @@
+My format style. To set yours, go to File->Preferences->Search bar type "Format"->Under extensions go to C/C++->Scroll down to "C_Cpp: Clang_format_style" and paste this:
+
+{ Language: Cpp, UseTab: Never, IndentWidth: 2, TabWidth: 2, PointerAlignment: Right, AlignConsecutiveAssignments: true, AlignConsecutiveDeclarations: true, AlignConsecutiveMacros: true, AllowShortBlocksOnASingleLine: false, AlwaysBreakAfterReturnType: AllDefinitions, ColumnLimit: 100, SpaceBeforeParens: ControlStatements, SpacesInParentheses: true, SpaceAfterCStyleCast: true, SpacesInCStyleCastParentheses: true }

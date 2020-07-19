@@ -8,7 +8,10 @@
 #define L_WIDTH  3000
 #define L_HEIGHT S_HEIGHT
 
-static background_t *bg;
+static SDL_Rect                  screen_edge;
+static struct background_t *     bg;
+static struct fade_color_t       f;
+static struct particle_system_t *ps;
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -24,10 +27,6 @@ static void update_parallax_backgrounds( void );
 static void draw_trails( void );
 static void draw_enemies( void );
 static void draw_parallax_backgrounds( void );
-
-static fade_color_t       f;
-static SDL_Rect           screen_edge;
-static particle_system_t *ps;
 
 /**
  * Barebones game. This is the minimum amount of code
@@ -68,7 +67,7 @@ init_scene( void ) {
   init_player();
 
   for ( int i = 0, x = 0; i < 30; i++, x += 48 ) {
-    entity_t *e;
+    struct entity_t *e;
     e = add_enemy( x, app.LEVEL_HEIGHT - 20 );
 
     stage.enemy_tail->next = e;
@@ -77,13 +76,13 @@ init_scene( void ) {
 
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
+  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
   Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
                               parallax_scroll, false );
 
-  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
-  SDL_Color c2 = { 0, 0, 0xff, 0xff };
+  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
+  SDL_Color c2 = {0, 0, 0xff, 0xff};
 
   f.c1    = c1;
   f.c2    = c2;
@@ -114,8 +113,8 @@ tick( void ) {
  */
 static void
 update_trails( void ) {
-  trail_t *t;
-  trail_t *prev;
+  struct trail_t *t;
+  struct trail_t *prev;
 
   prev = &app.trail_head;
 
@@ -140,7 +139,7 @@ update_trails( void ) {
  */
 static void
 update_parallax_backgrounds( void ) {
-  parallax_background_t *p;
+  struct parallax_background_t *p;
   for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
     Stds_ParallaxBackgroundUpdate( p );
   }
@@ -151,8 +150,7 @@ update_parallax_backgrounds( void ) {
  */
 static void
 update_enemies( void ) {
-  entity_t *e;
-
+  struct entity_t *e;
   for ( e = stage.enemy_head.next; e != NULL; e = e->next ) {
     enum CollisionSide s = Stds_CheckAABBCollision( player, e );
 
@@ -185,8 +183,7 @@ draw( void ) {
  */
 static void
 draw_trails( void ) {
-  trail_t *t;
-
+  struct trail_t *t;
   for ( t = app.trail_head.next; t != NULL; t = t->next ) {
     Stds_TrailDraw( t );
   }
@@ -197,8 +194,7 @@ draw_trails( void ) {
  */
 static void
 draw_parallax_backgrounds( void ) {
-  parallax_background_t *p;
-
+  struct parallax_background_t *p;
   for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
     Stds_ParallaxBackgroundDraw( p );
   }
@@ -209,8 +205,7 @@ draw_parallax_backgrounds( void ) {
  */
 static void
 draw_enemies( void ) {
-  entity_t *e;
-
+  struct entity_t *e;
   for ( e = stage.enemy_head.next; e != NULL; e = e->next ) {
     enemy_draw( e );
   }
@@ -231,7 +226,7 @@ cleanup_stage( void ) {
 static void
 add_particles( int32_t x, int32_t y, size_t n ) {
   for ( int i = 0; i < n; i++ ) {
-    particle_t p;
+    struct particle_t p;
     p.x               = x;
     p.y               = y;
     p.life            = Stds_RandomInt( 100, 300 );

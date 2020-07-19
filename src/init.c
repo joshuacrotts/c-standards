@@ -98,7 +98,7 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
 
-  memset( &app, 0, sizeof( app_t ) );
+  memset( &app, 0, sizeof( struct app_t ) );
   app.SCREEN_WIDTH  = window_width;
   app.SCREEN_HEIGHT = window_height;
   app.LEVEL_WIDTH   = level_width;
@@ -180,10 +180,10 @@ Stds_Cleanup( void ) {
 
   /* Free the memory of the linked lists defined by
      the app struct. */
-  parallax_background_t *pbg;
-  texture_t *            t;
-  button_t *             b;
-  trail_t *              tr;
+  struct parallax_background_t *pbg;
+  struct texture_t *            t;
+  struct button_t *             b;
+  struct trail_t *              tr;
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   /* Frees the parallax background linked list. */
