@@ -1,7 +1,7 @@
 <h1 align="center">C - Standards</h1>
 
 <p align="center">
-  <img width="200" height="200" src="standards.PNG">
+  <img width="200" height="200" src="docs/standards.PNG">
 </p>
 
 [![CodeFactor](https://www.codefactor.io/repository/github/joshuacrotts/C-Standards/badge)](https://www.codefactor.io/repository/github/joshuacrotts/C-Standards) ![GitHub contributors](https://img.shields.io/github/contributors/JoshuaCrotts/C-Standards) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/JoshuaCrotts/C-Standards) ![GitHub repo size](https://img.shields.io/github/repo-size/JoshuaCrotts/C-Standards)  ![](https://tokei.rs/b1/github/JoshuaCrotts/C-Standards) ![](https://tokei.rs/b1/github/JoshuaCrotts/C-Standards?category=files) [![GitHub issues open](https://img.shields.io/github/issues/JoshuaCrotts/C-Standards)]() 
