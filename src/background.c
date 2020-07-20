@@ -59,9 +59,9 @@ Stds_AddParallaxBackground( const char *directory, size_t count, float normal_sc
 
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
-  char *        file_extsn = ".png";
+  const char *        file_extsn = ".png";
 
-  for ( int i = 0; i < count; i++ ) {
+  for ( uint32_t i = 0; i < count; i++ ) {
     layer = malloc( sizeof( struct parallax_background_t ) );
 
     if ( layer == NULL ) {

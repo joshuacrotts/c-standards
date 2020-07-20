@@ -32,8 +32,8 @@
 #include "../include/draw.h"
 
 /**
- * Created grid with no texture, no collision, etc. This is useful for grids that have to change colors overtime, or
- * just don't have an accompanying texture, or other special feature.
+ * Created grid with no texture, no collision, etc. This is useful for grids that have to change
+ * colors overtime, or just don't have an accompanying texture, or other special feature.
  *
  * @param float x top-left x pos of button.
  * @param float y top-left y pos of button.
@@ -46,31 +46,29 @@
  *
  * @return grid_t pointer.
  */
-struct grid_t* 
-Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, 
-                                uint32_t cols, uint32_t rows, SDL_Color lineColor, SDL_Color fillColor ){
-  struct grid_t* grid;
+struct grid_t *
+Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, uint32_t cols,
+                 uint32_t rows, SDL_Color lineColor, SDL_Color fillColor ) {
+  struct grid_t *grid;
   grid = malloc( sizeof( struct grid_t ) );
 
   if ( grid == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                 "Error: could not allocate memory for grid_t, %s.\n", SDL_GetError() );
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Error: could not allocate memory for grid_t, %s.\n",
+                 SDL_GetError() );
     exit( EXIT_FAILURE );
+  } else {
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Created grid_t.\n" );
   }
-  else{
-      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                 "Created grid_t.\n" );
-  }
-  
+
   memset( grid, 0, sizeof( struct grid_t ) );
-  grid->x = x;
-  grid->y = y;
-  grid->sx = x;
-  grid->sy = y;
-  grid->sw = squareWidth;
-  grid->sh = squareHeight;
-  grid->cols = cols;
-  grid->rows = rows;
+  grid->x         = x;
+  grid->y         = y;
+  grid->sx        = x;
+  grid->sy        = y;
+  grid->sw        = squareWidth;
+  grid->sh        = squareHeight;
+  grid->cols      = cols;
+  grid->rows      = rows;
   grid->lineColor = lineColor;
   grid->fillColor = fillColor;
 
@@ -78,53 +76,56 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight,
 }
 
 /**
-* @param grid_t* pointer to grid_t.
-*
-* @return void.
-*/
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return void.
+ */
 void
-Stds_DrawLineGrid( struct grid_t* grid ){
+Stds_DrawLineGrid( struct grid_t *grid ) {
   grid->x = grid->sx;
   grid->y = grid->sy;
 
-  for( uint32_t r = 0; r < grid->rows; r++ ){
-    Stds_DrawLine( grid->x, grid->y, grid->x + ( float )( grid->sw * grid->cols ), grid->y, &grid->lineColor );
-    grid->y += ( float )grid->sh;
+  for ( uint32_t r = 0; r < grid->rows; r++ ) {
+    Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
+                   &grid->lineColor );
+    grid->y += ( float ) grid->sh;
   }
 
   grid->x = grid->sx;
   grid->y = grid->sy;
 
-  for( uint32_t c = 0; c < grid->cols; c++ ){
-    Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float )( grid->sh * grid->rows ), &grid->lineColor );
-    grid->x += ( float )grid->sw;
+  for ( uint32_t c = 0; c < grid->cols; c++ ) {
+    Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
+                   &grid->lineColor );
+    grid->x += ( float ) grid->sw;
   }
 
   grid->x = grid->sx;
   grid->y = grid->sy;
 
-  Stds_DrawLine( grid->x, grid->y + ( float )( grid->sh * grid->rows ), grid->x + ( float )( grid->sw * grid->cols ), grid->y + ( float )( grid->sh * grid->rows ), &grid->lineColor );
-  Stds_DrawLine( grid->x + ( float )( grid->sw * grid->cols ), grid->y, grid->x + ( float )( grid->sw * grid->cols ), grid->y + ( float )( grid->sh * grid->rows ), &grid->lineColor );
+  Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
+                 grid->x + ( float ) ( grid->sw * grid->cols ),
+                 grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
+  Stds_DrawLine( grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
+                 grid->x + ( float ) ( grid->sw * grid->cols ),
+                 grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
 }
 
 /**
-* @param grid_t* pointer to grid_t.
-*
-* @return void.
-*/
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return void.
+ */
 void
-Stds_FillGrid( struct grid_t* grid ){
-
-}
+Stds_FillGrid( struct grid_t *grid ) {}
 
 /**
-* @param grid_t* pointer to grid_t.
-*
-* @return void.
-*/
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return void.
+ */
 void
-Stds_FreeGrid( struct grid_t* grid ){
-    free( grid );
-     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                 "Freed grid_t.\n" );
+Stds_FreeGrid( struct grid_t *grid ) {
+  free( grid );
+  SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
 }

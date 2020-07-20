@@ -98,7 +98,7 @@ Stds_InsertParticle( struct particle_system_t *ps, struct particle_t *p ) {
  */
 void
 Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
-  for ( int i = 0; i < ps->alive_count; i++ ) {
+  for ( uint32_t i = 0; i < ps->alive_count; i++ ) {
     struct particle_t *p = &ps->particles[i];
     if ( p->particle_update ) {
       p->particle_update( p );
@@ -130,7 +130,7 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
  */
 void
 Stds_ParticleSystemDraw( struct particle_system_t *ps ) {
-  for ( int i = 0; i < ps->alive_count; i++ ) {
+  for ( uint32_t i = 0; i < ps->alive_count; i++ ) {
     struct particle_t *p = &ps->particles[i];
     if ( p->particle_draw ) {
       p->particle_draw( p );

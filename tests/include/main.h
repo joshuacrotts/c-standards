@@ -10,15 +10,14 @@
 #include "../../include/init.h"
 #include "../../include/particle_system.h"
 #include "../../include/stds.h"
+#include "../../include/grid.h"
 
 #include "../include/game_structs.h"
 #include "../include/enemy.h"
 #include "../include/red_particle.h"
 #include "../include/animated_particle.h"
 
-#include "../../include/grid.h"
-
-struct stage_t stage;
-struct app_t   app;
+extern struct stage_t stage;
+extern struct app_t   app;
 
 #endif // MAIN_H

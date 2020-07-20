@@ -29,6 +29,8 @@
 
 #include "../include/init.h"
 
+struct app_t app;
+
 static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
 static void Stds_InitAudioContext( void );
 static void Stds_Cleanup( void );

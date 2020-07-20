@@ -6,7 +6,7 @@
 #include "../../include/stds.h"
 #include "../../include/trail.h"
 
-struct entity_t *   player;
+extern struct entity_t *player;
 extern struct app_t app;
 
 extern void init_player( void );

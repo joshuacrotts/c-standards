@@ -243,29 +243,29 @@ struct entity_t {
   float x;
   float y;
 
-  //  Miscellaneous positioning variable.
+  /* Miscellaneous positioning variable. */
   float variability;
 
-  // Scales the entity in either the x or y
-  // direction. This should default to 1.
+  /* Scales the entity in either the x or y
+     direction. This should default to 1. */
   float scale_x;
   float scale_y;
 
-  //  Directional velocity (yes, I know it's redundant).
+  /* Directional velocity (yes, I know it's redundant). */
   float dx;
   float dy;
 
-  //  Acceleration or deceleration factors.
+  /* Acceleration or deceleration factors. */
   float delta_accel_x;
   float delta_accel_y;
 
-  // Change rate of alpha value.
+  /* Change rate of alpha value. */
   float delta_alpha;
 
-  // Size of entity if not defined by a rectangle. These
-  // should either be set manually, or defined by a call
-  // to SDL_QueryTexture(...), where you pass the addresses
-  // of these variables.
+  /* Size of entity if not defined by a rectangle. These
+     should either be set manually, or defined by a call
+     to SDL_QueryTexture(...), where you pass the addresses
+     of these variables. */
   int32_t  w;
   int32_t  h;
   uint32_t flags;
@@ -276,7 +276,7 @@ struct entity_t {
   uint16_t angle;
   uint16_t radius;
 
-  // Can be used interchangably for different purposes.
+  /* Can be used interchangably for different purposes. */
   int32_t health;
   int32_t life;
 

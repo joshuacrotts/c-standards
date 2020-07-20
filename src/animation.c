@@ -127,9 +127,9 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
      the buffer. */
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
-  char *        file_extsn = ".png";
+  const char *        file_extsn = ".png";
 
-  for ( int i = 0; i < a->number_of_frames; i++ ) {
+  for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
     sprintf( number_buffer, "%d", i );
     strcpy( input_buffer, directory );
     char *file_name     = strcat( input_buffer, number_buffer );
@@ -228,7 +228,7 @@ Stds_AnimationDraw( struct animation_t *a ) {
  */
 void
 Stds_AnimationDie( struct animation_t *a ) {
-  for ( int i = 0; i < a->number_of_frames; i++ ) {
+  for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
     SDL_DestroyTexture( a->frames[i] );
   }
 

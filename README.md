@@ -46,9 +46,18 @@ Then, compile via <code>make</code>.
 
 Then, compile via <code>make</code>.
 
+**Linux (Arch-Based Distros)**: Run the following commands after cloning the repo to install SDL2:
+
+1. <code>sudo pacman -S sdl2</code>
+2. <code>sudo pacman -S sdl2_image</code>
+3. <code>sudo pacman -S sdl2_ttf</code>
+4. <code>sudo pacman -S sdl2_mixer</code>
+
+Then, compile via <code>make</code>.
+
 ## Reporting Bugs
 
 See the Issues Tab.
 
 ## Version History
-The **master** branch encompasses all changes. The **development** branch has in-progress additions and updates that are not yet ready for the master branch.
+The **master** branch encompasses all changes. The **development** branches have in-progress additions and updates that are not yet ready for the master branch. Each person on the project has a respective development branch with their name as the suffix. Please work on only your branch. Additionally, if you are not on the immediate team, you can create a fork of the project, then submit a pull request for review.

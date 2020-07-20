@@ -71,7 +71,7 @@ Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
   }
   v->logical_size++;
 
-  /* Check size, then up-shift the elements.*/
+  /* Check size, then up-shift the elements. */
   Stds_VectorCheckResize( v, RIGHT );
   Stds_VectorShift( v, index, RIGHT );
   v->data[index] = data;
@@ -213,12 +213,12 @@ static void
 Stds_VectorShift( stds_vector_t *v, size_t offset_index, enum SHIFT_DIRECTION direction ) {
   switch ( direction ) {
   case LEFT:
-    for ( int i = offset_index; i < v->logical_size; i++ ) {
+    for ( uint32_t i = offset_index; i < v->logical_size; i++ ) {
       v->data[i] = v->data[i + 1];
     }
     break;
   case RIGHT:
-    for ( int i = v->logical_size; i >= offset_index; i-- ) {
+    for ( uint32_t i = v->logical_size; i >= offset_index; i-- ) {
       v->data[i] = v->data[i - 1];
     }
     break;
