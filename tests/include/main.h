@@ -16,6 +16,8 @@
 #include "../include/red_particle.h"
 #include "../include/animated_particle.h"
 
+#include "../../include/grid.h"
+
 struct stage_t stage;
 struct app_t   app;
 

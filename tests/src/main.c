@@ -12,6 +12,7 @@ static SDL_Rect                  screen_edge;
 static struct background_t *     bg;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
+static struct grid_t* grid;
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -90,6 +91,10 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   ps = Stds_CreateParticleSystem( 512 );
+
+  SDL_Color tempGridColor = { 255, 255, 255, 255 };
+  grid = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, tempGridColor, tempGridColor );
+
 }
 
 /*
@@ -176,6 +181,8 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
+
+  Stds_DrawLineGrid( grid );
 }
 
 /**
@@ -218,6 +225,8 @@ static void
 cleanup_stage( void ) {
   Stds_Print( "Freeing player.\n" );
   free( player );
+
+  Stds_FreeGrid( grid );
 }
 
 /**
