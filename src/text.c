@@ -114,11 +114,10 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t
 void
 Stds_FreeFonts() {
   struct font_t *f;
-  f = app.font_head.next;
-
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
-
-  while ( f->next ) {
+  
+  /* Frees the font linked list. */
+  while ( app.font_head.next ) {
     f                  = app.font_head.next;
     app.font_head.next = f->next;
     free( f );

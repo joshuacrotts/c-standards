@@ -71,7 +71,7 @@ Stds_CreateParticleSystem( int32_t max_particles ) {
  */
 int32_t
 Stds_InsertParticle( struct particle_system_t *ps, struct particle_t *p ) {
-  if ( ps->alive_count == ps->max_particles - 1 ) {
+  if ( ps->alive_count >= ps->max_particles - 1 ) {
     return PS_FULL;
   }
 

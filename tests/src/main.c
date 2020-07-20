@@ -95,7 +95,7 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   /* Generate a standard particle system. */
-  ps = Stds_CreateParticleSystem( 512 );
+  ps = Stds_CreateParticleSystem( 2048 );
 
   /* Create the white grid for testing. */
   SDL_Color tempGridColor = {255, 255, 255, 255};
@@ -108,7 +108,7 @@ init_scene( void ) {
 static void
 tick( void ) {
   if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
-    add_particles( app.mouse.x, app.mouse.y, 32 );
+    add_particles( app.mouse.x, app.mouse.y, 128 );
   }
 
   Stds_CameraUpdate( player );
@@ -244,7 +244,10 @@ add_particles( int32_t x, int32_t y, size_t n ) {
     struct particle_t p;
 
     /* Adds an animated particle. */
-    p = animated_particle_init( x, y );
-    Stds_InsertParticle( ps, &p );
+    p            = animated_particle_init( x, y );
+    int32_t code = Stds_InsertParticle( ps, &p );
+    if ( code == PS_FULL ) {
+      return;
+    }
   }
 }
