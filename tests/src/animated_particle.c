@@ -59,7 +59,7 @@ animated_particle_draw( struct particle_t *p ) {
 static void
 add_particle_animation( struct particle_t *p ) {
   int8_t animation_type = Stds_RandomInt( 0, 2 );
-  float animation_time = Stds_RandomFloat(0.05, 0.30f);
+  float animation_time = Stds_RandomFloat(0.05f, 0.30f);
   switch ( animation_type ) {
   case 0:
     p->animation = Stds_AddAnimation( "tests/res/img/particle/red/frame_", 2, animation_time);
