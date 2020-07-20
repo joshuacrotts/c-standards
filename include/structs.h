@@ -62,6 +62,26 @@ struct particle_t {
   void ( *particle_draw )( struct particle_t * );
 };
 
+/**
+ * 
+ */
+struct grid_t {
+  float x;
+  float y;
+  
+  float sx;
+  float sy;
+
+  int32_t sw;
+  int32_t sh;
+
+  uint32_t cols;
+  uint32_t rows;
+
+  SDL_Color lineColor;
+  SDL_Color fillColor;
+};
+
 /*
  *
  */

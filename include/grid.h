@@ -5,23 +5,6 @@
 
 extern struct app_t app;
 
-struct grid_t {
-  float x;
-  float y;
-  
-  float sx;
-  float sy;
-
-  int32_t sw;
-  int32_t sh;
-
-  uint32_t cols;
-  uint32_t rows;
-
-  SDL_Color lineColor;
-  SDL_Color fillColor;
-};
-
 /* Will be the return type for all button related functions (what row and what col)*/
 struct grid_pair_t{
     uint32_t c;
