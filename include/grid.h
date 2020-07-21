@@ -7,8 +7,8 @@ extern struct app_t app;
 
 /* Will be the return type for all button related functions (what row and what col)*/
 struct grid_pair_t{
-    uint32_t c;
-    uint32_t r;
+    int32_t c;
+    int32_t r;
 };
 
 extern struct grid_t* Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, 
@@ -16,12 +16,12 @@ extern struct grid_t* Stds_CreateGrid( float x, float y, int32_t squareWidth, in
 
 extern void Stds_DrawLineGrid( struct grid_t* grid );
 
-extern void Stds_FillGrid( struct grid_t* grid );
+extern void Stds_FillWholeGrid( struct grid_t* grid );
 
 extern void Stds_FreeGrid( struct grid_t* grid );
 
-extern struct grid_pair_t Stds_OnHover( void );
+extern struct grid_pair_t Stds_OnGridHover( struct grid_t* grid );
 
-extern struct grid_pair_t Stds_OnClicked( int32_t mouseCode );
+extern struct grid_pair_t Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode );
 
 #endif // GRID_H

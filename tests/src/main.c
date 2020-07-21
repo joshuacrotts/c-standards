@@ -16,6 +16,7 @@ static struct background_t *     bg;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
 static struct grid_t *           grid;
+static struct grid_pair_t p; 
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -27,10 +28,12 @@ static void add_particles( int32_t, int32_t, size_t );
 static void update_trails( void );
 static void update_enemies( void );
 static void update_parallax_backgrounds( void );
+static void update_grid( void );
 
 static void draw_trails( void );
 static void draw_enemies( void );
 static void draw_parallax_backgrounds( void );
+static void draw_grid( void );
 
 /**
  * Barebones game. This is the minimum amount of code
@@ -117,6 +120,7 @@ tick( void ) {
   update_trails();
   update_enemies();
   player_update();
+  update_grid();
 }
 
 /*
@@ -187,8 +191,7 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
-
-  Stds_DrawLineGrid( grid );
+  draw_grid();
 }
 
 /**
@@ -250,4 +253,26 @@ add_particles( int32_t x, int32_t y, size_t n ) {
       return;
     }
   }
+}
+
+/**
+ *
+ */
+static void
+draw_grid( void ) {
+   Stds_DrawLineGrid( grid ); 
+     
+  if( p.r != -1 && p.c != -1 ) {
+    SDL_FRect translatedGridPosition = { grid->sx + ( float ) ( p.c * grid->sw ), grid->sy + ( float ) ( p.r * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
+    Stds_DrawRectF( &translatedGridPosition, &grid->fillColor, true, 0 );
+  }
+}
+
+/**
+ *
+ */
+static void
+update_grid( void ) {
+  /* Hover code for grid */
+  p = Stds_OnGridHover( grid );
 }
