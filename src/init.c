@@ -221,6 +221,5 @@ Stds_Cleanup( void ) {
 
   Stds_FreeFonts();
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
-  SDL_Quit();
   app.is_running = false;
 }

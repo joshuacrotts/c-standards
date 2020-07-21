@@ -46,7 +46,7 @@ static void draw_grid( void );
  */
 int
 main( int argc, char *argv[] ) {
-  atexit( cleanup_stage ); /* This is not being called for some reason... */
+  atexit( cleanup_stage );
 
   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
   Stds_InitAppStructures();
@@ -107,7 +107,7 @@ init_scene( void ) {
   grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, tempGridColor, tempGridColor );
 }
 
-/*
+/**
  *
  */
 static void
@@ -125,7 +125,7 @@ tick( void ) {
   update_grid();
 }
 
-/*
+/**
  *
  */
 static void
@@ -151,7 +151,7 @@ update_trails( void ) {
   }
 }
 
-/*
+/**
  *
  */
 static void
@@ -162,7 +162,7 @@ update_parallax_backgrounds( void ) {
   }
 }
 
-/*
+/**
  *
  */
 static void
@@ -181,7 +181,7 @@ update_enemies( void ) {
   }
 }
 
-/*
+/**
  *
  */
 static void
@@ -230,7 +230,12 @@ draw_enemies( void ) {
 }
 
 /**
- *
+ * Cleans up whatever elements are left via the stage and not Stds itself.
+ * Be sure to call this BEFORE calling Stds_GameLoop()!
+ * 
+ * @param void.
+ * 
+ * @return void.
  */
 static void
 cleanup_stage( void ) {
