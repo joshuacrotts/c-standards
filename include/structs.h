@@ -226,6 +226,7 @@ struct app_t {
   uint32_t LEVEL_HEIGHT;
 
   bool        is_debug_mode;
+  bool        is_running;
   const char *original_title;
 
   SDL_Renderer *renderer;

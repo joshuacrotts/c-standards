@@ -55,6 +55,7 @@ Stds_ProcessInput( void ) {
 
     switch ( event.type ) {
     case SDL_QUIT:
+      SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quit event." );
       exit( EXIT_SUCCESS );
       break;
     case SDL_KEYDOWN:
@@ -82,12 +83,12 @@ Stds_ProcessInput( void ) {
 
 /**
  *
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
-static inline void 
+static inline void
 Stds_UpdateMouseState( void ) {
   SDL_GetMouseState( &app.mouse.x, &app.mouse.y );
   app.mouse.is_moving = false;
@@ -142,9 +143,9 @@ Stds_MouseReleased( const SDL_MouseButtonEvent *event ) {
 }
 
 /**
- * 
+ *
  */
 static inline void
 Stds_MouseMoved( const SDL_MouseMotionEvent *e ) {
   app.mouse.is_moving = true;
-} 
+}

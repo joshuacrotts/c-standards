@@ -71,7 +71,7 @@ Stds_GameLoop( void ) {
   then = SDL_GetTicks();
 
   /* Main game loop. */
-  while ( true ) {
+  while ( app.is_running ) {
     Stds_PrepareScene();
     Stds_ProcessInput();
     app.delegate.tick();

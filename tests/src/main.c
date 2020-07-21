@@ -16,7 +16,7 @@ static struct background_t *     bg;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
 static struct grid_t *           grid;
-static struct grid_pair_t p; 
+static struct grid_pair_t        p;
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -46,12 +46,14 @@ static void draw_grid( void );
  */
 int
 main( int argc, char *argv[] ) {
+  atexit( cleanup_stage ); /* This is not being called for some reason... */
+
   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
   Stds_InitAppStructures();
+  Stds_ToggleDebugMode( true );
   init_scene();
   Stds_GameLoop();
 
-  atexit( cleanup_stage );
   return 0;
 }
 
@@ -260,10 +262,12 @@ add_particles( int32_t x, int32_t y, size_t n ) {
  */
 static void
 draw_grid( void ) {
-   Stds_DrawLineGrid( grid ); 
-     
-  if( p.r != -1 && p.c != -1 ) {
-    SDL_FRect translatedGridPosition = { grid->sx + ( float ) ( p.c * grid->sw ), grid->sy + ( float ) ( p.r * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
+  Stds_DrawLineGrid( grid );
+
+  if ( p.r != -1 && p.c != -1 ) {
+    SDL_FRect translatedGridPosition = {grid->sx + ( float ) ( p.c * grid->sw ),
+                                        grid->sy + ( float ) ( p.r * grid->sh ), ( float ) grid->sw,
+                                        ( float ) grid->sh};
     Stds_DrawRectF( &translatedGridPosition, &grid->fillColor, true, 0 );
   }
 }

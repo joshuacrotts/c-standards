@@ -147,7 +147,7 @@ Stds_FillWholeGrid( struct grid_t *grid ) {
 void
 Stds_FreeGrid( struct grid_t *grid ) {
   free( grid );
-  SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
 }
 
 /**

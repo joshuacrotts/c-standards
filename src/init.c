@@ -55,6 +55,7 @@ Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_h
   Stds_InitFonts();
 
   app.original_title = window_name;
+  app.is_running     = true;
 
   /* Assigns the callback function to clean up the
     SDL context when closing the program. */
@@ -219,5 +220,7 @@ Stds_Cleanup( void ) {
   }
 
   Stds_FreeFonts();
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
   SDL_Quit();
+  app.is_running = false;
 }

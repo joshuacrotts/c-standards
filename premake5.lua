@@ -8,11 +8,12 @@ workspace "C-Standards"
         makesettings [[
                 CC = gcc
         ]]
-        links { "SDL2main", "SDL2", "SDL2_ttf", "SDL2_mixer", "SDL2_image", "m" }
+        links { "mingw32", "SDL2main", "SDL2", "SDL2_ttf", "SDL2_mixer", "SDL2_image", "m" }
 
 
-project "Game"
-        targetdir "bin/%{cfg.buildcfg}"
+project "Game"  
+        -- Builds to the current directory to avoid file issues. --
+        targetdir ""
 
         files {
 		"**.h", "**.c"
