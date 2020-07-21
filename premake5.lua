@@ -8,7 +8,14 @@ workspace "C-Standards"
         makesettings [[
                 CC = gcc
         ]]
-        links { "mingw32", "SDL2main", "SDL2", "SDL2_ttf", "SDL2_mixer", "SDL2_image", "m" }
+
+        -- Grab the file separator; we need to have mingw32 if we're on windows. --
+        sep = package.config:sub(1,1)
+        if sep == '\\' then
+                links {"mingw32", "SDL2main", "SDL2", "SDL2_ttf", "SDL2_mixer", "SDL2_image", "m" }
+        else
+                links { "SDL2main", "SDL2", "SDL2_ttf", "SDL2_mixer", "SDL2_image", "m" }
+        end
 
 
 project "Game"  
@@ -18,7 +25,7 @@ project "Game"
         files {
 		"**.h", "**.c"
 	}
-	
+	 
 	print(files)
 
         filter "configurations:Debug"
