@@ -31,21 +31,7 @@
 #include "../include/grid.h"
 #include "../include/draw.h"
 
-static bool assert_grid( struct grid_t* grid );
-
-/**
- * @param grid_t* pointer to grid_t.
- *
- * @return bool.
- */
-bool 
-assert_grid( struct grid_t* grid ) {
-  if ( grid == NULL ) {
-    return false;
-  }
-
-  return true;
-}
+static bool Stds_AssertGrid( struct grid_t* grid );
 
 /**
  * Created grid with no texture, no collision, etc. This is useful for grids that have to change
@@ -98,7 +84,7 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
  */
 void
 Stds_DrawLineGrid( struct grid_t *grid ) {
-  if ( assert_grid( grid ) ) {
+  if ( Stds_AssertGrid( grid ) ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
@@ -134,7 +120,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
  */
 void
 Stds_FillWholeGrid( struct grid_t *grid ) { 
-  if ( assert_grid( grid ) ) {
+  if ( Stds_AssertGrid( grid ) ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
@@ -173,7 +159,7 @@ struct grid_pair_t
 Stds_OnGridHover( struct grid_t* grid ) {
   struct grid_pair_t p;
   
-  if ( assert_grid( grid ) ) {
+  if ( Stds_AssertGrid( grid ) ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
@@ -214,7 +200,7 @@ struct grid_pair_t
 Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
   struct grid_pair_t p;
   
-  if ( assert_grid( grid ) ) {
+  if ( Stds_AssertGrid( grid ) ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
@@ -245,4 +231,16 @@ Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
   p.r = -1;
 
   return p;
+}
+
+/**
+ * Ensures that the grid is not null.
+ * 
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return bool.
+ */
+static bool 
+Stds_AssertGrid( struct grid_t* grid ) {
+  return !(grid == NULL);
 }
