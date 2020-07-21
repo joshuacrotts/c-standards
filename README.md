@@ -35,32 +35,32 @@ Downloading and installing the dependencies on Windows takes a little more effor
 
 After this, run <code>premake5 gmake2</code> and you should be able to compile it with mingw32-make. If successful, the executable file will be presented and runnable.
 
-**MacOS**: For MacOS, download premake5 for MacOS (move the single executable into usr/local/bin). Run the following commands in your terminal to get the appropriate development files for SDL:
+**MacOS**: For MacOS, download premake5 for MacOS, and move the single executable into usr/local/bin. Run the following commands in your terminal to get the appropriate development files for SDL:
 
 1. <code>brew install SDL2</code>
 2. <code>brew install SDL2_image</code>
 3. <code>brew install SDL2_ttf</code>
 4. <code>brew install SDL2_mixer</code>
 
-Then, if you want to use make, run: <code>premake5 gmake2</code> and afterwards compile via <code>make</code> this will compile the executable to the current working directory. If you want to use XCode, run <code>premake5 xcode4</code> and an XCode project will be created. **not tested**
+Then, if you want to use make, run: <code>premake5 gmake2</code> and afterwards compile via <code>make</code> this will compile the executable to the current working directory. If you want to use XCode, run <code>premake5 xcode4</code> and an XCode project will be created (**not tested**). As of 7/21/2020, a Game.app file is generated, instead of the normal UNIX-executable. This will be fixed soon.
 
-**Linux**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Run the following commands (or their distro-equivalent) in your terminal:
+**Linux**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Firstly, download premake5 for linux, the move the single executable into usr/local/bin (you will need sudo permission). Run the following commands (or their distro-equivalent) in your terminal:
 
-**On Ubuntu/Debian**:
+**Debian-Based Distros (Ubuntu, Mint, etc.)**:
 
 1. <code>sudo apt-get install libsdl2-dev</code>
 2. <code>sudo apt-get install libsdl2-image-dev</code>
 3. <code>sudo apt-get install libsdl2-ttf-dev</code>
 4. <code>sudo apt-get install libsdl2-mixer-dev</code>
 
-**On Arch-Based distros**:
+**Arch-Based Distros**:
 
 1. <code>sudo pacman -S sdl2</code>
 2. <code>sudo pacman -S sdl2_image</code>
 3. <code>sudo pacman -S sdl2_ttf</code>
 4. <code>sudo pacman -S sdl2_mixer</code>
 
-Then, generate a makefile by running <code>premake gmake2</code> and finally compile via <code>make</code> this will compile the executable to the current working directory.
+Then, generate a makefile by running <code>premake5 gmake2</code> and finally compile via <code>make</code>. This will compile the executable to the current working directory.
 
 ## Reporting Bugs
 
