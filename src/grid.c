@@ -31,6 +31,22 @@
 #include "../include/grid.h"
 #include "../include/draw.h"
 
+static bool assert_grid( struct grid_t* grid );
+
+/**
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return bool.
+ */
+bool 
+assert_grid( struct grid_t* grid ) {
+  if ( grid == NULL ) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Created grid with no texture, no collision, etc. This is useful for grids that have to change
  * colors overtime, or just don't have an accompanying texture, or other special feature.
@@ -82,31 +98,33 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
  */
 void
 Stds_DrawLineGrid( struct grid_t *grid ) {
-  grid->x = grid->sx;
-  grid->y = grid->sy;
+  if ( assert_grid( grid ) ) {
+    grid->x = grid->sx;
+    grid->y = grid->sy;
 
-  for ( uint32_t r = 0; r < grid->rows; r++ ) {
-    Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
-                   &grid->lineColor );
-    grid->y += ( float ) grid->sh;
+    for ( uint32_t r = 0; r < grid->rows; r++ ) {
+      Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
+                    &grid->lineColor );
+      grid->y += ( float ) grid->sh;
+    }
+
+    grid->y = grid->sy;
+
+    for ( uint32_t c = 0; c < grid->cols; c++ ) {
+      Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
+                    &grid->lineColor );
+      grid->x += ( float ) grid->sw;
+    }
+
+    grid->x = grid->sx;
+
+    Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
+                  grid->x + ( float ) ( grid->sw * grid->cols ),
+                  grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
+    Stds_DrawLine( grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
+                  grid->x + ( float ) ( grid->sw * grid->cols ),
+                  grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
   }
-
-  grid->y = grid->sy;
-
-  for ( uint32_t c = 0; c < grid->cols; c++ ) {
-    Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
-                   &grid->lineColor );
-    grid->x += ( float ) grid->sw;
-  }
-
-  grid->x = grid->sx;
-
-  Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
-                 grid->x + ( float ) ( grid->sw * grid->cols ),
-                 grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
-  Stds_DrawLine( grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
-                 grid->x + ( float ) ( grid->sw * grid->cols ),
-                 grid->y + ( float ) ( grid->sh * grid->rows ), &grid->lineColor );
 }
 
 /**
@@ -116,20 +134,22 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
  */
 void
 Stds_FillWholeGrid( struct grid_t *grid ) { 
-  grid->x = grid->sx;
-  grid->y = grid->sy;
+  if ( assert_grid( grid ) ) {
+    grid->x = grid->sx;
+    grid->y = grid->sy;
 
-  SDL_FRect fillRect = { grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh };
+    SDL_FRect fillRect = { grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh };
 
-  for( uint32_t r = 0; r < grid->rows; r++ ) {
-    for( uint32_t c = 0; c < grid->cols; c++ ) {
+    for( uint32_t r = 0; r < grid->rows; r++ ) {
+      for( uint32_t c = 0; c < grid->cols; c++ ) {
 
-      Stds_DrawRectF( &fillRect, &grid->fillColor, true, 0) ;
+        Stds_DrawRectF( &fillRect, &grid->fillColor, true, 0) ;
 
-      fillRect.x += ( float ) grid->sw;
+        fillRect.x += ( float ) grid->sw;
+      }
+      fillRect.y += ( float ) grid->sh;
+      fillRect.x = grid->sx;
     }
-    fillRect.y += ( float ) grid->sh;
-    fillRect.x = grid->sx;
   }
 }
 
@@ -152,27 +172,29 @@ Stds_FreeGrid( struct grid_t *grid ) {
 struct grid_pair_t 
 Stds_OnGridHover( struct grid_t* grid ) {
   struct grid_pair_t p;
+  
+  if ( assert_grid( grid ) ) {
+    grid->x = grid->sx;
+    grid->y = grid->sy;
 
-  grid->x = grid->sx;
-  grid->y = grid->sy;
+    SDL_Rect hoverRect = { ( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh };
 
-  SDL_Rect hoverRect = { ( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh };
+    /* Loops through each square */
+    for( uint32_t r = 0; r < grid->rows; r++ ) {
+      p.r = ( int32_t ) r;
+      for( uint32_t c = 0; c < grid->cols; c++ ) {
+        
+        p.c = ( int32_t ) c;
 
-  /* Loops through each square */
-  for( uint32_t r = 0; r < grid->rows; r++ ) {
-    p.r = ( int32_t ) r;
-    for( uint32_t c = 0; c < grid->cols; c++ ) {
-      
-      p.c = ( int32_t ) c;
+        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, hoverRect ) ) {
+          return p;
+        }
 
-      if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, hoverRect ) ) {
-        return p;
+        hoverRect.x += ( int ) grid->sw;
       }
-
-      hoverRect.x += ( int ) grid->sw;
+      hoverRect.y += ( int ) grid->sh;
+      hoverRect.x = ( int ) grid->sx;
     }
-    hoverRect.y += ( int ) grid->sh;
-    hoverRect.x = ( int ) grid->sx;
   }
 
   /* -1 means that the mouse did not hover over any of the squares */
@@ -192,30 +214,32 @@ struct grid_pair_t
 Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
   struct grid_pair_t p;
   
-  grid->x = grid->sx;
-  grid->y = grid->sy;
+  if ( assert_grid( grid ) ) {
+    grid->x = grid->sx;
+    grid->y = grid->sy;
 
-  SDL_Rect clickRect = { ( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh };
+    SDL_Rect clickRect = { ( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh };
 
-  /* Loops through each square */
-  for( uint32_t r = 0; r < grid->rows; r++ ) {
-    p.r = ( int32_t ) r;
-    for( uint32_t c = 0; c < grid->cols; c++ ) {
-      
-      p.c = ( int32_t ) c;
+    /* Loops through each square */
+    for( uint32_t r = 0; r < grid->rows; r++ ) {
+      p.r = ( int32_t ) r;
+      for( uint32_t c = 0; c < grid->cols; c++ ) {
+        
+        p.c = ( int32_t ) c;
 
-      if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, clickRect ) && app.mouse.button[ mouseCode ] ) {
-        app.mouse.button[ mouseCode ] = 0;
-        return p;
+        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, clickRect ) && app.mouse.button[ mouseCode ] ) {
+          app.mouse.button[ mouseCode ] = 0;
+          return p;
+        }
+
+        clickRect.x += ( int ) grid->sw;
       }
-
-      clickRect.x += ( int ) grid->sw;
+      
+      clickRect.y += ( int ) grid->sh;
+      clickRect.x = ( int ) grid->sx;
     }
-    
-    clickRect.y += ( int ) grid->sh;
-    clickRect.x = ( int ) grid->sx;
   }
-
+  
   /* -1 means that the mouse did not hover over any of the squares */
   p.c = -1;
   p.r = -1;
