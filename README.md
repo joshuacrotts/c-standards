@@ -11,56 +11,49 @@ C - Standards is the continuation of the Standards game library, originally writ
 
 ## Dependencies
 
-The only dependencies for this library are SDL components, and premake (to be discussed below).
+The only dependencies for this library are SDL components.
 
 1. [SDL_2.0.12](https://www.libsdl.org/download-2.0.php)
 2. [SDL_ttf 2.0.15 (Fonts)](https://www.libsdl.org/projects/SDL_ttf/)
 3. [SDL_mixer 2.0.4 (Audio)](https://www.libsdl.org/projects/SDL_mixer/)
 4. [SDL_image 2.0.5 (PNG/JPG Wrapper)](https://www.libsdl.org/projects/SDL_image/)
-5. [premake5](https://premake.github.io/)
 
 ## Rebuilding C - Standards
-Note that the rebuild process __has changed__! To rebuild the code, clone the repository to your computer. This project uses [premake5](https://premake.github.io/): a project file generator that generates project files to Visual Studio, GNU Make, XCode, and more.
 
-**Windows**: 
-Downloading and installing the dependencies on Windows takes a little more effort than MacOS or Linux:
-
+**Windows**: To rebuild the code, clone the repository to your computer. This project is compiled with MinGW and a makefile. Depending on how you want to compile the project (e.g. with Visual Studio, CodeBlocks, etc.), you may need to alter the makefile to suit your needs. Downloading and installing the dependencies on Windows takes a little more effort than MacOS or Linux:
 1. Download [mingw-get-setup.exe](https://osdn.net/projects/mingw/releases/).
 2. Install all packages except mingw32-gcc-ada-base, mingw32-gcc-fortran-base, and mingw32-gcc-objc-base through the installer.
 3. Download the four libraries above. The SDL2.0.12 link only provides a DLL file. The rest come in a .tar.gz file to extract. Make sure to choose the MinGW developer version.
 4. Inside these archives exists two folders: an i686-w64, and x86_64-w64 version. Choose the former (i686-w64). This is the 32-bit version, which is what we will use.
 5. There are three folders in each extension: bin, include, and lib. The bin/ folder provides the .dll files. Store these in C:/MinGW/bin. The include/ folder has an SDL2 folder with the respective .h file. Drag the SDL2 folder into C:/MinGW/include (do not take the .h file out!). Lastly, the lib/ folder contains necessary libraries (.a files) that accompany the addon. Drag these into C:/MinGW/lib.
-6. Download premake5. Make sure that it's the alpha version 5, and not beta 4, or else this will not work.
-7. You should get a single premake5 application file. Drag this into C:/MinGW/bin. Also be sure to set your environment PATH variables (in the Cortana box, type "Edit the system environment variables", click "Environment Variables" in the bottom-right, then select the variable "Path" in the second section. Click "Edit...", then "New", and type "C:/MinGW/bin" without quotes.). You may want to restart your IDE/CMD/PC to get this to work just to be sure.
+6. At this point, your code should be good to go. If you are using VSCode, make sure to set the compiler to gcc-x86, and set the compiler path to C:/MinGW/bin/gcc.exe. Compile the code via mingw32-make.
 
-After this, run <code>premake5 gmake2</code> and you should be able to compile it with mingw32-make. If successful, the executable file will be presented and runnable.
-
-**MacOS**: For MacOS, download premake5 for MacOS, and move the single executable into usr/local/bin. Run the following commands in your terminal to get the appropriate development files for SDL:
+**MacOS**: For MacOS, run the following commands in your terminal to get the appropriate development files for SDL:
 
 1. <code>brew install SDL2</code>
 2. <code>brew install SDL2_image</code>
 3. <code>brew install SDL2_ttf</code>
 4. <code>brew install SDL2_mixer</code>
 
-Then, if you want to use make, run: <code>premake5 gmake2</code> and afterwards compile via <code>make</code> this will compile the executable to the current working directory. If you want to use XCode, run <code>premake5 xcode4</code> and an XCode project will be created (**not tested**). As of 7/21/2020, a Game.app file is generated, instead of the normal UNIX-executable. This will be fixed soon.
+Then, compile via <code>make</code>.
 
-**Linux**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Firstly, download premake5 for linux, the move the single executable into usr/local/bin (you will need sudo permission). Run the following commands (or their distro-equivalent) in your terminal:
-
-**Debian-Based Distros (Ubuntu, Mint, etc.)**:
+**Linux (Ubuntu/Debian)**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Run the following commands (or their distro-equivalent) in your terminal:
 
 1. <code>sudo apt-get install libsdl2-dev</code>
 2. <code>sudo apt-get install libsdl2-image-dev</code>
 3. <code>sudo apt-get install libsdl2-ttf-dev</code>
 4. <code>sudo apt-get install libsdl2-mixer-dev</code>
 
-**Arch-Based Distros**:
+Then, compile via <code>make</code>.
+
+**Linux (Arch-Based Distros)**: Run the following commands after cloning the repo to install SDL2:
 
 1. <code>sudo pacman -S sdl2</code>
 2. <code>sudo pacman -S sdl2_image</code>
 3. <code>sudo pacman -S sdl2_ttf</code>
 4. <code>sudo pacman -S sdl2_mixer</code>
 
-Then, generate a makefile by running <code>premake5 gmake2</code> and finally compile via <code>make</code>. This will compile the executable to the current working directory.
+Then, compile via <code>make</code>.
 
 ## Reporting Bugs
 
