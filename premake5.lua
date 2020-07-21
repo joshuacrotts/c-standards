@@ -19,7 +19,7 @@ workspace "C-Standards"
 
 
 project "Game"  
-        -- Builds to the current directory to avoid file issues. --
+        -- Builds to the current directory to avoid file (I/O) issues. --
         targetdir ""
 
         files {

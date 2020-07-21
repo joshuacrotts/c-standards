@@ -42,7 +42,7 @@ After this, run <code>premake5 gmake2</code> and you should be able to compile i
 3. <code>brew install SDL2_ttf</code>
 4. <code>brew install SDL2_mixer</code>
 
-Then, if you want to use make, run: <code>premake5 gmake2</code> and after this compile via <code>make</code> this will compile the executable to *bin/Debug/* or *bin/Release/*. If you want to use XCode, run <code>premake5 xcode4</code> and an XCode project will be created. **not tested**
+Then, if you want to use make, run: <code>premake5 gmake2</code> and afterwards compile via <code>make</code> this will compile the executable to the current working directory. If you want to use XCode, run <code>premake5 xcode4</code> and an XCode project will be created. **not tested**
 
 **Linux**: The process is similar to the former, with the exception of having to install SDL files to your system in Linux. Run the following commands (or their distro-equivalent) in your terminal:
 
@@ -60,7 +60,7 @@ Then, if you want to use make, run: <code>premake5 gmake2</code> and after this 
 3. <code>sudo pacman -S sdl2_ttf</code>
 4. <code>sudo pacman -S sdl2_mixer</code>
 
-Then, generate a makefile by running <code>premake gmake2</code> and finally compile via <code>make</code> this will compile the executable to *bin/Debug/* or *bin/Release*.
+Then, generate a makefile by running <code>premake gmake2</code> and finally compile via <code>make</code> this will compile the executable to the current working directory.
 
 ## Reporting Bugs
 
