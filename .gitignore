@@ -1,3 +1,7 @@
 .vscode/*
+bin/*
+obj/*
+Makefile
+*.make
 Game
 Game.exe
