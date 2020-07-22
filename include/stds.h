@@ -60,6 +60,9 @@ extern char *Stds_Substring( const char *str, int first, int last );
 
 extern int32_t Stds_IndexOf( const char *s, const char *search_str );
 
-extern char *Stds_StrCatInt( const char *s, int32_t n );
+extern char *Stds_StrCatIntPtr( const char *s, int32_t n );
+
+extern char *Stds_StrCatIntArray( const char s[], int32_t n );
+
 
 #endif // STDS_H

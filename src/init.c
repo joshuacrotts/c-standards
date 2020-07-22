@@ -34,6 +34,7 @@ struct app_t app;
 static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
 static void Stds_InitAudioContext( void );
 static void Stds_Cleanup( void );
+static void Stds_QuitSDLComponents( void );
 
 /**
  * Calls the remainder of the initialization functions, and
@@ -175,8 +176,9 @@ Stds_InitAudioContext( void ) {
  */
 static void
 Stds_Cleanup( void ) {
-  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
+  app.is_running = false;
 
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
   SDL_DestroyRenderer( app.renderer );
   SDL_DestroyWindow( app.window );
 
@@ -192,6 +194,7 @@ Stds_Cleanup( void ) {
   while ( app.parallax_head.next ) {
     pbg                    = app.parallax_head.next;
     app.parallax_head.next = pbg->next;
+    Stds_BackgroundDie( pbg->background );
     free( pbg );
   }
 
@@ -220,6 +223,19 @@ Stds_Cleanup( void ) {
   }
 
   Stds_FreeFonts();
+  Stds_QuitSDLComponents();
+}
+
+/**
+ *
+ */
+static void
+Stds_QuitSDLComponents( void ) {
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing SDL Mixer context." );
+  Mix_Quit();
+  Mix_CloseAudio();
+
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
-  app.is_running = false;
+  SDL_QuitSubSystem( SDL_INIT_EVERYTHING );
+  SDL_Quit();
 }

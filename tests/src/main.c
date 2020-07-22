@@ -12,7 +12,6 @@ struct entity_t *player;
 struct stage_t   stage;
 
 static SDL_Rect                  screen_edge;
-static struct background_t *     bg;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
 static struct grid_t *           grid;

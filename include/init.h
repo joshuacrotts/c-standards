@@ -1,6 +1,7 @@
 #ifndef INIT_H
 #define INIT_H
 
+#include "background.h"
 #include "sound.h"
 #include "stds.h"
 #include "text.h"

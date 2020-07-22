@@ -140,7 +140,7 @@ static uint32_t
 Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   uint16_t fps = *( uint16_t * ) args;
   /* Create text window buffer. */
-  char *window_buffer = malloc( sizeof( char ) * SMALL_TEXT_BUFFER );
+  char window_buffer[SMALL_TEXT_BUFFER];
 
   if ( window_buffer == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
@@ -155,7 +155,9 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   strcat( window_buffer, " | FPS: " );
 
   /* Concatenate number to title variable. */
-  window_buffer = Stds_StrCatInt( window_buffer, fps );
-  SDL_SetWindowTitle( app.window, window_buffer );
+  char *title;
+  title = Stds_StrCatIntArray( window_buffer, fps );
+  SDL_SetWindowTitle( app.window, title );
+
   return interval;
 }

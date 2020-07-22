@@ -389,7 +389,16 @@ Stds_IndexOf( const char *s, const char *search_str ) {
  * @return void.
  */
 char *
-Stds_StrCatInt( const char *s, int32_t n ) {
+Stds_StrCatIntPtr( const char *s, int32_t n ) {
+  memset( text_buffer, '\0', sizeof( text_buffer ) );
+  strncat( text_buffer, s, strlen( s ) );
+  int32_t digits = sprintf( number_buffer, "%d", n );
+  strncat( text_buffer, number_buffer, digits );
+  return text_buffer;
+}
+
+char *
+Stds_StrCatIntArray( const char s[], int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
   int32_t digits = sprintf( number_buffer, "%d", n );
