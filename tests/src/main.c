@@ -17,6 +17,7 @@ static struct fade_color_t       f;
 static struct particle_system_t *ps;
 static struct grid_t *           grid;
 static struct grid_pair_t        p;
+static int32_t testTextureGridID;
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -105,6 +106,10 @@ init_scene( void ) {
   /* Create the white grid for testing. */
   SDL_Color tempGridColor = {255, 255, 255, 255};
   grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, tempGridColor, tempGridColor );
+
+  /* Initializes textures for the grid. */
+  Stds_InitializeGridTextures( grid, 1 );
+  testTextureGridID = Stds_AddGridTexture( grid, "tests/res/img/player.png" );
 }
 
 /**
@@ -270,11 +275,8 @@ draw_grid( void ) {
   Stds_DrawLineGrid( grid );
 
   if ( p.r != -1 && p.c != -1 ) {
-    SDL_FRect translatedGridPosition = {grid->sx + ( float ) ( p.c * grid->sw ),
-                                        grid->sy + ( float ) ( p.r * grid->sh ), ( float ) grid->sw,
-                                        ( float ) grid->sh};
-    Stds_DrawRectF( &translatedGridPosition, &grid->fillColor, true, 0 );
-  }
+    Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridID );
+  }  
 }
 
 /**

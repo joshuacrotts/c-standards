@@ -73,6 +73,8 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->rows      = rows;
   grid->lineColor = lineColor;
   grid->fillColor = fillColor;
+  grid->textures = NULL;
+  grid->textureBuffer = 0;
 
   return grid;
 }
@@ -146,6 +148,14 @@ Stds_FillWholeGrid( struct grid_t *grid ) {
  */
 void
 Stds_FreeGrid( struct grid_t *grid ) {
+  if ( grid->textures != NULL ) {
+    for( uint32_t textureIndex = 0; textureIndex < grid->textureBuffer; textureIndex++ ) {
+      SDL_DestroyTexture( grid->textures[textureIndex] );
+      SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing texture %d.\n", textureIndex );
+    }
+    free( grid->textures );
+  }
+  memset( grid, 0, sizeof( struct grid_t ) );
   free( grid );
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
 }
@@ -168,9 +178,11 @@ Stds_OnGridHover( struct grid_t* grid ) {
     /* Loops through each square */
     for( uint32_t r = 0; r < grid->rows; r++ ) {
       p.r = ( int32_t ) r;
+      p.y = ( float ) hoverRect.y;
       for( uint32_t c = 0; c < grid->cols; c++ ) {
         
         p.c = ( int32_t ) c;
+        p.x = ( float ) hoverRect.x;
 
         if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, hoverRect ) ) {
           return p;
@@ -192,7 +204,7 @@ Stds_OnGridHover( struct grid_t* grid ) {
 
 /**
  * @param grid_t* pointer to grid_t.
- * @param int32_t the code for which mous ebutton is clicked
+ * @param int32_t the code for which mous ebutton is clicked.
  *
  * @return grid_pair_t struct that holds data for what square is being clicked.
  */
@@ -209,9 +221,11 @@ Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
     /* Loops through each square */
     for( uint32_t r = 0; r < grid->rows; r++ ) {
       p.r = ( int32_t ) r;
+      p.y = ( float ) clickRect.y;
       for( uint32_t c = 0; c < grid->cols; c++ ) {
         
         p.c = ( int32_t ) c;
+        p.x = ( float ) clickRect.x;
 
         if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, clickRect ) && app.mouse.button[ mouseCode ] ) {
           app.mouse.button[ mouseCode ] = 0;
@@ -231,6 +245,64 @@ Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
   p.r = -1;
 
   return p;
+}
+
+/**
+ * Ensures that the grid is not null.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param int32_t number of textures for the grid.
+ *
+ * @return void.
+ */
+void 
+Stds_InitializeGridTextures( struct grid_t* grid, int32_t textureBuffer ) {
+  static bool onceCall = false;
+  if ( Stds_AssertGrid( grid ) && !onceCall) {
+    grid->textures = malloc( textureBuffer * sizeof( SDL_Texture* ) );
+    grid->textureBuffer = textureBuffer;
+    onceCall = true;
+  }
+}
+
+/**
+ * Ensures that the grid is not null.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param const char* filePath to texture.
+ *
+ * @return uint32_t.
+ */
+uint32_t 
+Stds_AddGridTexture( struct grid_t* grid, const char* filePath ) {
+  static int32_t currentTextureNum = -1;
+  if ( currentTextureNum < grid->textureBuffer - 1 ) {
+    currentTextureNum++;
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added texture %d to grid with path %s\n", currentTextureNum, filePath);
+    grid->textures[currentTextureNum] = Stds_LoadTexture( filePath );
+    return currentTextureNum;
+  }
+  else {
+    return -1;
+  }
+}
+
+/**
+ * Ensures that the grid is not null.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param uint32_t which column texture will be put.
+ * @param uint32_t which row texture will be put.
+ * @param int32_t index in texture array
+ *
+ * @return void.
+ */
+void 
+Stds_PutGridTexture( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index ) {
+  if ( index < grid->textureBuffer && index > -1) {
+    SDL_FRect texturePosition = { grid->x + ( float ) (col * grid->sw ), grid->y + ( float ) (row * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
+    SDL_RenderCopyF( app.renderer, grid->textures[index], NULL, &texturePosition );
+  }
 }
 
 /**

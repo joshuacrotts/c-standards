@@ -80,6 +80,10 @@ struct grid_t {
 
   SDL_Color lineColor;
   SDL_Color fillColor;
+
+  /* Members for having textures */
+  SDL_Texture** textures;
+  int32_t textureBuffer;
 };
 
 /*

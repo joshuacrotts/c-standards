@@ -9,6 +9,9 @@ extern struct app_t app;
 struct grid_pair_t{
     int32_t c;
     int32_t r;
+
+    float x;
+    float y;
 };
 
 extern struct grid_t* Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, 
@@ -23,5 +26,11 @@ extern void Stds_FreeGrid( struct grid_t* grid );
 extern struct grid_pair_t Stds_OnGridHover( struct grid_t* grid );
 
 extern struct grid_pair_t Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode );
+
+extern void Stds_InitializeGridTextures( struct grid_t* grid, int32_t textureBuffer );
+
+extern uint32_t Stds_AddGridTexture( struct grid_t* grid, const char* filePath );
+
+extern void Stds_PutGridTexture( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index );
 
 #endif // GRID_H
