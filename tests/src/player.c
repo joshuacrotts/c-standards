@@ -9,9 +9,7 @@
 
 static bool                is_moving    = false;
 static bool                is_attacking = false;
-static struct animation_t *idle_animation;
 static struct animation_t *walk_animation;
-static struct animation_t *attack_animation;
 
 static void key_input_listener( void );
 static void check_bounds( void );
@@ -32,9 +30,7 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  idle_animation   = Stds_AddAnimation( "tests/res/img/player/8bitidle/idle_", 2, 0.33f );
-  walk_animation   = Stds_AddAnimation( "tests/res/img/player/8bitwalk/walk_", 4, 0.1f );
-  attack_animation = Stds_AddAnimation( "tests/res/img/player/8bitattack/attack_", 7, 0.05f );
+  walk_animation   = Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png", 16, 0.08f, 0, 0, 4, 4 );
 }
 
 /**
@@ -44,20 +40,9 @@ void
 player_update( void ) {
   key_input_listener();
 
-  if ( is_moving ) {
-    player->animation = walk_animation;
-  } else if ( is_attacking ) {
-    player->animation = attack_animation;
-    if ( attack_animation->cycle_once &&
-         attack_animation->current_frame_id == attack_animation->number_of_frames - 1 ) {
-      is_attacking = false;
-    }
-  } else {
-    player->animation = idle_animation;
-  }
-
-  SDL_QueryTexture( player->animation->frames[player->animation->current_frame_id], NULL, NULL,
-                    &player->w, &player->h );
+  player->animation = walk_animation;
+  player->w = player->animation->sprite_width;
+  player->h = player->animation->sprite_height;
 
   player->dy += GRAVITY;
 
@@ -97,19 +82,12 @@ key_input_listener( void ) {
 
   if ( app.keyboard[SDL_SCANCODE_A] ) {
     player->dx              = -VELOCITY;
-    player->animation->flip = SDL_FLIP_HORIZONTAL;
+    player->animation->flip = SDL_FLIP_NONE;
   }
 
   else if ( app.keyboard[SDL_SCANCODE_D] ) {
     player->dx              = VELOCITY;
-    player->animation->flip = SDL_FLIP_NONE;
-  }
-
-  else if ( app.keyboard[SDL_SCANCODE_SPACE] ) {
-    is_attacking                 = true;
-    attack_animation->flip       = player->animation->flip;
-    attack_animation->cycle_once = true;
-    attack_animation->flags |= ANIMATION_ACTIVE_MASK;
+    player->animation->flip = SDL_FLIP_HORIZONTAL;
   }
 
   else {

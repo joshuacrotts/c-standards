@@ -147,12 +147,16 @@ struct animation_t {
   uint16_t angle;
   uint16_t start_x;
   uint16_t start_y;
-  int32_t  w;
-  int32_t  h;
+  int32_t  sprite_width;
+  int32_t  sprite_height;
   int32_t  sprite_sheet_width;
   int32_t  sprite_sheet_height;
   uint8_t  current_frame_id;
+  uint8_t  current_frame_row_id;
+  uint8_t  current_frame_col_id;
   size_t   number_of_frames;
+  size_t   rows_count;
+  size_t   cols_count;
 
   bool cycle_once;
 

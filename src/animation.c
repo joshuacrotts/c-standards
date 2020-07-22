@@ -35,20 +35,22 @@
 static char input_buffer[MAX_BUFFER_SIZE];
 
 /**
- * Defines a sprite sheet object, where each sprite is beside each
- * other, horizontally.
+ * Defines a sprite sheet object. Note that a->current_texture is only
+ * applicable with sprite sheets!
  *
  * @param const char* file directory of sprite sheet.
  * @param uint8_t number of frames.
  * @param float time spent on an individual frame per second.
  * @param uint16_t starting top-left x pos of the sprite sheet.
  * @param uint16_t starting top-left y pos of the sprite sheet.
+ * @param size_t number of rows.
+ * @param size_t number of columns.
  *
  * @return animation_t* struct.
  */
 struct animation_t *
 Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
-                     uint16_t y ) {
+                     uint16_t y, size_t no_rows, size_t no_cols ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -66,14 +68,19 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
   a->frame_timer      = frame_delay * FPS;
   a->start_x          = x;
   a->start_y          = y;
+  a->rows_count       = no_rows;
+  a->cols_count       = no_cols;
 
   SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_sheet_width,
                     &a->sprite_sheet_height );
 
-  a->w = a->sprite_sheet_width / no_of_frames;
-  a->h = a->sprite_sheet_height;
+  a->sprite_width  = a->sprite_sheet_width / a->cols_count;
+  a->sprite_height = a->sprite_sheet_height / a->rows_count;
 
-  a->current_frame_id = 0;
+  a->current_frame_id     = 0;
+  a->current_frame_col_id = 0;
+  a->current_frame_row_id = 0;
+
   a->id_flags |= SPRITE_SHEET_MASK;
   a->flags |= ANIMATION_ACTIVE_MASK;
 
@@ -86,7 +93,9 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
  * will load them in. All sprites must have the same
  * leading prefix, with a number at the end indicating
  * their index in the sequence (ex. spr_0, spr_1, spr_2,
- *, etc.).
+ *, etc.). Note that a->current_texture is only
+ * applicable with sprite sheets, so do not use it! To refer
+ * to the current frame,
  *
  * @param const char* directory to files with file prefix.
  * @param uint8_t number of frames.
@@ -119,7 +128,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
   a->frame_timer      = frame_delay * FPS;
   a->current_frame_id = 0;
 
-  SDL_QueryTexture( a->current_texture, NULL, NULL, &a->w, &a->h );
+  SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
   a->id_flags |= STD_ANIMATION_MASK;
   a->flags |= ANIMATION_ACTIVE_MASK;
 
@@ -127,7 +136,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
      the buffer. */
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
-  const char *        file_extsn = ".png";
+  const char *  file_extsn = ".png";
 
   for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
     sprintf( number_buffer, "%d", i );
@@ -145,11 +154,10 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
 
 /**
  * Updates the animation type. If it is a sprite sheet, it
- * advances the coordinate used to keep track of the current
- * sprite in the sheet (i.e. the x coordinate defining the top
- * left). Oppositely, if it is a series of images, we just advance
- * the pointer keeping track of each image. Once the cycle ends,
- * the pointer or coordinate is reset back to 0.
+ * advances the coordinates used to keep track of the current
+ * sprite in the sheet. Oppositely, if it is a series of images,
+ * we just advance the pointer keeping track of each image. Once 
+ * the cycle ends, the pointer or coordinate is reset back to 0.
  *
  * @param animation_t* animation to update.
  *
@@ -158,41 +166,54 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
 void
 Stds_AnimationUpdate( struct animation_t *a ) {
   if ( a->flags & ANIMATION_ACTIVE_MASK )
-    a->frame_timer -= 1;
+    a->frame_timer--;
 
   if ( a->frame_timer < 0 ) {
     /* Resets the frame countdown. */
     a->frame_timer = a->frame_delay * FPS;
-    a->current_frame_id += 1;
+
+    /* Increment the frame pointer. */
+    a->current_frame_id++;
+
+    /* If we reach the end of the animation sequence,
+       return to the start. */
+    if ( a->current_frame_id >= a->number_of_frames ) {
+      a->current_frame_id     = 0;
+      a->current_frame_col_id = 0;
+      a->current_frame_row_id = 0;
+    }
 
     /* If we have a spritesheet, we advance x coordinate
        of the sprite. Otherwise, we advance the pointer
        referencing which sprite to render in the array. */
     if ( a->id_flags & SPRITE_SHEET_MASK ) {
-      a->splice_x += a->sprite_sheet_width / a->number_of_frames;
+      a->splice_x = a->current_frame_col_id * a->sprite_width;
+      a->splice_y = a->current_frame_row_id * a->sprite_height;
+
+      a->current_frame_col_id++;
+
+      /* If we reach the end of the row in the sheet, we need
+         to go down a row and reset the column id. */
+      if ( a->current_frame_col_id == a->cols_count ) {
+        a->current_frame_col_id = 0;
+        a->current_frame_row_id++;
+      }
     } else {
+      /* Get the sprite and make sure its dimensions haven't changed! */
       a->current_texture = a->frames[a->current_frame_id];
+      SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
     }
 
-    /* If we reach the end of the animation sequence,
-       return to the start. */
-    if ( a->current_frame_id >= a->number_of_frames ) {
-      a->current_frame_id = 0;
-      if ( a->id_flags & SPRITE_SHEET_MASK ) {
-        a->splice_x = 0;
-      } else {
-        a->current_frame_id = 0;
-      }
-
-      /* If we have the flag enabled to cycle through the animation
-         only once (and we just finished), deactivate the flag to
-         continue and quit. */
-      if ( a->cycle_once ) {
-        a->flags ^= ANIMATION_ACTIVE_MASK;
-        a->cycle_once       = false;
-        a->current_frame_id = 0;
-        return;
-      }
+    /* If we have the flag enabled to cycle through the animation
+       only once (and we just finished), deactivate the flag to
+       continue and quit. */
+    if ( a->cycle_once ) {
+      a->flags ^= ANIMATION_ACTIVE_MASK;
+      a->cycle_once           = false;
+      a->current_frame_id     = 0;
+      a->current_frame_col_id = 0;
+      a->current_frame_row_id = 0;
+      return;
     }
   }
 }
@@ -213,8 +234,10 @@ Stds_AnimationDraw( struct animation_t *a ) {
     } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->w, a->h};
-      Stds_BlitTextureRect( a->current_texture, &curr_rect, a->pos_x, a->pos_y, true );
+      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
+                            a->sprite_height};
+      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->angle,
+                                  a->flip, NULL, true );
     }
   }
 }

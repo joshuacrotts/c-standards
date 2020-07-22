@@ -120,7 +120,8 @@ init_scene( void ) {
 static void
 tick( void ) {
   if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
-    add_particles( app.mouse.x, app.mouse.y, 128 );
+    add_particles( app.mouse.x, app.mouse.y, 1 );
+    app.mouse.button[SDL_BUTTON_LEFT] = 0;
   }
 
   Stds_CameraUpdate( player );
@@ -247,8 +248,8 @@ draw_enemies( void ) {
 static void
 cleanup_stage( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing player.\n" );
+  Stds_Print("Freeing Player and grid.");
   free( player );
-
   Stds_FreeGrid( grid );
 }
 
