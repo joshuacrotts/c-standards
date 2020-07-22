@@ -101,7 +101,7 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   /* Generate a standard particle system. */
-  ps = Stds_CreateParticleSystem( 2048 );
+  ps = Stds_CreateParticleSystem( 64 );
 
   /* Create the white grid for testing. */
   SDL_Color tempGridColor = {255, 255, 255, 255};
@@ -240,7 +240,7 @@ draw_enemies( void ) {
 
 /**
  * Cleans up whatever elements are left via the stage and not Stds itself.
- * Be sure to call this BEFORE calling Stds_GameLoop()!
+ * Be sure to assign the callback with atexit(...) BEFORE calling Stds_GameLoop()!
  * 
  * @param void.
  * 
@@ -248,8 +248,7 @@ draw_enemies( void ) {
  */
 static void
 cleanup_stage( void ) {
-  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing player.\n" );
-  Stds_Print("Freeing Player and grid.");
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing player and grid components.\n" );
   free( player );
   Stds_FreeGrid( grid );
 }

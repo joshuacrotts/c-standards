@@ -61,7 +61,7 @@ Stds_QueueAdd( struct stds_queue_t *q, void *data ) {
 void *
 Stds_QueuePoll( struct stds_queue_t *q ) {
   if ( Stds_QueueIsEmpty( q ) ) {
-    Stds_Print( "Error! Cannot poll on an empty queue.\n" );
+    fprintf( stderr, "Error! Cannot poll on an empty queue.\n" );
     exit( EXIT_FAILURE );
   }
 
@@ -121,7 +121,7 @@ Stds_QueueClear( struct stds_queue_t *q ) {
 inline void *
 Stds_QueuePeek( struct stds_queue_t *q ) {
   if ( Stds_QueueIsEmpty( q ) ) {
-    Stds_Print( "Error! Cannot peek on an empty queue.\n" );
+    fprintf( stderr, "Error! Cannot peek on an empty queue.\n" );
     exit( EXIT_FAILURE );
   }
 

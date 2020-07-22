@@ -55,11 +55,11 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid = malloc( sizeof( struct grid_t ) );
 
   if ( grid == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Error: could not allocate memory for grid_t, %s.\n",
-                 SDL_GetError() );
+    SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION,
+                  "Error: could not allocate memory for grid_t, %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   } else {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Created grid_t.\n" );
+    SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Created grid_t.\n" );
   }
 
   memset( grid, 0, sizeof( struct grid_t ) );
@@ -161,17 +161,19 @@ Stds_FreeGrid( struct grid_t *grid ) {
   if ( grid->textures != NULL ) {
     for ( uint32_t textureIndex = 0; textureIndex < grid->textureBuffer; textureIndex++ ) {
       SDL_DestroyTexture( grid->textures[textureIndex] );
-      Stds_Print( "Freeing texture %d.\n", textureIndex );
+      SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing texture %d.\n", textureIndex );
     }
     free( grid->textures );
   }
+
   if ( grid->spriteSheet != NULL ) {
     SDL_DestroyTexture( grid->spriteSheet );
-    Stds_Print( "Freeing spriteSheet.\n" );
+    SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing spritesheet.\n" );
   }
+
   memset( grid, 0, sizeof( struct grid_t ) ); /* Makes the grid be equal to NULL. */
   free( grid );
-  Stds_Print( "Freed grid_t.\n" );
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
 }
 
 /**
@@ -192,7 +194,7 @@ Stds_OnGridHover( struct grid_t *grid ) {
     SDL_Rect hoverRect = {( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh};
 
     /* Loops through each square. */
-    for( uint32_t r = 0; r < grid->rows; r++ ) {
+    for ( uint32_t r = 0; r < grid->rows; r++ ) {
       p.r = ( int32_t ) r;
       p.y = ( float ) hoverRect.y;
       for ( uint32_t c = 0; c < grid->cols; c++ ) {
@@ -297,11 +299,11 @@ Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
 uint32_t
 Stds_AddGridTexture( struct grid_t *grid, const char *filePath ) {
   if ( Stds_AssertGrid( grid ) ) {
-    static int32_t currentTextureNum = -1;
+    int32_t currentTextureNum = -1;
     if ( currentTextureNum < grid->textureBuffer - 1 ) {
       currentTextureNum++;
-      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added texture %d to grid with path %s\n",
-                   currentTextureNum, filePath );
+      SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Added texture %d to grid with path %s\n",
+                    currentTextureNum, filePath );
       grid->textures[currentTextureNum] = Stds_LoadTexture( filePath );
       return currentTextureNum;
     } else {
@@ -335,7 +337,7 @@ Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t in
 
 /**
  * Adds a sprite sheet to the grid.
- * 
+ *
  * @param grid_t* pointer to grid_t.
  * @param const char* filePath filePath to texture
  * @param uint32_t number of cols the sprite sheet will have.
@@ -347,12 +349,12 @@ void
 Stds_AddSpriteSheetToGrid( struct grid_t *grid, const char *filePath, uint32_t cols,
                            uint32_t rows ) {
   if ( Stds_AssertGrid( grid ) ) {
-    static bool onceCall = false;
-    if ( Stds_AssertGrid( grid ) && !onceCall ) {
-      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added spriteSheet to grid with path %s\n",
-                   filePath );
+    bool once_call = false;
+    if ( Stds_AssertGrid( grid ) && !once_call ) {
+      SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Added spriteSheet to grid with path %s\n",
+                    filePath );
       grid->spriteSheet = Stds_LoadTexture( filePath );
-      onceCall          = true;
+      once_call         = true;
       SDL_QueryTexture( grid->spriteSheet, NULL, NULL, &grid->clip.w, &grid->clip.h );
 
       grid->clip.w /= cols;
@@ -366,7 +368,7 @@ Stds_AddSpriteSheetToGrid( struct grid_t *grid, const char *filePath, uint32_t c
 
 /**
  * Select which sprite you want to use.
- * 
+ *
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column the sprite is to be used.
  * @param uint32_t which row the sprite is to be used.
@@ -384,7 +386,7 @@ Stds_SelectSpriteForGrid( struct grid_t *grid, uint32_t sheetCol, uint32_t sheet
 
 /**
  * Will render the specified sprite selected from Stds_SelectSpriteForGrid.
- * 
+ *
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column to render the specified sprite onto the grid.
  * @param uint32_t which row to render the specified sprite onto the grid.
