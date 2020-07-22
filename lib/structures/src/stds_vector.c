@@ -27,7 +27,7 @@ Stds_VectorCreate( size_t element_size ) {
   v = malloc( sizeof( stds_vector_t ) );
 
   if ( v == NULL ) {
-    Stds_Print( "Error: could not allocate memory for stds_vector_t!\n" );
+    printf( "Error: could not allocate memory for stds_vector_t!\n" );
     exit( EXIT_FAILURE );
   }
 
@@ -51,7 +51,8 @@ Stds_VectorCreate( size_t element_size ) {
 void
 Stds_VectorAppend( stds_vector_t *v, void *data ) {
   Stds_VectorCheckResize( v, RIGHT );
-  v->data[++v->logical_size] = data;
+  v->data[v->logical_size] = data;
+  v->logical_size++;
 }
 
 /**
@@ -66,7 +67,7 @@ Stds_VectorAppend( stds_vector_t *v, void *data ) {
 void
 Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
   if ( index < 0 || index >= v->capacity ) {
-    Stds_Print( "Failed to insert, index out of bounds error: %d.\n", index );
+    printf( "Failed to insert, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
   v->logical_size++;
@@ -88,11 +89,27 @@ Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
 void *
 Stds_VectorGet( const stds_vector_t *v, ssize_t index ) {
   if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
-    Stds_Print( "Failed to get element, index out of bounds error: %d.\n", index );
+    printf( "Failed to get element, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
-  return v->data + index;
+  return v->data[index];
 }
+
+/**
+ * Swaps two elements in a vector.
+ * 
+ * @param size_t first index to swap.
+ * @param size_t second index to swap.
+ * 
+ * @return void.
+ */
+inline void 
+Stds_VectorSwap( stds_vector_t *v, size_t first, size_t second ) {
+  void *tmp = v->data[first];
+  v->data[first] = v->data[second];
+  v->data[second] = tmp;
+}
+
 
 /**
  * Removes an element from a vector.
@@ -105,7 +122,7 @@ Stds_VectorGet( const stds_vector_t *v, ssize_t index ) {
 void
 Stds_VectorRemove( stds_vector_t *v, ssize_t index ) {
   if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
-    Stds_Print( "Failed to remove, index out of bounds error: %d.\n", index );
+    printf( "Failed to remove, index out of bounds error: %d.\n", index );
     exit( EXIT_FAILURE );
   }
   void *removed_data = Stds_VectorGet( v, index );
@@ -157,7 +174,7 @@ Stds_VectorClear( stds_vector_t *v ) {
   v->data         = malloc( sizeof( v->element_size ) * v->capacity );
 
   if ( v->data == NULL ) {
-    Stds_Print( "Error: could not allocate memory for the data void** in stds_vector_t!\n" );
+    printf( "Error: could not allocate memory for the data void** in stds_vector_t!\n" );
     exit( EXIT_FAILURE );
   }
 }

@@ -14,9 +14,10 @@ struct stage_t   stage;
 static SDL_Rect                  screen_edge;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
+
 static struct grid_t *           grid;
 static struct grid_pair_t        p;
-static int32_t testTextureGridID;
+static int32_t                   testTextureGridId;
 
 static void init_scene( void );
 static void cleanup_stage( void );
@@ -108,9 +109,9 @@ init_scene( void ) {
 
   /* Initializes textures for the grid. */
   Stds_InitializeGridTextures( grid, 1 );
-  testTextureGridID = Stds_AddGridTexture( grid, "tests/res/img/player.png" );
+  testTextureGridId = Stds_AddGridTexture( grid, "tests/res/img/player.png" );
 
-  /* Initialize spriteSheet from the grid. */
+  /* Initialize spriteSheet for the grid. */
   Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
 }
 
@@ -278,7 +279,7 @@ draw_grid( void ) {
   Stds_DrawLineGrid( grid );
 
   if ( p.r != -1 && p.c != -1 ) {
-    Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridID );
+    Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridId );
   }  
 
   Stds_SelectSpriteForGrid( grid, 9, 9 );

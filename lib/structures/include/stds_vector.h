@@ -17,6 +17,8 @@ extern void *Stds_VectorGet( const struct stds_vector_t *v, ssize_t index );
 
 extern void Stds_VectorRemove( struct stds_vector_t *v, ssize_t index );
 
+extern void Stds_VectorSwap( struct stds_vector_t *v, size_t first, size_t second );
+
 extern bool Stds_VectorIsEmpty( const struct stds_vector_t *v );
 
 extern void Stds_VectorClear( struct stds_vector_t *v );

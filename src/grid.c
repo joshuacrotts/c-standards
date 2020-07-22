@@ -169,7 +169,7 @@ Stds_FreeGrid( struct grid_t *grid ) {
     SDL_DestroyTexture( grid->spriteSheet );
     Stds_Print( "Freeing spriteSheet.\n" );
   }
-  memset( grid, 0, sizeof( struct grid_t ) );
+  memset( grid, 0, sizeof( struct grid_t ) ); /* Makes the grid be equal to NULL. */
   free( grid );
   Stds_Print( "Freed grid_t.\n" );
 }
@@ -191,8 +191,8 @@ Stds_OnGridHover( struct grid_t *grid ) {
 
     SDL_Rect hoverRect = {( int ) grid->x, ( int ) grid->y, ( int ) grid->sw, ( int ) grid->sh};
 
-    /* Loops through each square */
-    for ( uint32_t r = 0; r < grid->rows; r++ ) {
+    /* Loops through each square. */
+    for( uint32_t r = 0; r < grid->rows; r++ ) {
       p.r = ( int32_t ) r;
       p.y = ( float ) hoverRect.y;
       for ( uint32_t c = 0; c < grid->cols; c++ ) {
@@ -211,7 +211,7 @@ Stds_OnGridHover( struct grid_t *grid ) {
     }
   }
 
-  /* -1 means that the mouse did not hover over any of the squares */
+  /* -1 means that the mouse did not hover over any of the squares. */
   p.c = -1;
   p.r = -1;
 
@@ -317,7 +317,7 @@ Stds_AddGridTexture( struct grid_t *grid, const char *filePath ) {
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column texture will be put.
  * @param uint32_t which row texture will be put.
- * @param int32_t index in texture array
+ * @param int32_t index in texture array.
  *
  * @return void.
  */
@@ -334,8 +334,8 @@ Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t in
 }
 
 /**
- * Will render the specified texture id onto the grid.
- *
+ * Adds a sprite sheet to the grid.
+ * 
  * @param grid_t* pointer to grid_t.
  * @param const char* filePath filePath to texture
  * @param uint32_t number of cols the sprite sheet will have.
@@ -365,8 +365,8 @@ Stds_AddSpriteSheetToGrid( struct grid_t *grid, const char *filePath, uint32_t c
 }
 
 /**
- * Will render the specified texture id onto the grid.
- *
+ * Select which sprite you want to use.
+ * 
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column the sprite is to be used.
  * @param uint32_t which row the sprite is to be used.
@@ -383,8 +383,8 @@ Stds_SelectSpriteForGrid( struct grid_t *grid, uint32_t sheetCol, uint32_t sheet
 }
 
 /**
- * Will render the specified texture id onto the grid.
- *
+ * Will render the specified sprite selected from Stds_SelectSpriteForGrid.
+ * 
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column to render the specified sprite onto the grid.
  * @param uint32_t which row to render the specified sprite onto the grid.
