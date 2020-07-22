@@ -75,11 +75,17 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->fillColor = fillColor;
   grid->textures = NULL;
   grid->textureBuffer = 0;
+  grid->spriteSheet = NULL;
+  grid->clip.x = grid->clip.y = grid->clip.w = grid->clip.h = 0;
+  grid->spriteSheetCols = 0;
+  grid->spriteSheetRows = 0;
 
   return grid;
 }
 
 /**
+ * Draws lines for where the box's of the grid would be.
+ * 
  * @param grid_t* pointer to grid_t.
  *
  * @return void.
@@ -116,6 +122,8 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
 }
 
 /**
+ * Fills the area of the grid with rectangles.
+ * 
  * @param grid_t* pointer to grid_t.
  *
  * @return void.
@@ -142,6 +150,8 @@ Stds_FillWholeGrid( struct grid_t *grid ) {
 }
 
 /**
+ * Cleans up the grid.
+ * 
  * @param grid_t* pointer to grid_t.
  *
  * @return void.
@@ -155,12 +165,18 @@ Stds_FreeGrid( struct grid_t *grid ) {
     }
     free( grid->textures );
   }
+  if ( grid->spriteSheet != NULL ) {
+    SDL_DestroyTexture( grid->spriteSheet );
+    SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing spriteSheet.\n" );
+  }
   memset( grid, 0, sizeof( struct grid_t ) );
   free( grid );
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freed grid_t.\n" );
 }
 
 /**
+ * Checks if mouse is over any of the squares.
+ * 
  * @param grid_t* pointer to grid_t.
  *
  * @return grid_pair_t struct that holds data for what square is being hovered.
@@ -203,6 +219,8 @@ Stds_OnGridHover( struct grid_t* grid ) {
 }
 
 /**
+ * Checks if the mouse clicked over any of the squares.
+ * 
  * @param grid_t* pointer to grid_t.
  * @param int32_t the code for which mous ebutton is clicked.
  *
@@ -248,7 +266,7 @@ Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
 }
 
 /**
- * Ensures that the grid is not null.
+ * Initializes enough space for the amount of textures wanted for the grid.
  * 
  * @param grid_t* pointer to grid_t.
  * @param int32_t number of textures for the grid.
@@ -257,16 +275,18 @@ Stds_OnGridClicked( struct grid_t* grid, int32_t mouseCode ) {
  */
 void 
 Stds_InitializeGridTextures( struct grid_t* grid, int32_t textureBuffer ) {
-  static bool onceCall = false;
-  if ( Stds_AssertGrid( grid ) && !onceCall) {
-    grid->textures = malloc( textureBuffer * sizeof( SDL_Texture* ) );
-    grid->textureBuffer = textureBuffer;
-    onceCall = true;
+  if ( Stds_AssertGrid( grid ) ) {
+    static bool onceCall = false;
+    if ( Stds_AssertGrid( grid ) && !onceCall) {
+      grid->textures = malloc( textureBuffer * sizeof( SDL_Texture* ) );
+      grid->textureBuffer = textureBuffer;
+      onceCall = true;
+    }
   }
 }
 
 /**
- * Ensures that the grid is not null.
+ * Adds a single texture to the grid for use.
  * 
  * @param grid_t* pointer to grid_t.
  * @param const char* filePath to texture.
@@ -275,20 +295,23 @@ Stds_InitializeGridTextures( struct grid_t* grid, int32_t textureBuffer ) {
  */
 uint32_t 
 Stds_AddGridTexture( struct grid_t* grid, const char* filePath ) {
-  static int32_t currentTextureNum = -1;
-  if ( currentTextureNum < grid->textureBuffer - 1 ) {
-    currentTextureNum++;
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added texture %d to grid with path %s\n", currentTextureNum, filePath);
-    grid->textures[currentTextureNum] = Stds_LoadTexture( filePath );
-    return currentTextureNum;
+  if ( Stds_AssertGrid( grid ) ) {
+    static int32_t currentTextureNum = -1;
+    if ( currentTextureNum < grid->textureBuffer - 1 ) {
+      currentTextureNum++;
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added texture %d to grid with path %s\n", currentTextureNum, filePath);
+      grid->textures[currentTextureNum] = Stds_LoadTexture( filePath );
+      return currentTextureNum;
+    }
+    else {
+      return -1;
+    }
   }
-  else {
-    return -1;
-  }
+  return -1;
 }
 
 /**
- * Ensures that the grid is not null.
+ * Will render the specified texture id onto the grid.
  * 
  * @param grid_t* pointer to grid_t.
  * @param uint32_t which column texture will be put.
@@ -299,9 +322,74 @@ Stds_AddGridTexture( struct grid_t* grid, const char* filePath ) {
  */
 void 
 Stds_PutGridTexture( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index ) {
-  if ( index < grid->textureBuffer && index > -1) {
-    SDL_FRect texturePosition = { grid->x + ( float ) (col * grid->sw ), grid->y + ( float ) (row * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
-    SDL_RenderCopyF( app.renderer, grid->textures[index], NULL, &texturePosition );
+  if ( Stds_AssertGrid( grid ) ) {
+    if ( index < grid->textureBuffer && index > -1) {
+      SDL_FRect texturePosition = { grid->x + ( float ) (col * grid->sw ), grid->y + ( float ) (row * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
+      SDL_RenderCopyF( app.renderer, grid->textures[index], NULL, &texturePosition );
+    }
+  }
+}
+
+/**
+ * Will render the specified texture id onto the grid.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param const char* filePath filePath to texture
+ * @param uint32_t number of cols the sprite sheet will have.
+ * @param uint32_t number of rows the sprite sheet will have.
+ *
+ * @return void.
+ */
+void 
+Stds_AddSpriteSheetToGrid( struct grid_t* grid, const char* filePath, uint32_t cols, uint32_t rows ) {
+  if ( Stds_AssertGrid( grid ) ) {
+    static bool onceCall = false;
+    if ( Stds_AssertGrid( grid ) && !onceCall) {
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Added spriteSheet to grid with path %s\n", filePath);
+      grid->spriteSheet = Stds_LoadTexture( filePath );
+      onceCall = true;
+      SDL_QueryTexture( grid->spriteSheet, NULL, NULL, &grid->clip.w, &grid->clip.h );
+
+      grid->clip.w /= cols;
+      grid->clip.h /= rows;
+
+      grid->spriteSheetCols = cols;
+      grid->spriteSheetRows = rows;
+    }
+  }
+}
+
+/**
+ * Will render the specified texture id onto the grid.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param uint32_t which column the sprite is to be used.
+ * @param uint32_t which row the sprite is to be used.
+ *
+ * @return void.
+ */
+void 
+Stds_SelectSpriteForGrid( struct grid_t* grid, uint32_t sheetCol, uint32_t sheetRow ) {
+  if ( Stds_AssertGrid( grid ) && sheetCol < grid->spriteSheetCols && sheetRow < grid->spriteSheetRows ) {
+    grid->clip.x = sheetCol * grid->clip.w;
+    grid->clip.y = sheetRow * grid->clip.h;
+  }
+}
+
+/**
+ * Will render the specified texture id onto the grid.
+ * 
+ * @param grid_t* pointer to grid_t.
+ * @param uint32_t which column to render the specified sprite onto the grid.
+ * @param uint32_t which row to render the specified sprite onto the grid.
+ *
+ * @return void.
+ */
+void 
+Stds_DrawSelectedSpriteOnGrid( struct grid_t* grid, uint32_t gridCol, uint32_t gridRow ) {
+  if ( Stds_AssertGrid( grid ) && gridCol < grid->cols && gridRow < grid->rows ) {
+    SDL_FRect position = { grid->x + ( float ) (gridCol * grid->sw ), grid->y + ( float ) (gridRow * grid->sh ), ( float ) grid->sw, ( float ) grid->sh };
+    SDL_RenderCopyF( app.renderer, grid->spriteSheet, &grid->clip, &position );
   }
 }
 

@@ -109,6 +109,9 @@ init_scene( void ) {
   /* Initializes textures for the grid. */
   Stds_InitializeGridTextures( grid, 1 );
   testTextureGridID = Stds_AddGridTexture( grid, "tests/res/img/player.png" );
+
+  /* Initialize spriteSheet from the grid. */
+  Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
 }
 
 /**
@@ -276,6 +279,9 @@ draw_grid( void ) {
   if ( p.r != -1 && p.c != -1 ) {
     Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridID );
   }  
+
+  Stds_SelectSpriteForGrid( grid, 9, 9 );
+  Stds_DrawSelectedSpriteOnGrid( grid, 0, 0 );
 }
 
 /**

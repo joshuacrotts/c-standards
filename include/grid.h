@@ -33,4 +33,10 @@ extern uint32_t Stds_AddGridTexture( struct grid_t* grid, const char* filePath )
 
 extern void Stds_PutGridTexture( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index );
 
+extern void Stds_AddSpriteSheetToGrid( struct grid_t* grid, const char* filePath, uint32_t cols, uint32_t rows );
+
+extern void Stds_SelectSpriteForGrid( struct grid_t* grid, uint32_t sheetCol, uint32_t sheetRow );
+
+extern void Stds_DrawSelectedSpriteOnGrid( struct grid_t* grid, uint32_t gridCol, uint32_t gridRow );
+
 #endif // GRID_H

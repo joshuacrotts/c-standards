@@ -84,6 +84,12 @@ struct grid_t {
   /* Members for having textures */
   SDL_Texture** textures;
   int32_t textureBuffer;
+
+  /* Members for having a spriteSheet */
+  SDL_Texture* spriteSheet;
+  SDL_Rect clip;
+  uint32_t spriteSheetCols;
+  uint32_t spriteSheetRows;
 };
 
 /*
