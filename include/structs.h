@@ -63,12 +63,12 @@ struct particle_t {
 };
 
 /**
- * 
+ *
  */
 struct grid_t {
   float x;
   float y;
-  
+
   float sx;
   float sy;
 
@@ -82,14 +82,14 @@ struct grid_t {
   SDL_Color fillColor;
 
   /* Members for having textures */
-  SDL_Texture** textures;
-  int32_t textureBuffer;
+  SDL_Texture **textures;
+  int32_t       textureBuffer;
 
   /* Members for having a spriteSheet */
-  SDL_Texture* spriteSheet;
-  SDL_Rect clip;
-  uint32_t spriteSheetCols;
-  uint32_t spriteSheetRows;
+  SDL_Texture *spriteSheet;
+  SDL_Rect     clip;
+  uint32_t     spriteSheetCols;
+  uint32_t     spriteSheetRows;
 };
 
 /*
@@ -121,12 +121,21 @@ struct parallax_background_t {
 struct trail_t {
   float    x;
   float    y;
+
+  /* For rectangular trails. */
+  int32_t  w;
+  int32_t  h;
+
+   /* For circle trails. */
+  int32_t  r;
+  
   int16_t  alpha;
   int16_t  alpha_decay_rate;
+  uint32_t angle;
   uint32_t flags;
-  bool     is_texture;
 
   SDL_RendererFlip flip;
+  SDL_Color        color;
   SDL_Texture *    texture;
 
   struct trail_t *next;
@@ -305,7 +314,7 @@ struct entity_t {
   int32_t  h;
   uint32_t flags;
   uint32_t id_flags;
-  uint32_t reload;
+  int32_t  reload;
   uint32_t identifier;
 
   uint16_t angle;

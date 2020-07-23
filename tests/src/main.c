@@ -147,7 +147,7 @@ update_trails( void ) {
   for ( t = app.trail_head.next; t != NULL; t = t->next ) {
     Stds_TrailUpdate( t );
 
-    if ( t->flags & DEATH_MASK ) {
+    if ( t->flags & STDS_DEATH_MASK ) {
       if ( t == app.trail_tail ) {
         app.trail_tail = prev;
       }

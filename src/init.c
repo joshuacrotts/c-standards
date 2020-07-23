@@ -157,7 +157,6 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
  */
 void
 Stds_Quit( void ) {
-  printf("FUCK SHIJT");
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing SDL Mixer context." );
   Mix_Quit();
   Mix_CloseAudio();

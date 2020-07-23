@@ -31,7 +31,7 @@ red_particle_init( float x, float y ) {
 void
 red_particle_update( struct particle_t *p ) {
   if ( --p->life <= 0 ) {
-    p->flags |= DEATH_MASK;
+    p->flags |= STDS_DEATH_MASK;
     return;
   }
   p->dy += GRAVITY;
