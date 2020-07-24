@@ -29,7 +29,7 @@ extern struct grid_pair_t Stds_OnGridClicked( struct grid_t* grid, int32_t mouse
 
 extern void Stds_InitializeGridTextures( struct grid_t* grid, int32_t textureBuffer );
 
-extern uint32_t Stds_AddGridTexture( struct grid_t* grid, const char* filePath );
+extern int32_t Stds_AddGridTexture( struct grid_t* grid, const char* filePath );
 
 extern void Stds_PutGridTexture( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index );
 
@@ -38,5 +38,9 @@ extern void Stds_AddSpriteSheetToGrid( struct grid_t* grid, const char* filePath
 extern void Stds_SelectSpriteForGrid( struct grid_t* grid, uint32_t sheetCol, uint32_t sheetRow );
 
 extern void Stds_DrawSelectedSpriteOnGrid( struct grid_t* grid, uint32_t gridCol, uint32_t gridRow );
+
+extern int32_t Stds_AddAnimationToGrid( struct grid_t* grid, struct animation_t* animate );
+
+extern void Stds_RenderAnimationToGrid( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index );
 
 #endif // GRID_H

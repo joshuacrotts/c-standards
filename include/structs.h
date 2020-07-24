@@ -90,6 +90,9 @@ struct grid_t {
   SDL_Rect clip;
   uint32_t spriteSheetCols;
   uint32_t spriteSheetRows;
+
+  struct stds_vector_t* animation;
+  int32_t animationBuffer;
 };
 
 /*

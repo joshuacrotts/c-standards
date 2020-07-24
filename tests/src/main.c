@@ -113,6 +113,8 @@ init_scene( void ) {
 
   /* Initialize spriteSheet for the grid. */
   Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
+
+  Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png", 16, 0.05f, 0, 0, 4, 4 ) );
 }
 
 /**
@@ -284,6 +286,8 @@ draw_grid( void ) {
 
   Stds_SelectSpriteForGrid( grid, 9, 9 );
   Stds_DrawSelectedSpriteOnGrid( grid, 0, 0 );
+
+  Stds_RenderAnimationToGrid( grid, 7, 0, 0 );
 }
 
 /**

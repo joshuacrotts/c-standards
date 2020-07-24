@@ -30,6 +30,7 @@
 
 #include "../include/grid.h"
 #include "../include/draw.h"
+#include "../include/animation.h"
 
 static bool Stds_AssertGrid( struct grid_t *grid );
 
@@ -79,6 +80,8 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->clip.x = grid->clip.y = grid->clip.w = grid->clip.h = 0;
   grid->spriteSheetCols                                     = 0;
   grid->spriteSheetRows                                     = 0;
+  grid->animation = Stds_VectorCreate( sizeof( struct animation_t* ) );
+  grid->animationBuffer = -1;
 
   return grid;
 }
@@ -169,6 +172,7 @@ Stds_FreeGrid( struct grid_t *grid ) {
     SDL_DestroyTexture( grid->spriteSheet );
     Stds_Print( "Freeing spriteSheet.\n" );
   }
+  Stds_VectorDestroy( grid->animation );
   memset( grid, 0, sizeof( struct grid_t ) ); /* Makes the grid be equal to NULL. */
   free( grid );
   Stds_Print( "Freed grid_t.\n" );
@@ -276,14 +280,12 @@ Stds_OnGridClicked( struct grid_t *grid, int32_t mouseCode ) {
  */
 void
 Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
-  if ( Stds_AssertGrid( grid ) ) {
-    static bool onceCall = false;
-    if ( Stds_AssertGrid( grid ) && !onceCall ) {
-      grid->textures      = malloc( textureBuffer * sizeof( SDL_Texture * ) );
-      grid->textureBuffer = textureBuffer;
-      onceCall            = true;
-    }
-  }
+  static bool onceCall = false;
+  if ( Stds_AssertGrid( grid ) && !onceCall ) {
+    grid->textures      = malloc( textureBuffer * sizeof( SDL_Texture * ) );
+    grid->textureBuffer = textureBuffer;
+    onceCall            = true;
+  } 
 }
 
 /**
@@ -294,7 +296,7 @@ Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
  *
  * @return uint32_t.
  */
-uint32_t
+int32_t
 Stds_AddGridTexture( struct grid_t *grid, const char *filePath ) {
   if ( Stds_AssertGrid( grid ) ) {
     static int32_t currentTextureNum = -1;
@@ -398,6 +400,29 @@ Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t g
                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
                           ( float ) grid->sh};
     SDL_RenderCopyF( app.renderer, grid->spriteSheet, &grid->clip, &position );
+  }
+}
+
+int32_t 
+Stds_AddAnimationToGrid( struct grid_t* grid, struct animation_t* animate ) {
+  if ( Stds_AssertGrid( grid ) ) {
+    grid->animationBuffer++;
+    Stds_VectorAppend( grid->animation, animate );
+    return grid->animationBuffer;
+  }
+
+  return -1;
+}
+
+
+extern void Stds_RenderAnimationToGrid( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index ) {
+  if( Stds_AssertGrid( grid ) ) {
+    struct animation_t* editAnim = Stds_VectorGet( grid->animation, index );
+    editAnim->pos_x = grid->x + ( float ) ( col * grid->sw );
+    editAnim->pos_y = grid->y + ( float ) ( row * grid->sh );
+
+    Stds_AnimationDraw( editAnim );
+    Stds_AnimationUpdate( editAnim );
   }
 }
 

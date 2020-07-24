@@ -20,6 +20,8 @@
 #include "stddefine.h"
 #include "structs.h"
 
+#include "..\lib\structures\include\stds_vector.h"
+
 #define MAX_INT_DIGITS 11
 #define DEBUG          1
 
