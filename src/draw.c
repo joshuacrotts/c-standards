@@ -97,46 +97,33 @@ Stds_BlitTexture( SDL_Texture *texture, float x, float y, bool is_center, bool c
 }
 
 /**
- * Renders a texture, specified by src, at
- * coordinates (x, y). You may pass in both integers or
- * floating-point numbers to this function.
+ * Renders a section of a texture specified by the src pointer to
+ * the SDL_Rect object. This is mainly useful for sprite sheet blits.
+ * If you're using an animation, make sure to set the attributes of it!
  *
  * @param SDL_Texture* pointer to texture to draw.
+ * @param SDL_Rect * pointer to rect with section of texture to draw.
  * @param float x
  * @param float y
- * @param bool if the texture should be centered or not.
+ * @param float scale_x size to scale the image horizontally (0 < x < some number).
+ * @param float scale_y size to scale the image vertically (0 < y < some number).
+ * @param uint16_t angle to rotate.
+ * @param SDL_RendererFlip flip or not.
+ * @param SDL_FPoint rotation point.
  * @param bool applies the camera offset or not.
  *
  * @return void.
  */
 void
-Stds_BlitTextureRect( SDL_Texture *texture, SDL_Rect *src, float x, float y, bool camera_offset ) {
+Stds_BlitTextureRectRotate( SDL_Texture *texture, SDL_Rect *src, float x, float y, float scale_x,
+                            float scale_y, uint16_t angle, SDL_RendererFlip flip,
+                            SDL_FPoint *rotate_point, bool camera_offset ) {
   SDL_FRect dest;
   dest.x = camera_offset ? x - app.camera.x : x;
   dest.y = camera_offset ? y - app.camera.y : y;
 
-  dest.w = src->w;
-  dest.h = src->h;
-  SDL_RenderCopyF( app.renderer, texture, src, &dest );
-}
-
-/**
- *
- * @param SDL_Texture* pointer to texture to draw.
- * @param float x
- * @param float y
- *
- * @return void.
- */
-void
-Stds_BlitTextureRectRotate( SDL_Texture *texture, SDL_Rect *src, float x, float y, uint16_t angle,
-                            SDL_RendererFlip flip, SDL_FPoint *rotate_point, bool camera_offset ) {
-  SDL_FRect dest;
-  dest.x = camera_offset ? x - app.camera.x : x;
-  dest.y = camera_offset ? y - app.camera.y : y;
-
-  dest.w = src->w;
-  dest.h = src->h;
+  dest.w = src->w * scale_x;
+  dest.h = src->h * scale_y;
   SDL_RenderCopyExF( app.renderer, texture, src, &dest, angle, rotate_point, flip );
 }
 
@@ -285,6 +272,7 @@ void
 Stds_DrawRectF( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offset ) {
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
   SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
+
   if ( camera_offset ) {
     frect->x -= app.camera.x;
     frect->y -= app.camera.y;
@@ -295,7 +283,6 @@ Stds_DrawRectF( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offs
   } else {
     SDL_RenderDrawRectF( app.renderer, frect );
   }
-
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_NONE );
 }
 
@@ -329,16 +316,16 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, uint32_t stroke, 
     }
 
     // Top-left to TR
-    SDL_FRect r1 = {x, y, w, stroke};
+    SDL_FRect r1 = { x, y, w, stroke };
 
     // TL to BL
-    SDL_FRect r2 = {x, y, stroke, h};
+    SDL_FRect r2 = { x, y, stroke, h };
 
     // BL to BR
-    SDL_FRect r3 = {x, camera_offset ? h - stroke + app.camera.y : h - stroke, w, stroke};
+    SDL_FRect r3 = { x, camera_offset ? h - stroke + app.camera.y : h - stroke, w, stroke };
 
     // TR to BR.
-    SDL_FRect r4 = {camera_offset ? w - stroke + app.camera.x : w - stroke, y, stroke, h};
+    SDL_FRect r4 = { camera_offset ? w - stroke + app.camera.x : w - stroke, y, stroke, h };
 
     Stds_DrawRectF( &r1, c, true, camera_offset );
     Stds_DrawRectF( &r2, c, true, camera_offset );
@@ -412,7 +399,7 @@ Stds_CombineFadeColor( struct fade_color_t *f ) {
   Stds_ClampInt( &g, 0, 0xff );
   Stds_ClampInt( &b, 0, 0xff );
 
-  SDL_Color c = {r, g, b, 0xff};
+  SDL_Color c = { r, g, b, 0xff };
 
   return c;
 }

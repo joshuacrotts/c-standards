@@ -9,12 +9,10 @@ extern void Stds_PrepareScene( void );
 
 extern void Stds_PresentScene( void );
 
-extern void Stds_BlitTextureRect( SDL_Texture *texture, SDL_Rect *src, float x, float y,
-                                  bool camera_offset );
-
 extern void Stds_BlitTextureRectRotate( SDL_Texture *texture, SDL_Rect *src, float x, float y,
-                                        uint16_t angle, SDL_RendererFlip flip,
-                                        SDL_FPoint *rotate_point, bool camera_offset );
+                                        float scale_x, float scale_y, uint16_t angle,
+                                        SDL_RendererFlip flip, SDL_FPoint *rotate_point,
+                                        bool camera_offset );
 
 extern void Stds_BlitTexture( SDL_Texture *texture, float x, float y, bool is_center,
                               bool camera_offset );

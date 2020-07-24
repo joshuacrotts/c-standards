@@ -236,7 +236,7 @@ Stds_AnimationDraw( struct animation_t *a ) {
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->angle,
+      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->scale_x, a->scale_y, a->angle,
                                   a->flip, NULL, true );
     }
   }

@@ -147,6 +147,8 @@ struct trail_t {
 struct animation_t {
   float    pos_x;
   float    pos_y;
+  float    scale_x;
+  float    scale_y;
   float    frame_delay;
   float    frame_timer;
   uint32_t splice_x;
@@ -222,7 +224,7 @@ struct font_t {
  *
  */
 struct delegate_t {
-  void ( *tick )( void );
+  void ( *update )( void );
   void ( *draw )( void );
 };
 
@@ -330,7 +332,7 @@ struct entity_t {
   struct animation_t *animation;
   struct entity_t *   next;
 
-  void ( *tick )( struct entity_t * );
+  void ( *update )( struct entity_t * );
   void ( *draw )( struct entity_t * );
   void ( *touch )( struct entity_t * );
   void ( *die )( struct entity_t * );

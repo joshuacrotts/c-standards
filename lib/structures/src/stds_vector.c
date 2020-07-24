@@ -66,8 +66,8 @@ Stds_VectorAppend( stds_vector_t *v, void *data ) {
  */
 void
 Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
-  if ( index < 0 || index >= v->capacity ) {
-    fprintf( stderr, "Failed to insert, index out of bounds error: %d.\n", index );
+  if ( index < 0 || index >= v->logical_size ) {
+    fprintf( stderr, "Failed to insert, index out of bounds error: %zu.\n", index );
     exit( EXIT_FAILURE );
   }
   v->logical_size++;
@@ -88,8 +88,8 @@ Stds_VectorInsert( stds_vector_t *v, ssize_t index, void *data ) {
  */
 void *
 Stds_VectorGet( const stds_vector_t *v, ssize_t index ) {
-  if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
-    fprintf( stderr, "Failed to get element, index out of bounds error: %d.\n", index );
+  if ( index < 0 || index >= v->logical_size || Stds_VectorIsEmpty( v ) ) {
+    fprintf( stderr, "Failed to get element, index out of bounds error: %zu.\n", index );
     exit( EXIT_FAILURE );
   }
   return v->data[index];
@@ -121,8 +121,8 @@ Stds_VectorSwap( stds_vector_t *v, size_t first, size_t second ) {
  */
 void
 Stds_VectorRemove( stds_vector_t *v, ssize_t index ) {
-  if ( index < 0 || index >= v->capacity || Stds_VectorIsEmpty( v ) ) {
-    fprintf( stderr, "Failed to remove, index out of bounds error: %d.\n", index );
+  if ( index < 0 || index >= v->logical_size || Stds_VectorIsEmpty( v ) ) {
+    fprintf( stderr, "Failed to remove, index out of bounds error: %zu.\n", index );
     exit( EXIT_FAILURE );
   }
   void *removed_data = Stds_VectorGet( v, index );

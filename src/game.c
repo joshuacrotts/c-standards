@@ -74,7 +74,7 @@ Stds_GameLoop( void ) {
   while ( app.is_running ) {
     Stds_PrepareScene();
     Stds_ProcessInput();
-    app.delegate.tick();
+    app.delegate.update();
     app.delegate.draw();
     Stds_PresentScene();
     Stds_CapFramerate( &then, &remainder );
@@ -141,12 +141,6 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   uint16_t fps = *( uint16_t * ) args;
   /* Create text window buffer. */
   char window_buffer[SMALL_TEXT_BUFFER];
-
-  if ( window_buffer == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                 "Error: could not allocate memory for the window buffer: %s.\n", SDL_GetError() );
-    exit( EXIT_FAILURE );
-  }
 
   /* Copy the title to the buffer. */
   strcpy( window_buffer, app.original_title );
