@@ -60,7 +60,7 @@ Stds_SetRandomSeed( void ) {
  * @return int32_t random number in the set [min, max].
  */
 inline int32_t
-Stds_RandomInt( int32_t min, int32_t max ) {
+Stds_RandomInt( const int32_t min, const int32_t max ) {
   return ( rand() % ( max - min + 1 ) ) + min;
 }
 
@@ -78,8 +78,8 @@ Stds_RandomInt( int32_t min, int32_t max ) {
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline int32_t
-Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound,
-                       int32_t max ) {
+Stds_RandomIntBounded( const int32_t min, const int32_t min_upper_bound,
+                       const int32_t max_lower_bound, const int32_t max ) {
   int32_t n;
   do {
     n = Stds_RandomInt( min, max );
@@ -97,7 +97,7 @@ Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_b
  * @return float random number in the set [min, max].
  */
 inline float
-Stds_RandomFloat( float min, float max ) {
+Stds_RandomFloat( const float min, const float max ) {
   float scale = rand() / ( float ) RAND_MAX;
   return min + scale * ( max - min );
 }
@@ -117,7 +117,8 @@ Stds_RandomFloat( float min, float max ) {
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline float
-Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound, float max ) {
+Stds_RandomFloatBounded( const float min, const float min_upper_bound, const float max_lower_bound,
+                         const float max ) {
   float n;
   do {
     n = Stds_RandomFloat( min, max );
@@ -135,7 +136,7 @@ Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound
  * @return void.
  */
 void
-Stds_ClampInt( int32_t *value, int32_t min, int32_t max ) {
+Stds_ClampInt( int32_t *value, const int32_t min, const int32_t max ) {
   if ( *value < min ) {
     *value = min;
   } else if ( *value > max ) {
@@ -157,7 +158,8 @@ Stds_ClampInt( int32_t *value, int32_t min, int32_t max ) {
  * @return void.
  */
 void
-Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float *dy ) {
+Stds_CalcSlope( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2, float *dx,
+                float *dy ) {
   int32_t steps = ( int32_t ) fmax( abs( x1 - x2 ), abs( y1 - y2 ) );
 
   if ( steps == 0 ) {
@@ -183,7 +185,7 @@ Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *dx, float
  * @return float angle.
  */
 inline float
-Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
   float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
 }
@@ -199,7 +201,7 @@ Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
  * @return int32_t distance.
  */
 inline int32_t
-Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 ) {
+Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
   int x = x2 - x1;
   int y = y2 - y1;
 
@@ -239,8 +241,8 @@ Stds_Print( const char *str, ... ) {
  * @return
  */
 inline bool
-Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
-  return ( x > rect.x && x < rect.x + rect.w ) && ( y > rect.y && y < rect.y + rect.h );
+Stds_IsMouseOverRect( const float x, const float y, const SDL_Rect *rect ) {
+  return ( x > rect->x && x < rect->x + rect->w ) && ( y > rect->y && y < rect->y + rect->h );
 }
 
 /**
@@ -251,7 +253,7 @@ Stds_IsMouseOverRect( float x, float y, SDL_Rect rect ) {
  * @return float angle in radians.
  */
 inline float
-Stds_ToRadians( float degrees ) {
+Stds_ToRadians( const float degrees ) {
   return ( float ) ( degrees * ( PI / 180.0f ) );
 }
 
@@ -264,7 +266,7 @@ Stds_ToRadians( float degrees ) {
  * @return float angle in degrees.
  */
 inline float
-Stds_ToDegrees( float radians ) {
+Stds_ToDegrees( const float radians ) {
   return ( float ) ( radians * ( 180.0f / PI ) );
 }
 
@@ -279,12 +281,12 @@ Stds_ToDegrees( float radians ) {
  * @return SDL_Color object.
  */
 SDL_Color
-Stds_ConvertARGBToColor( uint32_t c ) {
+Stds_ConvertARGBToColor( const uint32_t c ) {
   uint8_t   r     = c >> 16 & 0xff;
   uint8_t   g     = c >> 8 & 0xff;
   uint8_t   b     = c & 0xff;
   uint8_t   a     = c >> 24 & 0xff;
-  SDL_Color color = { r, g, b, a };
+  SDL_Color color = {r, g, b, a};
   return color;
 }
 
@@ -296,7 +298,7 @@ Stds_ConvertARGBToColor( uint32_t c ) {
  * @return uint32_t color integer representation.
  */
 uint32_t
-Stds_ConvertColorToARGB( SDL_Color *c ) {
+Stds_ConvertColorToARGB( const SDL_Color *c ) {
   uint32_t color;
   color |= c->a << 24;
   color |= c->r << 16;
@@ -316,13 +318,13 @@ Stds_ConvertColorToARGB( SDL_Color *c ) {
  *               str.
  *
  * @param const char * string with substring to find.
- * @param int first index of substring.
- * @param int index to stop the search (not inclusive!).
+ * @param int32_t first index of substring.
+ * @param int32_t index to stop the search (not inclusive!).
  *
  * @return char* substring.
  */
 char *
-Stds_Substring( const char *str, int first, int last ) {
+Stds_Substring( const char *str, const int32_t first, const int32_t last ) {
   uint32_t s_len = strlen( str );
 
   /* Primitive error checking... */
@@ -341,9 +343,9 @@ Stds_Substring( const char *str, int first, int last ) {
     exit( EXIT_FAILURE );
   }
 
-  char *s = malloc( sizeof( char ) * ( last - first ) );
-  memcpy( s, str + first, last - first );
-  return s;
+  memset( text_buffer, 0, sizeof( MAX_LINE_LENGTH ) );
+  memcpy( text_buffer, str + first, last - first );
+  return text_buffer;
 }
 
 /**
@@ -389,7 +391,7 @@ Stds_IndexOf( const char *s, const char *search_str ) {
  * @return void.
  */
 char *
-Stds_StrCatIntPtr( const char *s, int32_t n ) {
+Stds_StrCatIntPtr( const char *s, const int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
   int32_t digits = sprintf( number_buffer, "%d", n );
@@ -397,8 +399,11 @@ Stds_StrCatIntPtr( const char *s, int32_t n ) {
   return text_buffer;
 }
 
+/**
+ * 
+ */
 char *
-Stds_StrCatIntArray( const char s[], int32_t n ) {
+Stds_StrCatIntArray( const char s[], const int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
   int32_t digits = sprintf( number_buffer, "%d", n );

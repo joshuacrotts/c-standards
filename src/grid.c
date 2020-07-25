@@ -29,8 +29,8 @@
 //=============================================================================================//
 
 #include "../include/grid.h"
-#include "../include/draw.h"
 #include "../include/animation.h"
+#include "../include/draw.h"
 
 static bool Stds_AssertGrid( struct grid_t *grid );
 
@@ -80,7 +80,7 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->clip.x = grid->clip.y = grid->clip.w = grid->clip.h = 0;
   grid->spriteSheetCols                                     = 0;
   grid->spriteSheetRows                                     = 0;
-  grid->animation = Stds_VectorCreate( sizeof( struct animation_t* ) );
+  grid->animation       = Stds_VectorCreate( sizeof( struct animation_t * ) );
   grid->animationBuffer = -1;
 
   return grid;
@@ -173,6 +173,7 @@ Stds_FreeGrid( struct grid_t *grid ) {
     SDL_DestroyTexture( grid->spriteSheet );
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing spritesheet.\n" );
   }
+
   Stds_VectorDestroy( grid->animation );
 
   memset( grid, 0, sizeof( struct grid_t ) ); /* Makes the grid be equal to NULL. */
@@ -187,7 +188,7 @@ Stds_FreeGrid( struct grid_t *grid ) {
  *
  * @return grid_pair_t struct that holds data for what square is being hovered.
  */
-struct grid_pair_t 
+struct grid_pair_t
 Stds_OnGridHover( struct grid_t *grid ) {
   struct grid_pair_t p;
 
@@ -206,12 +207,12 @@ Stds_OnGridHover( struct grid_t *grid ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) hoverRect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, hoverRect ) ) {
+        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &hoverRect ) ) {
           return p;
         }
-
         hoverRect.x += ( int ) grid->sw;
       }
+
       hoverRect.y += ( int ) grid->sh;
       hoverRect.x = ( int ) grid->sx;
     }
@@ -251,7 +252,7 @@ Stds_OnGridClicked( struct grid_t *grid, int32_t mouseCode ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) clickRect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, clickRect ) &&
+        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &clickRect ) &&
              app.mouse.button[mouseCode] ) {
           app.mouse.button[mouseCode] = 0;
           return p;
@@ -287,7 +288,7 @@ Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
     grid->textures      = malloc( textureBuffer * sizeof( SDL_Texture * ) );
     grid->textureBuffer = textureBuffer;
     onceCall            = true;
-  } 
+  }
 }
 
 /**
@@ -296,7 +297,7 @@ Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
  * @param grid_t* pointer to grid_t.
  * @param const char* filePath to texture.
  *
- * @return uint32_t.
+ * @return uint32_t ? What does this return?
  */
 int32_t
 Stds_AddGridTexture( struct grid_t *grid, const char *filePath ) {
@@ -405,25 +406,33 @@ Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t g
   }
 }
 
-int32_t 
-Stds_AddAnimationToGrid( struct grid_t* grid, struct animation_t* animate ) {
-  if ( Stds_AssertGrid( grid ) ) {
+/**
+ *
+ */
+int32_t
+Stds_AddAnimationToGrid( struct grid_t *grid, struct animation_t *animate ) {
+  if ( animate == NULL ) {
+    Stds_Print( "Error, could not add animation to the grid, it is NULL." );
+    return -1;
+  } else if ( Stds_AssertGrid( grid ) ) {
     grid->animationBuffer++;
     Stds_VectorAppend( grid->animation, animate );
     return grid->animationBuffer;
   }
-
   return -1;
 }
 
-
-extern void Stds_RenderAnimationToGrid( struct grid_t* grid, uint32_t col, uint32_t row, int32_t index ) {
-  if( Stds_AssertGrid( grid ) ) {
-    struct animation_t* editAnim = Stds_VectorGet( grid->animation, index );
-    editAnim->pos_x = grid->x + ( float ) ( col * grid->sw );
-    editAnim->pos_y = grid->y + ( float ) ( row * grid->sh );
-    editAnim->sprite_width = grid->sw;
-    editAnim->sprite_height = grid->sh;
+/**
+ *
+ */
+void
+Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int32_t index ) {
+  if ( Stds_AssertGrid( grid ) && grid->animation != NULL ) {
+    struct animation_t *editAnim = Stds_VectorGet( grid->animation, index );
+    editAnim->pos_x              = grid->x + ( float ) ( col * grid->sw );
+    editAnim->pos_y              = grid->y + ( float ) ( row * grid->sh );
+    editAnim->sprite_width       = grid->sw;
+    editAnim->sprite_height      = grid->sh;
 
     Stds_AnimationDraw( editAnim );
     Stds_AnimationUpdate( editAnim );

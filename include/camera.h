@@ -5,6 +5,6 @@
 
 extern struct app_t app;
 
-extern void Stds_CameraUpdate( struct entity_t *parent );
+extern void Stds_CameraUpdate( const struct entity_t *parent );
 
 #endif // CAMERA_H

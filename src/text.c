@@ -33,9 +33,9 @@
 
 static char text_buffer[MAX_LINE_LENGTH];
 
-static TTF_Font *Stds_GetFont( const char *, uint16_t );
-static void      Stds_LoadFonts();
-static void      add_font( const char *, uint16_t );
+static TTF_Font *Stds_GetFont( const char *f, const uint16_t s );
+static void      Stds_LoadFonts( void );
+static void      Stds_AddFont( const char *f, const uint16_t s );
 
 /**
  * Initializes the TTF font library for use.
@@ -76,11 +76,11 @@ Stds_InitFonts( void ) {
  * @return void.
  */
 void
-Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t font_size,
-               const char *text, ... ) {
+Stds_DrawText( const float x, float y, const char *font_string, const uint16_t font_size,
+               const SDL_Color *c, const char *text, ... ) {
   SDL_Rect message_rect;
-  message_rect.x = ( uint16_t ) x;
-  message_rect.y = ( uint16_t ) y;
+  message_rect.x = ( int32_t ) x;
+  message_rect.y = ( int32_t ) y;
 
   va_list args;
   memset( &text_buffer, '\0', sizeof( text_buffer ) );
@@ -89,7 +89,7 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t
   vsprintf( text_buffer, text, args );
   va_end( args );
 
-  TTF_Font *   font            = Stds_GetFont( font_string, font_size );
+  TTF_Font    *font            = Stds_GetFont( font_string, font_size );
   SDL_Surface *message_surface = TTF_RenderText_Solid( font, text_buffer, *c );
   TTF_SizeText( font, text_buffer, &message_rect.w, &message_rect.h );
 
@@ -112,10 +112,10 @@ Stds_DrawText( float x, float y, SDL_Color *c, const char *font_string, uint16_t
  * @return void.
  */
 void
-Stds_FreeFonts() {
+Stds_FreeFonts( void ) {
   struct font_t *f;
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
-  
+
   /* Frees the font linked list. */
   while ( app.font_head.next ) {
     f                  = app.font_head.next;
@@ -140,7 +140,7 @@ Stds_FreeFonts() {
  * @return void.
  */
 void
-Stds_GetStringSize( const char *s, const char *font, uint16_t size, int32_t *w, int32_t *h ) {
+Stds_GetStringSize( const char *s, const char *font, const uint16_t size, int32_t *w, int32_t *h ) {
   TTF_Font *f;
   f = Stds_GetFont( font, size );
 
@@ -160,7 +160,7 @@ Stds_GetStringSize( const char *s, const char *font, uint16_t size, int32_t *w, 
  * @return void.
  */
 static TTF_Font *
-Stds_GetFont( const char *font_str, uint16_t font_size ) {
+Stds_GetFont( const char *font_str, const uint16_t font_size ) {
   struct font_t *f;
 
   for ( f = app.font_head.next; f != NULL; f = f->next ) {
@@ -185,9 +185,9 @@ Stds_GetFont( const char *font_str, uint16_t font_size ) {
  */
 static void
 Stds_LoadFonts( void ) {
-  add_font( "res/fonts/nes.ttf", 12 );
-  add_font( "res/fonts/nes.ttf", 18 );
-  add_font( "res/fonts/nes.ttf", 24 );
+  //Stds_AddFont( "res/fonts/nes.ttf", 12 );
+  //Stds_AddFont( "res/fonts/nes.ttf", 18 );
+  //Stds_AddFont( "res/fonts/nes.ttf", 24 );
 }
 
 /**
@@ -199,7 +199,7 @@ Stds_LoadFonts( void ) {
  * @return void.
  */
 static void
-add_font( const char *font_file, uint16_t size ) {
+Stds_AddFont( const char *font_file, const uint16_t size ) {
   struct font_t *f;
   f = malloc( sizeof( struct font_t ) );
 

@@ -89,7 +89,7 @@ add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char
   }
 
   memset( button, 0, sizeof( struct button_t ) );
-  SDL_Color black    = { 0, 0, 0 };
+  SDL_Color black    = {0, 0, 0};
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
   button->rect.w     = w;
@@ -143,8 +143,6 @@ add_button_texture( float x, float y, const char *file_path, const char *font_pa
   button->rect.y     = ( int32_t ) y;
   button->font_path  = font_path;
   button->font_size  = size;
-  button->scale_x    = 1.0f;
-  button->scale_y    = 1.0f;
   button->text       = text;
   button->text_color = *fc;
 
@@ -180,12 +178,12 @@ button_update( struct button_t *b ) {}
 void
 button_draw( struct button_t *b ) {
   if ( b->texture[b->texture_id] != NULL ) {
-    Stds_BlitTextureScale( b->texture[b->texture_id], b->rect.x, b->rect.y, b->scale_x, b->scale_y, 0,
-                         SDL_FLIP_NONE, NULL, true );
+    Stds_DrawTexture( b->texture[b->texture_id], b->rect.x, b->rect.y, b->rect.w, b->rect.h, 0,
+                      SDL_FLIP_NONE, NULL, true );
   } else {
     Stds_DrawRect( &b->rect, &b->color, b->is_filled, true );
   }
-  Stds_DrawText( b->text_x, b->text_y, &b->text_color, b->font_path, b->font_size, b->text );
+  Stds_DrawText( b->text_x, b->text_y, b->font_path, b->font_size, &b->text_color, b->text );
 }
 
 /**

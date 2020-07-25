@@ -38,7 +38,7 @@
  * @return particle_system_t * pointer to emitter.
  */
 struct particle_system_t *
-Stds_CreateParticleSystem( int32_t max_particles ) {
+Stds_CreateParticleSystem( const int32_t max_particles ) {
   struct particle_system_t *ps;
   ps = malloc( sizeof( struct particle_system_t ) );
 
@@ -70,7 +70,7 @@ Stds_CreateParticleSystem( int32_t max_particles ) {
  * @return void.
  */
 int32_t
-Stds_InsertParticle( struct particle_system_t *ps, struct particle_t *p ) {
+Stds_InsertParticle( struct particle_system_t *ps, const struct particle_t *p ) {
   if ( ps->alive_count >= ps->max_particles - 1 ) {
     return PS_FULL;
   }
@@ -124,12 +124,12 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
  * Renders all particles in the system. Make sure your particles have
  * the function pointer particle_draw defined!
  *
- * @param particle_system_t * pointer to particle system.
+ * @param coparticle_system_t * pointer to particle system.
  *
  * @return void.
  */
 void
-Stds_ParticleSystemDraw( struct particle_system_t *ps ) {
+Stds_ParticleSystemDraw( const struct particle_system_t *ps ) {
   for ( uint32_t i = 0; i < ps->alive_count; i++ ) {
     struct particle_t *p = &ps->particles[i];
     if ( p->particle_draw ) {

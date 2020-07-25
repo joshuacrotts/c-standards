@@ -7,6 +7,11 @@
 #define VELOCITY      5.0f
 #define GRAVITY       0.3f
 
+static float               timer        = 0.f;
+static float               frequency    = 0.1f;
+static float               amplitude    = 0.2f;
+static float               image_xscale = 0.f;
+static float               image_yscale = 0.f;
 static bool                is_moving    = false;
 static bool                is_attacking = false;
 static struct animation_t *walk_animation;
@@ -14,6 +19,9 @@ static struct animation_t *walk_animation;
 static void key_input_listener( void );
 static void check_bounds( void );
 
+/**
+ *
+ */
 void
 init_player() {
   player = malloc( sizeof( struct entity_t ) );
@@ -52,9 +60,15 @@ player_update( void ) {
   player->animation->pos_x = player->x;
   player->animation->pos_y = player->y;
 
+  /* Just for testing. */
+  image_xscale = ( float ) ( 1 + cos( timer * frequency ) * amplitude );
+  image_yscale = ( float ) ( 1 + sin( timer * frequency ) * amplitude );
+  timer++;
+  player->animation->sprite_width  = ( int32_t )( image_xscale * 150 );
+  player->animation->sprite_height = ( int32_t )( image_yscale * 150 );
+
   check_bounds();
   Stds_AnimationUpdate( player->animation );
-
   Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
 }
 

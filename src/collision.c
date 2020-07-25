@@ -33,7 +33,8 @@
 #include "../include/collision.h"
 
 /**
- * Determines which side entity_t a collided onto entity_t b.
+ * Determines which side entity_t a collided onto entity_t b. This also resolves
+ * the collision, and returns the side of collision.
  *
  * @param entity_t* first entity.
  * @param entity_t* second entity.
@@ -84,7 +85,7 @@ Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b ) {
  * @return true if collision occurs, false otherwise.
  */
 bool
-Stds_CheckCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
+Stds_CheckCircularCollision( const struct circle_t *c1, const struct circle_t *c2 ) {
   float distance_x = ( float ) fabs( c1->center_x - c2->center_x );
   float distance_y = ( float ) fabs( c1->center_y - c2->center_y );
 
@@ -133,8 +134,8 @@ Stds_ResolveCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
  * @return true if overlap exists, false otherwise.
  */
 inline bool
-Stds_CheckIntersection( float x1, float y1, int32_t w1, int32_t h1, float x2, float y2, int32_t w2,
-                        int32_t h2 ) {
+Stds_CheckIntersection( const float x1, const float y1, const int32_t w1, const int32_t h1,
+                        const float x2, const float y2, const int32_t w2, const int32_t h2 ) {
   return ( fmax( x1, x2 ) < fmin( x1 + w1, x2 + w2 ) ) &&
          ( fmax( y1, y2 ) < fmin( y1 + h1, y2 + h2 ) );
 }

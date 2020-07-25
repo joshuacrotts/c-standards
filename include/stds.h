@@ -27,44 +27,43 @@
 
 extern void Stds_SetRandomSeed( void );
 
-extern int32_t Stds_RandomInt( int32_t min, int32_t max );
+extern int32_t Stds_RandomInt( const int32_t min, const int32_t max );
 
-extern int32_t Stds_RandomIntBounded( int32_t min, int32_t min_upper_bound, int32_t max_lower_bound,
-                                      int32_t max );
+extern int32_t Stds_RandomIntBounded( const int32_t min, const int32_t min_upper_bound,
+                                      const int32_t max_lower_bound, const int32_t max );
 
-extern float Stds_RandomFloat( float min, float max );
+extern float Stds_RandomFloat( const float min, const float max );
 
-extern float Stds_RandomFloatBounded( float min, float min_upper_bound, float max_lower_bound,
-                                      float max );
+extern float Stds_RandomFloatBounded( const float min, const float min_upper_bound,
+                                      const float max_lower_bound, const float max );
 
-extern void Stds_ClampInt( int32_t *n, int32_t min, int32_t max );
+extern void Stds_ClampInt( int32_t *n, const int32_t min, const int32_t max );
 
-extern void Stds_CalcSlope( int32_t x1, int32_t y1, int32_t x2, int32_t y2, float *x_slope,
-                            float *y_slope );
+extern void Stds_CalcSlope( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2,
+                            float *x_slope, float *y_slope );
 
-extern float Stds_GetAngle( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+extern float Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 );
 
-extern int32_t Stds_GetDistance( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
+extern int32_t Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 );
 
 extern void Stds_Print( const char *s, ... );
 
-extern float Stds_ToRadians( float degree_angle );
+extern float Stds_ToRadians( const float degree_angle );
 
-extern float Stds_ToDegrees( float radian_angle );
+extern float Stds_ToDegrees( const float radian_angle );
 
-extern bool Stds_IsMouseOverRect( float x, float y, SDL_Rect rect );
+extern bool Stds_IsMouseOverRect( const float x, const float y, const SDL_Rect *rect );
 
-extern SDL_Color Stds_ConvertARGBToColor( uint32_t c );
+extern SDL_Color Stds_ConvertARGBToColor( const uint32_t c );
 
-extern uint32_t Stds_ConvertColorToARGB( SDL_Color *c );
+extern uint32_t Stds_ConvertColorToARGB( const SDL_Color *c );
 
-extern char *Stds_Substring( const char *str, int first, int last );
+extern char *Stds_Substring( const char *str, const int32_t first, const int32_t last );
 
 extern int32_t Stds_IndexOf( const char *s, const char *search_str );
 
-extern char *Stds_StrCatIntPtr( const char *s, int32_t n );
+extern char *Stds_StrCatIntPtr( const char *s, const int32_t n );
 
-extern char *Stds_StrCatIntArray( const char s[], int32_t n );
-
+extern char *Stds_StrCatIntArray( const char s[], const int32_t n );
 
 #endif // STDS_H

@@ -77,7 +77,7 @@ Stds_LoadMusic( const char *fileName ) {
  * @return void.
  */
 void
-Stds_PlayMusic( bool loop ) {
+Stds_PlayMusic( const bool loop ) {
   Mix_PlayMusic( music, loop ? -1 : 0 );
 }
 
@@ -93,7 +93,7 @@ Stds_PlayMusic( bool loop ) {
  * @return void.
  */
 void
-Stds_PlaySounds( int16_t id, int16_t channel ) {
+Stds_PlaySounds( const int16_t id, const int16_t channel ) {
   Mix_PlayChannel( channel, sounds[id], 0 );
 }
 

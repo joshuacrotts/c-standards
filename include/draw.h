@@ -9,34 +9,30 @@ extern void Stds_PrepareScene( void );
 
 extern void Stds_PresentScene( void );
 
-extern void Stds_BlitTextureRectRotate( SDL_Texture *texture, SDL_Rect *src, float x, float y,
-                                        float scale_x, float scale_y, uint16_t angle,
-                                        SDL_RendererFlip flip, SDL_FPoint *rotate_point,
-                                        bool camera_offset );
+extern void Stds_DrawTexture( SDL_Texture *texture, const float x, const float y, const float w,
+                              const float h, const uint16_t angle, const SDL_RendererFlip flip,
+                              const SDL_FPoint *rotate_point, const bool camera_offset );
 
-extern void Stds_BlitTexture( SDL_Texture *texture, float x, float y, bool is_center,
-                              bool camera_offset );
+extern void Stds_BlitTexture( SDL_Texture *texture, const SDL_Rect *src, const float x,
+                              const float y, const float w, const float h, const uint16_t angle,
+                              const SDL_RendererFlip flip, const SDL_FPoint *rotate_point,
+                              const bool camera_offset );
 
-extern void Stds_BlitTextureRotate( SDL_Texture *texture, float x, float y, uint16_t angle,
-                                    SDL_RendererFlip flip, SDL_FPoint *p, bool camera_offset );
+extern void Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled,
+                           const bool camera_offset );
 
-extern void Stds_BlitTextureResize( SDL_Texture *texture, float x, float y, int32_t w, int32_t h,
-                                    uint16_t angle, SDL_RendererFlip flip, bool camera_offset );
+extern void Stds_DrawRectF( SDL_FRect *frect, const SDL_Color *c, const bool is_filled,
+                            const bool camera_offset );
 
-extern void Stds_BlitTextureScale( SDL_Texture *texture, float x, float y, float scale_x,
-                                   float scale_y, uint16_t angle, SDL_RendererFlip flip,
-                                   SDL_Color *c, bool camera_offset );
+extern void Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h,
+                                 const uint32_t stroke_width, const SDL_Color *c,
+                                 const bool camera_offset );
 
-extern void Stds_DrawRect( SDL_Rect *rect, SDL_Color *c, bool is_filled, bool camera_offset );
+extern void Stds_DrawCircle( const struct circle_t *circle, const SDL_Color *c,
+                             const bool is_filled );
 
-extern void Stds_DrawRectF( SDL_FRect *frect, SDL_Color *c, bool is_filled, bool camera_offset );
-
-extern void Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, uint32_t thickness,
-                                 SDL_Color *c, bool camera_offset );
-
-extern void Stds_DrawCircle( struct circle_t *circle, SDL_Color *c, bool is_filled );
-
-extern void Stds_DrawLine( float x1, float y1, float x2, float y2, SDL_Color *c );
+extern void Stds_DrawLine( const float x1, const float y1, const float x2, const float y2,
+                           const SDL_Color *c );
 
 extern SDL_Texture *Stds_LoadTexture( const char *directory );
 

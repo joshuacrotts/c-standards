@@ -49,8 +49,8 @@ static char input_buffer[MAX_BUFFER_SIZE];
  * @return animation_t* struct.
  */
 struct animation_t *
-Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_delay, uint16_t x,
-                     uint16_t y, size_t no_rows, size_t no_cols ) {
+Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const float frame_delay, const uint16_t x,
+                     const uint16_t y, const size_t no_rows, const size_t no_cols ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -59,7 +59,7 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-  
+
   memset( a, 0, sizeof( struct animation_t ) );
 
   a->number_of_frames = no_of_frames;
@@ -104,7 +104,7 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
  * @return animation_t* struct.
  */
 struct animation_t *
-Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_delay ) {
+Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -156,7 +156,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
  * Updates the animation type. If it is a sprite sheet, it
  * advances the coordinates used to keep track of the current
  * sprite in the sheet. Oppositely, if it is a series of images,
- * we just advance the pointer keeping track of each image. Once 
+ * we just advance the pointer keeping track of each image. Once
  * the cycle ends, the pointer or coordinate is reset back to 0.
  *
  * @param animation_t* animation to update.
@@ -226,18 +226,18 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  * @return void.
  */
 void
-Stds_AnimationDraw( struct animation_t *a ) {
+Stds_AnimationDraw( const struct animation_t *a ) {
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
-      Stds_BlitTextureRotate( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
-                              NULL, true );
+      Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
+                        a->sprite_height, a->angle, a->flip, NULL, true );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->scale_x, a->scale_y, a->angle,
-                                  a->flip, NULL, true );
+      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->sprite_width,
+                        a->sprite_height, a->angle, a->flip, NULL, true );
     }
   }
 }

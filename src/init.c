@@ -31,7 +31,8 @@
 
 struct app_t app;
 
-static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
+static void Stds_InitSDL( const char *, const uint32_t ww, const uint32_t wh, const uint32_t lw,
+                          const uint32_t lh );
 static void Stds_InitAudioContext( void );
 static void Stds_Cleanup( void );
 
@@ -48,8 +49,8 @@ static void Stds_Cleanup( void );
  * @return void.
  */
 void
-Stds_InitGame( const char *window_name, uint32_t window_width, uint32_t window_height,
-               uint32_t level_width, uint32_t level_height ) {
+Stds_InitGame( const char *window_name, const uint32_t window_width, const uint32_t window_height,
+               const uint32_t level_width, const uint32_t level_height ) {
   Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
   Stds_InitSounds();
   Stds_InitFonts();
@@ -92,8 +93,8 @@ Stds_ToggleDebugMode( bool db ) {
  * @return void.
  */
 static void
-Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_height,
-              uint32_t level_width, uint32_t level_height ) {
+Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32_t window_height,
+              const uint32_t level_width, const uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
   renderer_flags = SDL_RENDERER_ACCELERATED;
@@ -150,9 +151,9 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
  * Closes the SDL mixer/audio and subsystem components. This function
  * should not be called by the user; rather it is called by the input.c
  * file when a close event is encountered.
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 void

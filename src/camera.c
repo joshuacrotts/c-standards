@@ -46,7 +46,7 @@
  * @return void.
  */
 void
-Stds_CameraUpdate( struct entity_t *focus_point ) {
+Stds_CameraUpdate( const struct entity_t *focus_point ) {
   if ( focus_point != NULL ) {
     app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( app.SCREEN_WIDTH >> 1 );
     app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( app.SCREEN_HEIGHT >> 1 );

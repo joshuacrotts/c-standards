@@ -59,6 +59,8 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
 
   t->x     = parent->x;
   t->y     = parent->y;
+  t->w     = parent->w;
+  t->h     = parent->h;
   t->flip  = flip;
   t->flags = STDS_TRAIL_TEXTURE_MASK;
 
@@ -176,7 +178,7 @@ Stds_TrailDraw( struct trail_t *t ) {
   }
 
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
-  Stds_BlitTextureRotate( t->texture, t->x, t->y, 0, t->flip, NULL, true );
+  Stds_DrawTexture( t->texture, t->x, t->y, t->w, t->h, t->angle, t->flip, NULL, true );
 
   /* If shape. */
   if ( t->flags & STDS_TRAIL_SQUARE_MASK ) {

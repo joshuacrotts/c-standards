@@ -29,5 +29,5 @@ enemy_update( struct entity_t *e ) {}
  */
 void
 enemy_draw( struct entity_t *e ) {
-  Stds_BlitTexture( e->texture[0], e->x, e->y, false, true );
+  Stds_DrawTexture( e->texture[0], e->x, e->y, e->w, e->h, e->angle, SDL_FLIP_NONE, NULL, true );
 }

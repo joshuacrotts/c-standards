@@ -52,14 +52,15 @@ static char input_buffer[MAX_BUFFER_SIZE];
  *        of an infinite background.
  */
 void
-Stds_AddParallaxBackground( const char *directory, size_t count, float normal_scroll_speed,
-                            float scroll_speeds[], bool infinite_scroll ) {
+Stds_AddParallaxBackground( const char *directory, const size_t count,
+                            const float normal_scroll_speed, const float scroll_speeds[],
+                            const bool infinite_scroll ) {
 
   struct parallax_background_t *layer;
 
   const uint8_t NUM_DIGITS = 3;
   char          number_buffer[NUM_DIGITS];
-  const char *        file_extsn = ".png";
+  const char *  file_extsn = ".png";
 
   for ( uint32_t i = 0; i < count; i++ ) {
     layer = malloc( sizeof( struct parallax_background_t ) );
@@ -123,14 +124,13 @@ Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
  * @return void.
  */
 void
-Stds_ParallaxBackgroundDraw( struct parallax_background_t *p ) {
+Stds_ParallaxBackgroundDraw( const struct parallax_background_t *p ) {
   /* Two copies of the image are drawn to give the illusion of depth and parallax. */
-  Stds_BlitTextureScale( p->background->background_texture, p->background->x, p->background->y,
-                         p->background->scale_x, p->background->scale_y, 0, SDL_FLIP_NONE, NULL,
-                         false );
-  Stds_BlitTextureScale( p->background->background_texture, p->background->x + p->background->w,
-                         p->background->y, p->background->scale_x, p->background->scale_y, 0,
-                         SDL_FLIP_NONE, NULL, false );
+  Stds_DrawTexture( p->background->background_texture, p->background->x, p->background->y,
+                    p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL, false );
+  Stds_DrawTexture( p->background->background_texture, p->background->x + p->background->w,
+                    p->background->y, p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL,
+                    false );
 }
 
 /**
@@ -151,22 +151,13 @@ Stds_AddBackground( const char *file ) {
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
   memset( background, 0, sizeof( struct background_t ) );
 
-  background->x = 0;
-  background->y = 0;
-
-  int32_t w;
-  int32_t h;
-
+  background->x                  = 0;
+  background->y                  = 0;
   background->background_texture = Stds_LoadTexture( file );
-  SDL_QueryTexture( background->background_texture, NULL, NULL, &w, &h );
 
-  background->w       = w;
-  background->h       = h;
-  background->scale_x = 1.0;
-  background->scale_y = 1.0;
+  SDL_QueryTexture( background->background_texture, NULL, NULL, &background->w, &background->h );
 
   return background;
 }
@@ -192,9 +183,9 @@ Stds_BackgroundUpdate( struct background_t *background ) {}
  * @return void.
  */
 void
-Stds_BackgroundDraw( struct background_t *background ) {
-  Stds_BlitTextureScale( background->background_texture, background->x, background->y,
-                         background->scale_x, background->scale_y, 0, SDL_FLIP_NONE, NULL, false );
+Stds_BackgroundDraw( const struct background_t *background ) {
+  Stds_DrawTexture( background->background_texture, background->x, background->y, background->w,
+                    background->h, 0, SDL_FLIP_NONE, NULL, false );
 }
 
 /**
