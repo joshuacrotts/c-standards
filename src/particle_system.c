@@ -107,7 +107,7 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
       exit( EXIT_FAILURE );
     }
 
-    if ( p->flags & DEATH_MASK ) {
+    if ( p->flags & STDS_DEATH_MASK ) {
       /*  Find the rear of the alive particles and grab it. */
       ps->dead_index                   = --( ps->alive_count );
       struct particle_t *back_particle = &ps->particles[ps->dead_index];

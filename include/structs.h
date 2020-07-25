@@ -63,12 +63,12 @@ struct particle_t {
 };
 
 /**
- * 
+ *
  */
 struct grid_t {
   float x;
   float y;
-  
+
   float sx;
   float sy;
 
@@ -82,8 +82,8 @@ struct grid_t {
   SDL_Color fillColor;
 
   /* Members for having textures */
-  SDL_Texture** textures;
-  int32_t textureBuffer;
+  SDL_Texture **textures;
+  int32_t       textureBuffer;
 
   /* Members for having a spriteSheet */
   SDL_Texture* spriteSheet;
@@ -124,12 +124,21 @@ struct parallax_background_t {
 struct trail_t {
   float    x;
   float    y;
+
+  /* For rectangular trails. */
+  int32_t  w;
+  int32_t  h;
+
+   /* For circle trails. */
+  int32_t  r;
+  
   int16_t  alpha;
   int16_t  alpha_decay_rate;
+  uint32_t angle;
   uint32_t flags;
-  bool     is_texture;
 
   SDL_RendererFlip flip;
+  SDL_Color        color;
   SDL_Texture *    texture;
 
   struct trail_t *next;
@@ -141,6 +150,8 @@ struct trail_t {
 struct animation_t {
   float    pos_x;
   float    pos_y;
+  float    scale_x;
+  float    scale_y;
   float    frame_delay;
   float    frame_timer;
   uint32_t splice_x;
@@ -216,7 +227,7 @@ struct font_t {
  *
  */
 struct delegate_t {
-  void ( *tick )( void );
+  void ( *update )( void );
   void ( *draw )( void );
 };
 
@@ -308,7 +319,7 @@ struct entity_t {
   int32_t  h;
   uint32_t flags;
   uint32_t id_flags;
-  uint32_t reload;
+  int32_t  reload;
   uint32_t identifier;
 
   uint16_t angle;
@@ -324,7 +335,7 @@ struct entity_t {
   struct animation_t *animation;
   struct entity_t *   next;
 
-  void ( *tick )( struct entity_t * );
+  void ( *update )( struct entity_t * );
   void ( *draw )( struct entity_t * );
   void ( *touch )( struct entity_t * );
   void ( *die )( struct entity_t * );

@@ -34,7 +34,6 @@ struct app_t app;
 static void Stds_InitSDL( const char *, uint32_t, uint32_t, uint32_t, uint32_t );
 static void Stds_InitAudioContext( void );
 static void Stds_Cleanup( void );
-static void Stds_QuitSDLComponents( void );
 
 /**
  * Calls the remainder of the initialization functions, and
@@ -148,6 +147,26 @@ Stds_InitSDL( const char *window_name, uint32_t window_width, uint32_t window_he
 }
 
 /**
+ * Closes the SDL mixer/audio and subsystem components. This function
+ * should not be called by the user; rather it is called by the input.c
+ * file when a close event is encountered.
+ * 
+ * @param void.
+ * 
+ * @return void.
+ */
+void
+Stds_Quit( void ) {
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing SDL Mixer context." );
+  Mix_Quit();
+  Mix_CloseAudio();
+
+  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
+  SDL_QuitSubSystem( SDL_INIT_EVERYTHING );
+  SDL_Quit();
+}
+
+/**
  * Initializes the SDL audio context, and allocates the necessary
  * memory for the number of channels allowed by Standards.
  *
@@ -223,19 +242,4 @@ Stds_Cleanup( void ) {
   }
 
   Stds_FreeFonts();
-  Stds_QuitSDLComponents();
-}
-
-/**
- *
- */
-static void
-Stds_QuitSDLComponents( void ) {
-  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing SDL Mixer context." );
-  Mix_Quit();
-  Mix_CloseAudio();
-
-  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
-  SDL_QuitSubSystem( SDL_INIT_EVERYTHING );
-  SDL_Quit();
 }

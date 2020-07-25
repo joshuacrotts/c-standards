@@ -27,7 +27,7 @@ Stds_StackCreate( size_t element_size ) {
   s = malloc( sizeof( stds_stack_t ) );
 
   if ( s == NULL ) {
-    Stds_Print( "Error: could not allocate memory for stds_stack_t!\n" );
+    fprintf( stderr, "Error: could not allocate memory for stds_stack_t!\n" );
     exit( EXIT_FAILURE );
   }
   
@@ -62,7 +62,7 @@ Stds_StackPush( struct stds_stack_t *s, void *data ) {
 void *
 Stds_StackPop( struct stds_stack_t *s ) {
   if ( Stds_StackIsEmpty( s ) ) {
-    Stds_Print( "Error! Cannot pop an empty stack.\n" );
+    fprintf( stderr, "Error! Cannot pop an empty stack.\n" );
     exit( EXIT_FAILURE );
   }
 
@@ -101,7 +101,7 @@ Stds_StackClear( struct stds_stack_t *s ) {
 inline void *
 Stds_StackPeek( struct stds_stack_t *s ) {
   if ( Stds_StackIsEmpty( s ) ) {
-    Stds_Print( "Error! Cannot peek an empty stack.\n" );
+    fprintf( stderr, "Error! Cannot peek an empty stack.\n" );
     exit( EXIT_FAILURE );
   }
 

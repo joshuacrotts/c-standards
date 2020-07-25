@@ -44,8 +44,8 @@
  * @return void.
  */
 void
-Stds_AddTrail( struct entity_t *parent, int16_t alpha_decay, int16_t initial_alpha, bool is_texture,
-           SDL_RendererFlip flip ) {
+Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t initial_alpha,
+                      SDL_RendererFlip flip ) {
   struct trail_t *t;
   t = malloc( sizeof( struct trail_t ) );
 
@@ -57,16 +57,84 @@ Stds_AddTrail( struct entity_t *parent, int16_t alpha_decay, int16_t initial_alp
 
   memset( t, 0, sizeof( struct trail_t ) );
 
-  t->x          = parent->x;
-  t->y          = parent->y;
-  t->flip       = flip;
-  t->is_texture = is_texture;
+  t->x     = parent->x;
+  t->y     = parent->y;
+  t->flip  = flip;
+  t->flags = STDS_TRAIL_TEXTURE_MASK;
 
+  /* If we want the trail to be the texture of the parent entity,
+     we either use its animation, or static texture. */
   if ( parent->animation != NULL ) {
-    t->texture = parent->animation->frames[parent->animation->current_frame_id];
+    if ( parent->animation->id_flags & STDS_SPRITE_SHEET_MASK ) {
+      Stds_Print( "Trails are unsupported with entities that have spritesheets." );
+      exit( EXIT_FAILURE );
+    } else {
+      t->texture = parent->animation->frames[parent->animation->current_frame_id];
+    }
   } else {
     t->texture = parent->texture[0];
   }
+
+  t->alpha            = initial_alpha;
+  t->alpha_decay_rate = alpha_decay;
+
+  app.trail_tail->next = t;
+  app.trail_tail       = t;
+}
+
+/**
+ *
+ */
+void
+Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t initial_alpha,
+                     SDL_Color *c ) {
+  struct trail_t *t;
+  t = malloc( sizeof( struct trail_t ) );
+
+  if ( t == NULL ) {
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
+                 "Could not allocate memory for circular trail_t. %s.\n", SDL_GetError() );
+    exit( EXIT_FAILURE );
+  }
+  memset( t, 0, sizeof( struct trail_t ) );
+
+  t->x    = x;
+  t->y    = y;
+  t->r    = r;
+  t->flip = SDL_FLIP_NONE;
+  t->flags |= STDS_TRAIL_CIRCLE_MASK;
+  t->color = *c;
+
+  t->alpha            = initial_alpha;
+  t->alpha_decay_rate = alpha_decay;
+
+  app.trail_tail->next = t;
+  app.trail_tail       = t;
+}
+
+/**
+ *
+ */
+void
+Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay,
+                     int16_t initial_alpha, SDL_Color *c ) {
+  struct trail_t *t;
+  t = malloc( sizeof( struct trail_t ) );
+
+  if ( t == NULL ) {
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
+                 "Could not allocate memory for square trail_t. %s.\n", SDL_GetError() );
+    exit( EXIT_FAILURE );
+  }
+  memset( t, 0, sizeof( struct trail_t ) );
+
+  t->x    = x;
+  t->y    = y;
+  t->w    = w;
+  t->h    = h;
+  t->flip = SDL_FLIP_NONE;
+  t->flags |= STDS_TRAIL_SQUARE_MASK;
+  t->color = *c;
 
   t->alpha            = initial_alpha;
   t->alpha_decay_rate = alpha_decay;
@@ -89,7 +157,7 @@ void
 Stds_TrailUpdate( struct trail_t *t ) {
   t->alpha -= t->alpha_decay_rate;
   if ( t->alpha <= 0 ) {
-    t->flags |= DEATH_MASK;
+    t->flags |= STDS_DEATH_MASK;
   }
 }
 
@@ -102,14 +170,24 @@ Stds_TrailUpdate( struct trail_t *t ) {
  */
 void
 Stds_TrailDraw( struct trail_t *t ) {
-  if ( !t->is_texture ) {
+  /* If texture. */
+  if ( !( t->flags & STDS_TRAIL_TEXTURE_MASK ) ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_BLEND );
   }
 
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
   Stds_BlitTextureRotate( t->texture, t->x, t->y, 0, t->flip, NULL, true );
 
-  if ( !t->is_texture ) {
+  /* If shape. */
+  if ( t->flags & STDS_TRAIL_SQUARE_MASK ) {
+    SDL_FRect r = {t->x, t->y, t->w, t->h};
+    Stds_DrawRectF( &r, &t->color, true, true );
+  } else if ( t->flags & STDS_TRAIL_CIRCLE_MASK ) {
+    struct circle_t circle = {t->x + t->r / 2, t->y + t->r / 2, t->r};
+    Stds_DrawCircle( &circle, &t->color, true );
+  }
+
+  if ( !( t->flags & STDS_TRAIL_TEXTURE_MASK ) ) {
     SDL_SetTextureBlendMode( t->texture, SDL_BLENDMODE_NONE );
   }
 }

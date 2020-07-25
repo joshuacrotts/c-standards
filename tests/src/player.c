@@ -30,7 +30,7 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  walk_animation   = Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png", 16, 0.08f, 0, 0, 4, 4 );
+  walk_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.08f );
 }
 
 /**
@@ -41,8 +41,8 @@ player_update( void ) {
   key_input_listener();
 
   player->animation = walk_animation;
-  player->w = player->animation->sprite_width;
-  player->h = player->animation->sprite_height;
+  player->w         = player->animation->sprite_width;
+  player->h         = player->animation->sprite_height;
 
   player->dy += GRAVITY;
 
@@ -55,9 +55,7 @@ player_update( void ) {
   check_bounds();
   Stds_AnimationUpdate( player->animation );
 
-  if ( is_attacking ) {
-    Stds_AddTrail( player, DECAY_RATE, INITIAL_ALPHA, true, player->animation->flip );
-  }
+  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
 }
 
 /**

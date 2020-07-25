@@ -59,7 +59,7 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
+  
   memset( a, 0, sizeof( struct animation_t ) );
 
   a->number_of_frames = no_of_frames;
@@ -81,8 +81,8 @@ Stds_AddSpritesheet( const char *directory, uint8_t no_of_frames, float frame_de
   a->current_frame_col_id = 0;
   a->current_frame_row_id = 0;
 
-  a->id_flags |= SPRITE_SHEET_MASK;
-  a->flags |= ANIMATION_ACTIVE_MASK;
+  a->id_flags |= STDS_SPRITE_SHEET_MASK;
+  a->flags |= STDS_ANIMATION_ACTIVE_MASK;
 
   return a;
 }
@@ -129,8 +129,8 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
   a->current_frame_id = 0;
 
   SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
-  a->id_flags |= STD_ANIMATION_MASK;
-  a->flags |= ANIMATION_ACTIVE_MASK;
+  a->id_flags |= STDS_ANIMATION_MASK;
+  a->flags |= STDS_ANIMATION_ACTIVE_MASK;
 
   /* Iterate through the files in the directory and store them in
      the buffer. */
@@ -165,7 +165,7 @@ Stds_AddAnimation( const char *directory, uint8_t no_of_frames, float frame_dela
  */
 void
 Stds_AnimationUpdate( struct animation_t *a ) {
-  if ( a->flags & ANIMATION_ACTIVE_MASK )
+  if ( a->flags & STDS_ANIMATION_ACTIVE_MASK )
     a->frame_timer--;
 
   if ( a->frame_timer < 0 ) {
@@ -186,7 +186,7 @@ Stds_AnimationUpdate( struct animation_t *a ) {
     /* If we have a spritesheet, we advance x coordinate
        of the sprite. Otherwise, we advance the pointer
        referencing which sprite to render in the array. */
-    if ( a->id_flags & SPRITE_SHEET_MASK ) {
+    if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       a->splice_x = a->current_frame_col_id * a->sprite_width;
       a->splice_y = a->current_frame_row_id * a->sprite_height;
 
@@ -208,7 +208,7 @@ Stds_AnimationUpdate( struct animation_t *a ) {
        only once (and we just finished), deactivate the flag to
        continue and quit. */
     if ( a->cycle_once ) {
-      a->flags ^= ANIMATION_ACTIVE_MASK;
+      a->flags ^= STDS_ANIMATION_ACTIVE_MASK;
       a->cycle_once           = false;
       a->current_frame_id     = 0;
       a->current_frame_col_id = 0;
@@ -227,16 +227,16 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  */
 void
 Stds_AnimationDraw( struct animation_t *a ) {
-  if ( a->flags & ANIMATION_ACTIVE_MASK ) {
-    if ( a->id_flags & STD_ANIMATION_MASK ) {
+  if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
+    if ( a->id_flags & STDS_ANIMATION_MASK ) {
       Stds_BlitTextureRotate( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->angle, a->flip,
                               NULL, true );
-    } else if ( a->id_flags & SPRITE_SHEET_MASK ) {
+    } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->angle,
+      Stds_BlitTextureRectRotate( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->scale_x, a->scale_y, a->angle,
                                   a->flip, NULL, true );
     }
   }

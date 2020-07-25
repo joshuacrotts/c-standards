@@ -56,6 +56,7 @@ Stds_ProcessInput( void ) {
     switch ( event.type ) {
     case SDL_QUIT:
       SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quit event." );
+      Stds_Quit();
       exit( EXIT_SUCCESS );
       break;
     case SDL_KEYDOWN:
