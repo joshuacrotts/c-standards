@@ -38,7 +38,8 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  walk_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.08f );
+  walk_animation    = Stds_AddSpritesheet( "tests/res/img/spritesheet_numbered.png", 16, 0.08f, 0, 0, 4, 4 );
+  player->animation = walk_animation;
 }
 
 /**
@@ -48,9 +49,8 @@ void
 player_update( void ) {
   key_input_listener();
 
-  player->animation = walk_animation;
-  player->w         = player->animation->sprite_width;
-  player->h         = player->animation->sprite_height;
+  player->w = player->animation->sprite_width;
+  player->h = player->animation->sprite_height;
 
   player->dy += GRAVITY;
 
@@ -61,15 +61,12 @@ player_update( void ) {
   player->animation->pos_y = player->y;
 
   /* Just for testing. */
-  image_xscale = ( float ) ( 1 + cos( timer * frequency ) * amplitude );
-  image_yscale = ( float ) ( 1 + sin( timer * frequency ) * amplitude );
-  timer++;
-  player->animation->sprite_width  = ( int32_t )( image_xscale * 150 );
-  player->animation->sprite_height = ( int32_t )( image_yscale * 150 );
+  player->animation->dest_width  = 300;
+  player->animation->dest_height = 300;
 
   check_bounds();
   Stds_AnimationUpdate( player->animation );
-  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
+  // Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
 }
 
 /**

@@ -36,7 +36,9 @@ static char input_buffer[MAX_BUFFER_SIZE];
 
 /**
  * Defines a sprite sheet object. Note that a->current_texture is only
- * applicable with sprite sheets!
+ * applicable with sprite sheets! Do note that dest_width and dest_height are 
+ * used for scaling purposes. Do NOT modify sprite_width and sprite_height as
+ * these are the variables used for splicing.
  *
  * @param const char* file directory of sprite sheet.
  * @param uint8_t number of frames.
@@ -76,6 +78,8 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
 
   a->sprite_width  = a->sprite_sheet_width / a->cols_count;
   a->sprite_height = a->sprite_sheet_height / a->rows_count;
+  a->dest_width = a->sprite_width;
+  a->dest_height = a->sprite_height;
 
   a->current_frame_id     = 0;
   a->current_frame_col_id = 0;
@@ -227,8 +231,10 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  */
 void
 Stds_AnimationDraw( const struct animation_t *a ) {
+  
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
+      
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
                         a->sprite_height, a->angle, a->flip, NULL, true );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
@@ -236,8 +242,9 @@ Stds_AnimationDraw( const struct animation_t *a ) {
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, NULL, true );
+
+      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
+                        a->dest_height, a->angle, a->flip, NULL, true );
     }
   }
 }

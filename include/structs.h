@@ -86,13 +86,13 @@ struct grid_t {
   int32_t       textureBuffer;
 
   /* Members for having a spriteSheet */
-  SDL_Texture* spriteSheet;
-  SDL_Rect clip;
-  uint32_t spriteSheetCols;
-  uint32_t spriteSheetRows;
+  SDL_Texture *spriteSheet;
+  SDL_Rect     clip;
+  uint32_t     spriteSheetCols;
+  uint32_t     spriteSheetRows;
 
-  struct stds_vector_t* animation;
-  int32_t animationBuffer;
+  struct stds_vector_t *animation;
+  int32_t               animationBuffer;
 };
 
 /*
@@ -122,16 +122,16 @@ struct parallax_background_t {
  *
  */
 struct trail_t {
-  float    x;
-  float    y;
+  float x;
+  float y;
 
   /* For rectangular trails. */
-  int32_t  w;
-  int32_t  h;
+  int32_t w;
+  int32_t h;
 
-   /* For circle trails. */
-  int32_t  r;
-  
+  /* For circle trails. */
+  int32_t r;
+
   int16_t  alpha;
   int16_t  alpha_decay_rate;
   uint32_t angle;
@@ -163,6 +163,8 @@ struct animation_t {
   uint16_t start_y;
   int32_t  sprite_width;
   int32_t  sprite_height;
+  int32_t  dest_width;
+  int32_t  dest_height;
   int32_t  sprite_sheet_width;
   int32_t  sprite_sheet_height;
   uint8_t  current_frame_id;

@@ -1,3 +1,5 @@
 .vscode/*
 Game
 Game.exe
+bin/*
+obj/*
