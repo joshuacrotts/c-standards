@@ -84,6 +84,7 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
   a->current_frame_id     = 0;
   a->current_frame_col_id = 0;
   a->current_frame_row_id = 0;
+  a->camera = true;
 
   a->id_flags |= STDS_SPRITE_SHEET_MASK;
   a->flags |= STDS_ANIMATION_ACTIVE_MASK;
@@ -131,6 +132,7 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
   a->frame_delay      = frame_delay;
   a->frame_timer      = frame_delay * FPS;
   a->current_frame_id = 0;
+  a->camera = true;
 
   SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
   a->id_flags |= STDS_ANIMATION_MASK;
@@ -236,7 +238,7 @@ Stds_AnimationDraw( const struct animation_t *a ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
       
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, NULL, true );
+                        a->sprite_height, a->angle, a->flip, NULL, a->camera );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
@@ -244,7 +246,7 @@ Stds_AnimationDraw( const struct animation_t *a ) {
                             a->sprite_height};
 
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
-                        a->dest_height, a->angle, a->flip, NULL, true );
+                        a->dest_height, a->angle, a->flip, NULL, a->camera );
     }
   }
 }

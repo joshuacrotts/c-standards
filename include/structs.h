@@ -93,6 +93,8 @@ struct grid_t {
 
   struct stds_vector_t *animation;
   int32_t               animationBuffer;
+
+  bool isCameraOn;
 };
 
 /*
@@ -173,6 +175,7 @@ struct animation_t {
   size_t   number_of_frames;
   size_t   rows_count;
   size_t   cols_count;
+  bool camera;
 
   bool cycle_once;
 
