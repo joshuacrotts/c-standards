@@ -133,7 +133,7 @@ update( void ) {
   update_trails();
   update_enemies();
   player_update();
-  //update_grid();
+  update_grid();
 }
 
 /**
@@ -204,7 +204,7 @@ draw( void ) {
   draw_trails();
   draw_enemies();
   player_draw();
-  //draw_grid();
+  draw_grid();
 }
 
 /**

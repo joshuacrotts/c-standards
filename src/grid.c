@@ -431,9 +431,8 @@ Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int
     struct animation_t *editAnim = Stds_VectorGet( grid->animation, index );
     editAnim->pos_x              = grid->x + ( float ) ( col * grid->sw );
     editAnim->pos_y              = grid->y + ( float ) ( row * grid->sh );
-    editAnim->sprite_width       = grid->sw;
-    editAnim->sprite_height      = grid->sh;
-
+    editAnim->dest_width = grid->sw;
+    editAnim->dest_height = grid->sh;
     Stds_AnimationDraw( editAnim );
     Stds_AnimationUpdate( editAnim );
   }
