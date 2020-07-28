@@ -89,6 +89,8 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
 
 /**
  * Draws lines for where the box's of the grid would be.
+ * 
+ * @TODO: apply grid offset pos with camera.
  *
  * @param grid_t* pointer to grid_t.
  *
