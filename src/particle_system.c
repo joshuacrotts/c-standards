@@ -76,7 +76,8 @@ Stds_InsertParticle( struct particle_system_t *ps, const struct particle_t *p ) 
   }
 
   /* Checks to ensure the function pointers are defined as they are
-     used in the update procedures. */
+     used in the update procedures. NOTE: THESE WILL NOT WORK WITHOUT A
+     "CONSTRUCTOR" for the particles initializing the FP to NULL.*/
   if ( !p->particle_update || !p->particle_draw ) {
     return PS_INVALID_FP;
   }

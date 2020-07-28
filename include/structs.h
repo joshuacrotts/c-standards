@@ -280,6 +280,9 @@ struct app_t {
   struct button_t              button_head, *button_tail;
 
   enum GameState game_state;
+
+  void ( *Stds_LoadSounds )( void );
+  void ( *Stds_LoadFonts )( void );
 };
 
 /*

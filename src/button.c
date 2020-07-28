@@ -77,8 +77,8 @@ draw_buttons( void ) {
  * @return button_t pointer.
  */
 struct button_t *
-add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char *font_path,
-            uint16_t size, SDL_Color *fc, const char *text ) {
+add_button( const float x, float y, const uint32_t w, const uint32_t h, const bool is_filled,
+            const char *font_path, const uint16_t size, const SDL_Color *fc, const char *text ) {
   struct button_t *button;
   button = malloc( sizeof( struct button_t ) );
 
@@ -123,8 +123,8 @@ add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char
  * @return button_t pointer.
  */
 struct button_t *
-add_button_texture( float x, float y, const char *file_path, const char *font_path, uint16_t size,
-                    SDL_Color *fc, const char *text ) {
+add_button_texture( const float x, const float y, const char *file_path, const char *font_path,
+                    const uint16_t size, const SDL_Color *fc, const const char *text ) {
   struct button_t *button;
   button = malloc( sizeof( struct button_t ) );
 
@@ -194,16 +194,11 @@ button_draw( struct button_t *b ) {
  *
  * @return bool true if mouse is over, false otherwise.
  */
-bool
+inline bool
 is_mouse_over_button( struct button_t *b ) {
-  int32_t mx = app.mouse.x;
-  int32_t my = app.mouse.y;
-
-  int32_t  x = b->rect.x;
-  int32_t  y = b->rect.y;
-  uint32_t w = b->rect.w;
-  uint32_t h = b->rect.h;
-  return ( ( mx > x ) && ( mx < x + w ) ) && ( ( my > y ) && ( my < y + h ) );
+  struct SDL_Rect *br; /* Button rect. */
+  return ( ( app.mouse.x > br->x ) && ( app.mouse.x < br->x + br->h ) ) &&
+         ( ( app.mouse.y > br->y ) && ( app.mouse.y < br->y + br->h ) );
 }
 
 /**

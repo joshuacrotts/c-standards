@@ -41,6 +41,12 @@
  * the option to modify the placement via a method in draw.c,
  * do it there instead.
  *
+ * The camera offset means, if false, the thing in question will
+ * stay in the viewport of the camera. If true, the thing scrolls
+ * in relation to the camera, meaning it can go off screen. In essence,
+ * if you want something to stay on the screen such as a HUD element,
+ * make this variable true, and false otherwise.
+ *
  * @param entity_t* pointer to parent entity.
  *
  * @return void.
@@ -53,20 +59,10 @@ Stds_CameraUpdate( const struct entity_t *focus_point ) {
     app.camera.w = app.SCREEN_WIDTH;
     app.camera.h = app.SCREEN_HEIGHT;
 
-    if ( app.camera.x < 0 ) {
-      app.camera.x = 0;
-    }
-
-    if ( app.camera.y < 0 ) {
-      app.camera.y = 0;
-    }
-
-    if ( app.camera.x > app.LEVEL_WIDTH - app.camera.w ) {
-      app.camera.x = app.LEVEL_WIDTH - app.camera.w;
-    }
-
-    if ( app.camera.y > app.LEVEL_HEIGHT - app.camera.h ) {
-      app.camera.y = app.LEVEL_HEIGHT - app.camera.h;
-    }
+    Stds_ClampFloat( &app.camera.x, 0, app.LEVEL_WIDTH - app.camera.w );
+    Stds_ClampFloat( &app.camera.y, 0, app.LEVEL_HEIGHT - app.camera.h );
+  } else {
+    Stds_Print( "Error, your focus_point entity is NULL in camera.c." );
+    exit( EXIT_FAILURE );
   }
 }

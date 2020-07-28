@@ -31,6 +31,7 @@
 
 struct app_t app;
 
+static struct app_t Stds_CreateApp( void );
 static void Stds_InitSDL( const char *, const uint32_t ww, const uint32_t wh, const uint32_t lw,
                           const uint32_t lh );
 static void Stds_InitAudioContext( void );
@@ -51,6 +52,10 @@ static void Stds_Cleanup( void );
 void
 Stds_InitGame( const char *window_name, const uint32_t window_width, const uint32_t window_height,
                const uint32_t level_width, const uint32_t level_height ) {
+
+  /* First, we create an app structure to ensure the function pointers are NULL. */
+  app = Stds_CreateApp();
+
   Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
   Stds_InitSounds();
   Stds_InitFonts();
@@ -165,6 +170,24 @@ Stds_Quit( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Quitting SDL." );
   SDL_QuitSubSystem( SDL_INIT_EVERYTHING );
   SDL_Quit();
+}
+
+/**
+ * Creates a struct with all fields and function pointers
+ * initialized to null for checking later.
+ */
+static struct app_t
+Stds_CreateApp( void ) {
+  struct app_t app;
+  app.Stds_LoadFonts  = NULL;
+  app.Stds_LoadSounds = NULL;
+  app.texture_tail    = NULL;
+  app.trail_tail      = NULL;
+  app.button_tail     = NULL;
+  app.font_tail       = NULL;
+  app.parallax_tail   = NULL;
+
+  return app;
 }
 
 /**

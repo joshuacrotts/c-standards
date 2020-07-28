@@ -145,22 +145,40 @@ Stds_ClampInt( int32_t *value, const int32_t min, const int32_t max ) {
 }
 
 /**
+ * Bounds a float n in-between the interval [min, max].
+ *
+ * @param float* pointer to number to Stds_ClampInt.
+ * @param float min number n can be (n >= min).
+ * @param float max number n can be (n <= max).
+ *
+ * @return void.
+ */
+void
+Stds_ClampFloat( float *value, const float min, const float max ) {
+  if ( *value < min ) {
+    *value = min;
+  } else if ( *value > max ) {
+    *value = max;
+  }
+}
+
+/**
  * Calculates the slope between two lines, and stores the x/y result in the pointers
  * defined by the last two parameters.
  *
- * @param int32_t x1
- * @param int32_t y1
- * @param int32_t x2
- * @param int32_t y2
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
  * @param float* pointer to store x slope.
  * @param float* pointer to store y slope.
  *
  * @return void.
  */
 void
-Stds_CalcSlope( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2, float *dx,
+Stds_CalcSlope( const float x1, const float y1, const float x2, const float y2, float *dx,
                 float *dy ) {
-  int32_t steps = ( int32_t ) fmax( abs( x1 - x2 ), abs( y1 - y2 ) );
+  float steps = ( float ) fmax( fabs( x1 - x2 ), fabs( y1 - y2 ) );
 
   if ( steps == 0 ) {
     *dx = *dy = 0;
@@ -326,7 +344,7 @@ Stds_Substring( const char *str, const int32_t first, const int32_t last ) {
     Stds_Print( "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( first >= last ) {
-    Stds_Print( "Error:: your first index %d cannot more than or equal to your last %d.\n", first,
+    Stds_Print( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
                 last );
     exit( EXIT_FAILURE );
   } else if ( first < 0 ) {

@@ -9,6 +9,8 @@ extern void Stds_InitFonts( void );
 
 extern void Stds_FreeFonts( void );
 
+extern void Stds_AddFont( const char *f, const uint16_t s );
+
 extern void Stds_DrawText( const float x, const float y, const char *font_directory,
                            const uint16_t font_size, const SDL_Color *c, const char *str, ... );
 

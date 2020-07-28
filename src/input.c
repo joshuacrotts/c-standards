@@ -76,6 +76,7 @@ Stds_ProcessInput( void ) {
       break;
     case SDL_MOUSEMOTION:
       Stds_MouseMoved( &event.motion );
+      break;
     default:
       break;
     }
@@ -144,7 +145,7 @@ Stds_MouseReleased( const SDL_MouseButtonEvent *event ) {
 }
 
 /**
- *
+ * @TODO: Fix this, it does NOT work.
  */
 static inline void
 Stds_MouseMoved( const SDL_MouseMotionEvent *e ) {

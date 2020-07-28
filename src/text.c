@@ -46,13 +46,13 @@ static void      Stds_AddFont( const char *f, const uint16_t s );
  */
 void
 Stds_InitFonts( void ) {
-  app.font_tail = &app.font_head;
   if ( TTF_Init() == -1 ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize TTF_Init: %s.\n",
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
+  app.font_tail = &app.font_head;
   Stds_LoadFonts();
 }
 
@@ -62,11 +62,9 @@ Stds_InitFonts( void ) {
  *
  * @param float x coordinate (top-left) of string.
  * @param float y coordinate (top-left) of string.
- * @param uint8_t red color value (0-255).
- * @param uint8_t green color value (0-255).
- * @param uint8_t blue color value (0-255).
  * @param const char *font name (use the file name itself with the extension).
  * @param uint16_t font size.
+ * @param SDL_Color * pointer to color of text.
  * @param const char *string to draw.
  * @param ... formatting args.
  *
@@ -218,7 +216,7 @@ Stds_AddFont( const char *font_file, const uint16_t size ) {
                  font_file, size );
   }
 
-  strcpy( f->name, font_file );
+  strncpy( f->name, font_file, strlen( font_file ) );
   f->size = size;
 
   app.font_tail->next = f;

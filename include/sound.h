@@ -3,6 +3,8 @@
 
 #include "stds.h"
 
+extern struct app_t app;
+
 extern void Stds_InitSounds( void );
 
 extern void Stds_LoadMusic( const char *music_path );
