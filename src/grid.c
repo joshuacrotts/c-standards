@@ -338,7 +338,7 @@ Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t in
                                    grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
                                    ( float ) grid->sh};
       Stds_BlitTexture( grid->textures[index], NULL, texturePosition.x, texturePosition.y,
-                        texturePosition.w, texturePosition.h, angle, flip, NULL, !grid->isCameraOn );
+                        texturePosition.w, texturePosition.h, angle, flip, NULL, grid->isCameraOn );
     }
   }
 }
@@ -411,7 +411,7 @@ Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t g
                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
                           ( float ) grid->sh};
     Stds_BlitTexture( grid->spriteSheet, &grid->clip, position.x, position.y, position.w,
-                      position.h, angle, flip, NULL, !grid->isCameraOn );
+                      position.h, angle, flip, NULL, grid->isCameraOn );
   }
 }
 
@@ -458,14 +458,14 @@ Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int
     editAnim->dest_height        = grid->sh;
     editAnim->flip               = flip;
     editAnim->angle              = angle;
-    editAnim->camera             = !grid->isCameraOn; /* These should be false to make sure it stays in position with the grid! */
+    editAnim->camera             = grid->isCameraOn;
     Stds_AnimationUpdate( editAnim );
     Stds_AnimationDraw( editAnim );
   }
 }
 
 /**
- * 
+ *
  */
 void
 Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
