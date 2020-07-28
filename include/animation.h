@@ -9,10 +9,10 @@ extern struct app_t app;
 extern struct animation_t *Stds_AddSpritesheet( const char *file_directory, const uint8_t n,
                                                 const float frame_time, const uint16_t start_x,
                                                 const uint16_t start_y, const size_t rows,
-                                                const size_t cols );
+                                                const size_t cols, bool camera_offset );
 
 extern struct animation_t *Stds_AddAnimation( const char *files_directory, const uint8_t n,
-                                              const float frame_time );
+                                              const float frame_time, bool camera_offset );
 
 extern void Stds_AnimationUpdate( struct animation_t *animation );
 

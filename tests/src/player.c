@@ -38,7 +38,7 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  walk_animation    = Stds_AddSpritesheet( "tests/res/img/spritesheet_numbered.png", 16, 0.08f, 0, 0, 4, 4 );
+  walk_animation    = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f, true );
   player->animation = walk_animation;
 }
 
@@ -66,7 +66,7 @@ player_update( void ) {
 
   check_bounds();
   Stds_AnimationUpdate( player->animation );
-  // Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
+  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
 }
 
 /**

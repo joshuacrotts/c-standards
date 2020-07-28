@@ -86,14 +86,14 @@ init_scene( void ) {
   /* Initialize the parallax background with each frame's scroll factor. */
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
+  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
   Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
                               parallax_scroll, false );
 
   /* Create the border fade from blue to yellow. */
-  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
-  SDL_Color c2 = { 0, 0, 0xff, 0xff };
+  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
+  SDL_Color c2 = {0, 0, 0xff, 0xff};
 
   f.c1    = c1;
   f.c2    = c2;
@@ -104,7 +104,7 @@ init_scene( void ) {
   ps = Stds_CreateParticleSystem( 64 );
 
   /* Create the white grid for testing. */
-  SDL_Color tempGridColor = { 255, 255, 255, 255 };
+  SDL_Color tempGridColor = {255, 255, 255, 255};
   grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, tempGridColor, tempGridColor );
 
   /* Initializes textures for the grid. */
@@ -114,7 +114,8 @@ init_scene( void ) {
   /* Initialize spriteSheet for the grid. */
   Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
 
-  Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png", 16, 0.05f, 0, 0, 4, 4 ) );
+  Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png",
+                                                      16, 0.05f, 0, 0, 4, 4, true ) );
   grid->isCameraOn = true;
 }
 
@@ -124,8 +125,7 @@ init_scene( void ) {
 static void
 update( void ) {
   if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
-    add_particles( app.mouse.x, app.mouse.y, 1 );
-    app.mouse.button[SDL_BUTTON_LEFT] = 0;
+    add_particles( app.mouse.x, app.mouse.y, 32 );
   }
 
   Stds_CameraUpdate( player );
@@ -281,12 +281,12 @@ draw_grid( void ) {
   Stds_DrawLineGrid( grid );
 
   if ( p.r != -1 && p.c != -1 ) {
-    Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridId, SDL_FLIP_NONE, 0 );
+    Stds_PutGridTexture( grid, ( uint32_t ) p.c, ( uint32_t ) p.r, testTextureGridId, SDL_FLIP_NONE,
+                         0 );
   }
 
   Stds_SelectSpriteForGrid( grid, 9, 9 );
   Stds_DrawSelectedSpriteOnGrid( grid, 0, 0, SDL_FLIP_NONE, 0 );
-
   Stds_RenderAnimationToGrid( grid, 7, 0, 0, SDL_FLIP_NONE, 0 );
 }
 

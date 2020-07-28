@@ -82,7 +82,7 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->spriteSheetRows                                     = 0;
   grid->animation       = Stds_VectorCreate( sizeof( struct animation_t * ) );
   grid->animationBuffer = -1;
-  grid->isCameraOn = false;
+  grid->isCameraOn      = false;
 
   return grid;
 }
@@ -284,7 +284,7 @@ Stds_OnGridClicked( struct grid_t *grid, int32_t mouseCode ) {
  */
 void
 Stds_InitializeGridTextures( struct grid_t *grid, int32_t textureBuffer ) {
-  static bool onceCall = false;
+  bool onceCall = false;
   if ( Stds_AssertGrid( grid ) && !onceCall ) {
     grid->textures      = malloc( textureBuffer * sizeof( SDL_Texture * ) );
     grid->textureBuffer = textureBuffer;
@@ -326,18 +326,19 @@ Stds_AddGridTexture( struct grid_t *grid, const char *filePath ) {
  * @param int32_t index in texture array.
  * @param SDL_RendererFlip will flip texture.
  * @param uint16_t the angle of the image.
- * 
+ *
  * @return void.
  */
 void
-Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t index, SDL_RendererFlip flip, uint16_t angle ) {
+Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t index,
+                     SDL_RendererFlip flip, uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) ) {
     if ( index < grid->textureBuffer && index > -1 ) {
       SDL_FRect texturePosition = {grid->x + ( float ) ( col * grid->sw ),
                                    grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
                                    ( float ) grid->sh};
       Stds_BlitTexture( grid->textures[index], NULL, texturePosition.x, texturePosition.y,
-                        texturePosition.w, texturePosition.h, angle, flip, NULL, grid->isCameraOn );
+                        texturePosition.w, texturePosition.h, angle, flip, NULL, !grid->isCameraOn );
     }
   }
 }
@@ -399,16 +400,18 @@ Stds_SelectSpriteForGrid( struct grid_t *grid, uint32_t sheetCol, uint32_t sheet
  * @param uint32_t which row to render the specified sprite onto the grid.
  * @param SDL_RendererFlip will flip texture.
  * @param uint16_t the angle of the image.
- * 
+ *
  * @return void.
  */
 void
-Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t gridRow, SDL_RendererFlip flip, uint16_t angle ) {
+Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t gridRow,
+                               SDL_RendererFlip flip, uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) && gridCol < grid->cols && gridRow < grid->rows ) {
     SDL_FRect position = {grid->x + ( float ) ( gridCol * grid->sw ),
                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
                           ( float ) grid->sh};
-    Stds_BlitTexture( grid->spriteSheet, &grid->clip, position.x, position.y, position.w, position.h, angle, flip, NULL, grid->isCameraOn );
+    Stds_BlitTexture( grid->spriteSheet, &grid->clip, position.x, position.y, position.w,
+                      position.h, angle, flip, NULL, !grid->isCameraOn );
   }
 }
 
@@ -416,7 +419,7 @@ Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t g
  * Adds a animation_t to the vector of animations.
  * @param grid_t* pointer to grid_t.
  * @param animation_t* pointer to animation_t.
- * 
+ *
  * @return int32_t.
  */
 int32_t
@@ -440,31 +443,35 @@ Stds_AddAnimationToGrid( struct grid_t *grid, struct animation_t *animate ) {
  * @param int32_t index of the vector storing the animations.
  * @param SDL_RendererFlip will flip texture.
  * @param uint16_t the angle of the image.
- * 
+ *
  * @return void.
  */
 void
-Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int32_t index, SDL_RendererFlip flip, uint16_t angle ) {
-  if ( Stds_AssertGrid( grid ) && grid->animation != NULL && col < grid->cols && row < grid->rows ) {
+Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int32_t index,
+                            SDL_RendererFlip flip, uint16_t angle ) {
+  if ( Stds_AssertGrid( grid ) && grid->animation != NULL && col < grid->cols &&
+       row < grid->rows ) {
     struct animation_t *editAnim = Stds_VectorGet( grid->animation, index );
     editAnim->pos_x              = grid->x + ( float ) ( col * grid->sw );
     editAnim->pos_y              = grid->y + ( float ) ( row * grid->sh );
-    editAnim->dest_width = grid->sw;
-    editAnim->dest_height = grid->sh;
-    editAnim->flip = flip;
-    editAnim->angle = angle;
-    editAnim->camera = grid->isCameraOn;
-    Stds_AnimationDraw( editAnim );
+    editAnim->dest_width         = grid->sw;
+    editAnim->dest_height        = grid->sh;
+    editAnim->flip               = flip;
+    editAnim->angle              = angle;
+    editAnim->camera             = !grid->isCameraOn; /* These should be false to make sure it stays in position with the grid! */
     Stds_AnimationUpdate( editAnim );
+    Stds_AnimationDraw( editAnim );
   }
 }
 
-void 
+/**
+ * 
+ */
+void
 Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
   if ( Stds_AssertGrid( grid ) && col < grid->cols && row < grid->rows ) {
-    
+    /* TODO */
   }
-  
 }
 
 /**

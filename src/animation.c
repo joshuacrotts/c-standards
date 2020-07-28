@@ -36,7 +36,7 @@ static char input_buffer[MAX_BUFFER_SIZE];
 
 /**
  * Defines a sprite sheet object. Note that a->current_texture is only
- * applicable with sprite sheets! Do note that dest_width and dest_height are 
+ * applicable with sprite sheets! Do note that dest_width and dest_height are
  * used for scaling purposes. Do NOT modify sprite_width and sprite_height as
  * these are the variables used for splicing.
  *
@@ -47,12 +47,14 @@ static char input_buffer[MAX_BUFFER_SIZE];
  * @param uint16_t starting top-left y pos of the sprite sheet.
  * @param size_t number of rows.
  * @param size_t number of columns.
+ * @param bool true if we offset the sprite based on camera, false otherwise.
  *
  * @return animation_t* struct.
  */
 struct animation_t *
-Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const float frame_delay, const uint16_t x,
-                     const uint16_t y, const size_t no_rows, const size_t no_cols ) {
+Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const float frame_delay,
+                     const uint16_t x, const uint16_t y, const size_t no_rows, const size_t no_cols,
+                     bool camera_offset ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -78,13 +80,13 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
 
   a->sprite_width  = a->sprite_sheet_width / a->cols_count;
   a->sprite_height = a->sprite_sheet_height / a->rows_count;
-  a->dest_width = a->sprite_width;
-  a->dest_height = a->sprite_height;
+  a->dest_width    = a->sprite_width;
+  a->dest_height   = a->sprite_height;
 
   a->current_frame_id     = 0;
   a->current_frame_col_id = 0;
   a->current_frame_row_id = 0;
-  a->camera = true;
+  a->camera               = camera_offset;
 
   a->id_flags |= STDS_SPRITE_SHEET_MASK;
   a->flags |= STDS_ANIMATION_ACTIVE_MASK;
@@ -105,11 +107,13 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
  * @param const char* directory to files with file prefix.
  * @param uint8_t number of frames.
  * @param float time to spend on a individual frame per second.
+ * @param bool true if we offset the sprite based on camera, false otherwise.
  *
  * @return animation_t* struct.
  */
 struct animation_t *
-Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay ) {
+Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay,
+                   bool camera_offset ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -132,7 +136,7 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
   a->frame_delay      = frame_delay;
   a->frame_timer      = frame_delay * FPS;
   a->current_frame_id = 0;
-  a->camera = true;
+  a->camera           = camera_offset;
 
   SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
   a->id_flags |= STDS_ANIMATION_MASK;
@@ -233,10 +237,10 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  */
 void
 Stds_AnimationDraw( const struct animation_t *a ) {
-  
+
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
-      
+
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
                         a->sprite_height, a->angle, a->flip, NULL, a->camera );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
@@ -244,7 +248,7 @@ Stds_AnimationDraw( const struct animation_t *a ) {
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-
+                            
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
                         a->dest_height, a->angle, a->flip, NULL, a->camera );
     }

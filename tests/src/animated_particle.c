@@ -11,8 +11,8 @@ struct particle_t
 animated_particle_init( float x, float y ) {
   struct particle_t p;
   /* Un-apply the camera offset. */
-  p.x               = x + app.camera.x;
-  p.y               = y + app.camera.y;
+  p.x               = x;
+  p.y               = y;
   p.life            = Stds_RandomInt( 100, 300 );
   p.dx              = Stds_RandomFloat( -5.f, 5.f );
   p.dy              = Stds_RandomFloat( -10.f, -7.f );
@@ -34,6 +34,7 @@ animated_particle_update( struct particle_t *p ) {
     p->flags |= STDS_DEATH_MASK;
     return;
   }
+
   p->dy += GRAVITY;
 
   p->x += p->dx;
@@ -59,16 +60,19 @@ animated_particle_draw( struct particle_t *p ) {
 static void
 add_particle_animation( struct particle_t *p ) {
   int8_t animation_type = Stds_RandomInt( 0, 2 );
-  float animation_time = Stds_RandomFloat(0.05f, 0.30f);
+  float  animation_time = Stds_RandomFloat( 0.05f, 0.30f );
   switch ( animation_type ) {
   case 0:
-    p->animation = Stds_AddAnimation( "tests/res/img/particle/red/frame_", 2, animation_time);
+    p->animation =
+        Stds_AddAnimation( "tests/res/img/particle/red/frame_", 2, animation_time, false );
     break;
   case 1:
-    p->animation = Stds_AddAnimation( "tests/res/img/particle/green/frame_", 2, animation_time);
+    p->animation =
+        Stds_AddAnimation( "tests/res/img/particle/green/frame_", 2, animation_time, false );
     break;
   case 2:
-    p->animation = Stds_AddAnimation( "tests/res/img/particle/blue/frame_", 2, animation_time);
+    p->animation =
+        Stds_AddAnimation( "tests/res/img/particle/blue/frame_", 2, animation_time, false );
     break;
   default:
     break;
