@@ -202,8 +202,8 @@ Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32
  */
 inline int32_t
 Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
- int32_t x = x2 - x1;
- int32_t y = y2 - y1;
+  int32_t x = x2 - x1;
+  int32_t y = y2 - y1;
 
   return ( int32_t ) sqrt( x * x + y * y );
 }
@@ -297,15 +297,9 @@ Stds_ConvertARGBToColor( const uint32_t c ) {
  *
  * @return uint32_t color integer representation.
  */
-uint32_t
+inline uint32_t
 Stds_ConvertColorToARGB( const SDL_Color *c ) {
-  uint32_t color;
-  color |= c->a << 24;
-  color |= c->r << 16;
-  color |= c->g << 8;
-  color |= c->b;
-
-  return color;
+  return c->a << 24 | c->r << 16 | c->g << 8 | c->b;
 }
 
 /**
@@ -400,7 +394,7 @@ Stds_StrCatIntPtr( const char *s, const int32_t n ) {
 }
 
 /**
- * 
+ *
  */
 char *
 Stds_StrCatIntArray( const char s[], const int32_t n ) {

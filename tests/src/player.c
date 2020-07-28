@@ -63,7 +63,7 @@ player_update( void ) {
 
   check_bounds();
   Stds_AnimationUpdate( player->animation );
-  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip );
+  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip, true );
 }
 
 /**

@@ -46,7 +46,7 @@ static void draw_grid( void );
  * @return status code.
  */
 int
-main(int argc, char *argv[] ) {
+main( int argc, char *argv[] ) {
   atexit( cleanup_stage );
 
   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
