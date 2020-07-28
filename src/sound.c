@@ -39,7 +39,7 @@ static Mix_Music *music;
  * Initializes the sound context for SDL.
  *
  * @param void.
- * 
+ *
  * @return void.
  */
 void
@@ -89,7 +89,7 @@ Stds_PlayMusic( const bool loop ) {
  *
  * @param int16_t sound effect ID from enum.
  * @param int16_t channel from enum.
- * 
+ *
  * @return void.
  */
 void
@@ -99,9 +99,9 @@ Stds_PlaySounds( const int16_t id, const int16_t channel ) {
 
 /**
  * Loads the sound effects for your game.
- * 
+ *
  * @param void.
- * 
+ *
  * @return void.
  */
 static void

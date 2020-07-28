@@ -78,27 +78,27 @@ struct grid_t {
   uint32_t cols;
   uint32_t rows;
 
-  SDL_Color lineColor;
-  SDL_Color fillColor;
+  SDL_Color line_color;
+  SDL_Color fill_color;
 
   /* Members for having textures */
   SDL_Texture **textures;
-  int32_t       textureBuffer;
+  int32_t       texture_buffer;
 
   /* Members for having a spriteSheet */
-  SDL_Texture *spriteSheet;
+  SDL_Texture *sprite_sheet;
   SDL_Rect     clip;
-  uint32_t     spriteSheetCols;
-  uint32_t     spriteSheetRows;
+  uint32_t     sprite_sheet_cols;
+  uint32_t     sprite_sheet_rows;
 
   struct stds_vector_t *animation;
-  int32_t               animationBuffer;
+  int32_t               animation_buffer;
 
   /* This bool will determine if we scroll the grid
      (and its children sprites) with the camera. If false,
      the grid will always stay in the frame of the player.
      If true, it scrolls it. */
-  bool isCameraOffsetEnabled;
+  bool is_camera_offset_enabled;
 };
 
 /*
@@ -179,9 +179,9 @@ struct animation_t {
   size_t   number_of_frames;
   size_t   rows_count;
   size_t   cols_count;
-  bool camera;
 
-  bool cycle_once;
+  bool is_camera_offset_enabled;
+  bool is_cycle_once;
 
   SDL_RendererFlip flip;
 

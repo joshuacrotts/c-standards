@@ -138,7 +138,8 @@ Stds_BlitTexture( SDL_Texture *texture, const SDL_Rect *src, const float x, cons
  * @return void.
  */
 void
-Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled, const bool camera_offset ) {
+Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled,
+               const bool camera_offset ) {
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
   SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
 
@@ -169,7 +170,8 @@ Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled, const b
  * @return void.
  */
 void
-Stds_DrawRectF( SDL_FRect *frect, const SDL_Color *c, const bool is_filled, const bool camera_offset ) {
+Stds_DrawRectF( SDL_FRect *frect, const SDL_Color *c, const bool is_filled,
+                const bool camera_offset ) {
   SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
   SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
 
@@ -204,8 +206,8 @@ Stds_DrawRectF( SDL_FRect *frect, const SDL_Color *c, const bool is_filled, cons
  * @return void.
  */
 void
-Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t stroke, const SDL_Color *c,
-                     const bool camera_offset ) {
+Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t stroke,
+                     const SDL_Color *c, const bool camera_offset ) {
   if ( stroke <= 0 ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                  "Error: stroke %d cannot be a negative or zero value!", stroke );
@@ -247,7 +249,8 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t st
  * @return void.
  */
 void
-Stds_DrawLine( const float x1, const float y1, const float x2, const float y2, const SDL_Color *c ) {
+Stds_DrawLine( const float x1, const float y1, const float x2, const float y2,
+               const SDL_Color *c ) {
   SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
   SDL_RenderDrawLineF( app.renderer, x1, y1, x2, y2 );
 }

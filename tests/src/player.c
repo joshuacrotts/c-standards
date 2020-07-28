@@ -38,9 +38,9 @@ init_player() {
   player->y     = app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
-  walk_animation            = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
-  player->animation         = walk_animation;
-  player->animation->camera = true; /* Apply camera offset. */
+  walk_animation    = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
+  player->animation = walk_animation;
+  player->animation->is_camera_offset_enabled = true; /* Apply camera offset. */
 }
 
 /**

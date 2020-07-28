@@ -100,7 +100,7 @@ add_button( float x, float y, uint32_t w, uint32_t h, bool is_filled, const char
   button->text_color = *fc;
   button->is_filled  = is_filled;
 
-  int fw, fh;
+  int32_t fw, fh;
   Stds_GetStringSize( text, button->font_path, button->font_size, &fw, &fh );
 
   button->text_x = button->rect.x + ( ( button->rect.w - fw ) / 2 );

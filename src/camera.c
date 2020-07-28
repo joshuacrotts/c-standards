@@ -3,7 +3,7 @@
 //
 // DESCRIPTION :
 //        This file defines the function for updating a camera around a parent entity. Generally,
-//        this should be the player. All offsets are pre-applied to the draw functions. To keep 
+//        this should be the player. All offsets are pre-applied to the draw functions. To keep
 //        something from being updated, just re-add the valuesx + app.camera.x, y + app.camera.y.
 //
 // NOTES :
@@ -36,7 +36,7 @@
  * the coordinates in the App struct. Typically, in an overhead
  * style game, this supplied entity will be a reference to the
  * player. If you want to remove the offset from an entity,
- * just add the coordinates of the camera to your entity 
+ * just add the coordinates of the camera to your entity
  * x + app.camera.x and y + app.camera.y. Note that if you have
  * the option to modify the placement via a method in draw.c,
  * do it there instead.

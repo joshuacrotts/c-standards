@@ -40,13 +40,13 @@ static void draw_grid( void );
  * Barebones game. This is the minimum amount of code
  * necessary to run a window.
  *
- * @param int argc, number of cmd arguments.
+ * @paramint32_targc, number of cmd arguments.
  * @param char* [] array of string arguments.
  *
  * @return status code.
  */
 int
-main( int argc, char *argv[] ) {
+main(int argc, char *argv[] ) {
   atexit( cleanup_stage );
 
   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
@@ -105,7 +105,7 @@ init_scene( void ) {
 
   /* Create the white grid for testing. */
   SDL_Color tempGridColor = {255, 255, 255, 255};
-  grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, tempGridColor, tempGridColor );
+  grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, &tempGridColor, &tempGridColor );
 
   /* Initializes textures for the grid. */
   Stds_InitializeGridTextures( grid, 1 );
@@ -116,7 +116,7 @@ init_scene( void ) {
 
   Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png",
                                                       16, 0.05f, 0, 0, 4, 4 ) );
-  grid->isCameraOffsetEnabled = false;
+  grid->is_camera_offset_enabled = false;
 }
 
 /**

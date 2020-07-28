@@ -202,8 +202,8 @@ Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32
  */
 inline int32_t
 Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
-  int x = x2 - x1;
-  int y = y2 - y1;
+ int32_t x = x2 - x1;
+ int32_t y = y2 - y1;
 
   return ( int32_t ) sqrt( x * x + y * y );
 }

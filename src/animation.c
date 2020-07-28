@@ -214,9 +214,9 @@ Stds_AnimationUpdate( struct animation_t *a ) {
     /* If we have the flag enabled to cycle through the animation
        only once (and we just finished), deactivate the flag to
        continue and quit. */
-    if ( a->cycle_once ) {
+    if ( a->is_cycle_once ) {
       a->flags ^= STDS_ANIMATION_ACTIVE_MASK;
-      a->cycle_once           = false;
+      a->is_cycle_once        = false;
       a->current_frame_id     = 0;
       a->current_frame_col_id = 0;
       a->current_frame_row_id = 0;
@@ -239,7 +239,7 @@ Stds_AnimationDraw( const struct animation_t *a ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
 
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, NULL, a->camera );
+                        a->sprite_height, a->angle, a->flip, NULL, a->is_camera_offset_enabled );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */

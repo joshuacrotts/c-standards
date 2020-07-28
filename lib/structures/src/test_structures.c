@@ -3,7 +3,7 @@
 #include "../include/stds_vector.h"
 
 // int
-// main( int argc, char *argv[] ) {
+// main(int32_targc, char *argv[] ) {
 //   stds_queue_t *q;
 //   q = Stds_QueueCreate( sizeof( int32_t ) );
 

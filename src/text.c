@@ -89,7 +89,7 @@ Stds_DrawText( const float x, float y, const char *font_string, const uint16_t f
   vsprintf( text_buffer, text, args );
   va_end( args );
 
-  TTF_Font    *font            = Stds_GetFont( font_string, font_size );
+  TTF_Font *   font            = Stds_GetFont( font_string, font_size );
   SDL_Surface *message_surface = TTF_RenderText_Solid( font, text_buffer, *c );
   TTF_SizeText( font, text_buffer, &message_rect.w, &message_rect.h );
 
@@ -185,9 +185,9 @@ Stds_GetFont( const char *font_str, const uint16_t font_size ) {
  */
 static void
 Stds_LoadFonts( void ) {
-  //Stds_AddFont( "res/fonts/nes.ttf", 12 );
-  //Stds_AddFont( "res/fonts/nes.ttf", 18 );
-  //Stds_AddFont( "res/fonts/nes.ttf", 24 );
+  // Stds_AddFont( "res/fonts/nes.ttf", 12 );
+  // Stds_AddFont( "res/fonts/nes.ttf", 18 );
+  // Stds_AddFont( "res/fonts/nes.ttf", 24 );
 }
 
 /**
