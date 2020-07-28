@@ -53,8 +53,8 @@ static char input_buffer[MAX_BUFFER_SIZE];
  */
 struct animation_t *
 Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const float frame_delay,
-                     const uint16_t x, const uint16_t y, const size_t no_rows, const size_t no_cols,
-                     bool camera_offset ) {
+                     const uint16_t x, const uint16_t y, const size_t no_rows,
+                     const size_t no_cols ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -86,7 +86,6 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
   a->current_frame_id     = 0;
   a->current_frame_col_id = 0;
   a->current_frame_row_id = 0;
-  a->camera               = camera_offset;
 
   a->id_flags |= STDS_SPRITE_SHEET_MASK;
   a->flags |= STDS_ANIMATION_ACTIVE_MASK;
@@ -112,8 +111,7 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
  * @return animation_t* struct.
  */
 struct animation_t *
-Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay,
-                   bool camera_offset ) {
+Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay ) {
   struct animation_t *a;
   a = malloc( sizeof( struct animation_t ) );
 
@@ -136,7 +134,6 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
   a->frame_delay      = frame_delay;
   a->frame_timer      = frame_delay * FPS;
   a->current_frame_id = 0;
-  a->camera           = camera_offset;
 
   SDL_QueryTexture( a->current_texture, NULL, NULL, &a->sprite_width, &a->sprite_height );
   a->id_flags |= STDS_ANIMATION_MASK;
@@ -248,9 +245,9 @@ Stds_AnimationDraw( const struct animation_t *a ) {
          from the sprite sheet. */
       SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
                             a->sprite_height};
-                            
+
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
-                        a->dest_height, a->angle, a->flip, NULL, a->camera );
+                        a->dest_height, a->angle, a->flip, NULL, false );
     }
   }
 }

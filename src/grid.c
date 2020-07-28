@@ -80,16 +80,16 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
   grid->clip.x = grid->clip.y = grid->clip.w = grid->clip.h = 0;
   grid->spriteSheetCols                                     = 0;
   grid->spriteSheetRows                                     = 0;
-  grid->animation       = Stds_VectorCreate( sizeof( struct animation_t * ) );
-  grid->animationBuffer = -1;
-  grid->isCameraOn      = false;
+  grid->animation             = Stds_VectorCreate( sizeof( struct animation_t * ) );
+  grid->animationBuffer       = -1;
+  grid->isCameraOffsetEnabled = false;
 
   return grid;
 }
 
 /**
  * Draws lines for where the box's of the grid would be.
- * 
+ *
  * @TODO: apply grid offset pos with camera.
  *
  * @param grid_t* pointer to grid_t.
@@ -99,8 +99,8 @@ Stds_CreateGrid( float x, float y, int32_t squareWidth, int32_t squareHeight, ui
 void
 Stds_DrawLineGrid( struct grid_t *grid ) {
   if ( Stds_AssertGrid( grid ) ) {
-    grid->x = grid->sx;
-    grid->y = grid->sy;
+    grid->x = grid->isCameraOffsetEnabled ? grid->sx - app.camera.x : grid->sx;
+    grid->y = grid->isCameraOffsetEnabled ? grid->sy - app.camera.y : grid->sy;
 
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
@@ -108,7 +108,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->y += ( float ) grid->sh;
     }
 
-    grid->y = grid->sy;
+    grid->y = grid->isCameraOffsetEnabled ? grid->sy - app.camera.y : grid->sy;
 
     for ( uint32_t c = 0; c < grid->cols; c++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
@@ -116,7 +116,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->x += ( float ) grid->sw;
     }
 
-    grid->x = grid->sx;
+    grid->x = grid->isCameraOffsetEnabled ? grid->sx - app.camera.x : grid->sx;
 
     Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
                    grid->x + ( float ) ( grid->sw * grid->cols ),
@@ -340,7 +340,7 @@ Stds_PutGridTexture( struct grid_t *grid, uint32_t col, uint32_t row, int32_t in
                                    grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
                                    ( float ) grid->sh};
       Stds_BlitTexture( grid->textures[index], NULL, texturePosition.x, texturePosition.y,
-                        texturePosition.w, texturePosition.h, angle, flip, NULL, grid->isCameraOn );
+                        texturePosition.w, texturePosition.h, angle, flip, NULL, grid->isCameraOffsetEnabled );
     }
   }
 }
@@ -413,7 +413,7 @@ Stds_DrawSelectedSpriteOnGrid( struct grid_t *grid, uint32_t gridCol, uint32_t g
                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
                           ( float ) grid->sh};
     Stds_BlitTexture( grid->spriteSheet, &grid->clip, position.x, position.y, position.w,
-                      position.h, angle, flip, NULL, grid->isCameraOn );
+                      position.h, angle, flip, NULL, grid->isCameraOffsetEnabled );
   }
 }
 
@@ -460,7 +460,7 @@ Stds_RenderAnimationToGrid( struct grid_t *grid, uint32_t col, uint32_t row, int
     editAnim->dest_height        = grid->sh;
     editAnim->flip               = flip;
     editAnim->angle              = angle;
-    editAnim->camera             = grid->isCameraOn;
+    editAnim->camera             = false; /* This MUST be false to account for both scrolling and fixed-viewports. */
     Stds_AnimationUpdate( editAnim );
     Stds_AnimationDraw( editAnim );
   }

@@ -94,7 +94,11 @@ struct grid_t {
   struct stds_vector_t *animation;
   int32_t               animationBuffer;
 
-  bool isCameraOn;
+  /* This bool will determine if we scroll the grid
+     (and its children sprites) with the camera. If false,
+     the grid will always stay in the frame of the player.
+     If true, it scrolls it. */
+  bool isCameraOffsetEnabled;
 };
 
 /*

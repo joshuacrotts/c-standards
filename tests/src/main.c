@@ -115,8 +115,8 @@ init_scene( void ) {
   Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
 
   Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png",
-                                                      16, 0.05f, 0, 0, 4, 4, true ) );
-  grid->isCameraOn = true;
+                                                      16, 0.05f, 0, 0, 4, 4 ) );
+  grid->isCameraOffsetEnabled = false;
 }
 
 /**
