@@ -30,7 +30,8 @@
 
 #include "../include/game.h"
 
-static uint16_t current_fps;
+static const char *FPS_STR = " | FPS: ";
+static uint16_t    current_fps;
 
 static void     Stds_InitWindowFPS( void );
 static void     Stds_CapFramerate( long *, float * );
@@ -146,7 +147,7 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   strncpy( window_buffer, app.original_title, strlen( app.original_title ) );
 
   /* Move temp var to buffer. Receive ptr. */
-  strcat( window_buffer, " | FPS: " );
+  strncat( window_buffer, FPS_STR, strlen( FPS_STR ) + 1 );
 
   /* Concatenate number to title variable. */
   char *title;

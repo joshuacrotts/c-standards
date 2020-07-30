@@ -86,8 +86,8 @@ Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b ) {
  */
 bool
 Stds_CheckCircularCollision( const struct circle_t *c1, const struct circle_t *c2 ) {
-  float distance_x = ( float ) fabs( c1->center_x - c2->center_x );
-  float distance_y = ( float ) fabs( c1->center_y - c2->center_y );
+  float distance_x = fabsf( c1->center_x - c2->center_x );
+  float distance_y = fabsf( c1->center_y - c2->center_y );
 
   float radii_sum = c1->radius + c2->radius;
   return ( distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum );
@@ -108,7 +108,7 @@ Stds_ResolveCircularCollision( struct circle_t *c1, struct circle_t *c2 ) {
   float distance_y = ( float ) c1->center_y - c2->center_y;
 
   float radii_sum = c1->radius + c2->radius;
-  float length    = ( float ) sqrt( distance_x * distance_x + distance_y * distance_y );
+  float length    = sqrtf( distance_x * distance_x + distance_y * distance_y );
   float unit_x    = distance_x / length;
   float unit_y    = distance_y / length;
 

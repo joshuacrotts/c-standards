@@ -281,7 +281,7 @@ Stds_ConvertARGBToColor( const uint32_t c ) {
   uint8_t   g     = c >> 8 & 0xff;
   uint8_t   b     = c & 0xff;
   uint8_t   a     = c >> 24 & 0xff;
-  SDL_Color color = {r, g, b, a};
+  SDL_Color color = { r, g, b, a };
   return color;
 }
 
@@ -322,7 +322,7 @@ Stds_Substring( const char *str, const int32_t first, const int32_t last ) {
     exit( EXIT_FAILURE );
   } else if ( first >= last ) {
     printf( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
-                last );
+            last );
     exit( EXIT_FAILURE );
   } else if ( first < 0 ) {
     fprintf( stderr, "Error: your first index cannot be less than 0. %d.\n", first );
@@ -355,8 +355,9 @@ Stds_IndexOf( const char *s, const char *search_str ) {
     fprintf( stderr, "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( s_len < search_str_len ) {
-    fprintf( stderr, "Error: your string length of %d is less than your search string length of %d.\n",
-                s_len, search_str_len );
+    fprintf( stderr,
+             "Error: your string length of %d is less than your search string length of %d.\n",
+             s_len, search_str_len );
     exit( EXIT_FAILURE );
   }
 
@@ -383,7 +384,7 @@ char *
 Stds_StrCatIntPtr( const char *s, const int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
-  int32_t digits = sprintf( number_buffer, "%d", n );
+  int32_t digits = snprintf( number_buffer, MAX_INT_DIGITS, "%d", n );
   strncat( text_buffer, number_buffer, digits );
   return text_buffer;
 }
@@ -395,7 +396,7 @@ char *
 Stds_StrCatIntArray( const char s[], const int32_t n ) {
   memset( text_buffer, '\0', sizeof( text_buffer ) );
   strncat( text_buffer, s, strlen( s ) );
-  int32_t digits = sprintf( number_buffer, "%d", n );
+  int32_t digits = snprintf( number_buffer, MAX_INT_DIGITS, "%d", n );
   strncat( text_buffer, number_buffer, digits );
   return text_buffer;
 }

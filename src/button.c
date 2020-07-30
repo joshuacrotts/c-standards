@@ -38,10 +38,10 @@
  * @return void.
  */
 void
-update_buttons( void ) {
+Stds_UpdateButtons( void ) {
   struct button_t *b;
   for ( b = app.button_head.next; b != NULL; b = b->next ) {
-    button_update( b );
+    Stds_ButtonUpdate( b );
   }
 }
 
@@ -53,10 +53,10 @@ update_buttons( void ) {
  * @return void.
  */
 void
-draw_buttons( void ) {
+Stds_DrawButtons( void ) {
   struct button_t *b;
   for ( b = app.button_head.next; b != NULL; b = b->next ) {
-    button_draw( b );
+    Stds_ButtonDraw( b );
   }
 }
 
@@ -77,8 +77,9 @@ draw_buttons( void ) {
  * @return button_t pointer.
  */
 struct button_t *
-add_button( const float x, float y, const uint32_t w, const uint32_t h, const bool is_filled,
-            const char *font_path, const uint16_t size, const SDL_Color *fc, const char *text ) {
+Stds_AddButton( const float x, float y, const uint32_t w, const uint32_t h, const bool is_filled,
+                const char *font_path, const uint16_t size, const SDL_Color *fc,
+                const char *text ) {
   struct button_t *button;
   button = malloc( sizeof( struct button_t ) );
 
@@ -89,7 +90,7 @@ add_button( const float x, float y, const uint32_t w, const uint32_t h, const bo
   }
 
   memset( button, 0, sizeof( struct button_t ) );
-  SDL_Color black    = {0, 0, 0};
+  SDL_Color black    = { 0, 0, 0 };
   button->rect.x     = ( int32_t ) x;
   button->rect.y     = ( int32_t ) y;
   button->rect.w     = w;
@@ -123,8 +124,8 @@ add_button( const float x, float y, const uint32_t w, const uint32_t h, const bo
  * @return button_t pointer.
  */
 struct button_t *
-add_button_texture( const float x, const float y, const char *file_path, const char *font_path,
-                    const uint16_t size, const SDL_Color *fc, const const char *text ) {
+Stds_AddButtonTexture( const float x, const float y, const char *file_path, const char *font_path,
+                       const uint16_t size, const SDL_Color *fc, const char *text ) {
   struct button_t *button;
   button = malloc( sizeof( struct button_t ) );
 
@@ -166,7 +167,7 @@ add_button_texture( const float x, const float y, const char *file_path, const c
  * @return void.
  */
 void
-button_update( struct button_t *b ) {}
+Stds_ButtonUpdate( struct button_t *b ) {}
 
 /**
  * Draws the button.
@@ -176,7 +177,7 @@ button_update( struct button_t *b ) {}
  * @return void.
  */
 void
-button_draw( struct button_t *b ) {
+Stds_ButtonDraw( struct button_t *b ) {
   if ( b->texture[b->texture_id] != NULL ) {
     Stds_DrawTexture( b->texture[b->texture_id], b->rect.x, b->rect.y, b->rect.w, b->rect.h, 0,
                       SDL_FLIP_NONE, NULL, true );
@@ -195,10 +196,8 @@ button_draw( struct button_t *b ) {
  * @return bool true if mouse is over, false otherwise.
  */
 inline bool
-is_mouse_over_button( struct button_t *b ) {
-  struct SDL_Rect *br; /* Button rect. */
-  return ( ( app.mouse.x > br->x ) && ( app.mouse.x < br->x + br->h ) ) &&
-         ( ( app.mouse.y > br->y ) && ( app.mouse.y < br->y + br->h ) );
+Stds_IsMouseOverButton( struct button_t *b ) {
+  return Stds_IsMouseOverRect( app.mouse.x, app.mouse.y, &b->rect );
 }
 
 /**
@@ -211,13 +210,10 @@ is_mouse_over_button( struct button_t *b ) {
  * @return true if mouse code was used to click, false otherwise.
  */
 bool
-is_button_clicked( struct button_t *b, int32_t mouse_code ) {
-  assert( mouse_code == SDL_BUTTON_LEFT || mouse_code == SDL_BUTTON_RIGHT );
-
-  if ( is_mouse_over_button( b ) && app.mouse.button[mouse_code] ) {
+Stds_IsButtonClicked( struct button_t *b, int32_t mouse_code ) {
+  if ( Stds_IsMouseOverButton( b ) && app.mouse.button[mouse_code] ) {
     app.mouse.button[mouse_code] = 0;
     return true;
   }
-
   return false;
 }

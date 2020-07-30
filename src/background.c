@@ -58,9 +58,8 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 
   struct parallax_background_t *layer;
 
-  const uint8_t NUM_DIGITS = 3;
-  char          number_buffer[NUM_DIGITS];
-  const char *  file_extsn = ".png";
+  char        number_buffer[MAX_FILE_NUM_DIGITS];
+  const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < count; i++ ) {
     layer = malloc( sizeof( struct parallax_background_t ) );
@@ -73,11 +72,11 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 
     memset( layer, 0, sizeof( struct parallax_background_t ) );
 
-    sprintf( number_buffer, "%d", i );
-    strcpy( input_buffer, directory );
-    char *file_name              = strcat( input_buffer, number_buffer );
-    char *file_name_ext          = strcat( input_buffer, file_extsn );
-    layer->background            = Stds_AddBackground( file_name_ext );
+    snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
+    char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
+    layer->background   = Stds_AddBackground( file_name_ext );
     layer->parallax_scroll_speed = scroll_speeds[i];
     layer->normal_scroll_speed   = normal_scroll_speed;
     layer->infinite_scroll       = infinite_scroll;

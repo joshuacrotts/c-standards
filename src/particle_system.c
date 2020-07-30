@@ -125,7 +125,7 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
  * Renders all particles in the system. Make sure your particles have
  * the function pointer particle_draw defined!
  *
- * @param coparticle_system_t * pointer to particle system.
+ * @param particle_system_t * pointer to particle system.
  *
  * @return void.
  */

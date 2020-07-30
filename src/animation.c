@@ -141,15 +141,14 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
 
   /* Iterate through the files in the directory and store them in
      the buffer. */
-  const uint8_t NUM_DIGITS = 3;
-  char          number_buffer[NUM_DIGITS];
-  const char *  file_extsn = ".png";
+  char        number_buffer[MAX_FILE_NUM_DIGITS];
+  const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
-    sprintf( number_buffer, "%d", i );
-    strcpy( input_buffer, directory );
-    char *file_name     = strcat( input_buffer, number_buffer );
-    char *file_name_ext = strcat( input_buffer, file_extsn );
+    snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
+    char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     a->frames[i]        = Stds_LoadTexture( file_name_ext );
     memset( input_buffer, '\0', sizeof( input_buffer ) );
   }
@@ -243,8 +242,8 @@ Stds_AnimationDraw( const struct animation_t *a ) {
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
-                            a->sprite_height};
+      SDL_Rect curr_rect = { ( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
+                             a->sprite_height };
 
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
                         a->dest_height, a->angle, a->flip, NULL, false );
