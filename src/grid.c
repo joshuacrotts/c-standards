@@ -100,8 +100,8 @@ Stds_CreateGrid( const float x, const float y, const int32_t square_width,
 void
 Stds_DrawLineGrid( struct grid_t *grid ) {
   if ( Stds_AssertGrid( grid ) ) {
-    grid->x = grid->is_camera_offset_enabled ? grid->sx - app.camera.x : grid->sx;
-    grid->y = grid->is_camera_offset_enabled ? grid->sy - app.camera.y : grid->sy;
+    grid->x = grid->is_camera_offset_enabled ? grid->sx - g_app.camera.x : grid->sx;
+    grid->y = grid->is_camera_offset_enabled ? grid->sy - g_app.camera.y : grid->sy;
 
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
@@ -109,7 +109,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->y += ( float ) grid->sh;
     }
 
-    grid->y = grid->is_camera_offset_enabled ? grid->sy - app.camera.y : grid->sy;
+    grid->y = grid->is_camera_offset_enabled ? grid->sy - g_app.camera.y : grid->sy;
 
     for ( uint32_t c = 0; c < grid->cols; c++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
@@ -117,7 +117,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->x += ( float ) grid->sw;
     }
 
-    grid->x = grid->is_camera_offset_enabled ? grid->sx - app.camera.x : grid->sx;
+    grid->x = grid->is_camera_offset_enabled ? grid->sx - g_app.camera.x : grid->sx;
 
     Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
                    grid->x + ( float ) ( grid->sw * grid->cols ),
@@ -212,7 +212,7 @@ Stds_OnGridHover( struct grid_t *grid ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) hover_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &hover_rect ) ) {
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y, &hover_rect ) ) {
           return p;
         }
         hover_rect.x += ( int32_t ) grid->sw;
@@ -258,9 +258,9 @@ Stds_OnGridClicked( struct grid_t *grid, const int32_t mouseCode ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) click_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &click_rect ) &&
-             app.mouse.button[mouseCode] ) {
-          app.mouse.button[mouseCode] = 0;
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y, &click_rect ) &&
+             g_app.mouse.button[mouseCode] ) {
+          g_app.mouse.button[mouseCode] = 0;
           return p;
         }
 

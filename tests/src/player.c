@@ -34,8 +34,8 @@ init_player() {
 
   memset( player, 0, sizeof( struct entity_t ) );
 
-  player->x     = app.SCREEN_WIDTH / 2.0f;
-  player->y     = app.SCREEN_HEIGHT / 2.0f;
+  player->x     = g_app.SCREEN_WIDTH / 2.0f;
+  player->y     = g_app.SCREEN_HEIGHT / 2.0f;
   player->angle = 0;
 
   walk_animation    = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
@@ -79,19 +79,19 @@ player_draw( void ) {
  */
 static void
 key_input_listener( void ) {
-  is_moving = app.keyboard[SDL_SCANCODE_A] | app.keyboard[SDL_SCANCODE_D];
+  is_moving = g_app.keyboard[SDL_SCANCODE_A] | g_app.keyboard[SDL_SCANCODE_D];
 
-  if ( app.keyboard[SDL_SCANCODE_W] ) {
+  if ( g_app.keyboard[SDL_SCANCODE_W] ) {
     player->dy                   = JUMP_VEL;
-    app.keyboard[SDL_SCANCODE_W] = 0;
+    g_app.keyboard[SDL_SCANCODE_W] = 0;
   }
 
-  if ( app.keyboard[SDL_SCANCODE_A] ) {
+  if ( g_app.keyboard[SDL_SCANCODE_A] ) {
     player->dx              = -VELOCITY;
     player->animation->flip = SDL_FLIP_NONE;
   }
 
-  else if ( app.keyboard[SDL_SCANCODE_D] ) {
+  else if ( g_app.keyboard[SDL_SCANCODE_D] ) {
     player->dx              = VELOCITY;
     player->animation->flip = SDL_FLIP_HORIZONTAL;
   }
@@ -110,15 +110,15 @@ check_bounds( void ) {
     player->x = 0;
   }
 
-  if ( player->x + player->w > app.LEVEL_WIDTH ) {
-    player->x = app.LEVEL_WIDTH - player->w;
+  if ( player->x + player->w > g_app.LEVEL_WIDTH ) {
+    player->x = g_app.LEVEL_WIDTH - player->w;
   }
 
   if ( player->y < 0 ) {
     player->y = 0;
   }
 
-  if ( player->y + player->h > app.LEVEL_HEIGHT ) {
-    player->y = app.LEVEL_HEIGHT - player->h;
+  if ( player->y + player->h > g_app.LEVEL_HEIGHT ) {
+    player->y = g_app.LEVEL_HEIGHT - player->h;
   }
 }

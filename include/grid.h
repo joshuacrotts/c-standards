@@ -5,7 +5,7 @@
 
 #include "../lib/structures/include/stds_vector.h"
 
-extern struct app_t app;
+extern struct app_t g_app;
 
 /* Will be the return type for all button related functions (what row and what col). */
 struct grid_pair_t {

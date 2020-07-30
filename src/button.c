@@ -40,7 +40,7 @@
 void
 Stds_UpdateButtons( void ) {
   struct button_t *b;
-  for ( b = app.button_head.next; b != NULL; b = b->next ) {
+  for ( b = g_app.button_head.next; b != NULL; b = b->next ) {
     Stds_ButtonUpdate( b );
   }
 }
@@ -55,7 +55,7 @@ Stds_UpdateButtons( void ) {
 void
 Stds_DrawButtons( void ) {
   struct button_t *b;
-  for ( b = app.button_head.next; b != NULL; b = b->next ) {
+  for ( b = g_app.button_head.next; b != NULL; b = b->next ) {
     Stds_ButtonDraw( b );
   }
 }
@@ -197,7 +197,7 @@ Stds_ButtonDraw( struct button_t *b ) {
  */
 inline bool
 Stds_IsMouseOverButton( struct button_t *b ) {
-  return Stds_IsMouseOverRect( app.mouse.x, app.mouse.y, &b->rect );
+  return Stds_IsMouseOverRect( g_app.mouse.x, g_app.mouse.y, &b->rect );
 }
 
 /**
@@ -211,8 +211,8 @@ Stds_IsMouseOverButton( struct button_t *b ) {
  */
 bool
 Stds_IsButtonClicked( struct button_t *b, int32_t mouse_code ) {
-  if ( Stds_IsMouseOverButton( b ) && app.mouse.button[mouse_code] ) {
-    app.mouse.button[mouse_code] = 0;
+  if ( Stds_IsMouseOverButton( b ) && g_app.mouse.button[mouse_code] ) {
+    g_app.mouse.button[mouse_code] = 0;
     return true;
   }
   return false;

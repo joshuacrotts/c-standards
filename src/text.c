@@ -52,7 +52,7 @@ Stds_InitFonts( void ) {
     exit( EXIT_FAILURE );
   }
 
-  app.font_tail = &app.font_head;
+  g_app.font_tail = &g_app.font_head;
   Stds_LoadFonts();
 }
 
@@ -96,8 +96,8 @@ Stds_DrawText( const float x, float y, const char *font_string, const uint16_t f
     exit( EXIT_ERROR );
   }
 
-  SDL_Texture *message_texture = SDL_CreateTextureFromSurface( app.renderer, message_surface );
-  SDL_RenderCopy( app.renderer, message_texture, NULL, &message_rect );
+  SDL_Texture *message_texture = SDL_CreateTextureFromSurface( g_app.renderer, message_surface );
+  SDL_RenderCopy( g_app.renderer, message_texture, NULL, &message_rect );
   SDL_DestroyTexture( message_texture );
   SDL_FreeSurface( message_surface );
 }
@@ -115,9 +115,9 @@ Stds_FreeFonts( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
 
   /* Frees the font linked list. */
-  while ( app.font_head.next ) {
-    f                  = app.font_head.next;
-    app.font_head.next = f->next;
+  while ( g_app.font_head.next ) {
+    f                  = g_app.font_head.next;
+    g_app.font_head.next = f->next;
     free( f );
   }
 
@@ -161,7 +161,7 @@ static TTF_Font *
 Stds_GetFont( const char *font_str, const uint16_t font_size ) {
   struct font_t *f;
 
-  for ( f = app.font_head.next; f != NULL; f = f->next ) {
+  for ( f = g_app.font_head.next; f != NULL; f = f->next ) {
     if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
       return f->font;
     }
@@ -216,9 +216,9 @@ Stds_AddFont( const char *font_file, const uint16_t size ) {
                  font_file, size );
   }
 
-  strncpy( f->name, font_file, strlen( font_file ) );
+  strncpy( f->name, font_file, strlen( font_file ) + 1 );
   f->size = size;
 
-  app.font_tail->next = f;
-  app.font_tail       = f;
+  g_app.font_tail->next = f;
+  g_app.font_tail       = f;
 }

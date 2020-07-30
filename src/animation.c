@@ -146,7 +146,7 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
 
   for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
     snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
-    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    strncpy( input_buffer, directory, strlen( directory )  + 1);
     char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
     char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     a->frames[i]        = Stds_LoadTexture( file_name_ext );

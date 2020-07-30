@@ -4,7 +4,7 @@
 #include "draw.h"
 #include "stds.h"
 
-extern struct app_t app;
+extern struct app_t g_app;
 
 extern void Stds_AddTextureTrail( struct entity_t *parent_entity, int16_t alpha_decay_rate,
                                   int16_t starting_alpha, SDL_RendererFlip flip, bool is_transparent );

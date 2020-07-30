@@ -4,7 +4,7 @@
 // DESCRIPTION :
 //        This file defines the function for updating a camera around a parent entity. Generally,
 //        this should be the player. All offsets are pre-applied to the draw functions. To keep
-//        something from being updated, just re-add the valuesx + app.camera.x, y + app.camera.y.
+//        something from being updated, just re-add the valuesx + g_app.camera.x, y + g_app.camera.y.
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,7 +37,7 @@
  * style game, this supplied entity will be a reference to the
  * player. If you want to remove the offset from an entity,
  * just add the coordinates of the camera to your entity
- * x + app.camera.x and y + app.camera.y. Note that if you have
+ * x + g_app.camera.x and y + g_app.camera.y. Note that if you have
  * the option to modify the placement via a method in draw.c,
  * do it there instead.
  *
@@ -54,13 +54,13 @@
 void
 Stds_CameraUpdate( const struct entity_t *focus_point ) {
   if ( focus_point != NULL ) {
-    app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( app.SCREEN_WIDTH >> 1 );
-    app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( app.SCREEN_HEIGHT >> 1 );
-    app.camera.w = app.SCREEN_WIDTH;
-    app.camera.h = app.SCREEN_HEIGHT;
+    g_app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( g_app.SCREEN_WIDTH >> 1 );
+    g_app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( g_app.SCREEN_HEIGHT >> 1 );
+    g_app.camera.w = g_app.SCREEN_WIDTH;
+    g_app.camera.h = g_app.SCREEN_HEIGHT;
 
-    Stds_ClampFloat( &app.camera.x, 0, app.LEVEL_WIDTH - app.camera.w );
-    Stds_ClampFloat( &app.camera.y, 0, app.LEVEL_HEIGHT - app.camera.h );
+    Stds_ClampFloat( &g_app.camera.x, 0, g_app.LEVEL_WIDTH - g_app.camera.w );
+    Stds_ClampFloat( &g_app.camera.y, 0, g_app.LEVEL_HEIGHT - g_app.camera.h );
   } else {
     printf( "Error, your focus_point entity is NULL in camera.c.\n" );
     exit( EXIT_FAILURE );

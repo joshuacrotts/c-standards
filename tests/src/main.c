@@ -68,8 +68,8 @@ main( int argc, char *argv[] ) {
  */
 static void
 init_scene( void ) {
-  app.delegate.update = update;
-  app.delegate.draw   = draw;
+  g_app.delegate.update = update;
+  g_app.delegate.draw   = draw;
   stage.enemy_tail    = &stage.enemy_head;
 
   init_player();
@@ -77,7 +77,7 @@ init_scene( void ) {
   /* Create the green grass tiles for collision testing. */
   for ( uint32_t i = 0, x = 0; i < 30; i++, x += 48 ) {
     struct entity_t *e;
-    e = add_enemy( x, app.LEVEL_HEIGHT - 20 );
+    e = add_enemy( x, g_app.LEVEL_HEIGHT - 20 );
 
     stage.enemy_tail->next = e;
     stage.enemy_tail       = e;
@@ -124,8 +124,8 @@ init_scene( void ) {
  */
 static void
 update( void ) {
-  if ( app.mouse.button[SDL_BUTTON_LEFT] ) {
-    add_particles( app.mouse.x, app.mouse.y, 32 );
+  if ( g_app.mouse.button[SDL_BUTTON_LEFT] ) {
+    add_particles( g_app.mouse.x, g_app.mouse.y, 32 );
   }
 
   Stds_CameraUpdate( player );
@@ -145,14 +145,14 @@ update_trails( void ) {
   struct trail_t *t;
   struct trail_t *prev;
 
-  prev = &app.trail_head;
+  prev = &g_app.trail_head;
 
-  for ( t = app.trail_head.next; t != NULL; t = t->next ) {
+  for ( t = g_app.trail_head.next; t != NULL; t = t->next ) {
     Stds_TrailUpdate( t );
 
     if ( t->flags & STDS_DEATH_MASK ) {
-      if ( t == app.trail_tail ) {
-        app.trail_tail = prev;
+      if ( t == g_app.trail_tail ) {
+        g_app.trail_tail = prev;
       }
 
       prev->next = t->next;
@@ -169,7 +169,7 @@ update_trails( void ) {
 static void
 update_parallax_backgrounds( void ) {
   struct parallax_background_t *p;
-  for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
+  for ( p = g_app.parallax_head.next; p != NULL; p = p->next ) {
     Stds_ParallaxBackgroundUpdate( p );
   }
 }
@@ -201,7 +201,7 @@ draw( void ) {
   SDL_Color c = Stds_CombineFadeColor( &f );
   draw_parallax_backgrounds();
   Stds_ParticleSystemDraw( ps );
-  Stds_DrawRectStroke( 0, 0, app.SCREEN_WIDTH, app.SCREEN_HEIGHT, 8, &c, 0xff );
+  Stds_DrawRectStroke( 0, 0, g_app.SCREEN_WIDTH, g_app.SCREEN_HEIGHT, 8, &c, 0xff );
   draw_trails();
   draw_enemies();
   player_draw();
@@ -214,7 +214,7 @@ draw( void ) {
 static void
 draw_trails( void ) {
   struct trail_t *t;
-  for ( t = app.trail_head.next; t != NULL; t = t->next ) {
+  for ( t = g_app.trail_head.next; t != NULL; t = t->next ) {
     Stds_TrailDraw( t );
   }
 }
@@ -225,7 +225,7 @@ draw_trails( void ) {
 static void
 draw_parallax_backgrounds( void ) {
   struct parallax_background_t *p;
-  for ( p = app.parallax_head.next; p != NULL; p = p->next ) {
+  for ( p = g_app.parallax_head.next; p != NULL; p = p->next ) {
     Stds_ParallaxBackgroundDraw( p );
   }
 }

@@ -80,8 +80,8 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
   t->alpha            = initial_alpha;
   t->alpha_decay_rate = alpha_decay;
 
-  app.trail_tail->next = t;
-  app.trail_tail       = t;
+  g_app.trail_tail->next = t;
+  g_app.trail_tail       = t;
 }
 
 /**
@@ -110,8 +110,8 @@ Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t i
   t->alpha            = initial_alpha;
   t->alpha_decay_rate = alpha_decay;
 
-  app.trail_tail->next = t;
-  app.trail_tail       = t;
+  g_app.trail_tail->next = t;
+  g_app.trail_tail       = t;
 }
 
 /**
@@ -141,8 +141,8 @@ Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay
   t->alpha            = initial_alpha;
   t->alpha_decay_rate = alpha_decay;
 
-  app.trail_tail->next = t;
-  app.trail_tail       = t;
+  g_app.trail_tail->next = t;
+  g_app.trail_tail       = t;
 }
 
 /**

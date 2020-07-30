@@ -46,11 +46,11 @@ static uint32_t Stds_UpdateWindowTitle( uint32_t, void * );
  */
 void
 Stds_InitAppStructures( void ) {
-  app.parallax_tail = &app.parallax_head;
-  app.texture_tail  = &app.texture_head;
-  app.button_tail   = &app.button_head;
-  app.trail_tail    = &app.trail_head;
-  app.font_tail     = &app.font_head;
+  g_app.parallax_tail = &g_app.parallax_head;
+  g_app.texture_tail  = &g_app.texture_head;
+  g_app.button_tail   = &g_app.button_head;
+  g_app.trail_tail    = &g_app.trail_head;
+  g_app.font_tail     = &g_app.font_head;
 
   Stds_InitWindowFPS();
 }
@@ -72,11 +72,11 @@ Stds_GameLoop( void ) {
   then = SDL_GetTicks();
 
   /* Main game loop. */
-  while ( app.is_running ) {
+  while ( g_app.is_running ) {
     Stds_PrepareScene();
     Stds_ProcessInput();
-    app.delegate.update();
-    app.delegate.draw();
+    g_app.delegate.update();
+    g_app.delegate.draw();
     Stds_PresentScene();
     Stds_CapFramerate( &then, &remainder );
   }
@@ -144,7 +144,7 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   char window_buffer[SMALL_TEXT_BUFFER];
 
   /* Copy the title to the buffer. */
-  strncpy( window_buffer, app.original_title, strlen( app.original_title ) );
+  strncpy( window_buffer, g_app.original_title, strlen( g_app.original_title ) + 1 );
 
   /* Move temp var to buffer. Receive ptr. */
   strncat( window_buffer, FPS_STR, strlen( FPS_STR ) + 1 );
@@ -152,7 +152,8 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   /* Concatenate number to title variable. */
   char *title;
   title = Stds_StrCatIntArray( window_buffer, fps );
-  SDL_SetWindowTitle( app.window, title );
+  printf( "Title: %s\n", title );
+  SDL_SetWindowTitle( g_app.window, title );
 
   return interval;
 }

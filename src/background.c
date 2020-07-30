@@ -73,7 +73,7 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
     memset( layer, 0, sizeof( struct parallax_background_t ) );
 
     snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
-    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    strncpy( input_buffer, directory, strlen( directory ) + 1);
     char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
     char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     layer->background   = Stds_AddBackground( file_name_ext );
@@ -82,8 +82,8 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
     layer->infinite_scroll       = infinite_scroll;
 
     memset( input_buffer, '\0', sizeof( input_buffer ) );
-    app.parallax_tail->next = layer;
-    app.parallax_tail       = layer;
+    g_app.parallax_tail->next = layer;
+    g_app.parallax_tail       = layer;
   }
 }
 
@@ -101,7 +101,7 @@ void
 Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
   if ( !p->infinite_scroll ) {
     p->background->x =
-        ( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
+        ( ( 0 - g_app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
 
     /* Repositions the background according to where it is relative to the camera. */
     p->background->x = ( float ) fmod( p->background->x, p->background->w );

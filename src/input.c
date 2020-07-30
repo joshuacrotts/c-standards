@@ -72,7 +72,7 @@ Stds_ProcessInput( void ) {
       Stds_MouseReleased( &event.button );
       break;
     case SDL_MOUSEWHEEL:
-      app.mouse.wheel = event.wheel.y;
+      g_app.mouse.wheel = event.wheel.y;
       break;
     case SDL_MOUSEMOTION:
       Stds_MouseMoved( &event.motion );
@@ -92,8 +92,8 @@ Stds_ProcessInput( void ) {
  */
 static inline void
 Stds_UpdateMouseState( void ) {
-  SDL_GetMouseState( &app.mouse.x, &app.mouse.y );
-  app.mouse.is_moving = false;
+  SDL_GetMouseState( &g_app.mouse.x, &g_app.mouse.y );
+  g_app.mouse.is_moving = false;
 }
 
 /**
@@ -106,7 +106,7 @@ Stds_UpdateMouseState( void ) {
 static inline void
 Stds_KeyPressed( const SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
-    app.keyboard[event->keysym.scancode] = 1;
+    g_app.keyboard[event->keysym.scancode] = 1;
   }
 }
 
@@ -120,7 +120,7 @@ Stds_KeyPressed( const SDL_KeyboardEvent *event ) {
 static inline void
 Stds_KeyReleased( const SDL_KeyboardEvent *event ) {
   if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
-    app.keyboard[event->keysym.scancode] = 0;
+    g_app.keyboard[event->keysym.scancode] = 0;
   }
 }
 
@@ -133,7 +133,7 @@ Stds_KeyReleased( const SDL_KeyboardEvent *event ) {
  */
 static inline void
 Stds_MousePressed( const SDL_MouseButtonEvent *event ) {
-  app.mouse.button[event->button] = 1;
+  g_app.mouse.button[event->button] = 1;
 }
 
 /**
@@ -141,7 +141,7 @@ Stds_MousePressed( const SDL_MouseButtonEvent *event ) {
  */
 static inline void
 Stds_MouseReleased( const SDL_MouseButtonEvent *event ) {
-  app.mouse.button[event->button] = 0;
+  g_app.mouse.button[event->button] = 0;
 }
 
 /**
@@ -149,5 +149,5 @@ Stds_MouseReleased( const SDL_MouseButtonEvent *event ) {
  */
 static inline void
 Stds_MouseMoved( const SDL_MouseMotionEvent *e ) {
-  app.mouse.is_moving = true;
+  g_app.mouse.is_moving = true;
 }

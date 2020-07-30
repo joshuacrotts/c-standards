@@ -4,7 +4,7 @@
 #include "draw.h"
 #include "stds.h"
 
-extern struct app_t app;
+extern struct app_t g_app;
 
 extern struct animation_t *Stds_AddSpritesheet( const char *file_directory, const uint8_t n,
                                                 const float frame_time, const uint16_t start_x,

@@ -7,7 +7,7 @@
 #include "../../include/trail.h"
 
 extern struct entity_t *player;
-extern struct app_t app;
+extern struct app_t g_app;
 
 extern void init_player( void );
 

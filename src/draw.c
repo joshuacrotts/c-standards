@@ -48,8 +48,8 @@ static void         Stds_DrawCircleHelper( const struct circle_t *, const SDL_Co
  */
 void
 Stds_PrepareScene( void ) {
-  SDL_SetRenderDrawColor( app.renderer, 0, 0, 0, 0 );
-  SDL_RenderClear( app.renderer );
+  SDL_SetRenderDrawColor( g_app.renderer, 0, 0, 0, 0 );
+  SDL_RenderClear( g_app.renderer );
 }
 
 /**
@@ -61,7 +61,7 @@ Stds_PrepareScene( void ) {
  */
 void
 Stds_PresentScene( void ) {
-  SDL_RenderPresent( app.renderer );
+  SDL_RenderPresent( g_app.renderer );
 }
 
 /**
@@ -86,12 +86,12 @@ Stds_DrawTexture( SDL_Texture *texture, const float x, const float y, const floa
                   const bool camera_offset ) {
   SDL_FRect dest_rect;
 
-  dest_rect.x = camera_offset ? x - app.camera.x : x;
-  dest_rect.y = camera_offset ? y - app.camera.y : y;
+  dest_rect.x = camera_offset ? x - g_app.camera.x : x;
+  dest_rect.y = camera_offset ? y - g_app.camera.y : y;
   dest_rect.w = w;
   dest_rect.h = h;
 
-  SDL_RenderCopyExF( app.renderer, texture, NULL, &dest_rect, angle, rotate_point, flip );
+  SDL_RenderCopyExF( g_app.renderer, texture, NULL, &dest_rect, angle, rotate_point, flip );
 }
 
 /**
@@ -117,12 +117,12 @@ Stds_BlitTexture( SDL_Texture *texture, const SDL_Rect *src, const float x, cons
                   const float w, const float h, const uint16_t angle, const SDL_RendererFlip flip,
                   const SDL_FPoint *rotate_point, const bool camera_offset ) {
   SDL_FRect dest;
-  dest.x = camera_offset ? x - app.camera.x : x;
-  dest.y = camera_offset ? y - app.camera.y : y;
+  dest.x = camera_offset ? x - g_app.camera.x : x;
+  dest.y = camera_offset ? y - g_app.camera.y : y;
   dest.w = w;
   dest.h = h;
 
-  SDL_RenderCopyExF( app.renderer, texture, src, &dest, angle, rotate_point, flip );
+  SDL_RenderCopyExF( g_app.renderer, texture, src, &dest, angle, rotate_point, flip );
 }
 
 /**
@@ -140,21 +140,21 @@ Stds_BlitTexture( SDL_Texture *texture, const SDL_Rect *src, const float x, cons
 void
 Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled,
                const bool camera_offset ) {
-  SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
-  SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
+  SDL_SetRenderDrawBlendMode( g_app.renderer, SDL_BLENDMODE_BLEND );
+  SDL_SetRenderDrawColor( g_app.renderer, c->r, c->g, c->b, c->a );
 
   if ( camera_offset ) {
-    rect->x -= ( int32_t ) app.camera.x;
-    rect->y -= ( int32_t ) app.camera.y;
+    rect->x -= ( int32_t ) g_app.camera.x;
+    rect->y -= ( int32_t ) g_app.camera.y;
   }
 
   if ( is_filled ) {
-    SDL_RenderFillRect( app.renderer, rect );
+    SDL_RenderFillRect( g_app.renderer, rect );
   } else {
-    SDL_RenderDrawRect( app.renderer, rect );
+    SDL_RenderDrawRect( g_app.renderer, rect );
   }
 
-  SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_NONE );
+  SDL_SetRenderDrawBlendMode( g_app.renderer, SDL_BLENDMODE_NONE );
 }
 
 /**
@@ -172,21 +172,21 @@ Stds_DrawRect( SDL_Rect *rect, const SDL_Color *c, const bool is_filled,
 void
 Stds_DrawRectF( SDL_FRect *frect, const SDL_Color *c, const bool is_filled,
                 const bool camera_offset ) {
-  SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_BLEND );
-  SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
+  SDL_SetRenderDrawBlendMode( g_app.renderer, SDL_BLENDMODE_BLEND );
+  SDL_SetRenderDrawColor( g_app.renderer, c->r, c->g, c->b, c->a );
 
   if ( camera_offset ) {
-    frect->x -= app.camera.x;
-    frect->y -= app.camera.y;
+    frect->x -= g_app.camera.x;
+    frect->y -= g_app.camera.y;
   }
 
   if ( is_filled ) {
-    SDL_RenderFillRectF( app.renderer, frect );
+    SDL_RenderFillRectF( g_app.renderer, frect );
   } else {
-    SDL_RenderDrawRectF( app.renderer, frect );
+    SDL_RenderDrawRectF( g_app.renderer, frect );
   }
 
-  SDL_SetRenderDrawBlendMode( app.renderer, SDL_BLENDMODE_NONE );
+  SDL_SetRenderDrawBlendMode( g_app.renderer, SDL_BLENDMODE_NONE );
 }
 
 /**
@@ -214,8 +214,8 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t st
     exit( EXIT_FAILURE );
   } else {
     if ( camera_offset ) {
-      x += app.camera.x;
-      y += app.camera.y;
+      x += g_app.camera.x;
+      y += g_app.camera.y;
     }
 
     /* Top-left to TR. */
@@ -225,10 +225,10 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t st
     SDL_FRect r2 = {x, y, stroke, h};
 
     /* BL to BR. */
-    SDL_FRect r3 = {x, camera_offset ? h - stroke + app.camera.y : h - stroke, w, stroke};
+    SDL_FRect r3 = {x, camera_offset ? h - stroke + g_app.camera.y : h - stroke, w, stroke};
 
     /* TR to BR. */
-    SDL_FRect r4 = {camera_offset ? w - stroke + app.camera.x : w - stroke, y, stroke, h};
+    SDL_FRect r4 = {camera_offset ? w - stroke + g_app.camera.x : w - stroke, y, stroke, h};
 
     Stds_DrawRectF( &r1, c, true, camera_offset );
     Stds_DrawRectF( &r2, c, true, camera_offset );
@@ -251,8 +251,8 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t st
 void
 Stds_DrawLine( const float x1, const float y1, const float x2, const float y2,
                const SDL_Color *c ) {
-  SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
-  SDL_RenderDrawLineF( app.renderer, x1, y1, x2, y2 );
+  SDL_SetRenderDrawColor( g_app.renderer, c->r, c->g, c->b, c->a );
+  SDL_RenderDrawLineF( g_app.renderer, x1, y1, x2, y2 );
 }
 
 /**
@@ -324,7 +324,7 @@ Stds_LoadTexture( const char *fileName ) {
   texture = Stds_GetTexture( fileName );
 
   if ( texture == NULL ) {
-    texture = IMG_LoadTexture( app.renderer, fileName );
+    texture = IMG_LoadTexture( g_app.renderer, fileName );
     if ( texture == NULL ) {
       SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                    "Error: could not load image %s. Error Code: %s.\n", fileName, SDL_GetError() );
@@ -348,7 +348,7 @@ static SDL_Texture *
 Stds_GetTexture( const char *file_name ) {
   struct texture_t *t;
 
-  for ( t = app.texture_head.next; t != NULL; t = t->next ) {
+  for ( t = g_app.texture_head.next; t != NULL; t = t->next ) {
     if ( strcmp( t->name, file_name ) == 0 ) {
       return t->texture;
     }
@@ -380,8 +380,8 @@ Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
   }
 
   memset( texture, 0, sizeof( struct texture_t ) );
-  app.texture_tail->next = texture;
-  app.texture_tail       = texture;
+  g_app.texture_tail->next = texture;
+  g_app.texture_tail       = texture;
 
   strncpy( texture->name, file_name, MAX_FILE_NAME_LEN );
   texture->texture = sdl_texture;
@@ -406,17 +406,17 @@ Stds_DrawCircleHelper( const struct circle_t *circle, const SDL_Color *c ) {
   float ty    = 1;
   float error = ( tx - diameter );
 
-  SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
+  SDL_SetRenderDrawColor( g_app.renderer, c->r, c->g, c->b, c->a );
   while ( x >= y ) {
     //  Each of the following renders an octant of the circle
-    SDL_RenderDrawPointF( app.renderer, circle->center_x + x, circle->center_y - y );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x + x, circle->center_y + y );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x - x, circle->center_y - y );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x - x, circle->center_y + y );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x + y, circle->center_y - x );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x + y, circle->center_y + x );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x - y, circle->center_y - x );
-    SDL_RenderDrawPointF( app.renderer, circle->center_x - y, circle->center_y + x );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x + x, circle->center_y - y );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x + x, circle->center_y + y );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x - x, circle->center_y - y );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x - x, circle->center_y + y );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x + y, circle->center_y - x );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x + y, circle->center_y + x );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x - y, circle->center_y - x );
+    SDL_RenderDrawPointF( g_app.renderer, circle->center_x - y, circle->center_y + x );
 
     if ( error <= 0 ) {
       ++y;
@@ -450,20 +450,20 @@ Stds_FillCircleHelper( const struct circle_t *circle, const SDL_Color *c ) {
   offsety = circle->radius;
   d       = circle->radius - 1;
   status  = 0;
-  SDL_SetRenderDrawColor( app.renderer, c->r, c->g, c->b, c->a );
+  SDL_SetRenderDrawColor( g_app.renderer, c->r, c->g, c->b, c->a );
 
   while ( offsety >= offsetx ) {
     float x = circle->center_x;
     float y = circle->center_y;
 
     status +=
-        SDL_RenderDrawLineF( app.renderer, x - offsety, y + offsetx, x + offsety, y + offsetx );
+        SDL_RenderDrawLineF( g_app.renderer, x - offsety, y + offsetx, x + offsety, y + offsetx );
     status +=
-        SDL_RenderDrawLineF( app.renderer, x - offsetx, y + offsety, x + offsetx, y + offsety );
+        SDL_RenderDrawLineF( g_app.renderer, x - offsetx, y + offsety, x + offsetx, y + offsety );
     status +=
-        SDL_RenderDrawLineF( app.renderer, x - offsetx, y - offsety, x + offsetx, y - offsety );
+        SDL_RenderDrawLineF( g_app.renderer, x - offsetx, y - offsety, x + offsetx, y - offsety );
     status +=
-        SDL_RenderDrawLineF( app.renderer, x - offsety, y - offsetx, x + offsety, y - offsetx );
+        SDL_RenderDrawLineF( g_app.renderer, x - offsety, y - offsetx, x + offsety, y - offsetx );
 
     if ( status < 0 ) {
       status = -1;
