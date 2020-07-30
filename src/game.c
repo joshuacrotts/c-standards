@@ -143,7 +143,7 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   char window_buffer[SMALL_TEXT_BUFFER];
 
   /* Copy the title to the buffer. */
-  strcpy( window_buffer, app.original_title );
+  strncpy( window_buffer, app.original_title, strlen( app.original_title ) );
 
   /* Move temp var to buffer. Receive ptr. */
   strcat( window_buffer, " | FPS: " );

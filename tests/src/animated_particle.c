@@ -20,7 +20,11 @@ animated_particle_init( float x, float y ) {
   p.particle_draw   = animated_particle_draw;
 
   add_particle_animation( &p );
-  SDL_QueryTexture( p.animation->current_texture, NULL, NULL, &p.w, &p.h );
+
+  int32_t pw, ph;
+  SDL_QueryTexture( p.animation->current_texture, NULL, NULL, &pw, &ph );
+  p.w = pw;
+  p.h = ph;
 
   return p;
 }

@@ -39,16 +39,22 @@ struct button_t {
  *
  */
 struct particle_t {
-  float    x;
-  float    y;
-  float    dx;
-  float    dy;
-  float    delta_accel_x;
-  float    delta_accel_y;
-  float    delta_alpha;
-  int32_t  w;
-  int32_t  h;
+  float x;
+  float y;
+  float dx; /* Rate of change for position. */
+  float dy;
+
+  float w;
+  float h;
+  float dw; /* Rate of change for size. */
+  float dh;
+
+  float delta_accel_x; /* Rate of acceleration/deceleration. */
+  float delta_accel_y;
+  float delta_alpha;
+
   uint32_t angle;
+  int32_t  delta_angle;
   int32_t  life;
   uint32_t id_flags;
   uint32_t flags;

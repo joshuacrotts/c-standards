@@ -68,7 +68,7 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
      we either use its animation, or static texture. */
   if ( parent->animation != NULL ) {
     if ( parent->animation->id_flags & STDS_SPRITE_SHEET_MASK ) {
-      Stds_Print( "Trails are unsupported with entities that have spritesheets." );
+      printf( "Trails are unsupported with entities that have spritesheets.\n" );
       exit( EXIT_FAILURE );
     } else {
       t->texture = parent->animation->frames[parent->animation->current_frame_id];

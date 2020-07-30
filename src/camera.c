@@ -62,7 +62,7 @@ Stds_CameraUpdate( const struct entity_t *focus_point ) {
     Stds_ClampFloat( &app.camera.x, 0, app.LEVEL_WIDTH - app.camera.w );
     Stds_ClampFloat( &app.camera.y, 0, app.LEVEL_HEIGHT - app.camera.h );
   } else {
-    Stds_Print( "Error, your focus_point entity is NULL in camera.c." );
+    printf( "Error, your focus_point entity is NULL in camera.c.\n" );
     exit( EXIT_FAILURE );
   }
 }

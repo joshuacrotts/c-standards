@@ -432,7 +432,7 @@ Stds_DrawSelectedSpriteOnGrid( const struct grid_t *grid, const uint32_t gridCol
 int32_t
 Stds_AddAnimationToGrid( struct grid_t *grid, struct animation_t *animate ) {
   if ( animate == NULL ) {
-    Stds_Print( "Error, could not add animation to the grid, it is NULL." );
+    printf( "Error, could not add animation to the grid, it is NULL.\n" );
     return -1;
   } else if ( Stds_AssertGrid( grid ) ) {
     grid->animation_buffer++;

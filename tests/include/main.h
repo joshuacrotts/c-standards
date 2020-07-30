@@ -16,6 +16,7 @@
 #include "../include/enemy.h"
 #include "../include/red_particle.h"
 #include "../include/animated_particle.h"
+#include "../include/square_particle.h"
 
 extern struct stage_t stage;
 extern struct app_t   app;

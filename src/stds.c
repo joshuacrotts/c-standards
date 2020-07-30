@@ -195,15 +195,15 @@ Stds_CalcSlope( const float x1, const float y1, const float x2, const float y2, 
 /**
  * Calculates the angle between two points.
  *
- * @param int32_t x1
- * @param int32_t y1
- * @param int32_t x2
- * @param int32_t y2
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
  *
  * @return float angle.
  */
 inline float
-Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
+Stds_GetAngle( const float x1, const float y1, const float x2, const float y2 ) {
   float angle = ( float ) ( -90.0f + atan2( y1 - y2, x1 - x2 ) * ( 180.0f / PI ) );
   return angle >= 0 ? angle : 360.0f + angle;
 }
@@ -211,50 +211,27 @@ Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32
 /**
  * Calculates the distance between two points.
  *
- * @param int32_t x1
- * @param int32_t y1
- * @param int32_t x2
- * @param int32_t y2
+ * @param float x1
+ * @param float y1
+ * @param float x2
+ * @param float y2
  *
- * @return int32_t distance.
+ * @return float distance.
  */
-inline int32_t
-Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 ) {
-  int32_t x = x2 - x1;
-  int32_t y = y2 - y1;
+inline float
+Stds_GetDistance( const float x1, const float y1, const float x2, const float y2 ) {
+  float x = x2 - x1;
+  float y = y2 - y1;
 
-  return ( int32_t ) sqrt( x * x + y * y );
+  return sqrtf( x * x + y * y );
 }
 
 /**
- * Stds_Prints to the SDL LogInfo stream. This is just to
- * prevent having to type out the long line if you
- * want to do simple debugging. Supports varargs
- * and formatting.
+ * Determines if the mouse is over a rectangle defined by the pointer.
  *
- * @param const char* string.
- * @param ... variable arguments.
- *
- * @return void.
- */
-void
-Stds_Print( const char *str, ... ) {
-  va_list args;
-  memset( &text_buffer, '\0', sizeof( text_buffer ) );
-
-  va_start( args, str );
-  vsprintf( text_buffer, str, args );
-  va_end( args );
-
-  SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "%s", text_buffer );
-}
-
-/**
- *
- *
- * @param
- * @param
- * @param
+ * @param const float x coordinate of mouse.
+ * @param const float y coordinate of mouse.
+ * @param const SDL_Rect * pointer to rectangle.
  *
  * @return
  */
@@ -341,17 +318,17 @@ Stds_Substring( const char *str, const int32_t first, const int32_t last ) {
 
   /* Primitive error checking... */
   if ( s_len <= 0 ) {
-    Stds_Print( "Error: your string cannot be empty: %d.\n", s_len );
+    printf( "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( first >= last ) {
-    Stds_Print( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
+    printf( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
                 last );
     exit( EXIT_FAILURE );
   } else if ( first < 0 ) {
-    Stds_Print( "Error: your first index cannot be less than 0. %d.\n", first );
+    fprintf( stderr, "Error: your first index cannot be less than 0. %d.\n", first );
     exit( EXIT_FAILURE );
   } else if ( last >= s_len ) {
-    Stds_Print( "Error: your last index cannot be >= length of your string. %d.\n", last );
+    printf( "Error: your last index cannot be >= length of your string. %d.\n", last );
     exit( EXIT_FAILURE );
   }
 
@@ -375,10 +352,10 @@ Stds_IndexOf( const char *s, const char *search_str ) {
   uint32_t search_str_len = strlen( search_str );
 
   if ( s_len <= 0 ) {
-    Stds_Print( "Error: your string cannot be empty: %d.\n", s_len );
+    fprintf( stderr, "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( s_len < search_str_len ) {
-    Stds_Print( "Error: your string length of %d is less than your search string length of %d.\n",
+    fprintf( stderr, "Error: your string length of %d is less than your search string length of %d.\n",
                 s_len, search_str_len );
     exit( EXIT_FAILURE );
   }

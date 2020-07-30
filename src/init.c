@@ -70,7 +70,7 @@ Stds_InitGame( const char *window_name, const uint32_t window_width, const uint3
 
 /**
  * Toggles debug mode either on or off. When on, debug messages
- * are Stds_Printed to the console.
+ * are printfed to the console.
  *
  * @param bool true for debug mode on, false otherwise.
  *
@@ -115,7 +115,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
 
   /* Initialize SDL and exit if we fail. */
   if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-    Stds_Print( "Could not initialize SDL: %s.\n", SDL_GetError() );
+    printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
@@ -125,7 +125,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                  window_width, window_height, window_flags );
   if ( !app.window ) {
-    Stds_Print( "Could not open window. %s.\n", SDL_GetError() );
+    printf( "Could not open window. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
@@ -136,7 +136,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   /* Create renderer with the default graphics context. */
   app.renderer = SDL_CreateRenderer( app.window, -1, renderer_flags );
   if ( !app.renderer ) {
-    Stds_Print( "Failed to initialize renderer: %s.\n", SDL_GetError() );
+    printf( "Failed to initialize renderer: %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
