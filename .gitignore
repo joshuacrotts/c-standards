@@ -1,4 +1,5 @@
 .vscode/*
+.vs/*
 Game
 Game.exe
 bin/*

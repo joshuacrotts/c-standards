@@ -1,8 +1,6 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-#define EXIT_ERROR          1
-#define EXIT_SUCCESS        0
 #define MAX_KEYBOARD_KEYS   350
 #define FPS                 60
 #define FPS_TIME            ( 1000 / FPS )

@@ -152,7 +152,6 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   /* Concatenate number to title variable. */
   char *title;
   title = Stds_StrCatIntArray( window_buffer, fps );
-  printf( "Title: %s\n", title );
   SDL_SetWindowTitle( g_app.window, title );
 
   return interval;

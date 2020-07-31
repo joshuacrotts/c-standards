@@ -104,7 +104,7 @@ Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
         ( ( 0 - g_app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
 
     /* Repositions the background according to where it is relative to the camera. */
-    p->background->x = ( float ) fmod( p->background->x, p->background->w );
+    p->background->x = ( float ) fmodf( p->background->x, p->background->w );
   } else {
     p->background->x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
     if ( p->background->x < -p->background->w ) {

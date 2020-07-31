@@ -178,7 +178,7 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
 void
 Stds_CalcSlope( const float x1, const float y1, const float x2, const float y2, float *dx,
                 float *dy ) {
-  float steps = ( float ) fmax( fabs( x1 - x2 ), fabs( y1 - y2 ) );
+  float steps = fmaxf( fabsf( x1 - x2 ), fabsf( y1 - y2 ) );
 
   if ( steps == 0 ) {
     *dx = *dy = 0;

@@ -14,6 +14,7 @@ struct stage_t   stage;
 static SDL_Rect                  screen_edge;
 static struct fade_color_t       f;
 static struct particle_system_t *ps;
+static struct animation_t *      fire_animation;
 
 static struct grid_t *    grid;
 static struct grid_pair_t p;
@@ -70,7 +71,7 @@ static void
 init_scene( void ) {
   g_app.delegate.update = update;
   g_app.delegate.draw   = draw;
-  stage.enemy_tail    = &stage.enemy_head;
+  stage.enemy_tail      = &stage.enemy_head;
 
   init_player();
 
@@ -86,25 +87,35 @@ init_scene( void ) {
   /* Initialize the parallax background with each frame's scroll factor. */
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
+  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
   Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
                               parallax_scroll, false );
 
   /* Create the border fade from blue to yellow. */
-  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
-  SDL_Color c2 = {0, 0, 0xff, 0xff};
+  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
+  SDL_Color c2 = { 0, 0, 0xff, 0xff };
 
   f.c1    = c1;
   f.c2    = c2;
   f.time  = 0.0f;
   f.alpha = 0.01f;
 
+  /* Initialize the fire animation. */
+  fire_animation = Stds_AddSpritesheet( "tests/res/img/particle/fire_pixel/Fire04_30x40.png", 49,
+                                        0.02f, 0, 0, 7, 7 );
+
+  /* Static positions for now just to mess around with it. */
+  fire_animation->pos_x       = 200;
+  fire_animation->pos_y       = 400;
+  fire_animation->dest_width  = 70;
+  fire_animation->dest_height = 80;
+
   /* Generate a standard particle system. */
   ps = Stds_CreateParticleSystem( 1024 );
 
   /* Create the white grid for testing. */
-  SDL_Color tempGridColor = {255, 255, 255, 255};
+  SDL_Color tempGridColor = { 255, 255, 255, 255 };
   grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, &tempGridColor, &tempGridColor );
 
   /* Initializes textures for the grid. */
@@ -135,6 +146,7 @@ update( void ) {
   update_enemies();
   player_update();
   update_grid();
+  Stds_AnimationUpdate( fire_animation );
 }
 
 /**
@@ -206,6 +218,7 @@ draw( void ) {
   draw_enemies();
   player_draw();
   draw_grid();
+  Stds_AnimationDraw( fire_animation );
 }
 
 /**
@@ -254,6 +267,7 @@ cleanup_stage( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing player and grid components.\n" );
   free( player );
   Stds_FreeGrid( grid );
+  Stds_AnimationDie( fire_animation );
 }
 
 /**

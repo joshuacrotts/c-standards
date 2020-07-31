@@ -327,7 +327,7 @@ Stds_LoadTexture( const char *fileName ) {
     texture = IMG_LoadTexture( g_app.renderer, fileName );
     if ( texture == NULL ) {
       SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                   "Error: could not load image %s. Error Code: %s.\n", fileName, SDL_GetError() );
+                   "Error: %s", SDL_GetError() );
       exit( EXIT_FAILURE );
     }
 

@@ -93,11 +93,14 @@ Stds_DrawText( const float x, float y, const char *font_string, const uint16_t f
 
   if ( message_surface == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Failed to write message: %s.\n", SDL_GetError() );
-    exit( EXIT_ERROR );
+    exit( EXIT_FAILURE );
   }
 
   SDL_Texture *message_texture = SDL_CreateTextureFromSurface( g_app.renderer, message_surface );
   SDL_RenderCopy( g_app.renderer, message_texture, NULL, &message_rect );
+
+  /* Destroys the available message texture and surface to prevent a memory leak,
+     this seems superfluous every time through a call, but PLEASE do it. */
   SDL_DestroyTexture( message_texture );
   SDL_FreeSurface( message_surface );
 }
@@ -109,116 +112,117 @@ Stds_DrawText( const float x, float y, const char *font_string, const uint16_t f
  *
  * @return void.
  */
-void
-Stds_FreeFonts( void ) {
-  struct font_t *f;
-  SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
+  void Stds_FreeFonts( void ) {
+    struct font_t *f;
+    SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
 
-  /* Frees the font linked list. */
-  while ( g_app.font_head.next ) {
-    f                  = g_app.font_head.next;
-    g_app.font_head.next = f->next;
-    free( f );
+    /* Frees the font linked list. */
+    while ( g_app.font_head.next ) {
+      f                    = g_app.font_head.next;
+      g_app.font_head.next = f->next;
+      free( f );
+    }
+
+    TTF_Quit();
   }
 
-  TTF_Quit();
-}
+  /**
+   * Computes the size of the string with the default font were it to be drawn
+   * to the screen in pixels. This is useful for positioning the string in the middle
+   * of the screen if need-be.
+   *
+   * @param const char *string.
+   * @param const char *font name.
+   * @param uint16_t font size.
+   * @param pointer to integer (int32_t) where the width of the string is stored.
+   * @param pointer to integer (int32_t) where the height of the string is stored.
+   *
+   * @return void.
+   */
+  void Stds_GetStringSize( const char *s, const char *font, const uint16_t size, int32_t *w,
+                           int32_t *h ) {
+    TTF_Font *f;
+    f = Stds_GetFont( font, size );
 
-/**
- * Computes the size of the string with the default font were it to be drawn
- * to the screen in pixels. This is useful for positioning the string in the middle
- * of the screen if need-be.
- *
- * @param const char *string.
- * @param const char *font name.
- * @param uint16_t font size.
- * @param pointer to integer (int32_t) where the width of the string is stored.
- * @param pointer to integer (int32_t) where the height of the string is stored.
- *
- * @return void.
- */
-void
-Stds_GetStringSize( const char *s, const char *font, const uint16_t size, int32_t *w, int32_t *h ) {
-  TTF_Font *f;
-  f = Stds_GetFont( font, size );
-
-  if ( f != NULL ) {
-    TTF_SizeText( f, s, w, h );
-  } else {
-    exit( EXIT_FAILURE );
-  }
-}
-
-/**
- *
- *
- * @param
- * @param
- *
- * @return void.
- */
-static TTF_Font *
-Stds_GetFont( const char *font_str, const uint16_t font_size ) {
-  struct font_t *f;
-
-  for ( f = g_app.font_head.next; f != NULL; f = f->next ) {
-    if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
-      return f->font;
+    if ( f != NULL ) {
+      TTF_SizeText( f, s, w, h );
+    } else {
+      exit( EXIT_FAILURE );
     }
   }
 
-  if ( f == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not find font %s, %d.", font_str, font_size );
+  /**
+   * Iterate through the linked list of fonts already loaded into the system.
+   * If it is found, we return the font with the corresponding size. Otherwise,
+   * NULL is returned.
+   *
+   * @param const char * font name.
+   * @param const uint16_t font size.
+   *
+   * @return TTF_Font * pointer to font object.
+   */
+  static TTF_Font *Stds_GetFont( const char *font_str, const uint16_t font_size ) {
+    struct font_t *f;
+
+    for ( f = g_app.font_head.next; f != NULL; f = f->next ) {
+      if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
+        return f->font;
+      }
+    }
+
+    if ( f == NULL ) {
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not find font %s, %d.", font_str,
+                   font_size );
+    }
+
+    return NULL;
   }
 
-  return NULL;
-}
-
-/**
- *
- *
- * @param void.
- *
- * @return void.
- */
-static void
-Stds_LoadFonts( void ) {
-  // Stds_AddFont( "res/fonts/nes.ttf", 12 );
-  // Stds_AddFont( "res/fonts/nes.ttf", 18 );
-  // Stds_AddFont( "res/fonts/nes.ttf", 24 );
-}
-
-/**
- *
- *
- * @param
- * @param
- *
- * @return void.
- */
-static void
-Stds_AddFont( const char *font_file, const uint16_t size ) {
-  struct font_t *f;
-  f = malloc( sizeof( struct font_t ) );
-
-  if ( f == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for font_t. %s.\n",
-                 SDL_GetError() );
-    exit( EXIT_FAILURE );
+  /**
+   *
+   *
+   * @param void.
+   *
+   * @return void.
+   */
+  static void Stds_LoadFonts( void ) {
+    // Stds_AddFont( "res/fonts/nes.ttf", 12 );
+    // Stds_AddFont( "res/fonts/nes.ttf", 18 );
+    // Stds_AddFont( "res/fonts/nes.ttf", 24 );
   }
 
-  memset( f, 0, sizeof( struct font_t ) );
+  /**
+   * Adds a font to the font linked list in the app struct. A font can be loaded
+   * in multiple times, each with different sizes.
+   *
+   * @param const char * font name.
+   * @param const uint16_t size of font.
+   *
+   * @return void.
+   */
+  static void Stds_AddFont( const char *font_file, const uint16_t size ) {
+    struct font_t *f;
+    f = malloc( sizeof( struct font_t ) );
 
-  f->font = TTF_OpenFont( font_file, size );
+    if ( f == NULL ) {
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for font_t. %s.\n",
+                   SDL_GetError() );
+      exit( EXIT_FAILURE );
+    }
 
-  if ( f->font == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not load font_t %s, %d. Is the path correct?",
-                 font_file, size );
+    memset( f, 0, sizeof( struct font_t ) );
+
+    f->font = TTF_OpenFont( font_file, size );
+
+    if ( f->font == NULL ) {
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
+                   "Could not load font_t %s, %d. Is the path correct?", font_file, size );
+    }
+
+    /* Push the font to the linked list. */
+    strncpy( f->name, font_file, strlen( font_file ) + 1 );
+    f->size = size;
+
+    g_app.font_tail->next = f;
+    g_app.font_tail       = f;
   }
-
-  strncpy( f->name, font_file, strlen( font_file ) + 1 );
-  f->size = size;
-
-  g_app.font_tail->next = f;
-  g_app.font_tail       = f;
-}

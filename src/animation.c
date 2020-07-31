@@ -64,6 +64,14 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
     exit( EXIT_FAILURE );
   }
 
+  /* If our rows x cols is not the same as the number of frames specified, that means we miscounted.
+   */
+  if ( no_rows * no_cols != no_of_frames ) {
+    printf( "Error, your row count of %zu and column count of %zu multiplied does not match the number of frames %d.\n", no_rows,
+            no_cols, no_of_frames );
+    exit( EXIT_FAILURE );
+  }
+
   memset( a, 0, sizeof( struct animation_t ) );
 
   a->number_of_frames = no_of_frames;
@@ -140,13 +148,14 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
   a->flags |= STDS_ANIMATION_ACTIVE_MASK;
 
   /* Iterate through the files in the directory and store them in
-     the buffer. */
+     the buffer.  There is a lot of seemingly ugly C concatenation here,
+     but that's because it is :D*/
   char        number_buffer[MAX_FILE_NUM_DIGITS];
   const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
     snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
-    strncpy( input_buffer, directory, strlen( directory )  + 1);
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
     char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
     char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     a->frames[i]        = Stds_LoadTexture( file_name_ext );
