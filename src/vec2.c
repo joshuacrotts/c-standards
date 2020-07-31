@@ -68,7 +68,7 @@ Stds_IsEqualVec2( struct vec2_t *u, struct vec2_t *v ) {
  */
 float
 Stds_GetMagnitudeVec2( struct vec2_t *v ) {
-  return sqrtf( v->x * v->x + v->y + v->y );
+  return sqrtf( v->x * v->x + v->y * v->y );
 }
 
 /**
@@ -80,12 +80,8 @@ Stds_GetMagnitudeVec2( struct vec2_t *v ) {
  * @return 
  */
 float
-Stds_DotProduct( struct vec2_t *u, struct vec2_t *v ) {
-  float dot = u->x * v->x + u->y + v->y;
-  float m1  = Stds_GetMagnitudeVec2( u );
-  float m2  = Stds_GetMagnitudeVec2( v );
-
-  return acosf( dot / ( m1 * m2 ) );
+Stds_DotProduct( struct vec2_t *u, struct vec2_t *v ) { 
+  return u->x * v->x + u->y * v->y;
 }
 
 /**

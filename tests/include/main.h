@@ -10,6 +10,7 @@
 #include "../../include/init.h"
 #include "../../include/particle_system.h"
 #include "../../include/stds.h"
+#include "../../include/vec2.h"
 #include "../../include/grid.h"
 
 #include "../include/game_structs.h"

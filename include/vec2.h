@@ -19,8 +19,6 @@ extern float Stds_GetMagnitudeVec2( struct vec2_t *v );
 
 extern float Stds_DotProduct( struct vec2_t *u, struct vec2_t *v );
 
-extern struct vec2_t Stds_CrossProduct( struct vec2_t *u, struct vec2_t *v );
-
 extern void Stds_NormalizeVec2( struct vec2_t *v );
 
 #endif
