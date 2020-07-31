@@ -99,3 +99,59 @@ Stds_NormalizeVec2( struct vec2_t *v ) {
   v->x /= mag;
   v->y /= mag;
 }
+
+/**
+ * Adds a scalar to the vec2.
+ *
+ * @param vec2_t a pointer to vec2_t.
+ * @param float value to add to struct.
+ *
+ * @return void.
+ */
+void 
+Stds_AddToVec2( struct vec2_t *v, const float add ) {
+  v->x += add;
+  v->y += add;
+}
+
+/**
+ * Subtracts a scalar to the vec2.
+ *
+ * @param vec2_t a pointer to vec2_t.
+ * @param float value to subtract to struct.
+ *
+ * @return void.
+ */
+void 
+Stds_SubtractToVec2( struct vec2_t *v, const float subtract ) {
+  v->x -= subtract;
+  v->y -= subtract;
+}
+
+/**
+ * Multiplies a scalar to the vec2.
+ *
+ * @param vec2_t a pointer to vec2_t.
+ * @param float value to multiply to struct.
+ *
+ * @return void.
+ */
+void 
+Stds_MultiplyToVec2( struct vec2_t *v, const float multiply ) {
+  v->x *= multiply;
+  v->y *= multiply;
+}
+
+/**
+ * Divides a scalar to the vec2.
+ *
+ * @param vec2_t a pointer to vec2_t.
+ * @param float value to divides to struct.
+ *
+ * @return void.
+ */
+void 
+Stds_DivideToVec2( struct vec2_t *v, const float divide ) {
+  v->x /= divide;
+  v->y /= divide;
+}
