@@ -3,6 +3,11 @@
 
 #include "stds.h"
 
+struct vec2_t {
+  float x;
+  float y;
+}; 
+
 /*
  *
  */
