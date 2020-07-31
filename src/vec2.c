@@ -4,7 +4,7 @@
  *
  */
 struct vec2_t
-Stds_CreateVec2( float x, float y ) {
+Stds_CreateVec2( const float x, const float y ) {
   struct vec2_t v;
   v.x = x;
   v.y = y;
@@ -15,7 +15,7 @@ Stds_CreateVec2( float x, float y ) {
  *
  */
 struct vec2_t
-Stds_CloneVec2( struct vec2_t *v ) {
+Stds_CloneVec2( const struct vec2_t *v ) {
   return Stds_CreateVec2( v->x, v->y );
 }
 
@@ -29,16 +29,22 @@ Stds_CloneVec2( struct vec2_t *v ) {
  * @return void.
  */
 void
-Stds_AddVec2( struct vec2_t *u, struct vec2_t *v ) {
+Stds_AddVec2( struct vec2_t *u, const struct vec2_t *v ) {
   u->x += v->x;
   u->y += v->y;
 }
 
 /**
- *
+ * Subtracts two vectors together. The result is stored
+ * in the first vector.
+ * 
+ * @param vec2_t * pointer to first vector.
+ * @param vec2_t * pointer to second vector.
+ * 
+ * @return void.
  */
 void
-Stds_SubVec2( struct vec2_t *u, struct vec2_t *v ) {
+Stds_SubVec2( struct vec2_t *u, const struct vec2_t *v ) {
   u->x -= v->x;
   u->y -= v->y;
 }
@@ -48,39 +54,52 @@ Stds_SubVec2( struct vec2_t *u, struct vec2_t *v ) {
  * stored in the vec2_t.
  *
  * @param vec2_t * pointer to vector to rotate.
+ * @param float angle in radians.
+ * 
+ * @return void.
  */
 void
-Stds_RotateVec2( struct vec2_t *v, float angle ) {
+Stds_RotateVec2( struct vec2_t *v, const float angle ) {
   v->x = v->x * cosf( angle ) - v->y * sinf( angle );
   v->y = v->x * sinf( angle ) + v->y * cosf( angle );
 }
 
 /**
- *
+ * Checks to see if two vectors are equal (e.g. share the
+ * same values).
+ * 
+ * @param vec2_t pointer to first vector.
+ * @param vec2_t pointer to second vector.
+ * 
+ * @return true if they share the same x/y values, false otherwise.
  */
 bool
-Stds_IsEqualVec2( struct vec2_t *u, struct vec2_t *v ) {
+Stds_IsEqualVec2( const struct vec2_t *u, const struct vec2_t *v ) {
   return u->x == v->x && u->y == v->y;
 }
 
 /**
- *
+ * Calculates the magnitude of a vector.
+ * 
+ * @param vec2_t pointer to vector.
+ * 
+ * @return magnitude scalar.
  */
 float
-Stds_GetMagnitudeVec2( struct vec2_t *v ) {
+Stds_GetMagnitudeVec2( const struct vec2_t *v ) {
   return sqrtf( v->x * v->x + v->y * v->y );
 }
 
 /**
  * Calculates the dot product of the two vectors.
  * 
- * @param
- * @param 
+ * @param vec2_t pointer to first vector.
+ * @param vec2_t pointer to second vector.
  * 
- * @return 
+ * @return scalar dot product of vectors.
  */
 float
-Stds_DotProduct( struct vec2_t *u, struct vec2_t *v ) { 
+Stds_DotProduct( const struct vec2_t *u, const struct vec2_t *v ) { 
   return u->x * v->x + u->y * v->y;
 }
 
