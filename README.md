@@ -4,13 +4,13 @@
   <img width="200" height="200" src="docs/standards.PNG">
 </p>
 
-<center>
+<div align="center">
 <table>
     <tr>
         <td>Foo</td>
     </tr>
 </table>
-</center>
+</div>
 
 | Code Quality | Development | File Information | Issues |
 |:--------:|:----:|:------------:|:--------:|
