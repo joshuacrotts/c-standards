@@ -4,17 +4,6 @@
   <img width="200" height="200" src="docs/standards.PNG">
 </p>
 
-<div style="margin-left:auto;margin-right:auto;">
-<table>
-    <tr>
-        <td>Foo</td>
-      <td>Bar</td>
-    </tr>
-</table>
-</div>
-
-| Code Quality | Development | File Information | Issues |
-|:--------:|:----:|:------------:|:--------:|
 |[![CodeFactor](https://www.codefactor.io/repository/github/joshuacrotts/C-Standards/badge)](https://www.codefactor.io/repository/github/joshuacrotts/C-Standards) | ![GitHub contributors](https://img.shields.io/github/contributors/JoshuaCrotts/C-Standards) |  ![GitHub repo size](https://img.shields.io/github/repo-size/JoshuaCrotts/C-Standards)  |  [![GitHub issues open](https://img.shields.io/github/issues/JoshuaCrotts/C-Standards)]() 
 |![Lines](https://tokei.rs/b1/github/JoshuaCrotts/C-Standards)|![GitHub commit activity](https://img.shields.io/github/commit-activity/m/JoshuaCrotts/C-Standards) |![Files](https://tokei.rs/b1/github/JoshuaCrotts/C-Standards?category=files)| [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/JoshuaCrotts/C-Standards)]()
 
