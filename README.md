@@ -4,7 +4,7 @@
   <img width="200" height="200" src="docs/standards.PNG">
 </p>
 
-<table>
+<table style="center">
     <tr>
         <td>Foo</td>
     </tr>
