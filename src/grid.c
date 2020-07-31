@@ -485,6 +485,29 @@ Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
 }
 
 /**
+ * Renders the spriteSheet from the grid.
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return void.
+ */
+void 
+Stds_RenderPreMadeSpriteSheet( struct grid_t *grid ) {
+  if ( Stds_AssertGrid( grid ) ) {
+    for ( uint32_t i = 0; i < grid->sprite_sheet_cols; i++ ) {
+      for ( uint32_t j = 0; j < grid->sprite_sheet_rows; j++ ) {
+        Stds_SelectSpriteForGrid( grid, i, j );
+
+        SDL_Rect position = { ( int ) ( grid->sx + ( i * grid->sw ) ),
+                           ( int ) ( grid->sy + ( j * grid->sh ) ), ( int ) grid->sw,
+                           ( int ) grid->sh };
+        Stds_BlitTexture( grid->sprite_sheet, &grid->clip, ( float ) position.x, ( float ) position.y, ( float ) position.w,
+                      ( float ) position.h, 0.0f, SDL_FLIP_NONE, NULL, grid->is_camera_offset_enabled );
+      }
+    }
+  }
+}
+
+/**
  * Ensures that the grid is not null.
  *
  * @param grid_t* pointer to grid_t.

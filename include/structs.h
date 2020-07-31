@@ -12,6 +12,11 @@ struct circle_t {
   float radius;
 };
 
+struct vec2_t {
+  float x;
+  float y;
+};
+
 /*
  *
  */

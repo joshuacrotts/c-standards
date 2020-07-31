@@ -139,3 +139,137 @@ Stds_CheckIntersection( const float x1, const float y1, const int32_t w1, const 
   return ( fmax( x1, x2 ) < fmin( x1 + w1, x2 + w2 ) ) &&
          ( fmax( y1, y2 ) < fmin( y1 + h1, y2 + h2 ) );
 }
+
+/**
+ * Checks if a point enters a rectangle.
+ * 
+ * @param vec2_t a pointer to a vec2_t.
+ * @param SDL_FRect a pointer to a rectangle.
+ * 
+ * @return bool.
+ */
+bool 
+Stds_PointVsRect( const struct vec2_t *point, const SDL_FRect *rect ) {
+  return ( point->x >= rect->x && point->y >= rect->y && point->x < rect->x + rect->w && point->y < rect->y + rect->h );
+}
+
+/**
+ * Checks if a rectangle enters another rectangle (AABB without entities).
+ * 
+ * @param SDL_FRect a pointer to a rectangle.
+ * @param SDL_FRect a pointer to a rectangle.
+ * 
+ * @return bool.
+ */
+bool  
+Stds_RectVsRect( const SDL_FRect *r1, const SDL_FRect *r2 ) {
+  return ( r1->x < r2->x + r2->w && r1->x + r1->w > r2->x &&
+			r1->y < r2->y + r2->h && r1->y + r1->h > r2->y );
+}
+
+/**
+ * Checks if a ray hits a rectangle.
+ * 
+ * @param vec2_t the rays location.
+ * @param vec2_t the rays direction.
+ * @param SDL_FRect a pointer to a rectangle.
+ * @param vec2_t the contact point on the rectangle.
+ * @param vec2_t the normal of the contact point;
+ * @param float final check for a collision.
+ * 
+ * @return bool.
+ */
+bool 
+Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, const SDL_FRect* rect, 
+                            struct vec2_t *contact_point, struct vec2_t* contact_norm, float *hitNear) {
+  struct vec2_t near;
+  near.x = ( rect->x - ray->x ) / ray_direction->x;
+  near.y = ( rect->y - ray->y ) / ray_direction->y;
+  struct vec2_t far;
+  far.x = ( rect->x + rect->w - ray->x ) / ray_direction->x;
+  far.y = ( rect->y + rect->h - ray->x ) / ray_direction->y;
+
+  if ( near.x > far.x ) {
+    float temp = near.x;
+    near.x = far.x;
+    far.x = temp;
+  }
+
+  if ( near.y > far.y ) {
+    float temp = near.y;
+    near.y = far.y;
+    far.y = temp;
+  }
+
+  if ( near.x > far.y || near.y > far.x ) {
+    return false;
+  }
+
+  *hitNear = ( near.x > near.y ) ? near.x : near.y;
+  float hitFar = ( far.x < far.y ) ? far.x : far.y;
+
+  if ( hitFar < 0) {
+    return false;
+  }
+
+  contact_point->x = ray->x + *hitNear * ray_direction->x;
+  contact_point->y = ray->y + *hitNear * ray_direction->y;
+
+  if ( near.x > near.y ) {
+    if ( ray_direction->x < 0 ) {
+      contact_norm->x = 1;
+      contact_norm->y = 0;
+    } else {
+      contact_norm->x = -1;
+      contact_norm->y = 0;
+    }
+  }
+  else if ( near.x < near.y ) {
+    if ( ray_direction->y < 0 ) {
+      contact_norm->x = 0;
+      contact_norm->y = 1;
+    } else {
+      contact_norm->x = 0;
+      contact_norm->y = -1;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Checks if a rectangle collides with rectangle
+ * 
+ * @param SDL_FRect first rectangle.
+ * @param SDL_FRect second rectangle.
+ * @param vec2_t the contact point on the rectangle.
+ * @param vec2_t the normal of the contact point;
+ * @param float final check for a collision.
+ * 
+ * @return bool.
+ */
+bool 
+Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, 
+                                struct vec2_t *contact_point, struct vec2_t* contact_norm, 
+                                float *hitNear, const struct vec2_t *r1_velocity ) {
+  if ( r1_velocity->x == 0.0f && r1_velocity->y == 0 ) {
+    return false;
+  }
+
+  SDL_FRect expand_rectangle;
+  expand_rectangle.x = r2->x - r1->w / 2 + ( r1->w / 2 + 1 );
+  expand_rectangle.y = r2->y - r1->h / 2 + ( r1->h / 2 + 1 );
+
+  expand_rectangle.w = r2->w + r1->w - 2;
+  expand_rectangle.h = r2->h + r1->h - 2;
+
+  struct vec2_t ray = {r1->x + r1->w, r1->y + r1->h};
+
+  if (Stds_RayVsRect(&ray,  r1_velocity, &expand_rectangle, contact_point, contact_norm, hitNear ) ) {
+    if ( *hitNear <= 1.0f ) {
+      return true;
+    }
+  }
+
+  return false;
+}
