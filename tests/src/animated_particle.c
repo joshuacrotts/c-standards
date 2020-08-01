@@ -11,11 +11,11 @@ struct particle_t
 animated_particle_init( float x, float y ) {
   struct particle_t p;
   /* Un-apply the camera offset. */
-  p.x               = x;
-  p.y               = y;
+  p.pos.x               = x;
+  p.pos.y               = y;
   p.life            = Stds_RandomInt( 100, 300 );
-  p.dx              = Stds_RandomFloat( -5.f, 5.f );
-  p.dy              = Stds_RandomFloat( -10.f, -7.f );
+  p.velocity.x              = Stds_RandomFloat( -5.f, 5.f );
+  p.velocity.y              = Stds_RandomFloat( -10.f, -7.f );
   p.particle_update = animated_particle_update;
   p.particle_draw   = animated_particle_draw;
 
@@ -39,13 +39,10 @@ animated_particle_update( struct particle_t *p ) {
     return;
   }
 
-  p->dy += GRAVITY;
+  p->velocity.y += GRAVITY;
 
-  p->x += p->dx;
-  p->y += p->dy;
-
-  p->animation->pos_x = p->x;
-  p->animation->pos_y = p->y;
+  Stds_AddVec2(&p->pos, &p->velocity);
+  p->animation->pos = Stds_CloneVec2(&p->pos);
 
   Stds_AnimationUpdate( p->animation );
 }

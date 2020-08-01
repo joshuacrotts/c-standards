@@ -100,15 +100,15 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 void
 Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
   if ( !p->infinite_scroll ) {
-    p->background->x =
+    p->background->pos.x =
         ( ( 0 - g_app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
 
     /* Repositions the background according to where it is relative to the camera. */
-    p->background->x = ( float ) fmodf( p->background->x, p->background->w );
+    p->background->pos.x = ( float ) fmodf( p->background->pos.x, p->background->w );
   } else {
-    p->background->x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
-    if ( p->background->x < -p->background->w ) {
-      p->background->x = 0;
+    p->background->pos.x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
+    if ( p->background->pos.x < -p->background->w ) {
+      p->background->pos.x = 0;
     }
   }
 }
@@ -125,10 +125,10 @@ Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
 void
 Stds_ParallaxBackgroundDraw( const struct parallax_background_t *p ) {
   /* Two copies of the image are drawn to give the illusion of depth and parallax. */
-  Stds_DrawTexture( p->background->background_texture, p->background->x, p->background->y,
+  Stds_DrawTexture( p->background->background_texture, p->background->pos.x, p->background->pos.y,
                     p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL, false );
-  Stds_DrawTexture( p->background->background_texture, p->background->x + p->background->w,
-                    p->background->y, p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL,
+  Stds_DrawTexture( p->background->background_texture, p->background->pos.x + p->background->w,
+                    p->background->pos.y, p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL,
                     false );
 }
 
@@ -152,8 +152,8 @@ Stds_AddBackground( const char *file ) {
   }
   memset( background, 0, sizeof( struct background_t ) );
 
-  background->x                  = 0;
-  background->y                  = 0;
+  background->pos.x                  = 0;
+  background->pos.y                  = 0;
   background->background_texture = Stds_LoadTexture( file );
 
   SDL_QueryTexture( background->background_texture, NULL, NULL, &background->w, &background->h );
@@ -183,7 +183,7 @@ Stds_BackgroundUpdate( struct background_t *background ) {}
  */
 void
 Stds_BackgroundDraw( const struct background_t *background ) {
-  Stds_DrawTexture( background->background_texture, background->x, background->y, background->w,
+  Stds_DrawTexture( background->background_texture, background->pos.x, background->pos.y, background->w,
                     background->h, 0, SDL_FLIP_NONE, NULL, false );
 }
 

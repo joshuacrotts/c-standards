@@ -3,6 +3,7 @@
 
 #include "../../include/draw.h"
 #include "../../include/stds.h"
+#include "../../include/vec2.h"
 
 extern struct particle_t square_particle_init( float x, float y );
 

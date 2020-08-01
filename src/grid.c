@@ -460,8 +460,8 @@ Stds_RenderAnimationToGrid( const struct grid_t *grid, const uint32_t col, const
   if ( Stds_AssertGrid( grid ) && grid->animation != NULL && col < grid->cols &&
        row < grid->rows ) {
     struct animation_t *editAnim = Stds_VectorGet( grid->animation, index );
-    editAnim->pos_x              = grid->x + ( float ) ( col * grid->sw );
-    editAnim->pos_y              = grid->y + ( float ) ( row * grid->sh );
+    editAnim->pos.x              = grid->x + ( float ) ( col * grid->sw );
+    editAnim->pos.y              = grid->y + ( float ) ( row * grid->sh );
     editAnim->dest_width         = grid->sw;
     editAnim->dest_height        = grid->sh;
     editAnim->flip               = flip;

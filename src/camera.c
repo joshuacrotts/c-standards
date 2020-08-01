@@ -54,8 +54,8 @@
 void
 Stds_CameraUpdate( const struct entity_t *focus_point ) {
   if ( focus_point != NULL ) {
-    g_app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( g_app.SCREEN_WIDTH >> 1 );
-    g_app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( g_app.SCREEN_HEIGHT >> 1 );
+    g_app.camera.x = ( focus_point->pos.x + focus_point->w / 2 ) - ( g_app.SCREEN_WIDTH >> 1 );
+    g_app.camera.y = ( focus_point->pos.y + focus_point->h / 2 ) - ( g_app.SCREEN_HEIGHT >> 1 );
     g_app.camera.w = g_app.SCREEN_WIDTH;
     g_app.camera.h = g_app.SCREEN_HEIGHT;
 

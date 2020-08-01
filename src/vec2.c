@@ -1,7 +1,12 @@
 #include "../include/vec2.h"
 
 /**
- *
+ * Creates a vec2 struct with the specified positions.
+ * 
+ * @param float x.
+ * @param float y.
+ * 
+ * @return struct vec2_t instance.
  */
 struct vec2_t
 Stds_CreateVec2( const float x, const float y ) {
@@ -12,9 +17,11 @@ Stds_CreateVec2( const float x, const float y ) {
 }
 
 /**
- *
+ * Clones a vec2D struct. This creates a deep-copy.
+ * 
+ * @param struct vec2_t * pointer to vec2 to copy.
  */
-struct vec2_t
+inline struct vec2_t
 Stds_CloneVec2( const struct vec2_t *v ) {
   return Stds_CreateVec2( v->x, v->y );
 }
@@ -28,7 +35,7 @@ Stds_CloneVec2( const struct vec2_t *v ) {
  *
  * @return void.
  */
-void
+inline void
 Stds_AddVec2( struct vec2_t *u, const struct vec2_t *v ) {
   u->x += v->x;
   u->y += v->y;
@@ -43,7 +50,7 @@ Stds_AddVec2( struct vec2_t *u, const struct vec2_t *v ) {
  * 
  * @return void.
  */
-void
+inline void
 Stds_SubVec2( struct vec2_t *u, const struct vec2_t *v ) {
   u->x -= v->x;
   u->y -= v->y;
@@ -58,7 +65,7 @@ Stds_SubVec2( struct vec2_t *u, const struct vec2_t *v ) {
  * 
  * @return void.
  */
-void
+inline void
 Stds_RotateVec2( struct vec2_t *v, const float angle ) {
   v->x = v->x * cosf( angle ) - v->y * sinf( angle );
   v->y = v->x * sinf( angle ) + v->y * cosf( angle );
@@ -73,7 +80,7 @@ Stds_RotateVec2( struct vec2_t *v, const float angle ) {
  * 
  * @return true if they share the same x/y values, false otherwise.
  */
-bool
+inline bool
 Stds_IsEqualVec2( const struct vec2_t *u, const struct vec2_t *v ) {
   return u->x == v->x && u->y == v->y;
 }
@@ -85,7 +92,7 @@ Stds_IsEqualVec2( const struct vec2_t *u, const struct vec2_t *v ) {
  * 
  * @return magnitude scalar.
  */
-float
+inline float
 Stds_GetMagnitudeVec2( const struct vec2_t *v ) {
   return sqrtf( v->x * v->x + v->y * v->y );
 }
@@ -98,7 +105,7 @@ Stds_GetMagnitudeVec2( const struct vec2_t *v ) {
  * 
  * @return scalar dot product of vectors.
  */
-float
+inline float
 Stds_DotProduct( const struct vec2_t *u, const struct vec2_t *v ) { 
   return u->x * v->x + u->y * v->y;
 }
@@ -111,7 +118,7 @@ Stds_DotProduct( const struct vec2_t *u, const struct vec2_t *v ) {
  * 
  * @return void.
  */
-void
+inline void
 Stds_NormalizeVec2( struct vec2_t *v ) {
   float mag = Stds_GetMagnitudeVec2( v );
 
@@ -127,7 +134,7 @@ Stds_NormalizeVec2( struct vec2_t *v ) {
  *
  * @return void.
  */
-void 
+inline void 
 Stds_AddToVec2( struct vec2_t *v, const float add ) {
   v->x += add;
   v->y += add;
@@ -141,7 +148,7 @@ Stds_AddToVec2( struct vec2_t *v, const float add ) {
  *
  * @return void.
  */
-void 
+inline void 
 Stds_SubtractToVec2( struct vec2_t *v, const float subtract ) {
   v->x -= subtract;
   v->y -= subtract;
@@ -155,7 +162,7 @@ Stds_SubtractToVec2( struct vec2_t *v, const float subtract ) {
  *
  * @return void.
  */
-void 
+inline void 
 Stds_MultiplyToVec2( struct vec2_t *v, const float multiply ) {
   v->x *= multiply;
   v->y *= multiply;
@@ -169,7 +176,7 @@ Stds_MultiplyToVec2( struct vec2_t *v, const float multiply ) {
  *
  * @return void.
  */
-void 
+inline void 
 Stds_DivideToVec2( struct vec2_t *v, const float divide ) {
   v->x /= divide;
   v->y /= divide;

@@ -219,16 +219,16 @@ Stds_DrawRectStroke( float x, float y, uint32_t w, uint32_t h, const uint32_t st
     }
 
     /* Top-left to TR. */
-    SDL_FRect r1 = {x, y, w, stroke};
+    SDL_FRect r1 = { x, y, w, stroke };
 
     /* TL to BL. */
-    SDL_FRect r2 = {x, y, stroke, h};
+    SDL_FRect r2 = { x, y, stroke, h };
 
     /* BL to BR. */
-    SDL_FRect r3 = {x, camera_offset ? h - stroke + g_app.camera.y : h - stroke, w, stroke};
+    SDL_FRect r3 = { x, camera_offset ? h - stroke + g_app.camera.y : h - stroke, w, stroke };
 
     /* TR to BR. */
-    SDL_FRect r4 = {camera_offset ? w - stroke + g_app.camera.x : w - stroke, y, stroke, h};
+    SDL_FRect r4 = { camera_offset ? w - stroke + g_app.camera.x : w - stroke, y, stroke, h };
 
     Stds_DrawRectF( &r1, c, true, camera_offset );
     Stds_DrawRectF( &r2, c, true, camera_offset );
@@ -303,7 +303,7 @@ Stds_CombineFadeColor( struct fade_color_t *f ) {
   Stds_ClampInt( &g, 0, 0xff );
   Stds_ClampInt( &b, 0, 0xff );
 
-  SDL_Color c = {r, g, b, 0xff};
+  SDL_Color c = { r, g, b, 0xff };
 
   return c;
 }
@@ -326,8 +326,7 @@ Stds_LoadTexture( const char *fileName ) {
   if ( texture == NULL ) {
     texture = IMG_LoadTexture( g_app.renderer, fileName );
     if ( texture == NULL ) {
-      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
-                   "Error: %s", SDL_GetError() );
+      SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Error: %s", SDL_GetError() );
       exit( EXIT_FAILURE );
     }
 

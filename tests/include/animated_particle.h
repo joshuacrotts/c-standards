@@ -2,6 +2,7 @@
 #define ANIMATED_PARTICLE_H
 
 #include "../../include/animation.h"
+#include "../../include/vec2.h"
 #include "../../include/stds.h"
 
 extern struct particle_t animated_particle_init( float x, float y );

@@ -113,8 +113,8 @@ init_scene( void ) {
                                         0.02f, 0, 0, 7, 7 );
 
   /* Static positions for now just to mess around with it. */
-  fire_animation->pos_x       = 200;
-  fire_animation->pos_y       = 400;
+  fire_animation->pos.x       = 200;
+  fire_animation->pos.y       = 400;
   fire_animation->dest_width  = 70;
   fire_animation->dest_height = 80;
 
@@ -218,11 +218,11 @@ update_enemies( void ) {
     enum CollisionSide s = Stds_CheckAABBCollision( player, e );
 
     if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
-      player->dy = 0;
+      player->velocity.y  = 0;
     }
 
     if ( s == SIDE_LEFT || s == SIDE_RIGHT ) {
-      player->dx = 0;
+      player->velocity.x = 0;
     }
   }
 }

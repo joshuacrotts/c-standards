@@ -203,8 +203,8 @@ Stds_AnimationUpdate( struct animation_t *a ) {
        of the sprite. Otherwise, we advance the pointer
        referencing which sprite to render in the array. */
     if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
-      a->splice_x = a->current_frame_col_id * a->sprite_width;
-      a->splice_y = a->current_frame_row_id * a->sprite_height;
+      a->splice.x = a->current_frame_col_id * a->sprite_width;
+      a->splice.y = a->current_frame_row_id * a->sprite_height;
 
       a->current_frame_col_id++;
 
@@ -246,15 +246,15 @@ Stds_AnimationDraw( const struct animation_t *a ) {
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
 
-      Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
+      Stds_DrawTexture( a->frames[a->current_frame_id], a->pos.x, a->pos.y, a->sprite_width,
                         a->sprite_height, a->angle, a->flip, a->rotate_point, a->is_camera_offset_enabled );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
+      SDL_Rect curr_rect = {( int32_t ) a->splice.x, ( int32_t ) a->splice.y, a->sprite_width,
                             a->sprite_height};
 
-      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
+      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos.x, a->pos.y, a->dest_width,
                         a->dest_height, a->angle, a->flip, a->rotate_point, false );
     }
   }

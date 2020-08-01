@@ -3,6 +3,7 @@
 
 #include "draw.h"
 #include "stds.h"
+#include "vec2.h"
 
 extern struct app_t g_app;
 

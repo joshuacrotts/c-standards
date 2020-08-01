@@ -34,8 +34,7 @@ init_player() {
 
   memset( player, 0, sizeof( struct entity_t ) );
 
-  player->x     = g_app.SCREEN_WIDTH / 2.0f;
-  player->y     = g_app.SCREEN_HEIGHT / 2.0f;
+  player->pos   = Stds_CreateVec2( g_app.SCREEN_WIDTH / 2.f, g_app.SCREEN_HEIGHT / 2.f );
   player->angle = 0;
 
   walk_animation    = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
@@ -53,13 +52,10 @@ player_update( void ) {
   player->w = player->animation->sprite_width;
   player->h = player->animation->sprite_height;
 
-  player->dy += GRAVITY;
+  player->velocity.y += GRAVITY;
 
-  player->x += player->dx;
-  player->y += player->dy;
-
-  player->animation->pos_x = player->x;
-  player->animation->pos_y = player->y;
+  Stds_AddVec2( &player->pos, &player->velocity );
+  player->animation->pos = Stds_CloneVec2( &player->pos );
 
   check_bounds();
   Stds_AnimationUpdate( player->animation );
@@ -82,22 +78,22 @@ key_input_listener( void ) {
   is_moving = g_app.keyboard[SDL_SCANCODE_A] | g_app.keyboard[SDL_SCANCODE_D];
 
   if ( g_app.keyboard[SDL_SCANCODE_W] ) {
-    player->dy                   = JUMP_VEL;
+    player->velocity.y            = JUMP_VEL;
     g_app.keyboard[SDL_SCANCODE_W] = 0;
   }
 
   if ( g_app.keyboard[SDL_SCANCODE_A] ) {
-    player->dx              = -VELOCITY;
+    player->velocity.x     = -VELOCITY;
     player->animation->flip = SDL_FLIP_NONE;
   }
 
   else if ( g_app.keyboard[SDL_SCANCODE_D] ) {
-    player->dx              = VELOCITY;
+    player->velocity.x     = VELOCITY;
     player->animation->flip = SDL_FLIP_HORIZONTAL;
   }
 
   else {
-    player->dx = 0;
+    player->velocity.x = 0;
   }
 }
 
@@ -106,19 +102,6 @@ key_input_listener( void ) {
  */
 static void
 check_bounds( void ) {
-  if ( player->x < 0 ) {
-    player->x = 0;
-  }
-
-  if ( player->x + player->w > g_app.LEVEL_WIDTH ) {
-    player->x = g_app.LEVEL_WIDTH - player->w;
-  }
-
-  if ( player->y < 0 ) {
-    player->y = 0;
-  }
-
-  if ( player->y + player->h > g_app.LEVEL_HEIGHT ) {
-    player->y = g_app.LEVEL_HEIGHT - player->h;
-  }
+  Stds_ClampFloat(&player->pos.x, 0, g_app.LEVEL_WIDTH - player->w);
+  Stds_ClampFloat(&player->pos.y, 0, g_app.LEVEL_HEIGHT - player->h);
 }

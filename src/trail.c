@@ -57,11 +57,10 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
 
   memset( t, 0, sizeof( struct trail_t ) );
 
-  t->x     = parent->x;
-  t->y     = parent->y;
-  t->w     = parent->w;
-  t->h     = parent->h;
-  t->flip  = flip;
+  t->pos  = Stds_CloneVec2( &parent->pos );
+  t->w    = parent->w;
+  t->h    = parent->h;
+  t->flip = flip;
   t->flags |= is_transparent ? STDS_TRAIL_TRANSPARENT_TEXTURE_MASK : STDS_TRAIL_TEXTURE_MASK;
 
   /* If we want the trail to be the texture of the parent entity,
@@ -100,10 +99,10 @@ Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t i
   }
   memset( t, 0, sizeof( struct trail_t ) );
 
-  t->x    = x;
-  t->y    = y;
-  t->r    = r;
-  t->flip = SDL_FLIP_NONE;
+  t->pos.x = x;
+  t->pos.y = y;
+  t->r     = r;
+  t->flip  = SDL_FLIP_NONE;
   t->flags |= STDS_TRAIL_CIRCLE_MASK;
   t->color = *c;
 
@@ -130,11 +129,11 @@ Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay
   }
   memset( t, 0, sizeof( struct trail_t ) );
 
-  t->x    = x;
-  t->y    = y;
-  t->w    = w;
-  t->h    = h;
-  t->flip = SDL_FLIP_NONE;
+  t->pos.x = x;
+  t->pos.y = y;
+  t->w     = w;
+  t->h     = h;
+  t->flip  = SDL_FLIP_NONE;
   t->flags |= STDS_TRAIL_SQUARE_MASK;
   t->color = *c;
 
@@ -178,14 +177,14 @@ Stds_TrailDraw( struct trail_t *t ) {
   }
 
   SDL_SetTextureAlphaMod( t->texture, t->alpha );
-  Stds_DrawTexture( t->texture, t->x, t->y, t->w, t->h, t->angle, t->flip, NULL, true );
+  Stds_DrawTexture( t->texture, t->pos.x, t->pos.y, t->w, t->h, t->angle, t->flip, NULL, true );
 
   /* If shape. */
   if ( t->flags & STDS_TRAIL_SQUARE_MASK ) {
-    SDL_FRect r = {t->x, t->y, t->w, t->h};
+    SDL_FRect r = { t->pos.x, t->pos.y, t->w, t->h };
     Stds_DrawRectF( &r, &t->color, true, true );
   } else if ( t->flags & STDS_TRAIL_CIRCLE_MASK ) {
-    struct circle_t circle = {t->x + t->r / 2, t->y + t->r / 2, t->r};
+    struct circle_t circle = { t->pos.x + t->r / 2, t->pos.y + t->r / 2, t->r };
     Stds_DrawCircle( &circle, &t->color, true );
   }
 

@@ -81,7 +81,11 @@ Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
   struct polygon_t *poly1 = p1;
   struct polygon_t *poly2 = p2;
 
-  for ( int32_t i = 0; i < 2; i++ ) {
+  #ifndef TESTS
+    #define TESTS 2
+  #endif 
+
+  for ( int32_t i = 0; i < TESTS; i++ ) {
     if ( i == 1 ) { // Flips so it tests one against the other.
       poly1 = p2;
       poly2 = p1;

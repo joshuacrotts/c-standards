@@ -9,12 +9,12 @@ struct vec2_t {
 };
 
 struct polygon_t {
- struct vec2_t *points;
- struct vec2_t position;
- float angle;
- struct vec2_t *model;
- bool overlap;
- int32_t sides;
+  struct vec2_t *points;
+  struct vec2_t  position;
+  float          angle;
+  struct vec2_t *model;
+  bool           overlap;
+  int32_t        sides;
 };
 
 /*
@@ -53,18 +53,15 @@ struct button_t {
  *
  */
 struct particle_t {
-  float x;
-  float y;
-  float dx; /* Rate of change for position. */
-  float dy;
+  struct vec2_t pos;
+  struct vec2_t velocity;    /* Rate of change for position. */
+  struct vec2_t delta_accel; /* Rate of acceleration/deceleration. */
 
   float w;
   float h;
   float dw; /* Rate of change for size. */
   float dh;
 
-  float delta_accel_x; /* Rate of acceleration/deceleration. */
-  float delta_accel_y;
   float delta_alpha;
 
   uint32_t angle;
@@ -148,8 +145,7 @@ struct parallax_background_t {
  *
  */
 struct trail_t {
-  float x;
-  float y;
+  struct vec2_t pos;
 
   /* For rectangular trails. */
   int32_t w;
@@ -174,31 +170,29 @@ struct trail_t {
  *
  */
 struct animation_t {
-  float    pos_x;
-  float    pos_y;
-  float    scale_x;
-  float    scale_y;
-  float    frame_delay;
-  float    frame_timer;
-  uint32_t splice_x;
-  uint32_t splice_y;
-  uint32_t id_flags;
-  uint32_t flags;
-  uint16_t angle;
-  uint16_t start_x;
-  uint16_t start_y;
-  int32_t  sprite_width;
-  int32_t  sprite_height;
-  int32_t  dest_width;
-  int32_t  dest_height;
-  int32_t  sprite_sheet_width;
-  int32_t  sprite_sheet_height;
-  uint8_t  current_frame_id;
-  uint8_t  current_frame_row_id;
-  uint8_t  current_frame_col_id;
-  size_t   number_of_frames;
-  size_t   rows_count;
-  size_t   cols_count;
+  struct vec2_t pos;
+  struct vec2_t scale;
+  struct vec2_t splice;
+
+  float         frame_delay;
+  float         frame_timer;
+  uint32_t      id_flags;
+  uint32_t      flags;
+  uint16_t      angle;
+  uint16_t      start_x;
+  uint16_t      start_y;
+  int32_t       sprite_width;
+  int32_t       sprite_height;
+  int32_t       dest_width;
+  int32_t       dest_height;
+  int32_t       sprite_sheet_width;
+  int32_t       sprite_sheet_height;
+  uint8_t       current_frame_id;
+  uint8_t       current_frame_row_id;
+  uint8_t       current_frame_col_id;
+  size_t        number_of_frames;
+  size_t        rows_count;
+  size_t        cols_count;
 
   bool is_camera_offset_enabled;
   bool is_cycle_once;
@@ -218,14 +212,11 @@ struct animation_t {
  *
  */
 struct background_t {
-  float   x;
-  float   y;
-  float   scroll_x;
-  float   scroll_y;
-  float   scale_x;
-  float   scale_y;
-  int32_t w;
-  int32_t h;
+  struct vec2_t pos;
+  struct vec2_t scroll;
+  struct vec2_t scale;
+  int32_t       w;
+  int32_t       h;
 
   SDL_Texture *background_texture;
 };
@@ -322,24 +313,20 @@ struct fade_color_t {
  *
  */
 struct entity_t {
-  float x;
-  float y;
+  struct vec2_t pos;
 
   /* Miscellaneous positioning variable. */
   float variability;
 
   /* Scales the entity in either the x or y
      direction. This should default to 1. */
-  float scale_x;
-  float scale_y;
+  struct vec2_t scale;
 
   /* Directional velocity (yes, I know it's redundant). */
-  float dx;
-  float dy;
+  struct vec2_t velocity;
 
   /* Acceleration or deceleration factors. */
-  float delta_accel_x;
-  float delta_accel_y;
+  struct vec2_t delta_accel;
 
   /* Change rate of alpha value. */
   float delta_alpha;

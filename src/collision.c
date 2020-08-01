@@ -45,8 +45,8 @@ enum CollisionSide
 Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b ) {
   float w  = 0.5f * ( b->w + a->w );
   float h  = 0.5f * ( b->h + a->h );
-  float dx = ( b->x + b->w / 2.0f ) - ( a->x + a->w / 2.0f );
-  float dy = ( b->y + b->h / 2.0f ) - ( a->y + a->h / 2.0f );
+  float dx = ( b->pos.x + b->w / 2.0f ) - ( a->pos.x + a->w / 2.0f );
+  float dy = ( b->pos.y + b->h / 2.0f ) - ( a->pos.y + a->h / 2.0f );
 
   if ( fabs( dx ) < w && fabs( dy ) < h ) {
     float wy = w * dy;
@@ -54,18 +54,18 @@ Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b ) {
 
     if ( wy >= hx ) {
       if ( wy > -hx ) { // top
-        a->y = b->y - a->h;
+        a->pos.y = b->pos.y - a->h;
         return SIDE_TOP;
       } else { // right
-        a->x = b->x + b->w;
+        a->pos.x = b->pos.x + b->w;
         return SIDE_RIGHT;
       }
     } else {
       if ( wy > -hx ) { // left
-        a->x = b->x - a->w;
+        a->pos.x = b->pos.x - a->w;
         return SIDE_LEFT;
       } else { // bottom
-        a->y = b->y + b->h;
+        a->pos.y = b->pos.y + b->h;
         return SIDE_BOTTOM;
       }
     }
