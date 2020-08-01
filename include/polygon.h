@@ -10,7 +10,7 @@ extern struct polygon_t* Stds_CreatePolygon( const int32_t sides, const float sc
 
 extern void Stds_UpdatePolygon( struct polygon_t *polygon );
 
-extern void Stds_DrawPolygon( struct polygon_t *polygon );
+extern void Stds_DrawPolygon( const struct polygon_t *polygon );
 
 extern bool Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 );
 

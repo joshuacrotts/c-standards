@@ -139,7 +139,7 @@ init_scene( void ) {
   struct vec2_t pos = Stds_CreateVec2( 200, 100 );
   triangle = Stds_CreatePolygon( 3, 1, pos, 0.0f );
   pos = Stds_CreateVec2( 220, 300 );
-  quad = Stds_CreatePolygon( 4, 4, pos, 90.0f );
+  quad = Stds_CreatePolygon( 4, 1, pos, 180.0f );
 }
 
 /**
@@ -157,8 +157,18 @@ update( void ) {
   update_trails();
   update_enemies();
   player_update();
+  triangle->angle+=0.03f;
   update_grid();
   Stds_AnimationUpdate( fire_animation );
+
+  Stds_UpdatePolygon( triangle );
+  Stds_UpdatePolygon( quad );
+
+  triangle->position.x = ( float ) g_app.mouse.x;
+  triangle->position.y = ( float ) g_app.mouse.y;
+
+  triangle->overlap = Stds_CheckSATOverlap( triangle, quad );
+  quad->overlap = Stds_CheckSATOverlap( quad, triangle );
 }
 
 /**
@@ -232,15 +242,6 @@ draw( void ) {
   draw_grid();
   Stds_AnimationDraw( fire_animation );
   draw_collision_test();
-
-  Stds_UpdatePolygon( triangle );
-  Stds_UpdatePolygon( quad );
-
-  triangle->position.x = ( float ) g_app.mouse.x;
-  triangle->position.y = ( float ) g_app.mouse.y;
-
-  triangle->overlap = Stds_CheckSATOverlap( triangle, quad );
-  quad->overlap = Stds_CheckSATOverlap( quad, triangle );
 
   Stds_DrawPolygon( quad );
   Stds_DrawPolygon( triangle );
