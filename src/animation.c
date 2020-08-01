@@ -67,8 +67,9 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
   /* If our rows x cols is not the same as the number of frames specified, that means we miscounted.
    */
   if ( no_rows * no_cols != no_of_frames ) {
-    printf( "Error, your row count of %zu and column count of %zu multiplied does not match the number of frames %d.\n", no_rows,
-            no_cols, no_of_frames );
+    printf( "Error, your row count of %zu and column count of %zu multiplied does not match the "
+            "number of frames %d.\n",
+            no_rows, no_cols, no_of_frames );
     exit( EXIT_FAILURE );
   }
 
@@ -242,20 +243,19 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  */
 void
 Stds_AnimationDraw( const struct animation_t *a ) {
-
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
 
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, NULL, a->is_camera_offset_enabled );
+                        a->sprite_height, a->angle, a->flip, a->rotate_point, a->is_camera_offset_enabled );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = { ( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
-                             a->sprite_height };
+      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
+                            a->sprite_height};
 
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
-                        a->dest_height, a->angle, a->flip, NULL, false );
+                        a->dest_height, a->angle, a->flip, a->rotate_point, false );
     }
   }
 }

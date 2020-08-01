@@ -6,7 +6,7 @@
 struct vec2_t {
   float x;
   float y;
-}; 
+};
 
 /*
  *
@@ -195,6 +195,7 @@ struct animation_t {
   bool is_cycle_once;
 
   SDL_RendererFlip flip;
+  SDL_FPoint *     rotate_point;
 
   SDL_Texture * current_texture;
   SDL_Texture * default_texture;
