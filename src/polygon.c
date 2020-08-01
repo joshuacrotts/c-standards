@@ -1,5 +1,5 @@
-#include "..\include\polygon.h"
-#include "..\include\draw.h"
+#include "../include/polygon.h"
+#include "../include/draw.h"
 
 struct polygon_t* 
 Stds_CreatePolygon( const int32_t sides, const float scale, const struct vec2_t position, const float angle ) {

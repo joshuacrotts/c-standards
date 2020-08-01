@@ -2,7 +2,7 @@
 #define POLYGON_H
 
 #include "stds.h"
-#include "..\include\vec2.h"
+#include "../include/vec2.h"
 
 extern struct app_t g_app;
 
