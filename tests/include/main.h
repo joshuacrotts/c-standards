@@ -12,12 +12,14 @@
 #include "../../include/stds.h"
 #include "../../include/vec2.h"
 #include "../../include/grid.h"
+#include "../../include/polygon.h"
 
 #include "../include/game_structs.h"
 #include "../include/enemy.h"
 #include "../include/red_particle.h"
 #include "../include/animated_particle.h"
 #include "../include/square_particle.h"
+
 
 extern struct stage_t stage;
 extern struct app_t   app;

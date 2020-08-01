@@ -23,6 +23,9 @@ static struct vec2_t cp, cn, ray = {100.0f, 100.0f}, ray_direction = { 1, 1 };
 float t;
 static SDL_FRect ray_rect = {300.0f, 300.0f, 200.0f, 100.0f}, other_rect = {500.0f, 500.0f, 100.0f, 100.0f};
 
+static struct polygon_t *triangle;
+static struct polygon_t *quad;
+
 static void init_scene( void );
 static void cleanup_stage( void );
 static void draw( void );
@@ -132,6 +135,11 @@ init_scene( void ) {
   Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png",
                                                       16, 0.05f, 0, 0, 4, 4 ) );
   grid->is_camera_offset_enabled = false;
+
+  struct vec2_t pos = Stds_CreateVec2( 200, 100 );
+  triangle = Stds_CreatePolygon( 3, 1, pos, 0.0f );
+  pos = Stds_CreateVec2( 220, 300 );
+  quad = Stds_CreatePolygon( 4, 4, pos, 90.0f );
 }
 
 /**
@@ -224,6 +232,18 @@ draw( void ) {
   draw_grid();
   Stds_AnimationDraw( fire_animation );
   draw_collision_test();
+
+  Stds_UpdatePolygon( triangle );
+  Stds_UpdatePolygon( quad );
+
+  triangle->position.x = ( float ) g_app.mouse.x;
+  triangle->position.y = ( float ) g_app.mouse.y;
+
+  triangle->overlap = Stds_CheckSATOverlap( triangle, quad );
+  quad->overlap = Stds_CheckSATOverlap( quad, triangle );
+
+  Stds_DrawPolygon( quad );
+  Stds_DrawPolygon( triangle );
 }
 
 /**
@@ -273,6 +293,8 @@ cleanup_stage( void ) {
   free( player );
   Stds_FreeGrid( grid );
   Stds_AnimationDie( fire_animation );
+  Stds_CleanUpPolygon( triangle );
+  Stds_CleanUpPolygon( quad );
 }
 
 /**

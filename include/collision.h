@@ -3,6 +3,8 @@
 
 #include "stds.h"
 
+#define SAT_VERTEX_NUMBER 4
+
 extern enum CollisionSide Stds_CheckAABBCollision( struct entity_t *a, struct entity_t *b );
 
 extern bool Stds_CheckCircularCollision( const struct circle_t *c1, const struct circle_t *c2 );
