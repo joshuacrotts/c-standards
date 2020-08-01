@@ -23,7 +23,7 @@ static struct vec2_t cp, cn, ray = {100.0f, 100.0f}, ray_direction = { 1, 1 };
 float t;
 static SDL_FRect ray_rect = {300.0f, 300.0f, 200.0f, 100.0f}, other_rect = {500.0f, 500.0f, 100.0f, 100.0f};
 
-static struct polygon_t *triangle;
+static struct polygon_t *hexa;
 static struct polygon_t *quad;
 
 static void init_scene( void );
@@ -37,6 +37,7 @@ static void update_trails( void );
 static void update_enemies( void );
 static void update_parallax_backgrounds( void );
 static void update_grid( void );
+static void update_polygons( void );
 
 static void draw_trails( void );
 static void draw_enemies( void );
@@ -137,9 +138,9 @@ init_scene( void ) {
   grid->is_camera_offset_enabled = false;
 
   struct vec2_t pos = Stds_CreateVec2( 200, 100 );
-  triangle = Stds_CreatePolygon( 3, 1, pos, 0.0f );
+  hexa = Stds_CreatePolygon( 6, 40.0f, pos, 10.0f );
   pos = Stds_CreateVec2( 220, 300 );
-  quad = Stds_CreatePolygon( 4, 1, pos, 180.0f );
+  quad = Stds_BoundingBox( 220.0f, 300.0f, 100.0f, 20.0f, 0.0f );
 }
 
 /**
@@ -157,18 +158,9 @@ update( void ) {
   update_trails();
   update_enemies();
   player_update();
-  triangle->angle+=0.03f;
   update_grid();
   Stds_AnimationUpdate( fire_animation );
-
-  Stds_UpdatePolygon( triangle );
-  Stds_UpdatePolygon( quad );
-
-  triangle->position.x = ( float ) g_app.mouse.x;
-  triangle->position.y = ( float ) g_app.mouse.y;
-
-  triangle->overlap = Stds_CheckSATOverlap( triangle, quad );
-  quad->overlap = Stds_CheckSATOverlap( quad, triangle );
+  update_polygons();
 }
 
 /**
@@ -244,7 +236,7 @@ draw( void ) {
   draw_collision_test();
 
   Stds_DrawPolygon( quad );
-  Stds_DrawPolygon( triangle );
+  Stds_DrawPolygon( hexa );
 }
 
 /**
@@ -294,7 +286,7 @@ cleanup_stage( void ) {
   free( player );
   Stds_FreeGrid( grid );
   Stds_AnimationDie( fire_animation );
-  Stds_CleanUpPolygon( triangle );
+  Stds_CleanUpPolygon( hexa );
   Stds_CleanUpPolygon( quad );
 }
 
@@ -373,4 +365,21 @@ draw_collision_test( void ) {
   ray_rect.x += ray_direction.x;
   ray_rect.y += ray_direction.y;
   */
+}
+
+/**
+ *
+ */
+static void 
+update_polygons( void ) {
+  
+  Stds_UpdatePolygon( hexa );
+  Stds_UpdatePolygon( quad );
+
+  hexa->position.x = ( float ) g_app.mouse.x;
+  hexa->position.y = ( float ) g_app.mouse.y;
+  
+  quad->angle = 90.0f;
+
+  Stds_CheckSATOverlap( hexa, quad );
 }
