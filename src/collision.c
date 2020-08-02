@@ -263,7 +263,7 @@ Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, struct vec2_t *con
   expand_rectangle.w = r2->w + r1->w - 2;
   expand_rectangle.h = r2->h + r1->h - 2;
 
-  struct vec2_t ray = { r1->x + r1->w, r1->y + r1->h };
+  struct vec2_t ray = {r1->x + r1->w, r1->y + r1->h};
 
   if ( Stds_RayVsRect( &ray, r1_velocity, &expand_rectangle, contact_point, contact_norm,
                        hitNear ) ) {
@@ -295,9 +295,9 @@ Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
 
     for ( int32_t a = 0; a < poly1->sides; a++ ) {
       int32_t       b               = ( a + 1 ) % poly1->sides;
-      struct vec2_t axis_projection = { -( poly1->points[b].y - poly1->points[a].y ),
-                                        poly1->points[b].x -
-                                            poly1->points[a].x }; // Give normal to edge.
+      struct vec2_t axis_projection = {-( poly1->points[b].y - poly1->points[a].y ),
+                                       poly1->points[b].x -
+                                           poly1->points[a].x}; // Give normal to edge.
 
       float min_p1 = ( float ) INT32_MAX, max_p1 = ( float ) -INT32_MAX;
       for ( int32_t points = 0; points < poly1->sides; points++ ) {
@@ -322,7 +322,8 @@ Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
       }
     }
   }
-  p1->overlap = true;
-  p2->overlap = true;
+  
+  p1->has_overlap = true;
+  p2->has_overlap = true;
   return true;
 }

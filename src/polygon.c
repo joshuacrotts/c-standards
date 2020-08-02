@@ -49,10 +49,10 @@ Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t p
   }
 
   memset( polygon, 0, sizeof( struct polygon_t ) );
-  polygon->sides   = sides;
-  polygon->overlap = false;
-  polygon->model   = malloc( sizeof( struct vec2_t ) * sides );
-  polygon->points  = malloc( sizeof( struct vec2_t ) * sides );
+  polygon->sides       = sides;
+  polygon->has_overlap = false;
+  polygon->model       = malloc( sizeof( struct vec2_t ) * sides );
+  polygon->points      = malloc( sizeof( struct vec2_t ) * sides );
 
   float f_theta     = ( ( float ) PI * 2.f ) / polygon->sides;
   polygon->position = position;
@@ -80,7 +80,7 @@ Stds_UpdatePolygon( struct polygon_t *polygon ) {
     polygon->points[i].y = ( polygon->model[i].x * sinf( Stds_ToRadians( polygon->angle ) ) ) +
                            ( polygon->model[i].y * cosf( Stds_ToRadians( polygon->angle ) ) ) +
                            polygon->position.y;
-    polygon->overlap = false;
+    polygon->has_overlap = false;
   }
 }
 
@@ -89,10 +89,10 @@ Stds_UpdatePolygon( struct polygon_t *polygon ) {
  */
 void
 Stds_DrawPolygon( const struct polygon_t *polygon ) {
-  SDL_Color white = { 255, 255, 255 };
-  SDL_Color red   = { 255, 0, 0 };
+  SDL_Color white = {255, 255, 255};
+  SDL_Color red   = {255, 0, 0};
 
-  SDL_Color color = ( polygon->overlap ) ? white : red;
+  SDL_Color color = ( polygon->has_overlap ) ? white : red;
   for ( int32_t i = 0; i < polygon->sides; i++ ) {
     SDL_SetRenderDrawColor( g_app.renderer, color.r, color.g, color.b, 255 );
     SDL_RenderDrawLineF( g_app.renderer, polygon->points[i].x, polygon->points[i].y,
@@ -133,7 +133,7 @@ Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
 
   memset( polygon, 0, sizeof( struct polygon_t ) );
   polygon->sides   = 4;
-  polygon->overlap = false;
+  polygon->has_overlap = false;
   polygon->model   = malloc( sizeof( struct vec2_t ) * 4 );
   polygon->points  = malloc( sizeof( struct vec2_t ) * 4 );
 

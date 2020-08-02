@@ -11,10 +11,11 @@ struct vec2_t {
 struct polygon_t {
   struct vec2_t *points;
   struct vec2_t  position;
-  float          angle;
   struct vec2_t *model;
-  bool           overlap;
-  int32_t        sides;
+
+  float   angle;
+  int32_t sides;
+  bool    has_overlap;
 };
 
 /*
