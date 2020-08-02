@@ -247,12 +247,13 @@ Stds_AnimationDraw( const struct animation_t *a ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
 
       Stds_DrawTexture( a->frames[a->current_frame_id], a->pos.x, a->pos.y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, a->rotate_point, a->is_camera_offset_enabled );
+                        a->sprite_height, a->angle, a->flip, a->rotate_point,
+                        a->is_camera_offset_enabled );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = {( int32_t ) a->splice.x, ( int32_t ) a->splice.y, a->sprite_width,
-                            a->sprite_height};
+      SDL_Rect curr_rect = { ( int32_t ) a->splice.x, ( int32_t ) a->splice.y, a->sprite_width,
+                             a->sprite_height };
 
       Stds_BlitTexture( a->current_texture, &curr_rect, a->pos.x, a->pos.y, a->dest_width,
                         a->dest_height, a->angle, a->flip, a->rotate_point, false );

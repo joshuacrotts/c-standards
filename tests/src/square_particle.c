@@ -41,7 +41,7 @@ square_particle_update( struct particle_t *p ) {
   p->angle += p->delta_angle;
   --p->color.a;
 
-  Stds_AddVec2(&p->pos, &p->velocity);
+  Stds_AddVec2( &p->pos, &p->velocity );
   p->w -= p->dw;
   p->h -= p->dh;
 }
@@ -53,7 +53,7 @@ void
 square_particle_draw( struct particle_t *p ) {
   SDL_SetTextureBlendMode( p->current_texture, SDL_BLENDMODE_ADD );
   SDL_SetTextureAlphaMod( p->current_texture, p->color.a );
-  Stds_DrawTexture( p->current_texture, p->pos.x, p->pos.y, p->w, p->h, p->angle, SDL_FLIP_NONE, NULL,
-                    false );
+  Stds_DrawTexture( p->current_texture, p->pos.x, p->pos.y, p->w, p->h, p->angle, SDL_FLIP_NONE,
+                    NULL, false );
   SDL_SetTextureBlendMode( p->current_texture, SDL_BLENDMODE_NONE );
 }

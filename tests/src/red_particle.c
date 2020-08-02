@@ -13,7 +13,7 @@ red_particle_init( float x, float y ) {
   p.life     = Stds_RandomInt( 100, 300 );
   p.w        = Stds_RandomInt( 1, 5 );
   p.h        = p.w;
-  
+
   p.particle_update = red_particle_update;
   p.particle_draw   = red_particle_draw;
   p.color.r         = 0xff;

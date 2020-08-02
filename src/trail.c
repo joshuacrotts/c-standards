@@ -37,15 +37,14 @@
  * @param entity_t* parent entity.
  * @param int16_t rate at which the alpha decreases (should be between 0
  *        and 255, the higher it is, the faster it goes).
- * @param int16_t starting alpha of the object.
  * @param SDL_RendererFlip flip enum for if the trail should be flipped.
  * @param bool is_transparent if your image has a PNG background, this should be true.
  *
  * @return void.
  */
 void
-Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t initial_alpha,
-                      SDL_RendererFlip flip, bool is_transparent ) {
+Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, SDL_RendererFlip flip,
+                      bool is_transparent ) {
   struct trail_t *t;
   t = malloc( sizeof( struct trail_t ) );
 
@@ -76,7 +75,7 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
     t->texture = parent->texture[0];
   }
 
-  t->alpha            = initial_alpha;
+  t->alpha            = 0xff;
   t->alpha_decay_rate = alpha_decay;
 
   g_app.trail_tail->next = t;
@@ -87,8 +86,7 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, int16_t init
  *
  */
 void
-Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t initial_alpha,
-                     SDL_Color *c ) {
+Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, SDL_Color *c ) {
   struct trail_t *t;
   t = malloc( sizeof( struct trail_t ) );
 
@@ -106,7 +104,7 @@ Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t i
   t->flags |= STDS_TRAIL_CIRCLE_MASK;
   t->color = *c;
 
-  t->alpha            = initial_alpha;
+  t->alpha            = 0xff;
   t->alpha_decay_rate = alpha_decay;
 
   g_app.trail_tail->next = t;
@@ -117,8 +115,7 @@ Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, int16_t i
  *
  */
 void
-Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay,
-                     int16_t initial_alpha, SDL_Color *c ) {
+Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay, SDL_Color *c ) {
   struct trail_t *t;
   t = malloc( sizeof( struct trail_t ) );
 
@@ -137,7 +134,7 @@ Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay
   t->flags |= STDS_TRAIL_SQUARE_MASK;
   t->color = *c;
 
-  t->alpha            = initial_alpha;
+  t->alpha            = 0xff;
   t->alpha_decay_rate = alpha_decay;
 
   g_app.trail_tail->next = t;
@@ -156,7 +153,10 @@ Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay
  */
 void
 Stds_TrailUpdate( struct trail_t *t ) {
-  t->alpha -= t->alpha_decay_rate;
+  if ( t != g_app.trail_tail ) {
+    t->alpha -= t->alpha_decay_rate;
+  }
+
   if ( t->alpha <= 0 ) {
     t->flags |= STDS_DEATH_MASK;
   }

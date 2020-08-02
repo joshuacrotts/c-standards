@@ -1,11 +1,10 @@
 #include "../include/player.h"
 
-#define DECAY_RATE    4
-#define INITIAL_ALPHA 90
-#define DECELERATION  0.95f
-#define JUMP_VEL      -8.0f
-#define VELOCITY      5.0f
-#define GRAVITY       0.3f
+#define ALPHA_DECAY_RATE 20
+#define DECELERATION     0.95f
+#define JUMP_VEL         -8.0f
+#define VELOCITY         5.0f
+#define GRAVITY          0.3f
 
 static float               timer        = 0.f;
 static float               frequency    = 0.1f;
@@ -59,7 +58,7 @@ player_update( void ) {
 
   check_bounds();
   Stds_AnimationUpdate( player->animation );
-  Stds_AddTextureTrail( player, DECAY_RATE, INITIAL_ALPHA, player->animation->flip, true );
+  Stds_AddTextureTrail( player, ALPHA_DECAY_RATE, player->animation->flip, true );
 }
 
 /**
@@ -78,17 +77,17 @@ key_input_listener( void ) {
   is_moving = g_app.keyboard[SDL_SCANCODE_A] | g_app.keyboard[SDL_SCANCODE_D];
 
   if ( g_app.keyboard[SDL_SCANCODE_W] ) {
-    player->velocity.y            = JUMP_VEL;
+    player->velocity.y             = JUMP_VEL;
     g_app.keyboard[SDL_SCANCODE_W] = 0;
   }
 
   if ( g_app.keyboard[SDL_SCANCODE_A] ) {
-    player->velocity.x     = -VELOCITY;
+    player->velocity.x      = -VELOCITY;
     player->animation->flip = SDL_FLIP_NONE;
   }
 
   else if ( g_app.keyboard[SDL_SCANCODE_D] ) {
-    player->velocity.x     = VELOCITY;
+    player->velocity.x      = VELOCITY;
     player->animation->flip = SDL_FLIP_HORIZONTAL;
   }
 
@@ -102,6 +101,6 @@ key_input_listener( void ) {
  */
 static void
 check_bounds( void ) {
-  Stds_ClampFloat(&player->pos.x, 0, g_app.LEVEL_WIDTH - player->w);
-  Stds_ClampFloat(&player->pos.y, 0, g_app.LEVEL_HEIGHT - player->h);
+  Stds_ClampFloat( &player->pos.x, 0, g_app.LEVEL_WIDTH - player->w );
+  Stds_ClampFloat( &player->pos.y, 0, g_app.LEVEL_HEIGHT - player->h );
 }

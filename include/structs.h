@@ -322,7 +322,7 @@ struct entity_t {
      direction. This should default to 1. */
   struct vec2_t scale;
 
-  /* Directional velocity (yes, I know it's redundant). */
+  /* DirectionÎl velocity (yes, I know it's redundant). */
   struct vec2_t velocity;
 
   /* Acceleration or deceleration factors. */

@@ -19,9 +19,10 @@ static struct animation_t *      fire_animation;
 static struct grid_t *    grid;
 static struct grid_pair_t p;
 static int32_t            testTextureGridId;
-static struct vec2_t cp, cn, ray = {100.0f, 100.0f}, ray_direction = { 1, 1 };
-float t;
-static SDL_FRect ray_rect = {300.0f, 300.0f, 200.0f, 100.0f}, other_rect = {500.0f, 500.0f, 100.0f, 100.0f};
+static struct vec2_t      cp, cn, ray = { 100.0f, 100.0f }, ray_direction = { 1, 1 };
+float                     t;
+static SDL_FRect          ray_rect = { 300.0f, 300.0f, 200.0f, 100.0f },
+                 other_rect        = { 500.0f, 500.0f, 100.0f, 100.0f };
 
 static struct polygon_t *hexa;
 static struct polygon_t *quad;
@@ -138,9 +139,9 @@ init_scene( void ) {
   grid->is_camera_offset_enabled = false;
 
   struct vec2_t pos = Stds_CreateVec2( 200, 100 );
-  hexa = Stds_CreatePolygon( 6, 40.0f, pos, 10.0f );
-  pos = Stds_CreateVec2( 220, 300 );
-  quad = Stds_BoundingBox( 220.0f, 300.0f, 100.0f, 20.0f, 0.0f );
+  hexa              = Stds_CreatePolygon( 6, 40.0f, pos, 10.0f );
+  pos               = Stds_CreateVec2( 220, 300 );
+  quad              = Stds_BoundingBox( 220.0f, 300.0f, 100.0f, 20.0f, 0.0f );
 }
 
 /**
@@ -210,7 +211,7 @@ update_enemies( void ) {
     enum CollisionSide s = Stds_CheckAABBCollision( player, e );
 
     if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
-      player->velocity.y  = 0;
+      player->velocity.y = 0;
     }
 
     if ( s == SIDE_LEFT || s == SIDE_RIGHT ) {
@@ -328,13 +329,13 @@ update_grid( void ) {
 /**
  *
  */
-static void 
+static void
 draw_collision_test( void ) {
-  //Ray Vs Rect example.
+  // Ray Vs Rect example.
   /*
   ray_direction.x = g_app.mouse.x - ray.x;
   ray_direction.y = g_app.mouse.y - ray.y;
-  
+
   SDL_SetRenderDrawColor( g_app.renderer, 0, 0, 255, 255);
   SDL_RenderDrawLineF( g_app.renderer, ray.x, ray.y, g_app.mouse.x, g_app.mouse.y );
 
@@ -347,7 +348,7 @@ draw_collision_test( void ) {
   }
   */
 
-  //Rect Vs Rect example.
+  // Rect Vs Rect example.
   /*
   if ( Stds_AdvRectVsRect( &ray_rect, &other_rect, &cp, &cn, &t, &ray_direction ) ) {
     ray_direction.x = 0;
@@ -357,7 +358,7 @@ draw_collision_test( void ) {
   } else {
     SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
     SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  } 
+  }
 
   SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
   SDL_RenderFillRectF( g_app.renderer, &other_rect );
@@ -370,15 +371,15 @@ draw_collision_test( void ) {
 /**
  *
  */
-static void 
+static void
 update_polygons( void ) {
-  
+
   Stds_UpdatePolygon( hexa );
   Stds_UpdatePolygon( quad );
 
   hexa->position.x = ( float ) g_app.mouse.x;
   hexa->position.y = ( float ) g_app.mouse.y;
-  
+
   quad->angle = 90.0f;
 
   Stds_CheckSATOverlap( hexa, quad );

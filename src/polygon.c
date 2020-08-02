@@ -59,8 +59,7 @@ Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t p
   polygon->angle    = angle;
 
   for ( int32_t i = 0; i < polygon->sides; i++ ) {
-    struct vec2_t data =
-        Stds_CreateVec2( cosf( f_theta * i ) * size, sinf( f_theta * i ) * size );
+    struct vec2_t data = Stds_CreateVec2( cosf( f_theta * i ) * size, sinf( f_theta * i ) * size );
     polygon->model[i]  = data;
     polygon->points[i] = polygon->model[i];
   }
@@ -76,9 +75,11 @@ Stds_UpdatePolygon( struct polygon_t *polygon ) {
   for ( int32_t i = 0; i < polygon->sides; i++ ) {
 
     polygon->points[i].x = ( polygon->model[i].x * cosf( Stds_ToRadians( polygon->angle ) ) ) -
-                           ( polygon->model[i].y * sinf( Stds_ToRadians( polygon->angle ) ) ) + polygon->position.x;
+                           ( polygon->model[i].y * sinf( Stds_ToRadians( polygon->angle ) ) ) +
+                           polygon->position.x;
     polygon->points[i].y = ( polygon->model[i].x * sinf( Stds_ToRadians( polygon->angle ) ) ) +
-                           ( polygon->model[i].y * cosf( Stds_ToRadians( polygon->angle ) ) ) + polygon->position.y;
+                           ( polygon->model[i].y * cosf( Stds_ToRadians( polygon->angle ) ) ) +
+                           polygon->position.y;
     polygon->overlap = false;
   }
 }
@@ -111,9 +112,9 @@ Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
   struct polygon_t *poly1 = p1;
   struct polygon_t *poly2 = p2;
 
-  #ifndef TESTS
-    #define TESTS 2
-  #endif //TESTS
+#ifndef TESTS
+#define TESTS 2
+#endif // TESTS
 
   for ( int32_t i = 0; i < TESTS; i++ ) {
     if ( i == 1 ) { // Flips so it tests one against the other.
@@ -169,8 +170,8 @@ Stds_CleanUpPolygon( struct polygon_t *polygon ) {
 /**
  *
  */
-struct 
-polygon_t* Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
+struct polygon_t *
+Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
   struct polygon_t *polygon;
   polygon = malloc( sizeof( struct polygon_t ) );
 
@@ -192,13 +193,13 @@ polygon_t* Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
   polygon->position = Stds_CreateVec2( x, y );
   polygon->angle    = angle;
 
-  polygon->model[0] = Stds_CreateVec2( -( w / 2 ), -( h / 2 ) );
+  polygon->model[0]  = Stds_CreateVec2( -( w / 2 ), -( h / 2 ) );
   polygon->points[0] = polygon->model[0];
-  polygon->model[1] = Stds_CreateVec2( -( w / 2 ), ( h / 2 ) );
+  polygon->model[1]  = Stds_CreateVec2( -( w / 2 ), ( h / 2 ) );
   polygon->points[1] = polygon->model[1];
-  polygon->model[2] = Stds_CreateVec2( ( w / 2 ), ( h / 2 ) );
+  polygon->model[2]  = Stds_CreateVec2( ( w / 2 ), ( h / 2 ) );
   polygon->points[2] = polygon->model[2];
-  polygon->model[3] = Stds_CreateVec2( ( w / 2 ), -( h / 2 ) );
+  polygon->model[3]  = Stds_CreateVec2( ( w / 2 ), -( h / 2 ) );
   polygon->points[3] = polygon->model[3];
 
   for ( uint32_t i = 0; i < polygon->sides; i++ ) {

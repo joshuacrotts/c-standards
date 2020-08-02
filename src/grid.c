@@ -141,7 +141,7 @@ Stds_FillWholeGrid( struct grid_t *grid ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_FRect fill_rect = {grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh};
+    SDL_FRect fill_rect = { grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh };
 
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
       for ( uint32_t c = 0; c < grid->cols; c++ ) {
@@ -200,8 +200,8 @@ Stds_OnGridHover( struct grid_t *grid ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_Rect hover_rect = {( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
-                           ( int32_t ) grid->sh};
+    SDL_Rect hover_rect = { ( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
+                            ( int32_t ) grid->sh };
 
     /* Loops through each square. */
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
@@ -212,7 +212,8 @@ Stds_OnGridHover( struct grid_t *grid ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) hover_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y, &hover_rect ) ) {
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y,
+                                   &hover_rect ) ) {
           return p;
         }
         hover_rect.x += ( int32_t ) grid->sw;
@@ -246,8 +247,8 @@ Stds_OnGridClicked( struct grid_t *grid, const int32_t mouseCode ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_Rect click_rect = {( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
-                           ( int32_t ) grid->sh};
+    SDL_Rect click_rect = { ( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
+                            ( int32_t ) grid->sh };
 
     /* Loops through each square */
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
@@ -258,7 +259,8 @@ Stds_OnGridClicked( struct grid_t *grid, const int32_t mouseCode ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) click_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y, &click_rect ) &&
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y,
+                                   &click_rect ) &&
              g_app.mouse.button[mouseCode] ) {
           g_app.mouse.button[mouseCode] = 0;
           return p;
@@ -339,9 +341,9 @@ Stds_PutGridTexture( struct grid_t *grid, const uint32_t col, const uint32_t row
                      const int32_t index, const SDL_RendererFlip flip, const uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) ) {
     if ( index < grid->texture_buffer && index > -1 ) {
-      SDL_FRect texture_position = {grid->x + ( float ) ( col * grid->sw ),
-                                    grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
-                                    ( float ) grid->sh};
+      SDL_FRect texture_position = { grid->x + ( float ) ( col * grid->sw ),
+                                     grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
+                                     ( float ) grid->sh };
       Stds_BlitTexture( grid->textures[index], NULL, texture_position.x, texture_position.y,
                         texture_position.w, texture_position.h, angle, flip, NULL,
                         grid->is_camera_offset_enabled );
@@ -414,9 +416,9 @@ Stds_DrawSelectedSpriteOnGrid( const struct grid_t *grid, const uint32_t gridCol
                                const uint32_t gridRow, const SDL_RendererFlip flip,
                                const uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) && gridCol < grid->cols && gridRow < grid->rows ) {
-    SDL_FRect position = {grid->x + ( float ) ( gridCol * grid->sw ),
-                          grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
-                          ( float ) grid->sh};
+    SDL_FRect position = { grid->x + ( float ) ( gridCol * grid->sw ),
+                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
+                           ( float ) grid->sh };
     Stds_BlitTexture( grid->sprite_sheet, &grid->clip, position.x, position.y, position.w,
                       position.h, angle, flip, NULL, grid->is_camera_offset_enabled );
   }
@@ -490,7 +492,7 @@ Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
  *
  * @return void.
  */
-void 
+void
 Stds_RenderPreMadeSpriteSheet( struct grid_t *grid ) {
   if ( Stds_AssertGrid( grid ) ) {
     for ( uint32_t i = 0; i < grid->sprite_sheet_cols; i++ ) {
@@ -498,10 +500,11 @@ Stds_RenderPreMadeSpriteSheet( struct grid_t *grid ) {
         Stds_SelectSpriteForGrid( grid, i, j );
 
         SDL_Rect position = { ( int ) ( grid->sx + ( i * grid->sw ) ),
-                           ( int ) ( grid->sy + ( j * grid->sh ) ), ( int ) grid->sw,
-                           ( int ) grid->sh };
-        Stds_BlitTexture( grid->sprite_sheet, &grid->clip, ( float ) position.x, ( float ) position.y, ( float ) position.w,
-                      ( float ) position.h, 0.0f, SDL_FLIP_NONE, NULL, grid->is_camera_offset_enabled );
+                              ( int ) ( grid->sy + ( j * grid->sh ) ), ( int ) grid->sw,
+                              ( int ) grid->sh };
+        Stds_BlitTexture( grid->sprite_sheet, &grid->clip, ( float ) position.x,
+                          ( float ) position.y, ( float ) position.w, ( float ) position.h, 0.0f,
+                          SDL_FLIP_NONE, NULL, grid->is_camera_offset_enabled );
       }
     }
   }

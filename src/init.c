@@ -123,7 +123,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
 
   /* Initialize the SDL window. */
   g_app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                 window_width, window_height, window_flags );
+                                   window_width, window_height, window_flags );
   if ( !g_app.window ) {
     printf( "Could not open window. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
@@ -235,7 +235,7 @@ Stds_Cleanup( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   /* Frees the parallax background linked list. */
   while ( g_app.parallax_head.next ) {
-    pbg                    = g_app.parallax_head.next;
+    pbg                      = g_app.parallax_head.next;
     g_app.parallax_head.next = pbg->next;
     Stds_BackgroundDie( pbg->background );
     free( pbg );
@@ -244,7 +244,7 @@ Stds_Cleanup( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
   /* Frees the texture linked list. */
   while ( g_app.texture_head.next ) {
-    t                     = g_app.texture_head.next;
+    t                       = g_app.texture_head.next;
     g_app.texture_head.next = t->next;
     free( t );
   }
@@ -252,7 +252,7 @@ Stds_Cleanup( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
   /* Frees the trail linked list. */
   while ( g_app.trail_head.next ) {
-    tr                  = g_app.trail_head.next;
+    tr                    = g_app.trail_head.next;
     g_app.trail_head.next = tr->next;
     free( tr );
   }
@@ -260,7 +260,7 @@ Stds_Cleanup( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
   /* Frees the button linked list. */
   while ( g_app.button_head.next ) {
-    b                    = g_app.button_head.next;
+    b                      = g_app.button_head.next;
     g_app.button_head.next = b->next;
     free( b );
   }

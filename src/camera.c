@@ -4,7 +4,8 @@
 // DESCRIPTION :
 //        This file defines the function for updating a camera around a parent entity. Generally,
 //        this should be the player. All offsets are pre-applied to the draw functions. To keep
-//        something from being updated, just re-add the valuesx + g_app.camera.x, y + g_app.camera.y.
+//        something from being updated, just re-add the valuesx + g_app.camera.x, y +
+//        g_app.camera.y.
 //
 // NOTES :
 //        Permission is hereby granted, free of charge, to any person obtaining a copy
