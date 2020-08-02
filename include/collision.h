@@ -19,11 +19,14 @@ extern bool Stds_PointVsRect( const struct vec2_t *point, const SDL_FRect *rect 
 
 extern bool Stds_RectVsRect( const SDL_FRect *r1, const SDL_FRect *r2 );
 
-extern bool Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, const SDL_FRect* rect, 
-                            struct vec2_t *contact_point, struct vec2_t* contact_norm, float *hitNear );
+extern bool Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction,
+                            const SDL_FRect *rect, struct vec2_t *contact_point,
+                            struct vec2_t *contact_norm, float *hitNear );
 
-extern bool Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, 
-                                struct vec2_t *contact_point, struct vec2_t* contact_norm, 
+extern bool Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2,
+                                struct vec2_t *contact_point, struct vec2_t *contact_norm,
                                 float *hitNear, const struct vec2_t *r1_velocity );
+
+extern bool Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 );
 
 #endif // COLLISION_H

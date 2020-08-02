@@ -107,58 +107,6 @@ Stds_DrawPolygon( const struct polygon_t *polygon ) {
 /**
  *
  */
-bool
-Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
-  struct polygon_t *poly1 = p1;
-  struct polygon_t *poly2 = p2;
-
-#ifndef TESTS
-#define TESTS 2
-#endif // TESTS
-
-  for ( int32_t i = 0; i < TESTS; i++ ) {
-    if ( i == 1 ) { // Flips so it tests one against the other.
-      poly1 = p2;
-      poly2 = p1;
-    }
-
-    for ( int32_t a = 0; a < poly1->sides; a++ ) {
-      int32_t       b               = ( a + 1 ) % poly1->sides;
-      struct vec2_t axis_projection = { -( poly1->points[b].y - poly1->points[a].y ),
-                                        poly1->points[b].x -
-                                            poly1->points[a].x }; // Give normal to edge.
-
-      float min_p1 = ( float ) INT32_MAX, max_p1 = ( float ) -INT32_MAX;
-      for ( int32_t points = 0; points < poly1->sides; points++ ) {
-        float dot = ( poly1->points[points].x * axis_projection.x +
-                      poly1->points[points].y * axis_projection.y );
-
-        min_p1 = ( min_p1 < dot ) ? min_p1 : dot;
-        max_p1 = ( max_p1 > dot ) ? max_p1 : dot;
-      }
-
-      float min_p2 = ( float ) INT32_MAX, max_p2 = ( float ) -INT32_MAX;
-      for ( int32_t points = 0; points < poly2->sides; points++ ) {
-        float dot = ( poly2->points[points].x * axis_projection.x +
-                      poly2->points[points].y * axis_projection.y );
-
-        min_p2 = ( min_p2 < dot ) ? min_p2 : dot;
-        max_p2 = ( max_p2 > dot ) ? max_p2 : dot;
-      }
-
-      if ( !( max_p2 >= min_p1 && max_p1 >= min_p2 ) ) {
-        return false;
-      }
-    }
-  }
-  p1->overlap = true;
-  p2->overlap = true;
-  return true;
-}
-
-/**
- *
- */
 void
 Stds_CleanUpPolygon( struct polygon_t *polygon ) {
   free( polygon->model );

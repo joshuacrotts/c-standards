@@ -142,46 +142,47 @@ Stds_CheckIntersection( const float x1, const float y1, const int32_t w1, const 
 
 /**
  * Checks if a point enters a rectangle.
- * 
+ *
  * @param vec2_t a pointer to a vec2_t.
  * @param SDL_FRect a pointer to a rectangle.
- * 
+ *
  * @return bool.
  */
-bool 
+bool
 Stds_PointVsRect( const struct vec2_t *point, const SDL_FRect *rect ) {
-  return ( point->x >= rect->x && point->y >= rect->y && point->x < rect->x + rect->w && point->y < rect->y + rect->h );
+  return ( point->x >= rect->x && point->y >= rect->y && point->x < rect->x + rect->w &&
+           point->y < rect->y + rect->h );
 }
 
 /**
  * Checks if a rectangle enters another rectangle (AABB without entities).
- * 
+ *
  * @param SDL_FRect a pointer to a rectangle.
  * @param SDL_FRect a pointer to a rectangle.
- * 
+ *
  * @return bool.
  */
-bool  
+bool
 Stds_RectVsRect( const SDL_FRect *r1, const SDL_FRect *r2 ) {
-  return ( r1->x < r2->x + r2->w && r1->x + r1->w > r2->x &&
-			r1->y < r2->y + r2->h && r1->y + r1->h > r2->y );
+  return ( r1->x < r2->x + r2->w && r1->x + r1->w > r2->x && r1->y < r2->y + r2->h &&
+           r1->y + r1->h > r2->y );
 }
 
 /**
  * Checks if a ray hits a rectangle.
- * 
+ *
  * @param vec2_t the rays location.
  * @param vec2_t the rays direction.
  * @param SDL_FRect a pointer to a rectangle.
  * @param vec2_t the contact point on the rectangle.
  * @param vec2_t the normal of the contact point;
  * @param float final check for a collision.
- * 
+ *
  * @return bool.
  */
-bool 
-Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, const SDL_FRect* rect, 
-                            struct vec2_t *contact_point, struct vec2_t* contact_norm, float *hitNear) {
+bool
+Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, const SDL_FRect *rect,
+                struct vec2_t *contact_point, struct vec2_t *contact_norm, float *hitNear ) {
   struct vec2_t near;
   near.x = ( rect->x - ray->x ) / ray_direction->x;
   near.y = ( rect->y - ray->y ) / ray_direction->y;
@@ -191,24 +192,24 @@ Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, co
 
   if ( near.x > far.x ) {
     float temp = near.x;
-    near.x = far.x;
-    far.x = temp;
+    near.x     = far.x;
+    far.x      = temp;
   }
 
   if ( near.y > far.y ) {
     float temp = near.y;
-    near.y = far.y;
-    far.y = temp;
+    near.y     = far.y;
+    far.y      = temp;
   }
 
   if ( near.x > far.y || near.y > far.x ) {
     return false;
   }
 
-  *hitNear = ( near.x > near.y ) ? near.x : near.y;
+  *hitNear     = ( near.x > near.y ) ? near.x : near.y;
   float hitFar = ( far.x < far.y ) ? far.x : far.y;
 
-  if ( hitFar < 0) {
+  if ( hitFar < 0 ) {
     return false;
   }
 
@@ -223,8 +224,7 @@ Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, co
       contact_norm->x = -1;
       contact_norm->y = 0;
     }
-  }
-  else if ( near.x < near.y ) {
+  } else if ( near.x < near.y ) {
     if ( ray_direction->y < 0 ) {
       contact_norm->x = 0;
       contact_norm->y = 1;
@@ -239,19 +239,19 @@ Stds_RayVsRect( const struct vec2_t *ray, const struct vec2_t *ray_direction, co
 
 /**
  * Checks if a rectangle collides with rectangle
- * 
+ *
  * @param SDL_FRect first rectangle.
  * @param SDL_FRect second rectangle.
  * @param vec2_t the contact point on the rectangle.
  * @param vec2_t the normal of the contact point;
  * @param float final check for a collision.
- * 
+ *
  * @return bool.
  */
-bool 
-Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, 
-                                struct vec2_t *contact_point, struct vec2_t* contact_norm, 
-                                float *hitNear, const struct vec2_t *r1_velocity ) {
+bool
+Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, struct vec2_t *contact_point,
+                    struct vec2_t *contact_norm, float *hitNear,
+                    const struct vec2_t *r1_velocity ) {
   if ( r1_velocity->x == 0.0f && r1_velocity->y == 0 ) {
     return false;
   }
@@ -263,13 +263,66 @@ Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2,
   expand_rectangle.w = r2->w + r1->w - 2;
   expand_rectangle.h = r2->h + r1->h - 2;
 
-  struct vec2_t ray = {r1->x + r1->w, r1->y + r1->h};
+  struct vec2_t ray = { r1->x + r1->w, r1->y + r1->h };
 
-  if (Stds_RayVsRect(&ray,  r1_velocity, &expand_rectangle, contact_point, contact_norm, hitNear ) ) {
+  if ( Stds_RayVsRect( &ray, r1_velocity, &expand_rectangle, contact_point, contact_norm,
+                       hitNear ) ) {
     if ( *hitNear <= 1.0f ) {
       return true;
     }
   }
 
   return false;
+}
+
+/**
+ *
+ */
+bool
+Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
+  struct polygon_t *poly1 = p1;
+  struct polygon_t *poly2 = p2;
+
+#ifndef TESTS
+#define TESTS 2
+#endif // TESTS
+
+  for ( int32_t i = 0; i < TESTS; i++ ) {
+    if ( i == 1 ) { // Flips so it tests one against the other.
+      poly1 = p2;
+      poly2 = p1;
+    }
+
+    for ( int32_t a = 0; a < poly1->sides; a++ ) {
+      int32_t       b               = ( a + 1 ) % poly1->sides;
+      struct vec2_t axis_projection = { -( poly1->points[b].y - poly1->points[a].y ),
+                                        poly1->points[b].x -
+                                            poly1->points[a].x }; // Give normal to edge.
+
+      float min_p1 = ( float ) INT32_MAX, max_p1 = ( float ) -INT32_MAX;
+      for ( int32_t points = 0; points < poly1->sides; points++ ) {
+        float dot = ( poly1->points[points].x * axis_projection.x +
+                      poly1->points[points].y * axis_projection.y );
+
+        min_p1 = ( min_p1 < dot ) ? min_p1 : dot;
+        max_p1 = ( max_p1 > dot ) ? max_p1 : dot;
+      }
+
+      float min_p2 = ( float ) INT32_MAX, max_p2 = ( float ) -INT32_MAX;
+      for ( int32_t points = 0; points < poly2->sides; points++ ) {
+        float dot = ( poly2->points[points].x * axis_projection.x +
+                      poly2->points[points].y * axis_projection.y );
+
+        min_p2 = ( min_p2 < dot ) ? min_p2 : dot;
+        max_p2 = ( max_p2 > dot ) ? max_p2 : dot;
+      }
+
+      if ( !( max_p2 >= min_p1 && max_p1 >= min_p2 ) ) {
+        return false;
+      }
+    }
+  }
+  p1->overlap = true;
+  p2->overlap = true;
+  return true;
 }
