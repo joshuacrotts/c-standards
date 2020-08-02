@@ -108,14 +108,15 @@ struct grid_t {
   uint32_t     sprite_sheet_cols;
   uint32_t     sprite_sheet_rows;
 
-  struct stds_vector_t *animation;
-  int32_t               animation_buffer;
-
   /* This bool will determine if we scroll the grid
      (and its children sprites) with the camera. If false,
      the grid will always stay in the frame of the player.
      If true, it scrolls it. */
   bool is_camera_offset_enabled;
+
+  int32_t animation_buffer;
+
+  struct stds_vector_t *animation;
 };
 
 /*
@@ -174,25 +175,25 @@ struct animation_t {
   struct vec2_t scale;
   struct vec2_t splice;
 
-  float         frame_delay;
-  float         frame_timer;
-  uint32_t      id_flags;
-  uint32_t      flags;
-  uint16_t      angle;
-  uint16_t      start_x;
-  uint16_t      start_y;
-  int32_t       sprite_width;
-  int32_t       sprite_height;
-  int32_t       dest_width;
-  int32_t       dest_height;
-  int32_t       sprite_sheet_width;
-  int32_t       sprite_sheet_height;
-  uint8_t       current_frame_id;
-  uint8_t       current_frame_row_id;
-  uint8_t       current_frame_col_id;
-  size_t        number_of_frames;
-  size_t        rows_count;
-  size_t        cols_count;
+  float    frame_delay;
+  float    frame_timer;
+  uint32_t id_flags;
+  uint32_t flags;
+  uint16_t angle;
+  uint16_t start_x;
+  uint16_t start_y;
+  int32_t  sprite_width;
+  int32_t  sprite_height;
+  int32_t  dest_width;
+  int32_t  dest_height;
+  int32_t  sprite_sheet_width;
+  int32_t  sprite_sheet_height;
+  uint8_t  current_frame_id;
+  uint8_t  current_frame_row_id;
+  uint8_t  current_frame_col_id;
+  size_t   number_of_frames;
+  size_t   rows_count;
+  size_t   cols_count;
 
   bool is_camera_offset_enabled;
   bool is_cycle_once;
@@ -205,6 +206,7 @@ struct animation_t {
   SDL_Texture **frames;
   SDL_Texture * sprite_sheet;
 
+  struct polygon_t *  bounding_box;
   struct animation_t *next;
 };
 
@@ -315,9 +317,6 @@ struct fade_color_t {
 struct entity_t {
   struct vec2_t pos;
 
-  /* Miscellaneous positioning variable. */
-  float variability;
-
   /* Scales the entity in either the x or y
      direction. This should default to 1. */
   struct vec2_t scale;
@@ -327,6 +326,9 @@ struct entity_t {
 
   /* Acceleration or deceleration factors. */
   struct vec2_t delta_accel;
+
+  /* Miscellaneous positioning variable. */
+  float variability;
 
   /* Change rate of alpha value. */
   float delta_alpha;
@@ -349,9 +351,11 @@ struct entity_t {
   int32_t health;
   int32_t life;
 
+  SDL_FPoint   rotate_point;
   SDL_Color    color;
   SDL_Texture *texture[TEXTURE_BUFFER_SIZE];
 
+  struct polygon_t *  bounding_box;
   struct animation_t *animation;
   struct entity_t *   next;
 

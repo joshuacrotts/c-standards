@@ -4,7 +4,6 @@
 #include "../../include/stds.h"
 
 struct stage_t {
-    struct trail_t trail_head, *trail_tail;
     struct entity_t enemy_head, *enemy_tail;
 };
 

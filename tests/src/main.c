@@ -155,12 +155,12 @@ update( void ) {
 
   Stds_CameraUpdate( player );
   Stds_ParticleSystemUpdate( ps );
+  Stds_AnimationUpdate( fire_animation );
   update_parallax_backgrounds();
   update_trails();
   update_enemies();
   player_update();
   update_grid();
-  Stds_AnimationUpdate( fire_animation );
   update_polygons();
 }
 
@@ -229,13 +229,12 @@ draw( void ) {
   draw_parallax_backgrounds();
   Stds_ParticleSystemDraw( ps );
   Stds_DrawRectStroke( 0, 0, g_app.SCREEN_WIDTH, g_app.SCREEN_HEIGHT, 8, &c, 0xff );
+  Stds_AnimationDraw( fire_animation );
   draw_trails();
   draw_enemies();
   player_draw();
   draw_grid();
-  Stds_AnimationDraw( fire_animation );
   draw_collision_test();
-
   Stds_DrawPolygon( quad );
   Stds_DrawPolygon( hexa );
 }
@@ -373,14 +372,13 @@ draw_collision_test( void ) {
  */
 static void
 update_polygons( void ) {
-
   Stds_UpdatePolygon( hexa );
   Stds_UpdatePolygon( quad );
 
   hexa->position.x = ( float ) g_app.mouse.x;
   hexa->position.y = ( float ) g_app.mouse.y;
 
-  quad->angle = 90.0f;
+  quad->angle++;
 
   Stds_CheckSATOverlap( hexa, quad );
 }
