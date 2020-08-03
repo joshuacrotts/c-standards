@@ -32,7 +32,14 @@
 #include "../include/draw.h"
 
 /**
- *
+ * Creates a polygon with any number of sides.
+ * 
+ * @param int32_t num of sides.
+ * @param float size of polygon.
+ * @param vec2_t position of polygon.
+ * @param float angle of polygon.
+ * 
+ * @return polygon_t pointer to a polygon.
  */
 struct polygon_t *
 Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t position,
@@ -68,7 +75,11 @@ Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t p
 }
 
 /**
+ * Updates the polygons position.
  *
+ * @param polygon_t pointer to a polygon.
+ * 
+ * @return void.
  */
 void
 Stds_UpdatePolygon( struct polygon_t *polygon ) {
@@ -85,7 +96,11 @@ Stds_UpdatePolygon( struct polygon_t *polygon ) {
 }
 
 /**
+ * Draws the polygon.
  *
+ * @param polygon_t pointer to a polygon.
+ * 
+ * @return void.
  */
 void
 Stds_DrawPolygon( const struct polygon_t *polygon ) {
@@ -105,7 +120,11 @@ Stds_DrawPolygon( const struct polygon_t *polygon ) {
 }
 
 /**
+ * Cleans up the polygon.
  *
+ * @param polygon_t pointer to a polygon.
+ * 
+ * @return void.
  */
 void
 Stds_CleanUpPolygon( struct polygon_t *polygon ) {
@@ -116,7 +135,14 @@ Stds_CleanUpPolygon( struct polygon_t *polygon ) {
 }
 
 /**
+ * Creates a bounding box for entities.
  *
+ * @param float x position.
+ * @param float y position.
+ * @param float width of polygon.
+ * @param float height of polygon.
+ * 
+ * @return polygon_t pointer to a polygon.
  */
 struct polygon_t *
 Stds_BoundingBox( float x, float y, float w, float h, float angle ) {

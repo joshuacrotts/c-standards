@@ -276,7 +276,12 @@ Stds_AdvRectVsRect( const SDL_FRect *r1, const SDL_FRect *r2, struct vec2_t *con
 }
 
 /**
- *
+ * Checks for a collision between 2 polygons.
+ * 
+ * @param polygon_t pointer to one polygon.
+ * @param polygon_t pointer to second polygon.
+ * 
+ * @return bool.
  */
 bool
 Stds_CheckSATOverlap( struct polygon_t *p1, struct polygon_t *p2 ) {
