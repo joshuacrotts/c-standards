@@ -8,7 +8,8 @@
 
 extern struct app_t g_app;
 
-extern void Stds_InitGame( const char *title, const uint32_t w, const uint32_t h, const uint32_t lw, const uint32_t lh );
+extern void Stds_InitGame( const char *title, const uint32_t w, const uint32_t h, const uint32_t lw,
+                           const uint32_t lh );
 
 extern void Stds_Quit( void );
 
