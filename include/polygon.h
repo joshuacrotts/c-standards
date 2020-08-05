@@ -1,12 +1,14 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
+#include "draw.h"
 #include "stds.h"
-#include "../include/vec2.h"
+#include "vec2.h"
 
 extern struct app_t g_app;
 
-extern struct polygon_t* Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t position, const float angle );
+extern struct polygon_t *Stds_CreatePolygon( const int32_t sides, const float size,
+                                             const struct vec2_t position, const float angle );
 
 extern void Stds_UpdatePolygon( struct polygon_t *polygon );
 
@@ -14,6 +16,6 @@ extern void Stds_DrawPolygon( const struct polygon_t *polygon );
 
 extern void Stds_CleanUpPolygon( struct polygon_t *polygon );
 
-extern struct polygon_t* Stds_BoundingBox( float x, float y, float w, float h, float angle );
+extern struct polygon_t *Stds_BoundingBox( float x, float y, float w, float h, float angle );
 
-#endif //POLYGON_H
+#endif // POLYGON_H

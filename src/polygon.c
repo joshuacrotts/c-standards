@@ -29,7 +29,6 @@
 //=============================================================================================//
 
 #include "../include/polygon.h"
-#include "../include/draw.h"
 
 /**
  * Creates a polygon with any number of sides.
