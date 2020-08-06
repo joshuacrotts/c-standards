@@ -298,9 +298,6 @@ struct app_t {
 
   Mix_Chunk **sounds;
   Mix_Music *music;
-
-  void ( *Stds_LoadSounds )( void );
-  void ( *Stds_LoadFonts )( void );
 };
 
 /*

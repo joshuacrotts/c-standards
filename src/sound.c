@@ -78,7 +78,7 @@ Stds_PlayMusic( const bool loop ) {
  * Loads a sound into the respective ID of the SFX.
  * For instance,
  *
- * Stds_LoadSound("res/sfx/coin.ogg", SND_COIN).
+ * Stds_LoadSFX("res/sfx/coin.ogg", SND_COIN).
  *
  * @param const char * sound effect path.
  * @param int16_t sound effect ID.
@@ -86,7 +86,7 @@ Stds_PlayMusic( const bool loop ) {
  * @return void.
  */
 void
-Stds_LoadSound( const char *path, const int16_t id ) {
+Stds_LoadSFX( const char *path, const int16_t id ) {
   if ( g_app.sounds[id] != NULL ) {
     fprintf( stderr, "Error, could not add %s audio file to id %d. This id already exists!\n", path,
              id );

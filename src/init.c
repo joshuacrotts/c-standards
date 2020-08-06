@@ -179,8 +179,6 @@ Stds_Quit( void ) {
 static struct app_t
 Stds_CreateApp( void ) {
   struct app_t app;
-  g_app.Stds_LoadFonts  = NULL;
-  g_app.Stds_LoadSounds = NULL;
   g_app.texture_tail    = NULL;
   g_app.trail_tail      = NULL;
   g_app.button_tail     = NULL;
