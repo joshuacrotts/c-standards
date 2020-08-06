@@ -172,7 +172,7 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
  * @return int8_t -1 for negative value, 0 for zero, 1 for positive.
  *
  */
-static int8_t
+int8_t
 Stds_Signum( const float value ) {
   return ( value < 0 ? -1 : ( value > 0 ? 1 : 0 ) );
 }
