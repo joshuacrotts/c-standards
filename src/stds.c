@@ -163,6 +163,21 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
 }
 
 /**
+ * Returns the sign of a floating-point value. Be very careful
+ * about the precision of your floating-point values! This only supports
+ * small-ish FP values.
+ *
+ * @param const float value to check for sign.
+ *
+ * @return int8_t -1 for negative value, 0 for zero, 1 for positive.
+ *
+ */
+static int8_t
+Stds_Signum( const float value ) {
+  return ( value < 0 ? -1 : ( value > 0 ? 1 : 0 ) );
+}
+
+/**
  * Calculates the slope between two lines, and stores the x/y result in the pointers
  * defined by the last two parameters.
  *
@@ -281,7 +296,7 @@ Stds_ConvertARGBToColor( const uint32_t c ) {
   uint8_t   g     = c >> 8 & 0xff;
   uint8_t   b     = c & 0xff;
   uint8_t   a     = c >> 24 & 0xff;
-  SDL_Color color = { r, g, b, a };
+  SDL_Color color = {r, g, b, a};
   return color;
 }
 
