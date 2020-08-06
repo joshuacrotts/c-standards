@@ -296,6 +296,9 @@ struct app_t {
 
   enum GameState game_state;
 
+  Mix_Chunk **sounds;
+  Mix_Music *music;
+
   void ( *Stds_LoadSounds )( void );
   void ( *Stds_LoadFonts )( void );
 };

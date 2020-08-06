@@ -57,7 +57,7 @@ Stds_InitGame( const char *window_name, const uint32_t window_width, const uint3
   g_app = Stds_CreateApp();
 
   Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
-  Stds_InitSounds();
+  Stds_InitAudio();
   Stds_InitFonts();
 
   g_app.original_title = window_name;
