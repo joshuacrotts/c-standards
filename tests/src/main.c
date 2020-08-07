@@ -22,6 +22,7 @@ static int32_t            testTextureGridId;
 static struct vec2_t cp, cn, ray = {100.0f, 100.0f}, ray_direction = { 1, 1 };
 float t;
 static SDL_FRect ray_rect = {300.0f, 300.0f, 200.0f, 100.0f}, other_rect = {500.0f, 500.0f, 100.0f, 100.0f};
+static SDL_FRect collide_pos = {200, 0, 32, 32};
 
 static struct polygon_t *hexa;
 static struct polygon_t *quad;
@@ -313,7 +314,18 @@ add_particles( int32_t x, int32_t y, size_t n ) {
 static void
 draw_grid( void ) {
   Stds_DrawLineGrid( grid );
-  Stds_RenderPreMadeSpriteSheet( grid );
+  //Stds_RenderPreMadeSpriteSheet( grid );
+
+  struct vec2_t collide_vel = {-1, 0};
+  if( Stds_AddCollisionToGrid( grid, 0, 0, &collide_pos, &collide_vel ) ) {
+   SDL_SetRenderDrawColor(g_app.renderer, 255, 0, 0, 0 );
+  } else {
+    SDL_SetRenderDrawColor(g_app.renderer, 255, 255,0,0 );
+  }
+  SDL_RenderFillRectF(g_app.renderer, &collide_pos);
+
+  collide_pos.x += collide_vel.x;
+  collide_pos.y += collide_vel.y;
 }
 
 /**
