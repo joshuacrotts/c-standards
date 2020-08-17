@@ -33,11 +33,12 @@
 static int16_t previous_frame_key = -1;
 
 static inline void Stds_UpdateMouseState( void );
-static inline void Stds_KeyPressed( const SDL_KeyboardEvent * );
-static inline void Stds_KeyReleased( const SDL_KeyboardEvent * );
-static inline void Stds_MousePressed( const SDL_MouseButtonEvent * );
-static inline void Stds_MouseReleased( const SDL_MouseButtonEvent * );
-static inline void Stds_MouseMoved( const SDL_MouseMotionEvent * );
+static inline void Stds_KeyPressed( const SDL_Event *event );
+static inline void Stds_KeyReleased( const SDL_KeyboardEvent *event );
+static inline void Stds_MousePressed( const SDL_MouseButtonEvent *event );
+static inline void Stds_MouseReleased( const SDL_MouseButtonEvent *event );
+static inline void Stds_MouseMoved( const SDL_MouseMotionEvent *event );
+static void        Stds_UpdateTextFields( const SDL_Event *event );
 
 /**
  * Starts the SDL event loop.
@@ -49,6 +50,7 @@ static inline void Stds_MouseMoved( const SDL_MouseMotionEvent * );
 void
 Stds_ProcessInput( void ) {
   SDL_Event event;
+  SDL_StartTextInput();
 
   while ( SDL_PollEvent( &event ) ) {
     Stds_UpdateMouseState();
@@ -60,7 +62,7 @@ Stds_ProcessInput( void ) {
       exit( EXIT_SUCCESS );
       break;
     case SDL_KEYDOWN:
-      Stds_KeyPressed( &event.key );
+      Stds_KeyPressed( &event );
       break;
     case SDL_KEYUP:
       Stds_KeyReleased( &event.key );
@@ -77,8 +79,30 @@ Stds_ProcessInput( void ) {
     case SDL_MOUSEMOTION:
       Stds_MouseMoved( &event.motion );
       break;
+    case SDL_TEXTINPUT:
+      Stds_UpdateTextFields( &event );
+      break;
     default:
       break;
+    }
+  }
+}
+
+/**
+ *
+ *
+ * @param
+ *
+ * @param void.
+ */
+static void
+Stds_UpdateTextFields( const SDL_Event *event ) {
+  for ( struct text_field_t *tf = &g_app.text_field_head; tf != NULL; tf = tf->next ) {
+    if ( tf->toggle_text_input ) {
+      SDL_StartTextInput();
+      Stds_ReadTextField( tf, event );
+    } else {
+      SDL_StopTextInput();
     }
   }
 }
@@ -104,9 +128,14 @@ Stds_UpdateMouseState( void ) {
  * @return void.
  */
 static inline void
-Stds_KeyPressed( const SDL_KeyboardEvent *event ) {
-  if ( event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS ) {
-    g_app.keyboard[event->keysym.scancode] = 1;
+Stds_KeyPressed( const SDL_Event *event ) {
+  if ( event->key.repeat == 0 && event->key.keysym.scancode < MAX_KEYBOARD_KEYS ) {
+    g_app.keyboard[event->key.keysym.scancode] = 1;
+  }
+
+  /* Special case for backspace. */
+  if ( g_app.keyboard[SDL_SCANCODE_BACKSPACE] ) {
+    Stds_UpdateTextFields( event );
   }
 }
 

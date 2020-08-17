@@ -18,6 +18,22 @@ struct polygon_t {
   bool    has_overlap;
 };
 
+/**
+ *
+ */
+struct text_field_t {
+  float    x;
+  float    y;
+  uint16_t font_size;
+  bool     toggle_text_input;
+
+  char        text[LARGE_TEXT_BUFFER];
+  const char *font_directory;
+  SDL_Color * font_color;
+
+  struct text_field_t *next;
+};
+
 /*
  *
  */
@@ -293,11 +309,12 @@ struct app_t {
   struct font_t                font_head, *font_tail;
   struct parallax_background_t parallax_head, *parallax_tail;
   struct button_t              button_head, *button_tail;
+  struct text_field_t          text_field_head, *text_field_tail;
 
   enum GameState game_state;
 
   Mix_Chunk **sounds;
-  Mix_Music *music;
+  Mix_Music * music;
 };
 
 /*

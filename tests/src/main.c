@@ -16,12 +16,14 @@ static struct fade_color_t       f;
 static struct particle_system_t *ps;
 static struct animation_t *      fire_animation;
 
-static struct grid_t *    grid;
-static struct grid_pair_t p;
-static int32_t            testTextureGridId;
-static struct vec2_t cp, cn, ray = {100.0f, 100.0f}, ray_direction = { 1, 1 };
-float t;
-static SDL_FRect ray_rect = {300.0f, 300.0f, 200.0f, 100.0f}, other_rect = {500.0f, 500.0f, 100.0f, 100.0f};
+static struct text_field_t *tf;
+static struct grid_t *      grid;
+static struct grid_pair_t   p;
+static int32_t              testTextureGridId;
+static struct vec2_t        cp, cn, ray = {100.0f, 100.0f}, ray_direction = {1, 1};
+float                       t;
+static SDL_FRect            ray_rect = {300.0f, 300.0f, 200.0f, 100.0f},
+                 other_rect          = {500.0f, 500.0f, 100.0f, 100.0f};
 
 static struct polygon_t *hexa;
 static struct polygon_t *quad;
@@ -77,6 +79,9 @@ main( int argc, char *argv[] ) {
  */
 static void
 init_scene( void ) {
+
+  Stds_AddFont( "tests/res/fonts/nes.ttf", 16 );
+
   g_app.delegate.update = update;
   g_app.delegate.draw   = draw;
   stage.enemy_tail      = &stage.enemy_head;
@@ -95,14 +100,14 @@ init_scene( void ) {
   /* Initialize the parallax background with each frame's scroll factor. */
   uint8_t parallax_frames = 11;
 
-  float parallax_scroll[11] = { 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
-                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f };
+  float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
+                               0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
   Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
                               parallax_scroll, false );
 
   /* Create the border fade from blue to yellow. */
-  SDL_Color c1 = { 0xff, 0xff, 0, 0xff };
-  SDL_Color c2 = { 0, 0, 0xff, 0xff };
+  SDL_Color c1 = {0xff, 0xff, 0, 0xff};
+  SDL_Color c2 = {0, 0, 0xff, 0xff};
 
   f.c1    = c1;
   f.c2    = c2;
@@ -123,7 +128,7 @@ init_scene( void ) {
   ps = Stds_CreateParticleSystem( 1024 );
 
   /* Create the white grid for testing. */
-  SDL_Color tempGridColor = { 255, 255, 255, 255 };
+  SDL_Color tempGridColor = {255, 255, 255, 255};
   grid                    = Stds_CreateGrid( 0, 0, 32, 32, 10, 10, &tempGridColor, &tempGridColor );
 
   /* Initializes textures for the grid. */
@@ -138,9 +143,17 @@ init_scene( void ) {
   grid->is_camera_offset_enabled = false;
 
   struct vec2_t pos = Stds_CreateVec2( 200, 100 );
-  hexa = Stds_CreatePolygon( 6, 40.0f, pos, 10.0f );
-  pos = Stds_CreateVec2( 220, 300 );
-  quad = Stds_BoundingBox( 220.0f, 300.0f, 100.0f, 20.0f, 0.0f );
+  hexa              = Stds_CreatePolygon( 6, 40.0f, pos, 10.0f );
+  pos               = Stds_CreateVec2( 220, 300 );
+  quad              = Stds_BoundingBox( 220.0f, 300.0f, 100.0f, 20.0f, 0.0f );
+
+  /* Init text field for testing. */
+  SDL_Color c = {0xff, 0, 0, 0xff};
+  tf          = Stds_CreateTextFieldBlank( 300.f, 300.f, "tests/res/fonts/nes.ttf", 16, &c );
+  tf->toggle_text_input = true;
+
+  g_app.text_field_tail->next = tf;
+  g_app.text_field_tail = tf;
 }
 
 /**
@@ -210,7 +223,7 @@ update_enemies( void ) {
     enum CollisionSide s = Stds_CheckAABBCollision( player, e );
 
     if ( s == SIDE_TOP || s == SIDE_BOTTOM ) {
-      player->velocity.y  = 0;
+      player->velocity.y = 0;
     }
 
     if ( s == SIDE_LEFT || s == SIDE_RIGHT ) {
@@ -237,6 +250,7 @@ draw( void ) {
 
   Stds_DrawPolygon( quad );
   Stds_DrawPolygon( hexa );
+  Stds_DrawTextField( tf );
 }
 
 /**
@@ -328,13 +342,13 @@ update_grid( void ) {
 /**
  *
  */
-static void 
+static void
 draw_collision_test( void ) {
-  //Ray Vs Rect example.
+  // Ray Vs Rect example.
   /*
   ray_direction.x = g_app.mouse.x - ray.x;
   ray_direction.y = g_app.mouse.y - ray.y;
-  
+
   SDL_SetRenderDrawColor( g_app.renderer, 0, 0, 255, 255);
   SDL_RenderDrawLineF( g_app.renderer, ray.x, ray.y, g_app.mouse.x, g_app.mouse.y );
 
@@ -347,7 +361,7 @@ draw_collision_test( void ) {
   }
   */
 
-  //Rect Vs Rect example.
+  // Rect Vs Rect example.
   /*
   if ( Stds_AdvRectVsRect( &ray_rect, &other_rect, &cp, &cn, &t, &ray_direction ) ) {
     ray_direction.x = 0;
@@ -357,7 +371,7 @@ draw_collision_test( void ) {
   } else {
     SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
     SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  } 
+  }
 
   SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
   SDL_RenderFillRectF( g_app.renderer, &other_rect );
@@ -370,15 +384,15 @@ draw_collision_test( void ) {
 /**
  *
  */
-static void 
+static void
 update_polygons( void ) {
-  
+
   Stds_UpdatePolygon( hexa );
   Stds_UpdatePolygon( quad );
 
   hexa->position.x = ( float ) g_app.mouse.x;
   hexa->position.y = ( float ) g_app.mouse.y;
-  
+
   quad->angle = 90.0f;
 
   Stds_CheckSATOverlap( hexa, quad );

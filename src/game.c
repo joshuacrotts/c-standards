@@ -46,11 +46,12 @@ static uint32_t Stds_UpdateWindowTitle( uint32_t, void * );
  */
 void
 Stds_InitAppStructures( void ) {
-  g_app.parallax_tail = &g_app.parallax_head;
-  g_app.texture_tail  = &g_app.texture_head;
-  g_app.button_tail   = &g_app.button_head;
-  g_app.trail_tail    = &g_app.trail_head;
-  g_app.font_tail     = &g_app.font_head;
+  g_app.text_field_tail = &g_app.text_field_head;
+  g_app.parallax_tail   = &g_app.parallax_head;
+  g_app.texture_tail    = &g_app.texture_head;
+  g_app.button_tail     = &g_app.button_head;
+  g_app.trail_tail      = &g_app.trail_head;
+  g_app.font_tail       = &g_app.font_head;
 
   Stds_InitWindowFPS();
 }
