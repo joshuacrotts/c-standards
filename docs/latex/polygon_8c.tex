@@ -1,0 +1,125 @@
+\hypertarget{polygon_8c}{}\doxysection{src/polygon.c File Reference}
+\label{polygon_8c}\index{src/polygon.c@{src/polygon.c}}
+{\ttfamily \#include \char`\"{}../include/polygon.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$ \mbox{\hyperlink{polygon_8c_ac05a7af05cacd8e2e5edb7bd5da49e48}{Stds\+\_\+\+Create\+Polygon}} (const int32\+\_\+t sides, const float size, const struct \mbox{\hyperlink{structvec2__t}{vec2\+\_\+t}} position, const float angle)
+\item 
+void \mbox{\hyperlink{polygon_8c_a4d1a5bea8891da43d3be80b396bbdd12}{Stds\+\_\+\+Update\+Polygon}} (struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$polygon)
+\item 
+void \mbox{\hyperlink{polygon_8c_aa0b066994efa099bd847f4f4142c8f44}{Stds\+\_\+\+Draw\+Polygon}} (const struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$polygon)
+\item 
+void \mbox{\hyperlink{polygon_8c_aa972a953d44cb21a13c6f58c697c247c}{Stds\+\_\+\+Clean\+Up\+Polygon}} (struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$polygon)
+\item 
+struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$ \mbox{\hyperlink{polygon_8c_aeb3763c373621a7833fb661d4814947c}{Stds\+\_\+\+Bounding\+Box}} (float x, float y, float w, float h, float angle)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+strah19 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July 31 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+Defines the functions associated with the polygon struct like drawing, updating, and collision detecting. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{polygon_8c_aeb3763c373621a7833fb661d4814947c}\label{polygon_8c_aeb3763c373621a7833fb661d4814947c}} 
+\index{polygon.c@{polygon.c}!Stds\_BoundingBox@{Stds\_BoundingBox}}
+\index{Stds\_BoundingBox@{Stds\_BoundingBox}!polygon.c@{polygon.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_BoundingBox()}{Stds\_BoundingBox()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}}$\ast$ Stds\+\_\+\+Bounding\+Box (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{w,  }\item[{float}]{h,  }\item[{float}]{angle }\end{DoxyParamCaption})}
+
+Creates a bounding box for entities.
+
+
+\begin{DoxyParams}{Parameters}
+{\em float} & x position. \\
+\hline
+{\em float} & y position. \\
+\hline
+{\em float} & width of polygon. \\
+\hline
+{\em float} & height of polygon.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} pointer to a polygon. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{polygon_8c_aa972a953d44cb21a13c6f58c697c247c}\label{polygon_8c_aa972a953d44cb21a13c6f58c697c247c}} 
+\index{polygon.c@{polygon.c}!Stds\_CleanUpPolygon@{Stds\_CleanUpPolygon}}
+\index{Stds\_CleanUpPolygon@{Stds\_CleanUpPolygon}!polygon.c@{polygon.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_CleanUpPolygon()}{Stds\_CleanUpPolygon()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Clean\+Up\+Polygon (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$}]{polygon }\end{DoxyParamCaption})}
+
+Cleans up the polygon.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}}} & pointer to a polygon.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{polygon_8c_ac05a7af05cacd8e2e5edb7bd5da49e48}\label{polygon_8c_ac05a7af05cacd8e2e5edb7bd5da49e48}} 
+\index{polygon.c@{polygon.c}!Stds\_CreatePolygon@{Stds\_CreatePolygon}}
+\index{Stds\_CreatePolygon@{Stds\_CreatePolygon}!polygon.c@{polygon.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_CreatePolygon()}{Stds\_CreatePolygon()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}}$\ast$ Stds\+\_\+\+Create\+Polygon (\begin{DoxyParamCaption}\item[{const int32\+\_\+t}]{sides,  }\item[{const float}]{size,  }\item[{const struct \mbox{\hyperlink{structvec2__t}{vec2\+\_\+t}}}]{position,  }\item[{const float}]{angle }\end{DoxyParamCaption})}
+
+Creates a polygon with any number of sides.
+
+
+\begin{DoxyParams}{Parameters}
+{\em int32\+\_\+t} & num of sides. \\
+\hline
+{\em float} & size of polygon. \\
+\hline
+{\em \mbox{\hyperlink{structvec2__t}{vec2\+\_\+t}}} & position of polygon. \\
+\hline
+{\em float} & angle of polygon.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} pointer to a polygon. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{polygon_8c_aa0b066994efa099bd847f4f4142c8f44}\label{polygon_8c_aa0b066994efa099bd847f4f4142c8f44}} 
+\index{polygon.c@{polygon.c}!Stds\_DrawPolygon@{Stds\_DrawPolygon}}
+\index{Stds\_DrawPolygon@{Stds\_DrawPolygon}!polygon.c@{polygon.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_DrawPolygon()}{Stds\_DrawPolygon()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Draw\+Polygon (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$}]{polygon }\end{DoxyParamCaption})}
+
+Draws the polygon.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}}} & pointer to a polygon.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{polygon_8c_a4d1a5bea8891da43d3be80b396bbdd12}\label{polygon_8c_a4d1a5bea8891da43d3be80b396bbdd12}} 
+\index{polygon.c@{polygon.c}!Stds\_UpdatePolygon@{Stds\_UpdatePolygon}}
+\index{Stds\_UpdatePolygon@{Stds\_UpdatePolygon}!polygon.c@{polygon.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_UpdatePolygon()}{Stds\_UpdatePolygon()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Update\+Polygon (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}} $\ast$}]{polygon }\end{DoxyParamCaption})}
+
+Updates the polygons position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structpolygon__t}{polygon\+\_\+t}}} & pointer to a polygon.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

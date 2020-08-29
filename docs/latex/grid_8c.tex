@@ -1,0 +1,354 @@
+\hypertarget{grid_8c}{}\doxysection{src/grid.c File Reference}
+\label{grid_8c}\index{src/grid.c@{src/grid.c}}
+{\ttfamily \#include \char`\"{}../include/grid.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/animation.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/draw.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$ \mbox{\hyperlink{grid_8c_aa761c9886b7d909d7827a9c032e24955}{Stds\+\_\+\+Create\+Grid}} (const float x, const float y, const int32\+\_\+t square\+\_\+width, const int32\+\_\+t square\+\_\+height, const uint32\+\_\+t cols, const uint32\+\_\+t rows, const S\+D\+L\+\_\+\+Color $\ast$line\+\_\+color, const S\+D\+L\+\_\+\+Color $\ast$fill\+\_\+color)
+\item 
+void \mbox{\hyperlink{grid_8c_ae06a7b46c85aef9fae9c8668ebe09a3f}{Stds\+\_\+\+Draw\+Line\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid)
+\item 
+void \mbox{\hyperlink{grid_8c_a412cbf47ce6e056e944db72cfddc077b}{Stds\+\_\+\+Fill\+Whole\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid)
+\item 
+void \mbox{\hyperlink{grid_8c_a89fc29c5063b47998f943c77f3931fa9}{Stds\+\_\+\+Free\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid)
+\item 
+struct \mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} \mbox{\hyperlink{grid_8c_a282183fdc26b5eee37d81804368e2e2a}{Stds\+\_\+\+On\+Grid\+Hover}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid)
+\item 
+struct \mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} \mbox{\hyperlink{grid_8c_a9e6ff8c829588d0eee013d0a7d3d63c2}{Stds\+\_\+\+On\+Grid\+Clicked}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const int32\+\_\+t mouse\+Code)
+\item 
+void \mbox{\hyperlink{grid_8c_a92dff4ed603b80e9b11230d73f2f0762}{Stds\+\_\+\+Initialize\+Grid\+Textures}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const int32\+\_\+t texture\+\_\+buffer)
+\item 
+int32\+\_\+t \mbox{\hyperlink{grid_8c_a607035cf7f401bb2d6bce137ce7c7fc9}{Stds\+\_\+\+Add\+Grid\+Texture}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const char $\ast$file\+Path)
+\item 
+void \mbox{\hyperlink{grid_8c_af6f00897a64c65811c67a8fb9363db56}{Stds\+\_\+\+Put\+Grid\+Texture}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const uint32\+\_\+t col, const uint32\+\_\+t row, const int32\+\_\+t index, const S\+D\+L\+\_\+\+Renderer\+Flip flip, const uint16\+\_\+t angle)
+\item 
+void \mbox{\hyperlink{grid_8c_ae566e88ad86194a79715b81a1eda1553}{Stds\+\_\+\+Add\+Sprite\+Sheet\+To\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const char $\ast$file\+Path, const uint32\+\_\+t cols, const uint32\+\_\+t rows)
+\item 
+void \mbox{\hyperlink{grid_8c_a36de30af08f5e7344e4ec6e481128fa1}{Stds\+\_\+\+Select\+Sprite\+For\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const uint32\+\_\+t sheet\+Col, const uint32\+\_\+t sheet\+Row)
+\item 
+void \mbox{\hyperlink{grid_8c_a49c39e9147fceccf49ce66644e485a0d}{Stds\+\_\+\+Draw\+Selected\+Sprite\+On\+Grid}} (const struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const uint32\+\_\+t grid\+Col, const uint32\+\_\+t grid\+Row, const S\+D\+L\+\_\+\+Renderer\+Flip flip, const uint16\+\_\+t angle)
+\item 
+int32\+\_\+t \mbox{\hyperlink{grid_8c_a95a7e36565f7a0776a67ae89e7176875}{Stds\+\_\+\+Add\+Animation\+To\+Grid}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$animate)
+\item 
+void \mbox{\hyperlink{grid_8c_ad9a42ba23a9dad90505c117fdfcedc14}{Stds\+\_\+\+Render\+Animation\+To\+Grid}} (const struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, const uint32\+\_\+t col, const uint32\+\_\+t row, const int32\+\_\+t index, const S\+D\+L\+\_\+\+Renderer\+Flip flip, const uint16\+\_\+t angle)
+\item 
+\mbox{\Hypertarget{grid_8c_a2ef3a7eb88e2d9c1eefcefd7e441b676}\label{grid_8c_a2ef3a7eb88e2d9c1eefcefd7e441b676}} 
+void {\bfseries Stds\+\_\+\+Add\+Collision\+To\+Grid} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid, uint32\+\_\+t col, uint32\+\_\+t row)
+\item 
+void \mbox{\hyperlink{grid_8c_a7ed8b0f083e2437b7cfe603277149209}{Stds\+\_\+\+Render\+Pre\+Made\+Sprite\+Sheet}} (struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$grid)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+strah19 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July 19 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines the functions associated with grids, and is able to treat each \textquotesingle{}box\textquotesingle{} as a button and deals with events like clicking. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{grid_8c_a95a7e36565f7a0776a67ae89e7176875}\label{grid_8c_a95a7e36565f7a0776a67ae89e7176875}} 
+\index{grid.c@{grid.c}!Stds\_AddAnimationToGrid@{Stds\_AddAnimationToGrid}}
+\index{Stds\_AddAnimationToGrid@{Stds\_AddAnimationToGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddAnimationToGrid()}{Stds\_AddAnimationToGrid()}}
+{\footnotesize\ttfamily int32\+\_\+t Stds\+\_\+\+Add\+Animation\+To\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$}]{animate }\end{DoxyParamCaption})}
+
+Adds a \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} to the vector of animations. 
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em animation\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int32\+\_\+t. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a607035cf7f401bb2d6bce137ce7c7fc9}\label{grid_8c_a607035cf7f401bb2d6bce137ce7c7fc9}} 
+\index{grid.c@{grid.c}!Stds\_AddGridTexture@{Stds\_AddGridTexture}}
+\index{Stds\_AddGridTexture@{Stds\_AddGridTexture}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddGridTexture()}{Stds\_AddGridTexture()}}
+{\footnotesize\ttfamily int32\+\_\+t Stds\+\_\+\+Add\+Grid\+Texture (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const char $\ast$}]{file\+Path }\end{DoxyParamCaption})}
+
+Adds a single texture to the grid for use.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em const} & char$\ast$ file\+Path to texture.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t ? What does this return? 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_ae566e88ad86194a79715b81a1eda1553}\label{grid_8c_ae566e88ad86194a79715b81a1eda1553}} 
+\index{grid.c@{grid.c}!Stds\_AddSpriteSheetToGrid@{Stds\_AddSpriteSheetToGrid}}
+\index{Stds\_AddSpriteSheetToGrid@{Stds\_AddSpriteSheetToGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddSpriteSheetToGrid()}{Stds\_AddSpriteSheetToGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Add\+Sprite\+Sheet\+To\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const char $\ast$}]{file\+Path,  }\item[{const uint32\+\_\+t}]{cols,  }\item[{const uint32\+\_\+t}]{rows }\end{DoxyParamCaption})}
+
+Adds a sprite sheet to the grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em const} & char$\ast$ file\+Path file\+Path to texture \\
+\hline
+{\em uint32\+\_\+t} & number of cols the sprite sheet will have. \\
+\hline
+{\em uint32\+\_\+t} & number of rows the sprite sheet will have.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_aa761c9886b7d909d7827a9c032e24955}\label{grid_8c_aa761c9886b7d909d7827a9c032e24955}} 
+\index{grid.c@{grid.c}!Stds\_CreateGrid@{Stds\_CreateGrid}}
+\index{Stds\_CreateGrid@{Stds\_CreateGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_CreateGrid()}{Stds\_CreateGrid()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}$\ast$ Stds\+\_\+\+Create\+Grid (\begin{DoxyParamCaption}\item[{const float}]{x,  }\item[{const float}]{y,  }\item[{const int32\+\_\+t}]{square\+\_\+width,  }\item[{const int32\+\_\+t}]{square\+\_\+height,  }\item[{const uint32\+\_\+t}]{cols,  }\item[{const uint32\+\_\+t}]{rows,  }\item[{const S\+D\+L\+\_\+\+Color $\ast$}]{line\+\_\+color,  }\item[{const S\+D\+L\+\_\+\+Color $\ast$}]{fill\+\_\+color }\end{DoxyParamCaption})}
+
+Created grid with no texture, no collision, etc. This is useful for grids that have to change colors overtime, or just don\textquotesingle{}t have an accompanying texture, or other special feature.
+
+
+\begin{DoxyParams}{Parameters}
+{\em float} & x top-\/left x pos of button. \\
+\hline
+{\em float} & y top-\/left y pos of button. \\
+\hline
+{\em int32\+\_\+t} & square\+\_\+width width of each square. \\
+\hline
+{\em int32\+\_\+t} & square\+\_\+height height of each square. \\
+\hline
+{\em uint32\+\_\+t} & cols number of columns the grid will have. \\
+\hline
+{\em uint32\+\_\+t} & rows number of rows the grid will have. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & line\+\_\+color color of the lining of the grid. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & fill\+\_\+color color of the square\textquotesingle{}s in the grid.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} pointer. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_ae06a7b46c85aef9fae9c8668ebe09a3f}\label{grid_8c_ae06a7b46c85aef9fae9c8668ebe09a3f}} 
+\index{grid.c@{grid.c}!Stds\_DrawLineGrid@{Stds\_DrawLineGrid}}
+\index{Stds\_DrawLineGrid@{Stds\_DrawLineGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_DrawLineGrid()}{Stds\_DrawLineGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Draw\+Line\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid }\end{DoxyParamCaption})}
+
+Draws lines for where the box\textquotesingle{}s of the grid would be.
+
+@\+T\+O\+DO\+: apply grid offset pos with camera.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a49c39e9147fceccf49ce66644e485a0d}\label{grid_8c_a49c39e9147fceccf49ce66644e485a0d}} 
+\index{grid.c@{grid.c}!Stds\_DrawSelectedSpriteOnGrid@{Stds\_DrawSelectedSpriteOnGrid}}
+\index{Stds\_DrawSelectedSpriteOnGrid@{Stds\_DrawSelectedSpriteOnGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_DrawSelectedSpriteOnGrid()}{Stds\_DrawSelectedSpriteOnGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Draw\+Selected\+Sprite\+On\+Grid (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const uint32\+\_\+t}]{grid\+Col,  }\item[{const uint32\+\_\+t}]{grid\+Row,  }\item[{const S\+D\+L\+\_\+\+Renderer\+Flip}]{flip,  }\item[{const uint16\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+Will render the specified sprite selected from Stds\+\_\+\+Select\+Sprite\+For\+Grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em uint32\+\_\+t} & which column to render the specified sprite onto the grid. \\
+\hline
+{\em uint32\+\_\+t} & which row to render the specified sprite onto the grid. \\
+\hline
+{\em S\+D\+L\+\_\+\+Renderer\+Flip} & will flip texture. \\
+\hline
+{\em uint16\+\_\+t} & the angle of the image.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a412cbf47ce6e056e944db72cfddc077b}\label{grid_8c_a412cbf47ce6e056e944db72cfddc077b}} 
+\index{grid.c@{grid.c}!Stds\_FillWholeGrid@{Stds\_FillWholeGrid}}
+\index{Stds\_FillWholeGrid@{Stds\_FillWholeGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_FillWholeGrid()}{Stds\_FillWholeGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Fill\+Whole\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid }\end{DoxyParamCaption})}
+
+Fills the area of the grid with rectangles.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a89fc29c5063b47998f943c77f3931fa9}\label{grid_8c_a89fc29c5063b47998f943c77f3931fa9}} 
+\index{grid.c@{grid.c}!Stds\_FreeGrid@{Stds\_FreeGrid}}
+\index{Stds\_FreeGrid@{Stds\_FreeGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_FreeGrid()}{Stds\_FreeGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Free\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid }\end{DoxyParamCaption})}
+
+Cleans up the grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a92dff4ed603b80e9b11230d73f2f0762}\label{grid_8c_a92dff4ed603b80e9b11230d73f2f0762}} 
+\index{grid.c@{grid.c}!Stds\_InitializeGridTextures@{Stds\_InitializeGridTextures}}
+\index{Stds\_InitializeGridTextures@{Stds\_InitializeGridTextures}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_InitializeGridTextures()}{Stds\_InitializeGridTextures()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Initialize\+Grid\+Textures (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const int32\+\_\+t}]{texture\+\_\+buffer }\end{DoxyParamCaption})}
+
+Initializes enough space for the amount of textures wanted for the grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em int32\+\_\+t} & number of textures for the grid.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a9e6ff8c829588d0eee013d0a7d3d63c2}\label{grid_8c_a9e6ff8c829588d0eee013d0a7d3d63c2}} 
+\index{grid.c@{grid.c}!Stds\_OnGridClicked@{Stds\_OnGridClicked}}
+\index{Stds\_OnGridClicked@{Stds\_OnGridClicked}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_OnGridClicked()}{Stds\_OnGridClicked()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} Stds\+\_\+\+On\+Grid\+Clicked (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const int32\+\_\+t}]{mouse\+Code }\end{DoxyParamCaption})}
+
+Checks if the mouse clicked over any of the squares.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em int32\+\_\+t} & the code for which mous ebutton is clicked.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} struct that holds data for what square is being clicked. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a282183fdc26b5eee37d81804368e2e2a}\label{grid_8c_a282183fdc26b5eee37d81804368e2e2a}} 
+\index{grid.c@{grid.c}!Stds\_OnGridHover@{Stds\_OnGridHover}}
+\index{Stds\_OnGridHover@{Stds\_OnGridHover}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_OnGridHover()}{Stds\_OnGridHover()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} Stds\+\_\+\+On\+Grid\+Hover (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid }\end{DoxyParamCaption})}
+
+Checks if mouse is over any of the squares.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structgrid__pair__t}{grid\+\_\+pair\+\_\+t}} struct that holds data for what square is being hovered. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_af6f00897a64c65811c67a8fb9363db56}\label{grid_8c_af6f00897a64c65811c67a8fb9363db56}} 
+\index{grid.c@{grid.c}!Stds\_PutGridTexture@{Stds\_PutGridTexture}}
+\index{Stds\_PutGridTexture@{Stds\_PutGridTexture}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_PutGridTexture()}{Stds\_PutGridTexture()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Put\+Grid\+Texture (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const uint32\+\_\+t}]{col,  }\item[{const uint32\+\_\+t}]{row,  }\item[{const int32\+\_\+t}]{index,  }\item[{const S\+D\+L\+\_\+\+Renderer\+Flip}]{flip,  }\item[{const uint16\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+Renders the specified texture id onto the grid.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em uint32\+\_\+t} & which column texture will be put. \\
+\hline
+{\em uint32\+\_\+t} & which row texture will be put. \\
+\hline
+{\em int32\+\_\+t} & index in texture array. \\
+\hline
+{\em S\+D\+L\+\_\+\+Renderer\+Flip} & will flip texture. \\
+\hline
+{\em uint16\+\_\+t} & the angle of the image.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_ad9a42ba23a9dad90505c117fdfcedc14}\label{grid_8c_ad9a42ba23a9dad90505c117fdfcedc14}} 
+\index{grid.c@{grid.c}!Stds\_RenderAnimationToGrid@{Stds\_RenderAnimationToGrid}}
+\index{Stds\_RenderAnimationToGrid@{Stds\_RenderAnimationToGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_RenderAnimationToGrid()}{Stds\_RenderAnimationToGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Render\+Animation\+To\+Grid (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const uint32\+\_\+t}]{col,  }\item[{const uint32\+\_\+t}]{row,  }\item[{const int32\+\_\+t}]{index,  }\item[{const S\+D\+L\+\_\+\+Renderer\+Flip}]{flip,  }\item[{const uint16\+\_\+t}]{angle }\end{DoxyParamCaption})}
+
+Renders the animation according to the vectors index. 
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em uint32\+\_\+t} & what column to render the animation. \\
+\hline
+{\em uint32\+\_\+t} & what row to render the animation. \\
+\hline
+{\em int32\+\_\+t} & index of the vector storing the animations. \\
+\hline
+{\em S\+D\+L\+\_\+\+Renderer\+Flip} & will flip texture. \\
+\hline
+{\em uint16\+\_\+t} & the angle of the image.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a7ed8b0f083e2437b7cfe603277149209}\label{grid_8c_a7ed8b0f083e2437b7cfe603277149209}} 
+\index{grid.c@{grid.c}!Stds\_RenderPreMadeSpriteSheet@{Stds\_RenderPreMadeSpriteSheet}}
+\index{Stds\_RenderPreMadeSpriteSheet@{Stds\_RenderPreMadeSpriteSheet}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_RenderPreMadeSpriteSheet()}{Stds\_RenderPreMadeSpriteSheet()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Render\+Pre\+Made\+Sprite\+Sheet (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid }\end{DoxyParamCaption})}
+
+Renders the sprite\+Sheet from the grid. 
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{grid_8c_a36de30af08f5e7344e4ec6e481128fa1}\label{grid_8c_a36de30af08f5e7344e4ec6e481128fa1}} 
+\index{grid.c@{grid.c}!Stds\_SelectSpriteForGrid@{Stds\_SelectSpriteForGrid}}
+\index{Stds\_SelectSpriteForGrid@{Stds\_SelectSpriteForGrid}!grid.c@{grid.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_SelectSpriteForGrid()}{Stds\_SelectSpriteForGrid()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Select\+Sprite\+For\+Grid (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}} $\ast$}]{grid,  }\item[{const uint32\+\_\+t}]{sheet\+Col,  }\item[{const uint32\+\_\+t}]{sheet\+Row }\end{DoxyParamCaption})}
+
+Select which sprite you want to use.
+
+
+\begin{DoxyParams}{Parameters}
+{\em grid\+\_\+t$\ast$} & pointer to \mbox{\hyperlink{structgrid__t}{grid\+\_\+t}}. \\
+\hline
+{\em uint32\+\_\+t} & which column the sprite is to be used. \\
+\hline
+{\em uint32\+\_\+t} & which row the sprite is to be used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

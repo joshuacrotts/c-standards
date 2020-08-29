@@ -1,0 +1,43 @@
+\hypertarget{camera_8c}{}\doxysection{src/camera.c File Reference}
+\label{camera_8c}\index{src/camera.c@{src/camera.c}}
+{\ttfamily \#include \char`\"{}../include/camera.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{camera_8c_a8fbd2acf65f35296339c06d34ba32dfa}{Stds\+\_\+\+Camera\+Update}} (const struct \mbox{\hyperlink{structentity__t}{entity\+\_\+t}} $\ast$focus\+\_\+point)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Joshua Crotts 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 18 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines the function for updating a camera around a parent entity. Generally, this should be the player. All offsets are pre-\/applied to the draw functions. To keep something from being updated, just re-\/add the valuesx + g\+\_\+app.\+camera.\+x, y + g\+\_\+app.\+camera.\+y. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{camera_8c_a8fbd2acf65f35296339c06d34ba32dfa}\label{camera_8c_a8fbd2acf65f35296339c06d34ba32dfa}} 
+\index{camera.c@{camera.c}!Stds\_CameraUpdate@{Stds\_CameraUpdate}}
+\index{Stds\_CameraUpdate@{Stds\_CameraUpdate}!camera.c@{camera.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_CameraUpdate()}{Stds\_CameraUpdate()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Camera\+Update (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structentity__t}{entity\+\_\+t}} $\ast$}]{focus\+\_\+point }\end{DoxyParamCaption})}
+
+Applies an offset from the supplied entity, and stores the coordinates in the App struct. Typically, in an overhead style game, this supplied entity will be a reference to the player. If you want to remove the offset from an entity, just add the coordinates of the camera to your entity x + g\+\_\+app.\+camera.\+x and y + g\+\_\+app.\+camera.\+y. Note that if you have the option to modify the placement via a method in \mbox{\hyperlink{draw_8c}{draw.\+c}}, do it there instead.
+
+The camera offset means, if false, the thing in question will stay in the viewport of the camera. If true, the thing scrolls in relation to the camera, meaning it can go off screen. In essence, if you want something to stay on the screen such as a H\+UD element, make this variable true, and false otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+\_\+t$\ast$} & pointer to parent entity.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

@@ -1,0 +1,91 @@
+\hypertarget{init_8c}{}\doxysection{src/init.c File Reference}
+\label{init_8c}\index{src/init.c@{src/init.c}}
+{\ttfamily \#include \char`\"{}../include/init.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{init_8c_a69a48a8662e8b0007893d52b0fb554b6}{Stds\+\_\+\+Init\+Game}} (const char $\ast$window\+\_\+name, const uint32\+\_\+t window\+\_\+width, const uint32\+\_\+t window\+\_\+height, const uint32\+\_\+t level\+\_\+width, const uint32\+\_\+t level\+\_\+height)
+\item 
+void \mbox{\hyperlink{init_8c_a88a5ac4f5e5012bfa531ce28536961ab}{Stds\+\_\+\+Toggle\+Debug\+Mode}} (bool db)
+\item 
+void \mbox{\hyperlink{init_8c_a31686469d11e555f20e0c247c2ecb13f}{Stds\+\_\+\+Quit}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{init_8c_ab69aa62a72d5e9cbd30bceea17d622f3}\label{init_8c_ab69aa62a72d5e9cbd30bceea17d622f3}} 
+struct \mbox{\hyperlink{structapp__t}{app\+\_\+t}} {\bfseries g\+\_\+app}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Joshua Crotts 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 17 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines the procedures and functions for instantiating the S\+DL context. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{init_8c_a69a48a8662e8b0007893d52b0fb554b6}\label{init_8c_a69a48a8662e8b0007893d52b0fb554b6}} 
+\index{init.c@{init.c}!Stds\_InitGame@{Stds\_InitGame}}
+\index{Stds\_InitGame@{Stds\_InitGame}!init.c@{init.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_InitGame()}{Stds\_InitGame()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Init\+Game (\begin{DoxyParamCaption}\item[{const char $\ast$}]{window\+\_\+name,  }\item[{const uint32\+\_\+t}]{window\+\_\+width,  }\item[{const uint32\+\_\+t}]{window\+\_\+height,  }\item[{const uint32\+\_\+t}]{level\+\_\+width,  }\item[{const uint32\+\_\+t}]{level\+\_\+height }\end{DoxyParamCaption})}
+
+Calls the remainder of the initialization functions, and sets up the game loop structure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char $\ast$window title. \\
+\hline
+{\em uint32\+\_\+t} & window width. \\
+\hline
+{\em uint32\+\_\+t} & window height. \\
+\hline
+{\em uint32\+\_\+t} & level or width that the camera cannot exceed. \\
+\hline
+{\em uint32\+\_\+t} & level or height that the camera cannot exceed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{init_8c_a31686469d11e555f20e0c247c2ecb13f}\label{init_8c_a31686469d11e555f20e0c247c2ecb13f}} 
+\index{init.c@{init.c}!Stds\_Quit@{Stds\_Quit}}
+\index{Stds\_Quit@{Stds\_Quit}!init.c@{init.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_Quit()}{Stds\_Quit()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Quit (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Closes the S\+DL mixer/audio and subsystem components. This function should not be called by the user; rather it is called by the \mbox{\hyperlink{input_8c}{input.\+c}} file when a close event is encountered.
+
+
+\begin{DoxyParams}{Parameters}
+{\em void.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{init_8c_a88a5ac4f5e5012bfa531ce28536961ab}\label{init_8c_a88a5ac4f5e5012bfa531ce28536961ab}} 
+\index{init.c@{init.c}!Stds\_ToggleDebugMode@{Stds\_ToggleDebugMode}}
+\index{Stds\_ToggleDebugMode@{Stds\_ToggleDebugMode}!init.c@{init.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_ToggleDebugMode()}{Stds\_ToggleDebugMode()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Toggle\+Debug\+Mode (\begin{DoxyParamCaption}\item[{bool}]{db }\end{DoxyParamCaption})}
+
+Toggles debug mode either on or off. When on, debug messages are printfed to the console.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bool} & true for debug mode on, false otherwise.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

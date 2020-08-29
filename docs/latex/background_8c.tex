@@ -1,0 +1,154 @@
+\hypertarget{background_8c}{}\doxysection{src/background.c File Reference}
+\label{background_8c}\index{src/background.c@{src/background.c}}
+{\ttfamily \#include \char`\"{}../include/background.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{background_8c_aa2fab3b709cd5896c7dc73a5f7d4b2b8}{Stds\+\_\+\+Add\+Parallax\+Background}} (const char $\ast$directory, const size\+\_\+t count, const float normal\+\_\+scroll\+\_\+speed, const float scroll\+\_\+speeds\mbox{[}$\,$\mbox{]}, const bool infinite\+\_\+scroll)
+\item 
+void \mbox{\hyperlink{background_8c_aa43746dd2d52bdbbe406bace4e211ae7}{Stds\+\_\+\+Parallax\+Background\+Update}} (struct \mbox{\hyperlink{structparallax__background__t}{parallax\+\_\+background\+\_\+t}} $\ast$p)
+\item 
+void \mbox{\hyperlink{background_8c_a9cc841c0d3f62435c20527b13372c4bd}{Stds\+\_\+\+Parallax\+Background\+Draw}} (const struct \mbox{\hyperlink{structparallax__background__t}{parallax\+\_\+background\+\_\+t}} $\ast$p)
+\item 
+struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$ \mbox{\hyperlink{background_8c_ad3ec7931bcf2559eaa0d65145dd58a5e}{Stds\+\_\+\+Add\+Background}} (const char $\ast$file)
+\item 
+void \mbox{\hyperlink{background_8c_a8baa5730bdac38bba8f0bd0c3a2c864d}{Stds\+\_\+\+Background\+Update}} (struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$background)
+\item 
+void \mbox{\hyperlink{background_8c_a4d7b9659424d3f9072a40b4d67a45ff8}{Stds\+\_\+\+Background\+Draw}} (const struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$background)
+\item 
+void \mbox{\hyperlink{background_8c_abf41ccaaf6441a0ff9df050c0d60eb71}{Stds\+\_\+\+Background\+Die}} (struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$background)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Joshua Crotts 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 18 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines the background functionality, both regular and parallax. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{background_8c_ad3ec7931bcf2559eaa0d65145dd58a5e}\label{background_8c_ad3ec7931bcf2559eaa0d65145dd58a5e}} 
+\index{background.c@{background.c}!Stds\_AddBackground@{Stds\_AddBackground}}
+\index{Stds\_AddBackground@{Stds\_AddBackground}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddBackground()}{Stds\_AddBackground()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}}$\ast$ Stds\+\_\+\+Add\+Background (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file }\end{DoxyParamCaption})}
+
+Initializes the background image specified by char$\ast$. It is drawn at (0, 0), or the top-\/left of the window.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char $\ast$file location of background image.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{background_8c_aa2fab3b709cd5896c7dc73a5f7d4b2b8}\label{background_8c_aa2fab3b709cd5896c7dc73a5f7d4b2b8}} 
+\index{background.c@{background.c}!Stds\_AddParallaxBackground@{Stds\_AddParallaxBackground}}
+\index{Stds\_AddParallaxBackground@{Stds\_AddParallaxBackground}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddParallaxBackground()}{Stds\_AddParallaxBackground()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Add\+Parallax\+Background (\begin{DoxyParamCaption}\item[{const char $\ast$}]{directory,  }\item[{const size\+\_\+t}]{count,  }\item[{const float}]{normal\+\_\+scroll\+\_\+speed,  }\item[{const float}]{scroll\+\_\+speeds\mbox{[}$\,$\mbox{]},  }\item[{const bool}]{infinite\+\_\+scroll }\end{DoxyParamCaption})}
+
+Loads in the parallax images specified by the directory. These images should be labeled in back-\/to-\/front order. For instance, if we have three layers L0, L1, and L2, L0 should be the layer drawn farthest from the viewport, whereas L2 should be the closest. Make sure that your images all have a common suffix numbering scheme as well, starting at 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char$\ast$ string to directory of parallax background images. \\
+\hline
+{\em size\+\_\+t} & number of parallax frames. \\
+\hline
+{\em float} & default scroll speed shared across all frames. \\
+\hline
+{\em float\mbox{[}$\,$\mbox{]}} & array of modified scroll speeds. These values alter the default scroll speed of each frame. These values f1 $<$= f2 $<$= ... $<$ fn, as implied, should be listed in back-\/to-\/front speed. \\
+\hline
+{\em bool} & infinite\+\_\+scroll, determining whether two copies of the image are rendered side-\/by-\/side to provide the illusion of an infinite background. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{background_8c_abf41ccaaf6441a0ff9df050c0d60eb71}\label{background_8c_abf41ccaaf6441a0ff9df050c0d60eb71}} 
+\index{background.c@{background.c}!Stds\_BackgroundDie@{Stds\_BackgroundDie}}
+\index{Stds\_BackgroundDie@{Stds\_BackgroundDie}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_BackgroundDie()}{Stds\_BackgroundDie()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Background\+Die (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$}]{background }\end{DoxyParamCaption})}
+
+Frees the context of the background struct and image.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structbackground__t}{background\+\_\+t}}} & pointer to free.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{background_8c_a4d7b9659424d3f9072a40b4d67a45ff8}\label{background_8c_a4d7b9659424d3f9072a40b4d67a45ff8}} 
+\index{background.c@{background.c}!Stds\_BackgroundDraw@{Stds\_BackgroundDraw}}
+\index{Stds\_BackgroundDraw@{Stds\_BackgroundDraw}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_BackgroundDraw()}{Stds\_BackgroundDraw()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Background\+Draw (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$}]{background }\end{DoxyParamCaption})}
+
+Draws the background at its appropriate location specified by the update function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structbackground__t}{background\+\_\+t}}} & pointer to draw.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{background_8c_a8baa5730bdac38bba8f0bd0c3a2c864d}\label{background_8c_a8baa5730bdac38bba8f0bd0c3a2c864d}} 
+\index{background.c@{background.c}!Stds\_BackgroundUpdate@{Stds\_BackgroundUpdate}}
+\index{Stds\_BackgroundUpdate@{Stds\_BackgroundUpdate}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_BackgroundUpdate()}{Stds\_BackgroundUpdate()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Background\+Update (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structbackground__t}{background\+\_\+t}} $\ast$}]{background }\end{DoxyParamCaption})}
+
+Continuously updates the position of the background depending on the camera\textquotesingle{}s location. If no camera is used, its offset is 0, thus not moving the background.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structbackground__t}{background\+\_\+t}}} & pointer to update.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{background_8c_a9cc841c0d3f62435c20527b13372c4bd}\label{background_8c_a9cc841c0d3f62435c20527b13372c4bd}} 
+\index{background.c@{background.c}!Stds\_ParallaxBackgroundDraw@{Stds\_ParallaxBackgroundDraw}}
+\index{Stds\_ParallaxBackgroundDraw@{Stds\_ParallaxBackgroundDraw}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_ParallaxBackgroundDraw()}{Stds\_ParallaxBackgroundDraw()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Parallax\+Background\+Draw (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structparallax__background__t}{parallax\+\_\+background\+\_\+t}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+Draws the parallax background frame. Two copies of the image are drawn to provide the illusion of infinite scrolling if specified by the boolean in the struct.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{structparallax__background__t}{parallax\+\_\+background\+\_\+t}}} & pointer to struct.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{background_8c_aa43746dd2d52bdbbe406bace4e211ae7}\label{background_8c_aa43746dd2d52bdbbe406bace4e211ae7}} 
+\index{background.c@{background.c}!Stds\_ParallaxBackgroundUpdate@{Stds\_ParallaxBackgroundUpdate}}
+\index{Stds\_ParallaxBackgroundUpdate@{Stds\_ParallaxBackgroundUpdate}!background.c@{background.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_ParallaxBackgroundUpdate()}{Stds\_ParallaxBackgroundUpdate()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Parallax\+Background\+Update (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structparallax__background__t}{parallax\+\_\+background\+\_\+t}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+Updates the position of the parallax background element. The offset is applied by multiplying the default scroll speed multiplied by the scroll offset to give the illusion of different scroll rates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parallax\+\_\+backgorund\+\_\+t} & pointer to struct.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

@@ -1,0 +1,133 @@
+\hypertarget{animation_8c}{}\doxysection{src/animation.c File Reference}
+\label{animation_8c}\index{src/animation.c@{src/animation.c}}
+{\ttfamily \#include \char`\"{}../include/animation.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$ \mbox{\hyperlink{animation_8c_a192d04fd81c94607f38e51308d6a9822}{Stds\+\_\+\+Add\+Spritesheet}} (const char $\ast$directory, const uint8\+\_\+t no\+\_\+of\+\_\+frames, const float frame\+\_\+delay, const uint16\+\_\+t x, const uint16\+\_\+t y, const size\+\_\+t no\+\_\+rows, const size\+\_\+t no\+\_\+cols)
+\item 
+struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$ \mbox{\hyperlink{animation_8c_a766622eaf0bd2e50a8300c95504dbef8}{Stds\+\_\+\+Add\+Animation}} (const char $\ast$directory, const uint8\+\_\+t no\+\_\+of\+\_\+frames, const float frame\+\_\+delay)
+\item 
+void \mbox{\hyperlink{animation_8c_a079fce3f184df01cef4d21728029eb75}{Stds\+\_\+\+Animation\+Update}} (struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$a)
+\item 
+void \mbox{\hyperlink{animation_8c_a54a32d81623f875b5be9cbd93f5bfeff}{Stds\+\_\+\+Animation\+Draw}} (const struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$a)
+\item 
+void \mbox{\hyperlink{animation_8c_a176ab06626f5a4a1b42c2b4c88495f2a}{Stds\+\_\+\+Animation\+Die}} (struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$a)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Joshua Crotts 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 22 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines the animation functions associated with the \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} struct. A note about this is to make sure to define the position, angle, and flip variables accordingly per the entity using the animation. If not, the animation will not move, rotate, etc. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{animation_8c_a766622eaf0bd2e50a8300c95504dbef8}\label{animation_8c_a766622eaf0bd2e50a8300c95504dbef8}} 
+\index{animation.c@{animation.c}!Stds\_AddAnimation@{Stds\_AddAnimation}}
+\index{Stds\_AddAnimation@{Stds\_AddAnimation}!animation.c@{animation.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddAnimation()}{Stds\_AddAnimation()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}}$\ast$ Stds\+\_\+\+Add\+Animation (\begin{DoxyParamCaption}\item[{const char $\ast$}]{directory,  }\item[{const uint8\+\_\+t}]{no\+\_\+of\+\_\+frames,  }\item[{const float}]{frame\+\_\+delay }\end{DoxyParamCaption})}
+
+The other way to use animations is to specify the directory of the animation files and the program will load them in. All sprites must have the same leading prefix, with a number at the end indicating their index in the sequence (ex. spr\+\_\+0, spr\+\_\+1, spr\+\_\+2, , etc.). Note that a-\/$>$current\+\_\+texture is only applicable with sprite sheets, so do not use it! To refer to the current frame,
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char$\ast$ directory to files with file prefix. \\
+\hline
+{\em uint8\+\_\+t} & number of frames. \\
+\hline
+{\em float} & time to spend on a individual frame per second. \\
+\hline
+{\em bool} & true if we offset the sprite based on camera, false otherwise.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+animation\+\_\+t$\ast$ struct. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{animation_8c_a192d04fd81c94607f38e51308d6a9822}\label{animation_8c_a192d04fd81c94607f38e51308d6a9822}} 
+\index{animation.c@{animation.c}!Stds\_AddSpritesheet@{Stds\_AddSpritesheet}}
+\index{Stds\_AddSpritesheet@{Stds\_AddSpritesheet}!animation.c@{animation.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddSpritesheet()}{Stds\_AddSpritesheet()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}}$\ast$ Stds\+\_\+\+Add\+Spritesheet (\begin{DoxyParamCaption}\item[{const char $\ast$}]{directory,  }\item[{const uint8\+\_\+t}]{no\+\_\+of\+\_\+frames,  }\item[{const float}]{frame\+\_\+delay,  }\item[{const uint16\+\_\+t}]{x,  }\item[{const uint16\+\_\+t}]{y,  }\item[{const size\+\_\+t}]{no\+\_\+rows,  }\item[{const size\+\_\+t}]{no\+\_\+cols }\end{DoxyParamCaption})}
+
+Defines a sprite sheet object. Note that a-\/$>$current\+\_\+texture is only applicable with sprite sheets! Do note that dest\+\_\+width and dest\+\_\+height are used for scaling purposes. Do N\+OT modify sprite\+\_\+width and sprite\+\_\+height as these are the variables used for splicing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char$\ast$ file directory of sprite sheet. \\
+\hline
+{\em uint8\+\_\+t} & number of frames. \\
+\hline
+{\em float} & time spent on an individual frame per second. \\
+\hline
+{\em uint16\+\_\+t} & starting top-\/left x pos of the sprite sheet. \\
+\hline
+{\em uint16\+\_\+t} & starting top-\/left y pos of the sprite sheet. \\
+\hline
+{\em size\+\_\+t} & number of rows. \\
+\hline
+{\em size\+\_\+t} & number of columns. \\
+\hline
+{\em bool} & true if we offset the sprite based on camera, false otherwise.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+animation\+\_\+t$\ast$ struct. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{animation_8c_a176ab06626f5a4a1b42c2b4c88495f2a}\label{animation_8c_a176ab06626f5a4a1b42c2b4c88495f2a}} 
+\index{animation.c@{animation.c}!Stds\_AnimationDie@{Stds\_AnimationDie}}
+\index{Stds\_AnimationDie@{Stds\_AnimationDie}!animation.c@{animation.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AnimationDie()}{Stds\_AnimationDie()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Animation\+Die (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$}]{a }\end{DoxyParamCaption})}
+
+Destroys and frees the animation passed by the entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em animation\+\_\+t$\ast$} & animation to free from memory.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{animation_8c_a54a32d81623f875b5be9cbd93f5bfeff}\label{animation_8c_a54a32d81623f875b5be9cbd93f5bfeff}} 
+\index{animation.c@{animation.c}!Stds\_AnimationDraw@{Stds\_AnimationDraw}}
+\index{Stds\_AnimationDraw@{Stds\_AnimationDraw}!animation.c@{animation.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AnimationDraw()}{Stds\_AnimationDraw()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Animation\+Draw (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$}]{a }\end{DoxyParamCaption})}
+
+Draws the animation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em animation\+\_\+t$\ast$} & animation to draw.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{animation_8c_a079fce3f184df01cef4d21728029eb75}\label{animation_8c_a079fce3f184df01cef4d21728029eb75}} 
+\index{animation.c@{animation.c}!Stds\_AnimationUpdate@{Stds\_AnimationUpdate}}
+\index{Stds\_AnimationUpdate@{Stds\_AnimationUpdate}!animation.c@{animation.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AnimationUpdate()}{Stds\_AnimationUpdate()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Animation\+Update (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structanimation__t}{animation\+\_\+t}} $\ast$}]{a }\end{DoxyParamCaption})}
+
+Updates the animation type. If it is a sprite sheet, it advances the coordinates used to keep track of the current sprite in the sheet. Oppositely, if it is a series of images, we just advance the pointer keeping track of each image. Once the cycle ends, the pointer or coordinate is reset back to 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em animation\+\_\+t$\ast$} & animation to update.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}

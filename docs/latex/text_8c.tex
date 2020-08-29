@@ -1,0 +1,137 @@
+\hypertarget{text_8c}{}\doxysection{src/text.c File Reference}
+\label{text_8c}\index{src/text.c@{src/text.c}}
+{\ttfamily \#include \char`\"{}../include/draw.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{text_8c_a8df557bd986efe9a2b114539eafbe9a2}{Stds\+\_\+\+Init\+Fonts}} (void)
+\item 
+void \mbox{\hyperlink{text_8c_a88c6303ead0b466634365518701fec84}{Stds\+\_\+\+Draw\+Text}} (const float x, float y, const char $\ast$font\+\_\+string, const uint16\+\_\+t font\+\_\+size, const S\+D\+L\+\_\+\+Color $\ast$c, const char $\ast$text,...)
+\item 
+void \mbox{\hyperlink{text_8c_aadc70873ced1cc5188d2e730d53f0d9c}{Stds\+\_\+\+Free\+Fonts}} (void)
+\item 
+void \mbox{\hyperlink{text_8c_a2ed535038af0b4c97b8a11cc54e51a85}{Stds\+\_\+\+Get\+String\+Size}} (const char $\ast$s, const char $\ast$font, const uint16\+\_\+t size, int32\+\_\+t $\ast$w, int32\+\_\+t $\ast$h)
+\item 
+void \mbox{\hyperlink{text_8c_aeb2783848a95d212d6407171a76fe210}{Stds\+\_\+\+Add\+Font}} (const char $\ast$font\+\_\+file, const uint16\+\_\+t size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Joshua Crotts 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 18 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+\hypertarget{vec2_8c_LICENSE}{}\doxysubsection{L\+I\+C\+E\+N\+SE}\label{vec2_8c_LICENSE}
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\hypertarget{vec2_8c_DESCRIPTION}{}\doxysubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{vec2_8c_DESCRIPTION}
+This file defines fonts and text-\/drawing functions and features. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{text_8c_aeb2783848a95d212d6407171a76fe210}\label{text_8c_aeb2783848a95d212d6407171a76fe210}} 
+\index{text.c@{text.c}!Stds\_AddFont@{Stds\_AddFont}}
+\index{Stds\_AddFont@{Stds\_AddFont}!text.c@{text.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_AddFont()}{Stds\_AddFont()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Add\+Font (\begin{DoxyParamCaption}\item[{const char $\ast$}]{font\+\_\+file,  }\item[{const uint16\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+Adds a font to the font linked list in the app struct. A font can be loaded in multiple times, each with different sizes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char $\ast$ font name. \\
+\hline
+{\em const} & uint16\+\_\+t size of font.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{text_8c_a88c6303ead0b466634365518701fec84}\label{text_8c_a88c6303ead0b466634365518701fec84}} 
+\index{text.c@{text.c}!Stds\_DrawText@{Stds\_DrawText}}
+\index{Stds\_DrawText@{Stds\_DrawText}!text.c@{text.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_DrawText()}{Stds\_DrawText()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Draw\+Text (\begin{DoxyParamCaption}\item[{const float}]{x,  }\item[{float}]{y,  }\item[{const char $\ast$}]{font\+\_\+string,  }\item[{const uint16\+\_\+t}]{font\+\_\+size,  }\item[{const S\+D\+L\+\_\+\+Color $\ast$}]{c,  }\item[{const char $\ast$}]{text,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Draws a string of text specified by the const char $\ast$parameter, supplemented by whatever formatting arguments are necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em float} & x coordinate (top-\/left) of string. \\
+\hline
+{\em float} & y coordinate (top-\/left) of string. \\
+\hline
+{\em const} & char $\ast$font name (use the file name itself with the extension). \\
+\hline
+{\em uint16\+\_\+t} & font size. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & $\ast$ pointer to color of text. \\
+\hline
+{\em const} & char $\ast$string to draw. \\
+\hline
+{\em ...} & formatting args.\\
+\hline
+\end{DoxyParams}
+To center a string, call \mbox{\hyperlink{text_8c_a2ed535038af0b4c97b8a11cc54e51a85}{Stds\+\_\+\+Get\+String\+Size()}} or Stds\+\_\+\+Get\+String\+Size\+Font (if using a non standard font), and draw the string at S\+C\+R\+E\+E\+N\+\_\+\+W\+I\+D\+TH / 2 -\/ font\+Width / 2.
+
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{text_8c_aadc70873ced1cc5188d2e730d53f0d9c}\label{text_8c_aadc70873ced1cc5188d2e730d53f0d9c}} 
+\index{text.c@{text.c}!Stds\_FreeFonts@{Stds\_FreeFonts}}
+\index{Stds\_FreeFonts@{Stds\_FreeFonts}!text.c@{text.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_FreeFonts()}{Stds\_FreeFonts()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Free\+Fonts (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Frees the fonts that are in use by the standards library.
+
+
+\begin{DoxyParams}{Parameters}
+{\em void.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{text_8c_a2ed535038af0b4c97b8a11cc54e51a85}\label{text_8c_a2ed535038af0b4c97b8a11cc54e51a85}} 
+\index{text.c@{text.c}!Stds\_GetStringSize@{Stds\_GetStringSize}}
+\index{Stds\_GetStringSize@{Stds\_GetStringSize}!text.c@{text.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_GetStringSize()}{Stds\_GetStringSize()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Get\+String\+Size (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{const char $\ast$}]{font,  }\item[{const uint16\+\_\+t}]{size,  }\item[{int32\+\_\+t $\ast$}]{w,  }\item[{int32\+\_\+t $\ast$}]{h }\end{DoxyParamCaption})}
+
+Computes the size of the string with the default font were it to be drawn to the screen in pixels. This is useful for positioning the string in the middle of the screen if need-\/be.
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char $\ast$string. \\
+\hline
+{\em const} & char $\ast$font name. \\
+\hline
+{\em uint16\+\_\+t} & font size. \\
+\hline
+{\em pointer} & to integer (int32\+\_\+t) where the width of the string is stored. \\
+\hline
+{\em pointer} & to integer (int32\+\_\+t) where the height of the string is stored.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{text_8c_a8df557bd986efe9a2b114539eafbe9a2}\label{text_8c_a8df557bd986efe9a2b114539eafbe9a2}} 
+\index{text.c@{text.c}!Stds\_InitFonts@{Stds\_InitFonts}}
+\index{Stds\_InitFonts@{Stds\_InitFonts}!text.c@{text.c}}
+\doxysubsubsection{\texorpdfstring{Stds\_InitFonts()}{Stds\_InitFonts()}}
+{\footnotesize\ttfamily void Stds\+\_\+\+Init\+Fonts (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Initializes the T\+TF font library for use.
+
+
+\begin{DoxyParams}{Parameters}
+{\em void.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
