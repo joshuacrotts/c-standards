@@ -1,3 +1,20 @@
+/**
+ * @file stds_stack.c
+ * @author Joshua Crotts
+ * @date July 31 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the functions and struct for a stack data structure.
+ */
 #include "../include/stds_stack.h"
 
 static void Stds_StackCheckResize( stds_stack_t *, enum SHIFT_DIRECTION );

@@ -347,111 +347,108 @@ $(function() {
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  <span class="keywordtype">bool</span>    is_moving;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;};</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno"><a class="line" href="structapp__t.html">  288</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structapp__t.html">app_t</a> {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  uint16_t keyboard[MAX_KEYBOARD_KEYS];</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  uint32_t SCREEN_WIDTH;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  uint32_t SCREEN_HEIGHT;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  uint32_t LEVEL_WIDTH;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  uint32_t LEVEL_HEIGHT;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="keywordtype">bool</span>        is_debug_mode;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keywordtype">bool</span>        is_running;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *original_title;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  SDL_Renderer *renderer;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  SDL_Window *  window;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  SDL_FRect     screen_bounds;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  SDL_FRect     camera;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160; </div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  <span class="keyword">struct </span><a class="code" href="structmouse__t.html">mouse_t</a>               mouse;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">struct </span><a class="code" href="structdelegate__t.html">delegate_t</a>            delegate;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtrail__t.html">trail_t</a>               trail_head, *trail_tail;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtexture__t.html">texture_t</a>             texture_head, *texture_tail;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">struct </span><a class="code" href="structfont__t.html">font_t</a>                font_head, *font_tail;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">struct </span><a class="code" href="structparallax__background__t.html">parallax_background_t</a> parallax_head, *parallax_tail;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <span class="keyword">struct </span><a class="code" href="structbutton__t.html">button_t</a>              button_head, *button_tail;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtext__field__t.html">text_field_t</a>          text_field_head, *text_field_tail;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <span class="keyword">enum</span> GameState game_state;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  Mix_Chunk **sounds;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  Mix_Music * music;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;};</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="structfade__color__t.html">  323</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structfade__color__t.html">fade_color_t</a> {</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <span class="keywordtype">bool</span>  is_first_color;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  <span class="keywordtype">float</span> alpha;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  <span class="keywordtype">float</span> time;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  SDL_Color c1;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  SDL_Color c2;</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;};</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="structentity__t.html">  335</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> {</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> pos;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  <span class="comment">/* Scales the entity in either the x or y</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">     direction. This should default to 1. */</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> scale;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;  <span class="comment">/* Directional velocity (yes, I know it&#39;s redundant). */</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> velocity;</div>
+<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="structapp__t.html">  291</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structapp__t.html">app_t</a> {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  uint16_t keyboard[MAX_KEYBOARD_KEYS];</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  uint32_t SCREEN_WIDTH;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  uint32_t SCREEN_HEIGHT;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  uint32_t LEVEL_WIDTH;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  uint32_t LEVEL_HEIGHT;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  <span class="keywordtype">bool</span>        is_debug_mode;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keywordtype">bool</span>        is_running;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">char</span> *original_title;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  SDL_Renderer *renderer;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  SDL_Window *  window;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  SDL_FRect     screen_bounds;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  SDL_FRect     camera;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="keyword">struct </span><a class="code" href="structmouse__t.html">mouse_t</a>               mouse;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">struct </span><a class="code" href="structdelegate__t.html">delegate_t</a>            delegate;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtrail__t.html">trail_t</a>               trail_head, *trail_tail;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtexture__t.html">texture_t</a>             texture_head, *texture_tail;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="keyword">struct </span><a class="code" href="structfont__t.html">font_t</a>                font_head, *font_tail;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keyword">struct </span><a class="code" href="structparallax__background__t.html">parallax_background_t</a> parallax_head, *parallax_tail;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <span class="keyword">struct </span><a class="code" href="structbutton__t.html">button_t</a>              button_head, *button_tail;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keyword">struct </span><a class="code" href="structtext__field__t.html">text_field_t</a>          text_field_head, *text_field_tail;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keyword">enum</span> GameState game_state;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  Mix_Chunk **sounds;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  Mix_Music * music;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;};</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="structfade__color__t.html">  326</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structfade__color__t.html">fade_color_t</a> {</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keywordtype">bool</span>  is_first_color;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  <span class="keywordtype">float</span> alpha;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  <span class="keywordtype">float</span> time;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  SDL_Color c1;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  SDL_Color c2;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;};</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="structentity__t.html">  338</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> {</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> pos;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  <span class="comment">/* Scales the entity in either the x or y</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">     direction. This should default to 1. */</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> scale;</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="comment">/* Acceleration or deceleration factors. */</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> delta_accel;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="comment">/* Directional velocity (yes, I know it&#39;s redundant). */</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> velocity;</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  <span class="comment">/* Miscellaneous positioning variable. */</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  <span class="keywordtype">float</span> variability;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  <span class="comment">/* Acceleration or deceleration factors. */</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  <span class="keyword">struct </span><a class="code" href="structvec2__t.html">vec2_t</a> delta_accel;</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="comment">/* Change rate of alpha value. */</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  <span class="keywordtype">float</span> delta_alpha;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="comment">/* Miscellaneous positioning variable. */</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  <span class="keywordtype">float</span> variability;</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  <span class="comment">/* Size of entity if not defined by a rectangle. These</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">     should either be set manually, or defined by a call</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">     to SDL_QueryTexture(...), where you pass the addresses</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">     of these variables. */</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  int32_t  w;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  int32_t  h;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  uint32_t flags;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  uint32_t id_flags;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  int32_t  reload;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  uint32_t identifier;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  uint16_t angle;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  uint16_t radius;</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  <span class="comment">/* Change rate of alpha value. */</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  <span class="keywordtype">float</span> delta_alpha;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  <span class="comment">/* Size of entity if not defined by a rectangle. These</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">     should either be set manually, or defined by a call</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">     to SDL_QueryTexture(...), where you pass the addresses</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">     of these variables. */</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  int32_t  w;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  int32_t  h;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  uint32_t flags;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  uint32_t id_flags;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  int32_t  reload;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  uint32_t identifier;</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  <span class="comment">/* Can be used interchangably for different purposes. */</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  int32_t health;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  int32_t life;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  SDL_FPoint   rotate_point;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  SDL_Color    color;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  SDL_Texture *texture[TEXTURE_BUFFER_SIZE];</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  <span class="keyword">struct </span><a class="code" href="structpolygon__t.html">polygon_t</a> *  bounding_box;</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  <span class="keyword">struct </span><a class="code" href="structanimation__t.html">animation_t</a> *animation;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> *   next;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  void ( *update )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  void ( *draw )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  void ( *touch )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  void ( *die )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;};</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="preprocessor">#endif // STRUCTS_H</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  uint16_t angle;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  uint16_t radius;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <span class="comment">/* Can be used interchangably for different purposes. */</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  int32_t health;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  int32_t life;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  SDL_FPoint   rotate_point;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  SDL_Color    color;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  SDL_Texture *texture[TEXTURE_BUFFER_SIZE];</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  <span class="keyword">struct </span><a class="code" href="structpolygon__t.html">polygon_t</a> *  bounding_box;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  <span class="keyword">struct </span><a class="code" href="structanimation__t.html">animation_t</a> *animation;</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> *   next;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160; </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  void ( *update )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  void ( *draw )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;  void ( *touch )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  void ( *die )( <span class="keyword">struct </span><a class="code" href="structentity__t.html">entity_t</a> * );</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;};</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="preprocessor">#endif // STRUCTS_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructparallax__background__t_html"><div class="ttname"><a href="structparallax__background__t.html">parallax_background_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:153</div></div>
-<div class="ttc" id="astructapp__t_html"><div class="ttname"><a href="structapp__t.html">app_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:288</div></div>
+<div class="ttc" id="astructapp__t_html"><div class="ttname"><a href="structapp__t.html">app_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:291</div></div>
 <div class="ttc" id="astructbutton__t_html"><div class="ttname"><a href="structbutton__t.html">button_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:49</div></div>
 <div class="ttc" id="astructtext__field__t_html"><div class="ttname"><a href="structtext__field__t.html">text_field_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:24</div></div>
 <div class="ttc" id="astructmouse__t_html"><div class="ttname"><a href="structmouse__t.html">mouse_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:277</div></div>
@@ -459,16 +456,16 @@ $(function() {
 <div class="ttc" id="astructvec2__t_html"><div class="ttname"><a href="structvec2__t.html">vec2_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:6</div></div>
 <div class="ttc" id="astructtexture__t_html"><div class="ttname"><a href="structtexture__t.html">texture_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:246</div></div>
 <div class="ttc" id="astructgrid__t_html"><div class="ttname"><a href="structgrid__t.html">grid_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:102</div></div>
-<div class="ttc" id="astructentity__t_html"><div class="ttname"><a href="structentity__t.html">entity_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:335</div></div>
+<div class="ttc" id="astructentity__t_html"><div class="ttname"><a href="structentity__t.html">entity_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:338</div></div>
 <div class="ttc" id="astructanimation__t_html"><div class="ttname"><a href="structanimation__t.html">animation_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:190</div></div>
 <div class="ttc" id="astructparticle__t_html"><div class="ttname"><a href="structparticle__t.html">particle_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:72</div></div>
 <div class="ttc" id="astructbackground__t_html"><div class="ttname"><a href="structbackground__t.html">background_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:233</div></div>
 <div class="ttc" id="astructtrail__t_html"><div class="ttname"><a href="structtrail__t.html">trail_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:165</div></div>
 <div class="ttc" id="astructdelegate__t_html"><div class="ttname"><a href="structdelegate__t.html">delegate_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:269</div></div>
 <div class="ttc" id="astructpolygon__t_html"><div class="ttname"><a href="structpolygon__t.html">polygon_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:11</div></div>
-<div class="ttc" id="astructstds__vector__t_html"><div class="ttname"><a href="structstds__vector__t.html">stds_vector_t</a></div><div class="ttdef"><b>Definition:</b> stds_vector.c:9</div></div>
+<div class="ttc" id="astructstds__vector__t_html"><div class="ttname"><a href="structstds__vector__t.html">stds_vector_t</a></div><div class="ttdef"><b>Definition:</b> stds_vector.c:27</div></div>
 <div class="ttc" id="astructfont__t_html"><div class="ttname"><a href="structfont__t.html">font_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:257</div></div>
-<div class="ttc" id="astructfade__color__t_html"><div class="ttname"><a href="structfade__color__t.html">fade_color_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:323</div></div>
+<div class="ttc" id="astructfade__color__t_html"><div class="ttname"><a href="structfade__color__t.html">fade_color_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:326</div></div>
 <div class="ttc" id="astructcircle__t_html"><div class="ttname"><a href="structcircle__t.html">circle_t</a></div><div class="ttdef"><b>Definition:</b> structs.h:40</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,3 +1,21 @@
+/**
+ * @file stds_vector.c
+ * @author Joshua Crotts
+ * @date July 31 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the functions for a vector/ArrayList/dynamically-expanding
+ * array.
+ */
 #include "../include/stds_vector.h"
 
 static void Stds_VectorCheckResize( stds_vector_t *, enum SHIFT_DIRECTION );

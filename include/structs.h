@@ -282,8 +282,11 @@ struct mouse_t {
   bool    is_moving;
 };
 
-/*
- *
+/**
+ * The app_t structure has all the components and pieces of a game with
+ * C-Standards. Input, status, bounds, the renderer, camera, and other 
+ * linked-list structures are stored here. There is a global g_app variable
+ * to use.
  */
 struct app_t {
   uint16_t keyboard[MAX_KEYBOARD_KEYS];

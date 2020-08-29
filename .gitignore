@@ -7,3 +7,6 @@ obj/*
 Game.dSYM/*
 html/*
 latex/*
+Doxyfile
+Doxyfile.bak
+docs/latex/*
