@@ -73,7 +73,7 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
     memset( layer, 0, sizeof( struct parallax_background_t ) );
 
     snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
-    strncpy( input_buffer, directory, strlen( directory ) + 1);
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
     char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
     char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     layer->background   = Stds_AddBackground( file_name_ext );
@@ -128,8 +128,8 @@ Stds_ParallaxBackgroundDraw( const struct parallax_background_t *p ) {
   Stds_DrawTexture( p->background->background_texture, p->background->pos.x, p->background->pos.y,
                     p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL, false );
   Stds_DrawTexture( p->background->background_texture, p->background->pos.x + p->background->w,
-                    p->background->pos.y, p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL,
-                    false );
+                    p->background->pos.y, p->background->w, p->background->h, 0, SDL_FLIP_NONE,
+                    NULL, false );
 }
 
 /**
@@ -152,8 +152,8 @@ Stds_AddBackground( const char *file ) {
   }
   memset( background, 0, sizeof( struct background_t ) );
 
-  background->pos.x                  = 0;
-  background->pos.y                  = 0;
+  background->pos.x              = 0;
+  background->pos.y              = 0;
   background->background_texture = Stds_LoadTexture( file );
 
   SDL_QueryTexture( background->background_texture, NULL, NULL, &background->w, &background->h );
@@ -171,7 +171,10 @@ Stds_AddBackground( const char *file ) {
  * @return void.
  */
 void
-Stds_BackgroundUpdate( struct background_t *background ) {}
+Stds_BackgroundUpdate( struct background_t *background ) {
+  background->pos.x = 0 - g_app.camera.x;
+  background->pos.y = 0 - g_app.camera.y;
+}
 
 /**
  * Draws the background at its appropriate location specified by the
@@ -183,8 +186,8 @@ Stds_BackgroundUpdate( struct background_t *background ) {}
  */
 void
 Stds_BackgroundDraw( const struct background_t *background ) {
-  Stds_DrawTexture( background->background_texture, background->pos.x, background->pos.y, background->w,
-                    background->h, 0, SDL_FLIP_NONE, NULL, false );
+  Stds_DrawTexture( background->background_texture, background->pos.x, background->pos.y,
+                    background->w, background->h, 0, SDL_FLIP_NONE, NULL, false );
 }
 
 /**

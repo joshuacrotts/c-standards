@@ -14,8 +14,10 @@ static float               image_yscale = 0.f;
 static bool                is_moving    = false;
 static bool                is_attacking = false;
 static struct animation_t *walk_animation;
+static struct animation_t *idle_animation;
 
 static void key_input_listener( void );
+static void check_animations( void );
 static void check_bounds( void );
 
 /**
@@ -36,9 +38,12 @@ init_player() {
   player->pos   = Stds_CreateVec2( g_app.SCREEN_WIDTH / 2.f, g_app.SCREEN_HEIGHT / 2.f );
   player->angle = 0;
 
-  walk_animation    = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
-  player->animation = walk_animation;
-  player->animation->is_camera_offset_enabled = true; /* Apply camera offset. */
+  walk_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
+  idle_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 1, 1.f );
+  walk_animation->is_camera_offset_enabled = true;
+  idle_animation->is_camera_offset_enabled = true;
+
+  player->animation                           = idle_animation;
 }
 
 /**
@@ -57,6 +62,7 @@ player_update( void ) {
   player->animation->pos = Stds_CloneVec2( &player->pos );
 
   check_bounds();
+  check_animations();
   Stds_AnimationUpdate( player->animation );
   Stds_AddTextureTrail( player, ALPHA_DECAY_RATE, player->animation->flip, true );
 }
@@ -94,6 +100,11 @@ key_input_listener( void ) {
   else {
     player->velocity.x = 0;
   }
+}
+
+static void
+check_animations( void ) {
+  player->animation = is_moving ? walk_animation : idle_animation;
 }
 
 /*
