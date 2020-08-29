@@ -113,8 +113,7 @@ Functions</h2></td></tr>
 <tr class="separator:a495b9ce391a1b95eb9b8f9bb270332bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae88c51c8a6b8488e9408ddc2fc149c33"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#ae88c51c8a6b8488e9408ddc2fc149c33">Stds_StrCatIntPtr</a> (const char *s, const int32_t n)</td></tr>
 <tr class="separator:ae88c51c8a6b8488e9408ddc2fc149c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3982f7096f7b19bc725e3f038adc1f7c"><td class="memItemLeft" align="right" valign="top"><a id="a3982f7096f7b19bc725e3f038adc1f7c"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>Stds_StrCatIntArray</b> (const char s[], const int32_t n)</td></tr>
+<tr class="memitem:a3982f7096f7b19bc725e3f038adc1f7c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a3982f7096f7b19bc725e3f038adc1f7c">Stds_StrCatIntArray</a> (const char s[], const int32_t n)</td></tr>
 <tr class="separator:a3982f7096f7b19bc725e3f038adc1f7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -808,6 +807,43 @@ DESCRIPTION</h1>
 
 </div>
 </div>
+<a id="a3982f7096f7b19bc725e3f038adc1f7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3982f7096f7b19bc725e3f038adc1f7c">&#9670;&nbsp;</a></span>Stds_StrCatIntArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* Stds_StrCatIntArray </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>s</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Concatenates a signed 32-bit integer to the end of a string array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">const</td><td>char [] array for string. </td></tr>
+    <tr><td class="paramname">const</td><td>int32_t integer to concatenate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>char * string with concatenated integer. </dd></dl>
+
+</div>
+</div>
 <a id="ae88c51c8a6b8488e9408ddc2fc149c33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae88c51c8a6b8488e9408ddc2fc149c33">&#9670;&nbsp;</a></span>Stds_StrCatIntPtr()</h2>
 
@@ -833,7 +869,7 @@ DESCRIPTION</h1>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Concatenates a signed 32-bit integer to the end of a string.</p>
+<p>Concatenates a signed 32-bit integer to the end of a string pointer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">const</td><td>char* string to concatenate onto. </td></tr>

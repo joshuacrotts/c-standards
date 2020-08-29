@@ -377,7 +377,7 @@ Stds_IndexOf( const char *s, const char *search_str ) {
 
 /**
  * Concatenates a signed 32-bit integer to the end of
- * a string.
+ * a string pointer.
  *
  * @param const char* string to concatenate onto.
  * @param int32_t integer to concatenate.
@@ -394,7 +394,13 @@ Stds_StrCatIntPtr( const char *s, const int32_t n ) {
 }
 
 /**
- *
+ * Concatenates a signed 32-bit integer to the end of
+ * a string array.
+ * 
+ * @param const char [] array for string.
+ * @param const int32_t integer to concatenate.
+ * 
+ * @return char * string with concatenated integer.
  */
 char *
 Stds_StrCatIntArray( const char s[], const int32_t n ) {

@@ -1,5 +1,5 @@
 /**
- * @file stds_stack.c
+ * @file main.c
  * @author Joshua Crotts
  * @date Aug 29 2020
  * @version 1.0
