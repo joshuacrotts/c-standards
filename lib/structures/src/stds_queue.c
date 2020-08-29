@@ -31,7 +31,14 @@ Stds_QueueCreate( size_t element_size ) {
 }
 
 /**
- *
+ * Adds an element into the queue. This datatype should match the associated
+ * type in the supplied stds_queue_t. Also, when calling this function,
+ * make sure to ( void * ) cast your data.
+ * 
+ * @param struct stds_queue_t * pointer to queue structure.
+ * @param void * data to add into queue.
+ * 
+ * @return void. 
  */
 void
 Stds_QueueAdd( struct stds_queue_t *q, void *data ) {
@@ -71,7 +78,12 @@ Stds_QueuePoll( struct stds_queue_t *q ) {
 }
 
 /**
- *
+ * Returns an iterator for the queue. That is, it returns the head so the user
+ * can iterate over the elements without dequeueing them.
+ * 
+ * @param struct stds_queue_t * pointer to queue structure.
+ * 
+ * @return pointer to queue node at the front (i.e. the head of the queue).
  */
 inline stds_queue_node_t *
 Stds_QueueIterator( struct stds_queue_t *q ) {

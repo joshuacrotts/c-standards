@@ -5,3 +5,7 @@ Game.exe
 bin/*
 obj/*
 Game.dSYM/*
+Doxyfile
+Doxyfile.bak
+html/*
+latex/*

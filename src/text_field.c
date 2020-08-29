@@ -1,3 +1,22 @@
+/**
+ * @file text_field.c
+ * @author Joshua Crotts
+ * @date July 31 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines text-input functionality. This is not to be conflated with keyboard
+ * event inputs; rather, this is reserved for entering strings of text, such as typing
+ * a message.
+ */
 #include "../include/text_field.h"
 
 /**

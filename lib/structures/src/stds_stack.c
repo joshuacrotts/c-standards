@@ -109,7 +109,11 @@ Stds_StackPeek( struct stds_stack_t *s ) {
 }
 
 /**
- *
+ * Returns the sie of the stack.
+ * 
+ * @param struct stds_stack_t * pointer to stack structure.
+ * 
+ * @return integer size (logical).
  */
 inline size_t
 Stds_StackSize( struct stds_stack_t *s ) {
