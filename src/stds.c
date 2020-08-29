@@ -56,14 +56,13 @@ Stds_RandomInt( const int32_t min, const int32_t max ) {
 /**
  * Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max).
  * For instance, to generate a number between -10 and 10, but no lower than
- * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter;
+ * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter.
  *
  * @param min
  * @param min_upper_bound
  * @param max_lower_bound
  * @param max
  *
- * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline int32_t
@@ -102,7 +101,6 @@ Stds_RandomFloat( const float min, const float max ) {
  * @param max_lower_bound
  * @param max
  *
- * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline float
@@ -152,6 +150,20 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
 }
 
 /**
+ * Returns the sign of a 32-bit integer. 
+ * 
+ * @param const n value to check.
+ * 
+ * @return -1 if n < 0, 
+ *          0 if n == 0, 
+ *          1 if n > 0.
+ */
+int8_t
+Stds_SignumInt(const int value) {
+  return value == 0 ? 0 : (value < 0 ? -1 : 1);
+}
+
+/**
  * Returns the sign of a floating-point value. Be very careful
  * about the precision of your floating-point values! This only supports
  * small-ish FP values.
@@ -162,7 +174,7 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
  *
  */
 int8_t
-Stds_Signum( const float value ) {
+Stds_SignumFloat( const float value ) {
   return ( value < 0 ? -1 : ( value > 0 ? 1 : 0 ) );
 }
 
@@ -271,9 +283,7 @@ Stds_ToDegrees( const float radians ) {
 
 /**
  * Converts an integer into an SDL_Color object. The number should
- * be an unsigned 32-bit integer in the form
- *
- * 0xAARRGGBB (ARGB)
+ * be an unsigned 32-bit integer in the form 0xAARRGGBB (ARGB)
  *
  * @param uint32_t color to be converted.
  *
@@ -290,7 +300,8 @@ Stds_ConvertARGBToColor( const uint32_t c ) {
 }
 
 /**
- * Converts a SDL_Color object into an unsigned 32bit integer.
+ * Converts a SDL_Color object into an unsigned 32bit integer, in the form
+ * 0xAARRGGBB to comply wtih SDL 32-bit colors.
  *
  * @param SDL_Color * color to be converted.
  *

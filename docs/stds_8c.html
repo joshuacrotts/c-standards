@@ -89,8 +89,10 @@ Functions</h2></td></tr>
 <tr class="separator:adf6e380e41a09ec676e95745e23ee71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a490c0d9216e8d9d359ccaba46f392f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a1a490c0d9216e8d9d359ccaba46f392f">Stds_ClampFloat</a> (float *value, const float min, const float max)</td></tr>
 <tr class="separator:a1a490c0d9216e8d9d359ccaba46f392f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07c2be60d3faa4ec02bb5361157d1ab1"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a07c2be60d3faa4ec02bb5361157d1ab1">Stds_Signum</a> (const float value)</td></tr>
-<tr class="separator:a07c2be60d3faa4ec02bb5361157d1ab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b6f42fcb75355710b1755fe9b24701"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a25b6f42fcb75355710b1755fe9b24701">Stds_SignumInt</a> (const int value)</td></tr>
+<tr class="separator:a25b6f42fcb75355710b1755fe9b24701"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e8070ff8913eea3800d968735dae1d"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#ae2e8070ff8913eea3800d968735dae1d">Stds_SignumFloat</a> (const float value)</td></tr>
+<tr class="separator:ae2e8070ff8913eea3800d968735dae1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1778322ec3ce6842161c8809c3c19b92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a1778322ec3ce6842161c8809c3c19b92">Stds_CalcSlope</a> (const float x1, const float y1, const float x2, const float y2, float *dx, float *dy)</td></tr>
 <tr class="separator:a1778322ec3ce6842161c8809c3c19b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59f7abe5ea03c5bf1ff3c59ed90cdc51"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stds_8c.html#a59f7abe5ea03c5bf1ff3c59ed90cdc51">Stds_GetAngle</a> (const float x1, const float y1, const float x2, const float y2)</td></tr>
@@ -295,8 +297,7 @@ DESCRIPTION</h1>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts an integer into an SDL_Color object. The number should be an unsigned 32-bit integer in the form</p>
-<p>0xAARRGGBB (ARGB)</p>
+<p>Converts an integer into an SDL_Color object. The number should be an unsigned 32-bit integer in the form 0xAARRGGBB (ARGB)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uint32_t</td><td>color to be converted.</td></tr>
@@ -330,7 +331,7 @@ DESCRIPTION</h1>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Converts a SDL_Color object into an unsigned 32bit integer.</p>
+<p>Converts a SDL_Color object into an unsigned 32bit integer, in the form 0xAARRGGBB to comply wtih SDL 32-bit colors.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">SDL_Color</td><td>* color to be converted.</td></tr>
@@ -644,7 +645,7 @@ DESCRIPTION</h1>
     <tr><td class="paramname">min</td><td></td></tr>
     <tr><td class="paramname">min_upper_bound</td><td></td></tr>
     <tr><td class="paramname">max_lower_bound</td><td></td></tr>
-    <tr><td class="paramname">max</td><td>In the end, </td></tr>
+    <tr><td class="paramname">max</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -742,13 +743,13 @@ DESCRIPTION</h1>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max). For instance, to generate a number between -10 and 10, but no lower than -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter;</p>
+<p>Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max). For instance, to generate a number between -10 and 10, but no lower than -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">min</td><td></td></tr>
     <tr><td class="paramname">min_upper_bound</td><td></td></tr>
     <tr><td class="paramname">max_lower_bound</td><td></td></tr>
-    <tr><td class="paramname">max</td><td>In the end, </td></tr>
+    <tr><td class="paramname">max</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -781,14 +782,14 @@ DESCRIPTION</h1>
 
 </div>
 </div>
-<a id="a07c2be60d3faa4ec02bb5361157d1ab1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07c2be60d3faa4ec02bb5361157d1ab1">&#9670;&nbsp;</a></span>Stds_Signum()</h2>
+<a id="ae2e8070ff8913eea3800d968735dae1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2e8070ff8913eea3800d968735dae1d">&#9670;&nbsp;</a></span>Stds_SignumFloat()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int8_t Stds_Signum </td>
+          <td class="memname">int8_t Stds_SignumFloat </td>
           <td>(</td>
           <td class="paramtype">const float&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -804,6 +805,32 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int8_t -1 for negative value, 0 for zero, 1 for positive. </dd></dl>
+
+</div>
+</div>
+<a id="a25b6f42fcb75355710b1755fe9b24701"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25b6f42fcb75355710b1755fe9b24701">&#9670;&nbsp;</a></span>Stds_SignumInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int8_t Stds_SignumInt </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the sign of a 32-bit integer.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">const</td><td>n value to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>-1 if n &lt; 0, 0 if n == 0, 1 if n &gt; 0. </dd></dl>
 
 </div>
 </div>
