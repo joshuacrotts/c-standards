@@ -1,33 +1,21 @@
-//=============================================================================================//
-// FILENAME :       grid.c
-//
-// DESCRIPTION :
-//        Defines the functions associated with grids, and is able to treat
-//        each 'box' as a button and deals with events like clicking.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   strah19        START DATE :    19 Jul 2020
-//
-//=============================================================================================//
-
+/**
+ * @file grid.c
+ * @author strah19
+ * @date July 19 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the functions associated with grids, and is able to treat each 'box'
+ * as a button and deals with events like clicking.
+ */
 #include "../include/grid.h"
 #include "../include/animation.h"
 #include "../include/draw.h"
@@ -100,8 +88,8 @@ Stds_CreateGrid( const float x, const float y, const int32_t square_width,
 void
 Stds_DrawLineGrid( struct grid_t *grid ) {
   if ( Stds_AssertGrid( grid ) ) {
-    grid->x = grid->is_camera_offset_enabled ? grid->sx - app.camera.x : grid->sx;
-    grid->y = grid->is_camera_offset_enabled ? grid->sy - app.camera.y : grid->sy;
+    grid->x = grid->is_camera_offset_enabled ? grid->sx - g_app.camera.x : grid->sx;
+    grid->y = grid->is_camera_offset_enabled ? grid->sy - g_app.camera.y : grid->sy;
 
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x + ( float ) ( grid->sw * grid->cols ), grid->y,
@@ -109,7 +97,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->y += ( float ) grid->sh;
     }
 
-    grid->y = grid->is_camera_offset_enabled ? grid->sy - app.camera.y : grid->sy;
+    grid->y = grid->is_camera_offset_enabled ? grid->sy - g_app.camera.y : grid->sy;
 
     for ( uint32_t c = 0; c < grid->cols; c++ ) {
       Stds_DrawLine( grid->x, grid->y, grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
@@ -117,7 +105,7 @@ Stds_DrawLineGrid( struct grid_t *grid ) {
       grid->x += ( float ) grid->sw;
     }
 
-    grid->x = grid->is_camera_offset_enabled ? grid->sx - app.camera.x : grid->sx;
+    grid->x = grid->is_camera_offset_enabled ? grid->sx - g_app.camera.x : grid->sx;
 
     Stds_DrawLine( grid->x, grid->y + ( float ) ( grid->sh * grid->rows ),
                    grid->x + ( float ) ( grid->sw * grid->cols ),
@@ -141,7 +129,7 @@ Stds_FillWholeGrid( struct grid_t *grid ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_FRect fill_rect = {grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh};
+    SDL_FRect fill_rect = { grid->x, grid->y, ( float ) grid->sw, ( float ) grid->sh };
 
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
       for ( uint32_t c = 0; c < grid->cols; c++ ) {
@@ -200,8 +188,8 @@ Stds_OnGridHover( struct grid_t *grid ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_Rect hover_rect = {( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
-                           ( int32_t ) grid->sh};
+    SDL_Rect hover_rect = { ( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
+                            ( int32_t ) grid->sh };
 
     /* Loops through each square. */
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
@@ -212,7 +200,8 @@ Stds_OnGridHover( struct grid_t *grid ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) hover_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &hover_rect ) ) {
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y,
+                                   &hover_rect ) ) {
           return p;
         }
         hover_rect.x += ( int32_t ) grid->sw;
@@ -246,8 +235,8 @@ Stds_OnGridClicked( struct grid_t *grid, const int32_t mouseCode ) {
     grid->x = grid->sx;
     grid->y = grid->sy;
 
-    SDL_Rect click_rect = {( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
-                           ( int32_t ) grid->sh};
+    SDL_Rect click_rect = { ( int32_t ) grid->x, ( int32_t ) grid->y, ( int32_t ) grid->sw,
+                            ( int32_t ) grid->sh };
 
     /* Loops through each square */
     for ( uint32_t r = 0; r < grid->rows; r++ ) {
@@ -258,9 +247,10 @@ Stds_OnGridClicked( struct grid_t *grid, const int32_t mouseCode ) {
         p.c = ( int32_t ) c;
         p.x = ( float ) click_rect.x;
 
-        if ( Stds_IsMouseOverRect( ( float ) app.mouse.x, ( float ) app.mouse.y, &click_rect ) &&
-             app.mouse.button[mouseCode] ) {
-          app.mouse.button[mouseCode] = 0;
+        if ( Stds_IsMouseOverRect( ( float ) g_app.mouse.x, ( float ) g_app.mouse.y,
+                                   &click_rect ) &&
+             g_app.mouse.button[mouseCode] ) {
+          g_app.mouse.button[mouseCode] = 0;
           return p;
         }
 
@@ -339,9 +329,9 @@ Stds_PutGridTexture( struct grid_t *grid, const uint32_t col, const uint32_t row
                      const int32_t index, const SDL_RendererFlip flip, const uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) ) {
     if ( index < grid->texture_buffer && index > -1 ) {
-      SDL_FRect texture_position = {grid->x + ( float ) ( col * grid->sw ),
-                                    grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
-                                    ( float ) grid->sh};
+      SDL_FRect texture_position = { grid->x + ( float ) ( col * grid->sw ),
+                                     grid->y + ( float ) ( row * grid->sh ), ( float ) grid->sw,
+                                     ( float ) grid->sh };
       Stds_BlitTexture( grid->textures[index], NULL, texture_position.x, texture_position.y,
                         texture_position.w, texture_position.h, angle, flip, NULL,
                         grid->is_camera_offset_enabled );
@@ -414,9 +404,9 @@ Stds_DrawSelectedSpriteOnGrid( const struct grid_t *grid, const uint32_t gridCol
                                const uint32_t gridRow, const SDL_RendererFlip flip,
                                const uint16_t angle ) {
   if ( Stds_AssertGrid( grid ) && gridCol < grid->cols && gridRow < grid->rows ) {
-    SDL_FRect position = {grid->x + ( float ) ( gridCol * grid->sw ),
-                          grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
-                          ( float ) grid->sh};
+    SDL_FRect position = { grid->x + ( float ) ( gridCol * grid->sw ),
+                           grid->y + ( float ) ( gridRow * grid->sh ), ( float ) grid->sw,
+                           ( float ) grid->sh };
     Stds_BlitTexture( grid->sprite_sheet, &grid->clip, position.x, position.y, position.w,
                       position.h, angle, flip, NULL, grid->is_camera_offset_enabled );
   }
@@ -432,7 +422,7 @@ Stds_DrawSelectedSpriteOnGrid( const struct grid_t *grid, const uint32_t gridCol
 int32_t
 Stds_AddAnimationToGrid( struct grid_t *grid, struct animation_t *animate ) {
   if ( animate == NULL ) {
-    Stds_Print( "Error, could not add animation to the grid, it is NULL." );
+    printf( "Error, could not add animation to the grid, it is NULL.\n" );
     return -1;
   } else if ( Stds_AssertGrid( grid ) ) {
     grid->animation_buffer++;
@@ -460,8 +450,8 @@ Stds_RenderAnimationToGrid( const struct grid_t *grid, const uint32_t col, const
   if ( Stds_AssertGrid( grid ) && grid->animation != NULL && col < grid->cols &&
        row < grid->rows ) {
     struct animation_t *editAnim = Stds_VectorGet( grid->animation, index );
-    editAnim->pos_x              = grid->x + ( float ) ( col * grid->sw );
-    editAnim->pos_y              = grid->y + ( float ) ( row * grid->sh );
+    editAnim->pos.x              = grid->x + ( float ) ( col * grid->sw );
+    editAnim->pos.y              = grid->y + ( float ) ( row * grid->sh );
     editAnim->dest_width         = grid->sw;
     editAnim->dest_height        = grid->sh;
     editAnim->flip               = flip;
@@ -481,6 +471,30 @@ void
 Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
   if ( Stds_AssertGrid( grid ) && col < grid->cols && row < grid->rows ) {
     /* TODO */
+  }
+}
+
+/**
+ * Renders the spriteSheet from the grid.
+ * @param grid_t* pointer to grid_t.
+ *
+ * @return void.
+ */
+void
+Stds_RenderPreMadeSpriteSheet( struct grid_t *grid ) {
+  if ( Stds_AssertGrid( grid ) ) {
+    for ( uint32_t i = 0; i < grid->sprite_sheet_cols; i++ ) {
+      for ( uint32_t j = 0; j < grid->sprite_sheet_rows; j++ ) {
+        Stds_SelectSpriteForGrid( grid, i, j );
+
+        SDL_Rect position = { ( int ) ( grid->sx + ( i * grid->sw ) ),
+                              ( int ) ( grid->sy + ( j * grid->sh ) ), ( int ) grid->sw,
+                              ( int ) grid->sh };
+        Stds_BlitTexture( grid->sprite_sheet, &grid->clip, ( float ) position.x,
+                          ( float ) position.y, ( float ) position.w, ( float ) position.h, 0.0f,
+                          SDL_FLIP_NONE, NULL, grid->is_camera_offset_enabled );
+      }
+    }
   }
 }
 

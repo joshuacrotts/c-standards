@@ -1,32 +1,20 @@
-//=============================================================================================//
-// FILENAME :       background.c
-//
-// DESCRIPTION :
-//        This file defines the background fuctionality, both regular and parallax.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file background.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the background functionality, both regular and parallax.
+ */
 #include "../include/background.h"
 
 static char input_buffer[MAX_BUFFER_SIZE];
@@ -58,9 +46,8 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 
   struct parallax_background_t *layer;
 
-  const uint8_t NUM_DIGITS = 3;
-  char          number_buffer[NUM_DIGITS];
-  const char *  file_extsn = ".png";
+  char        number_buffer[MAX_FILE_NUM_DIGITS];
+  const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < count; i++ ) {
     layer = malloc( sizeof( struct parallax_background_t ) );
@@ -73,18 +60,18 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 
     memset( layer, 0, sizeof( struct parallax_background_t ) );
 
-    sprintf( number_buffer, "%d", i );
-    strcpy( input_buffer, directory );
-    char *file_name              = strcat( input_buffer, number_buffer );
-    char *file_name_ext          = strcat( input_buffer, file_extsn );
-    layer->background            = Stds_AddBackground( file_name_ext );
+    snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
+    char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
+    layer->background   = Stds_AddBackground( file_name_ext );
     layer->parallax_scroll_speed = scroll_speeds[i];
     layer->normal_scroll_speed   = normal_scroll_speed;
     layer->infinite_scroll       = infinite_scroll;
 
     memset( input_buffer, '\0', sizeof( input_buffer ) );
-    app.parallax_tail->next = layer;
-    app.parallax_tail       = layer;
+    g_app.parallax_tail->next = layer;
+    g_app.parallax_tail       = layer;
   }
 }
 
@@ -101,15 +88,15 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
 void
 Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
   if ( !p->infinite_scroll ) {
-    p->background->x =
-        ( ( 0 - app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
+    p->background->pos.x =
+        ( ( 0 - g_app.camera.x ) * ( p->normal_scroll_speed * p->parallax_scroll_speed ) );
 
     /* Repositions the background according to where it is relative to the camera. */
-    p->background->x = ( float ) fmod( p->background->x, p->background->w );
+    p->background->pos.x = ( float ) fmodf( p->background->pos.x, p->background->w );
   } else {
-    p->background->x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
-    if ( p->background->x < -p->background->w ) {
-      p->background->x = 0;
+    p->background->pos.x -= ( p->normal_scroll_speed * p->parallax_scroll_speed );
+    if ( p->background->pos.x < -p->background->w ) {
+      p->background->pos.x = 0;
     }
   }
 }
@@ -126,11 +113,11 @@ Stds_ParallaxBackgroundUpdate( struct parallax_background_t *p ) {
 void
 Stds_ParallaxBackgroundDraw( const struct parallax_background_t *p ) {
   /* Two copies of the image are drawn to give the illusion of depth and parallax. */
-  Stds_DrawTexture( p->background->background_texture, p->background->x, p->background->y,
+  Stds_DrawTexture( p->background->background_texture, p->background->pos.x, p->background->pos.y,
                     p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL, false );
-  Stds_DrawTexture( p->background->background_texture, p->background->x + p->background->w,
-                    p->background->y, p->background->w, p->background->h, 0, SDL_FLIP_NONE, NULL,
-                    false );
+  Stds_DrawTexture( p->background->background_texture, p->background->pos.x + p->background->w,
+                    p->background->pos.y, p->background->w, p->background->h, 0, SDL_FLIP_NONE,
+                    NULL, false );
 }
 
 /**
@@ -153,8 +140,8 @@ Stds_AddBackground( const char *file ) {
   }
   memset( background, 0, sizeof( struct background_t ) );
 
-  background->x                  = 0;
-  background->y                  = 0;
+  background->pos.x              = 0;
+  background->pos.y              = 0;
   background->background_texture = Stds_LoadTexture( file );
 
   SDL_QueryTexture( background->background_texture, NULL, NULL, &background->w, &background->h );
@@ -172,7 +159,10 @@ Stds_AddBackground( const char *file ) {
  * @return void.
  */
 void
-Stds_BackgroundUpdate( struct background_t *background ) {}
+Stds_BackgroundUpdate( struct background_t *background ) {
+  background->pos.x = 0 - g_app.camera.x;
+  background->pos.y = 0 - g_app.camera.y;
+}
 
 /**
  * Draws the background at its appropriate location specified by the
@@ -184,8 +174,8 @@ Stds_BackgroundUpdate( struct background_t *background ) {}
  */
 void
 Stds_BackgroundDraw( const struct background_t *background ) {
-  Stds_DrawTexture( background->background_texture, background->x, background->y, background->w,
-                    background->h, 0, SDL_FLIP_NONE, NULL, false );
+  Stds_DrawTexture( background->background_texture, background->pos.x, background->pos.y,
+                    background->w, background->h, 0, SDL_FLIP_NONE, NULL, false );
 }
 
 /**

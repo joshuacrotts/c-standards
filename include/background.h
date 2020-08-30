@@ -4,7 +4,7 @@
 #include "../include/draw.h"
 #include "stds.h"
 
-extern struct app_t app;
+extern struct app_t g_app;
 
 extern void Stds_AddParallaxBackground( const char *bg_directory, const size_t n,
                                         const float default_scroll_speed,

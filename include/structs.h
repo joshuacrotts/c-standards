@@ -3,6 +3,37 @@
 
 #include "stds.h"
 
+struct vec2_t {
+  float x;
+  float y;
+};
+
+struct polygon_t {
+  struct vec2_t *points;
+  struct vec2_t  position;
+  struct vec2_t *model;
+
+  float   angle;
+  int32_t sides;
+  bool    has_overlap;
+};
+
+/**
+ *
+ */
+struct text_field_t {
+  float    x;
+  float    y;
+  uint16_t font_size;
+  bool     toggle_text_input;
+
+  char        text[LARGE_TEXT_BUFFER];
+  const char *font_directory;
+  SDL_Color * font_color;
+
+  struct text_field_t *next;
+};
+
 /*
  *
  */
@@ -39,16 +70,19 @@ struct button_t {
  *
  */
 struct particle_t {
-  float    x;
-  float    y;
-  float    dx;
-  float    dy;
-  float    delta_accel_x;
-  float    delta_accel_y;
-  float    delta_alpha;
-  int32_t  w;
-  int32_t  h;
+  struct vec2_t pos;
+  struct vec2_t velocity;    /* Rate of change for position. */
+  struct vec2_t delta_accel; /* Rate of acceleration/deceleration. */
+
+  float w;
+  float h;
+  float dw; /* Rate of change for size. */
+  float dh;
+
+  float delta_alpha;
+
   uint32_t angle;
+  int32_t  delta_angle;
   int32_t  life;
   uint32_t id_flags;
   uint32_t flags;
@@ -91,14 +125,15 @@ struct grid_t {
   uint32_t     sprite_sheet_cols;
   uint32_t     sprite_sheet_rows;
 
-  struct stds_vector_t *animation;
-  int32_t               animation_buffer;
-
   /* This bool will determine if we scroll the grid
      (and its children sprites) with the camera. If false,
      the grid will always stay in the frame of the player.
      If true, it scrolls it. */
   bool is_camera_offset_enabled;
+
+  int32_t animation_buffer;
+
+  struct stds_vector_t *animation;
 };
 
 /*
@@ -128,8 +163,7 @@ struct parallax_background_t {
  *
  */
 struct trail_t {
-  float x;
-  float y;
+  struct vec2_t pos;
 
   /* For rectangular trails. */
   int32_t w;
@@ -154,14 +188,12 @@ struct trail_t {
  *
  */
 struct animation_t {
-  float    pos_x;
-  float    pos_y;
-  float    scale_x;
-  float    scale_y;
+  struct vec2_t pos;
+  struct vec2_t scale;
+  struct vec2_t splice;
+
   float    frame_delay;
   float    frame_timer;
-  uint32_t splice_x;
-  uint32_t splice_y;
   uint32_t id_flags;
   uint32_t flags;
   uint16_t angle;
@@ -184,12 +216,14 @@ struct animation_t {
   bool is_cycle_once;
 
   SDL_RendererFlip flip;
+  SDL_FPoint *     rotate_point;
 
   SDL_Texture * current_texture;
   SDL_Texture * default_texture;
   SDL_Texture **frames;
   SDL_Texture * sprite_sheet;
 
+  struct polygon_t *  bounding_box;
   struct animation_t *next;
 };
 
@@ -197,14 +231,11 @@ struct animation_t {
  *
  */
 struct background_t {
-  float   x;
-  float   y;
-  float   scroll_x;
-  float   scroll_y;
-  float   scale_x;
-  float   scale_y;
-  int32_t w;
-  int32_t h;
+  struct vec2_t pos;
+  struct vec2_t scroll;
+  struct vec2_t scale;
+  int32_t       w;
+  int32_t       h;
 
   SDL_Texture *background_texture;
 };
@@ -251,8 +282,11 @@ struct mouse_t {
   bool    is_moving;
 };
 
-/*
- *
+/**
+ * The app_t structure has all the components and pieces of a game with
+ * C-Standards. Input, status, bounds, the renderer, camera, and other 
+ * linked-list structures are stored here. There is a global g_app variable
+ * to use.
  */
 struct app_t {
   uint16_t keyboard[MAX_KEYBOARD_KEYS];
@@ -278,11 +312,12 @@ struct app_t {
   struct font_t                font_head, *font_tail;
   struct parallax_background_t parallax_head, *parallax_tail;
   struct button_t              button_head, *button_tail;
+  struct text_field_t          text_field_head, *text_field_tail;
 
   enum GameState game_state;
 
-  void ( *Stds_LoadSounds )( void );
-  void ( *Stds_LoadFonts )( void );
+  Mix_Chunk **sounds;
+  Mix_Music * music;
 };
 
 /*
@@ -301,24 +336,20 @@ struct fade_color_t {
  *
  */
 struct entity_t {
-  float x;
-  float y;
-
-  /* Miscellaneous positioning variable. */
-  float variability;
+  struct vec2_t pos;
 
   /* Scales the entity in either the x or y
      direction. This should default to 1. */
-  float scale_x;
-  float scale_y;
+  struct vec2_t scale;
 
   /* Directional velocity (yes, I know it's redundant). */
-  float dx;
-  float dy;
+  struct vec2_t velocity;
 
   /* Acceleration or deceleration factors. */
-  float delta_accel_x;
-  float delta_accel_y;
+  struct vec2_t delta_accel;
+
+  /* Miscellaneous positioning variable. */
+  float variability;
 
   /* Change rate of alpha value. */
   float delta_alpha;
@@ -341,9 +372,11 @@ struct entity_t {
   int32_t health;
   int32_t life;
 
+  SDL_FPoint   rotate_point;
   SDL_Color    color;
   SDL_Texture *texture[TEXTURE_BUFFER_SIZE];
 
+  struct polygon_t *  bounding_box;
   struct animation_t *animation;
   struct entity_t *   next;
 

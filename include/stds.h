@@ -39,14 +39,16 @@ extern void Stds_ClampInt( int32_t *n, const int32_t min, const int32_t max );
 
 extern void Stds_ClampFloat( float *n, const float min, const float max );
 
+extern void Stds_SignumInt( const int value );
+
+extern int8_t Stds_SignumFloat( const float value );
+
 extern void Stds_CalcSlope( const float x1, const float y1, const float x2, const float y2,
                             float *x_slope, float *y_slope );
 
-extern float Stds_GetAngle( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 );
+extern float Stds_GetAngle( const float x1, const float y1, const float x2, const float y2 );
 
-extern int32_t Stds_GetDistance( const int32_t x1, const int32_t y1, const int32_t x2, const int32_t y2 );
-
-extern void Stds_Print( const char *s, ... );
+extern float Stds_GetDistance( const float x1, const float y1, const float x2, const float y2 );
 
 extern float Stds_ToRadians( const float degree_angle );
 

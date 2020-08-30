@@ -16,7 +16,7 @@
 //   n = Stds_QueueIterator( q );
 
 //   while ( n != NULL ) {
-//     Stds_Print( "%d\n", ( ( int32_t * ) ( n->data ) ) );
+//     printf( "%d\n", ( ( int32_t * ) ( n->data ) ) );
 //     n = n->next;
 //   }
 
@@ -26,7 +26,7 @@
 //   n = Stds_QueueIterator( q );
 
 //   while ( n != NULL ) {
-//     Stds_Print( "%d\n", ( ( int32_t * ) ( n->data ) ) );
+//     printf( "%d\n", ( ( int32_t * ) ( n->data ) ) );
 //     n = n->next;
 //   }
 // }

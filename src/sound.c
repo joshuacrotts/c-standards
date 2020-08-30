@@ -1,39 +1,22 @@
-//=============================================================================================//
-// FILENAME :       sound.c
-//
-// DESCRIPTION :
-//        This file defines the SDL sound mixer initialization, and how to play/pause both sound
-//        effects and music.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file sound.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ * 
+ * This file defines the SDL sound mixer initialization, and how to play/pause both sound
+ * effects and music.
+ */
 #include "../include/sound.h"
-
-static void Stds_LoadSounds( void );
-
-static Mix_Chunk *sounds[SND_MAX];
-static Mix_Music *music;
 
 /**
  * Initializes the sound context for SDL.
@@ -43,12 +26,10 @@ static Mix_Music *music;
  * @return void.
  */
 void
-Stds_InitSounds( void ) {
-  memset( sounds, 0, sizeof( Mix_Chunk * ) * SND_MAX );
-
-  music = NULL;
-
-  Stds_LoadSounds();
+Stds_InitAudio( void ) {
+  g_app.sounds = malloc( sizeof( Mix_Chunk * ) * SND_MAX );
+  g_app.music  = NULL;
+  memset( g_app.sounds, 0, sizeof( Mix_Chunk * ) * SND_MAX );
 }
 
 /**
@@ -60,13 +41,13 @@ Stds_InitSounds( void ) {
  */
 void
 Stds_LoadMusic( const char *fileName ) {
-  if ( music != NULL ) {
+  if ( g_app.music != NULL ) {
     Mix_HaltMusic();
-    Mix_FreeMusic( music );
-    music = NULL;
+    Mix_FreeMusic( g_app.music );
+    g_app.music = NULL;
   }
 
-  music = Mix_LoadMUS( fileName );
+  g_app.music = Mix_LoadMUS( fileName );
 }
 
 /**
@@ -78,14 +59,35 @@ Stds_LoadMusic( const char *fileName ) {
  */
 void
 Stds_PlayMusic( const bool loop ) {
-  Mix_PlayMusic( music, loop ? -1 : 0 );
+  Mix_PlayMusic( g_app.music, loop ? -1 : 0 );
+}
+
+/**
+ * Loads a sound into the respective ID of the SFX.
+ * For instance,
+ *
+ * Stds_LoadSFX("res/sfx/coin.ogg", SND_COIN).
+ *
+ * @param const char * sound effect path.
+ * @param int16_t sound effect ID.
+ *
+ * @return void.
+ */
+void
+Stds_LoadSFX( const char *path, const int16_t id ) {
+  if ( g_app.sounds[id] != NULL ) {
+    fprintf( stderr, "Error, could not add %s audio file to id %d. This id already exists!\n", path,
+             id );
+    exit( EXIT_FAILURE );
+  }
+  g_app.sounds[id] = Mix_LoadWAV( path );
 }
 
 /**
  * Plays a sound with the respective channel and ID of the SFX.
  * For instance,
  *
- * Ex: Stds_PlaySounds(SND_BRICK_BREAKER, CH_ANY).
+ * Ex: Stds_PlaySFX(SND_BRICK_BREAKER, CH_ANY).
  *
  * @param int16_t sound effect ID from enum.
  * @param int16_t channel from enum.
@@ -93,22 +95,6 @@ Stds_PlayMusic( const bool loop ) {
  * @return void.
  */
 void
-Stds_PlaySounds( const int16_t id, const int16_t channel ) {
-  Mix_PlayChannel( channel, sounds[id], 0 );
-}
-
-/**
- * Loads the sound effects for your game.
- *
- * @param void.
- *
- * @return void.
- */
-static void
-Stds_LoadSounds( void ) {
-  sounds[SND_BRICK_SHATTER] = Mix_LoadWAV( "res/sfx/explode_1.ogg" );
-  sounds[SND_BRICK_BREAK]   = Mix_LoadWAV( "res/sfx/explode_2.ogg" );
-  sounds[SND_COIN]          = Mix_LoadWAV( "res/sfx/coin0.ogg" );
-  sounds[SND_EXTRA_LIFE]    = Mix_LoadWAV( "res/sfx/extra-life.ogg" );
-  sounds[SND_PAUSE]         = Mix_LoadWAV( "res/sfx/pause.ogg" );
+Stds_PlaySFX( const int16_t id, const int16_t channel ) {
+  Mix_PlayChannel( channel, g_app.sounds[id], 0 );
 }

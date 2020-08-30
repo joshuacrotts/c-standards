@@ -1,35 +1,23 @@
-//=============================================================================================//
-// FILENAME :       animation.c
-//
-// DESCRIPTION :
-//        This file defines the animation functions associated with the animation_t
-//        struct. A note about this is to make sure to define the position, angle, and
-//        flip variables accordingly per the entity using the animation. If not, the
-//        animation will not move, rotate, etc.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file animation.c
+ * @author Joshua Crotts
+ * @date June 22 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the animation functions associated with the animation_t
+ * struct. A note about this is to make sure to define the position, angle, and
+ * flip variables accordingly per the entity using the animation. If not, the
+ * animation will not move, rotate, etc.
+ */
 #include "../include/animation.h"
 
 static char input_buffer[MAX_BUFFER_SIZE];
@@ -61,6 +49,15 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
   if ( a == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for animation_t. %s.\n",
                  SDL_GetError() );
+    exit( EXIT_FAILURE );
+  }
+
+  /* If our rows x cols is not the same as the number of frames specified, that means we miscounted.
+   */
+  if ( no_rows * no_cols != no_of_frames ) {
+    printf( "Error, your row count of %zu and column count of %zu multiplied does not match the "
+            "number of frames %d.\n",
+            no_rows, no_cols, no_of_frames );
     exit( EXIT_FAILURE );
   }
 
@@ -140,16 +137,16 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
   a->flags |= STDS_ANIMATION_ACTIVE_MASK;
 
   /* Iterate through the files in the directory and store them in
-     the buffer. */
-  const uint8_t NUM_DIGITS = 3;
-  char          number_buffer[NUM_DIGITS];
-  const char *  file_extsn = ".png";
+     the buffer.  There is a lot of seemingly ugly C concatenation here,
+     but that's because it is :D*/
+  char        number_buffer[MAX_FILE_NUM_DIGITS];
+  const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < a->number_of_frames; i++ ) {
-    sprintf( number_buffer, "%d", i );
-    strcpy( input_buffer, directory );
-    char *file_name     = strcat( input_buffer, number_buffer );
-    char *file_name_ext = strcat( input_buffer, file_extsn );
+    snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
+    strncpy( input_buffer, directory, strlen( directory ) + 1 );
+    char *file_name     = strncat( input_buffer, number_buffer, strlen( number_buffer ) + 1 );
+    char *file_name_ext = strncat( input_buffer, file_extsn, strlen( file_extsn ) + 1 );
     a->frames[i]        = Stds_LoadTexture( file_name_ext );
     memset( input_buffer, '\0', sizeof( input_buffer ) );
   }
@@ -194,8 +191,8 @@ Stds_AnimationUpdate( struct animation_t *a ) {
        of the sprite. Otherwise, we advance the pointer
        referencing which sprite to render in the array. */
     if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
-      a->splice_x = a->current_frame_col_id * a->sprite_width;
-      a->splice_y = a->current_frame_row_id * a->sprite_height;
+      a->splice.x = a->current_frame_col_id * a->sprite_width;
+      a->splice.y = a->current_frame_row_id * a->sprite_height;
 
       a->current_frame_col_id++;
 
@@ -234,20 +231,20 @@ Stds_AnimationUpdate( struct animation_t *a ) {
  */
 void
 Stds_AnimationDraw( const struct animation_t *a ) {
-
   if ( a->flags & STDS_ANIMATION_ACTIVE_MASK ) {
     if ( a->id_flags & STDS_ANIMATION_MASK ) {
 
-      Stds_DrawTexture( a->frames[a->current_frame_id], a->pos_x, a->pos_y, a->sprite_width,
-                        a->sprite_height, a->angle, a->flip, NULL, a->is_camera_offset_enabled );
+      Stds_DrawTexture( a->frames[a->current_frame_id], a->pos.x, a->pos.y, a->sprite_width,
+                        a->sprite_height, a->angle, a->flip, a->rotate_point,
+                        a->is_camera_offset_enabled );
     } else if ( a->id_flags & STDS_SPRITE_SHEET_MASK ) {
       /* This rectangle splices the correct frame
          from the sprite sheet. */
-      SDL_Rect curr_rect = {( int32_t ) a->splice_x, ( int32_t ) a->splice_y, a->sprite_width,
-                            a->sprite_height};
+      SDL_Rect curr_rect = { ( int32_t ) a->splice.x, ( int32_t ) a->splice.y, a->sprite_width,
+                             a->sprite_height };
 
-      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos_x, a->pos_y, a->dest_width,
-                        a->dest_height, a->angle, a->flip, NULL, false );
+      Stds_BlitTexture( a->current_texture, &curr_rect, a->pos.x, a->pos.y, a->dest_width,
+                        a->dest_height, a->angle, a->flip, a->rotate_point, false );
     }
   }
 }

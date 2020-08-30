@@ -1,36 +1,25 @@
-//=============================================================================================//
-// FILENAME :       game.c
-//
-// DESCRIPTION :
-//        Initializes the game structures and pointers for the linked list
-//        structures. The game loop is also initialized here.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file game.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * Initializes the game structures and pointers for the linked list
+ * structures. The game loop is also initialized here.
+ */
 #include "../include/game.h"
 
-static uint16_t current_fps;
+static const char *FPS_STR = " | FPS: ";
+static uint16_t    current_fps;
 
 static void     Stds_InitWindowFPS( void );
 static void     Stds_CapFramerate( long *, float * );
@@ -45,11 +34,12 @@ static uint32_t Stds_UpdateWindowTitle( uint32_t, void * );
  */
 void
 Stds_InitAppStructures( void ) {
-  app.parallax_tail = &app.parallax_head;
-  app.texture_tail  = &app.texture_head;
-  app.button_tail   = &app.button_head;
-  app.trail_tail    = &app.trail_head;
-  app.font_tail     = &app.font_head;
+  g_app.text_field_tail = &g_app.text_field_head;
+  g_app.parallax_tail   = &g_app.parallax_head;
+  g_app.texture_tail    = &g_app.texture_head;
+  g_app.button_tail     = &g_app.button_head;
+  g_app.trail_tail      = &g_app.trail_head;
+  g_app.font_tail       = &g_app.font_head;
 
   Stds_InitWindowFPS();
 }
@@ -71,11 +61,11 @@ Stds_GameLoop( void ) {
   then = SDL_GetTicks();
 
   /* Main game loop. */
-  while ( app.is_running ) {
+  while ( g_app.is_running ) {
     Stds_PrepareScene();
     Stds_ProcessInput();
-    app.delegate.update();
-    app.delegate.draw();
+    g_app.delegate.update();
+    g_app.delegate.draw();
     Stds_PresentScene();
     Stds_CapFramerate( &then, &remainder );
   }
@@ -143,15 +133,15 @@ Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   char window_buffer[SMALL_TEXT_BUFFER];
 
   /* Copy the title to the buffer. */
-  strcpy( window_buffer, app.original_title );
+  strncpy( window_buffer, g_app.original_title, strlen( g_app.original_title ) + 1 );
 
   /* Move temp var to buffer. Receive ptr. */
-  strcat( window_buffer, " | FPS: " );
+  strncat( window_buffer, FPS_STR, strlen( FPS_STR ) + 1 );
 
   /* Concatenate number to title variable. */
   char *title;
   title = Stds_StrCatIntArray( window_buffer, fps );
-  SDL_SetWindowTitle( app.window, title );
+  SDL_SetWindowTitle( g_app.window, title );
 
   return interval;
 }

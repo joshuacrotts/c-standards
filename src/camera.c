@@ -1,34 +1,23 @@
-//=============================================================================================//
-// FILENAME :       camera.c
-//
-// DESCRIPTION :
-//        This file defines the function for updating a camera around a parent entity. Generally,
-//        this should be the player. All offsets are pre-applied to the draw functions. To keep
-//        something from being updated, just re-add the valuesx + app.camera.x, y + app.camera.y.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file camera.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the function for updating a camera around a parent entity. Generally,
+ * this should be the player. All offsets are pre-applied to the draw functions. To keep
+ * something from being updated, just re-add the valuesx + g_app.camera.x, y +
+ * g_app.camera.y.
+ */
 #include "../include/camera.h"
 
 /**
@@ -37,7 +26,7 @@
  * style game, this supplied entity will be a reference to the
  * player. If you want to remove the offset from an entity,
  * just add the coordinates of the camera to your entity
- * x + app.camera.x and y + app.camera.y. Note that if you have
+ * x + g_app.camera.x and y + g_app.camera.y. Note that if you have
  * the option to modify the placement via a method in draw.c,
  * do it there instead.
  *
@@ -54,15 +43,15 @@
 void
 Stds_CameraUpdate( const struct entity_t *focus_point ) {
   if ( focus_point != NULL ) {
-    app.camera.x = ( focus_point->x + focus_point->w / 2 ) - ( app.SCREEN_WIDTH >> 1 );
-    app.camera.y = ( focus_point->y + focus_point->h / 2 ) - ( app.SCREEN_HEIGHT >> 1 );
-    app.camera.w = app.SCREEN_WIDTH;
-    app.camera.h = app.SCREEN_HEIGHT;
+    g_app.camera.x = ( focus_point->pos.x + focus_point->w / 2 ) - ( g_app.SCREEN_WIDTH >> 1 );
+    g_app.camera.y = ( focus_point->pos.y + focus_point->h / 2 ) - ( g_app.SCREEN_HEIGHT >> 1 );
+    g_app.camera.w = g_app.SCREEN_WIDTH;
+    g_app.camera.h = g_app.SCREEN_HEIGHT;
 
-    Stds_ClampFloat( &app.camera.x, 0, app.LEVEL_WIDTH - app.camera.w );
-    Stds_ClampFloat( &app.camera.y, 0, app.LEVEL_HEIGHT - app.camera.h );
+    Stds_ClampFloat( &g_app.camera.x, 0, g_app.LEVEL_WIDTH - g_app.camera.w );
+    Stds_ClampFloat( &g_app.camera.y, 0, g_app.LEVEL_HEIGHT - g_app.camera.h );
   } else {
-    Stds_Print( "Error, your focus_point entity is NULL in camera.c." );
+    printf( "Error, your focus_point entity is NULL in camera.c.\n" );
     exit( EXIT_FAILURE );
   }
 }

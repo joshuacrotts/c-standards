@@ -1,35 +1,23 @@
-//=============================================================================================//
-// FILENAME :       init.c
-//
-// DESCRIPTION :
-//        Defines the procedures and functions for the SDL context.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    17 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file init.c
+ * @author Joshua Crotts
+ * @date June 17 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the procedures and functions for instantiating the SDL context.
+ */
 #include "../include/init.h"
 
-struct app_t app;
+struct app_t g_app;
 
 static struct app_t Stds_CreateApp( void );
 static void Stds_InitSDL( const char *, const uint32_t ww, const uint32_t wh, const uint32_t lw,
@@ -54,14 +42,14 @@ Stds_InitGame( const char *window_name, const uint32_t window_width, const uint3
                const uint32_t level_width, const uint32_t level_height ) {
 
   /* First, we create an app structure to ensure the function pointers are NULL. */
-  app = Stds_CreateApp();
+  g_app = Stds_CreateApp();
 
   Stds_InitSDL( window_name, window_width, window_height, level_width, level_height );
-  Stds_InitSounds();
+  Stds_InitAudio();
   Stds_InitFonts();
 
-  app.original_title = window_name;
-  app.is_running     = true;
+  g_app.original_title = window_name;
+  g_app.is_running     = true;
 
   /* Assigns the callback function to clean up the
     SDL context when closing the program. */
@@ -70,7 +58,7 @@ Stds_InitGame( const char *window_name, const uint32_t window_width, const uint3
 
 /**
  * Toggles debug mode either on or off. When on, debug messages
- * are Stds_Printed to the console.
+ * are printfed to the console.
  *
  * @param bool true for debug mode on, false otherwise.
  *
@@ -78,8 +66,8 @@ Stds_InitGame( const char *window_name, const uint32_t window_width, const uint3
  */
 void
 Stds_ToggleDebugMode( bool db ) {
-  app.is_debug_mode = db;
-  if ( app.is_debug_mode ) {
+  g_app.is_debug_mode = db;
+  if ( g_app.is_debug_mode ) {
     SDL_LogSetPriority( SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG );
   } else {
     SDL_LogSetPriority( SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO );
@@ -107,25 +95,25 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
 
-  memset( &app, 0, sizeof( struct app_t ) );
-  app.SCREEN_WIDTH  = window_width;
-  app.SCREEN_HEIGHT = window_height;
-  app.LEVEL_WIDTH   = level_width;
-  app.LEVEL_HEIGHT  = level_height;
+  memset( &g_app, 0, sizeof( struct app_t ) );
+  g_app.SCREEN_WIDTH  = window_width;
+  g_app.SCREEN_HEIGHT = window_height;
+  g_app.LEVEL_WIDTH   = level_width;
+  g_app.LEVEL_HEIGHT  = level_height;
 
   /* Initialize SDL and exit if we fail. */
   if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-    Stds_Print( "Could not initialize SDL: %s.\n", SDL_GetError() );
+    printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
 
   /* Initialize the SDL window. */
-  app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                 window_width, window_height, window_flags );
-  if ( !app.window ) {
-    Stds_Print( "Could not open window. %s.\n", SDL_GetError() );
+  g_app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                   window_width, window_height, window_flags );
+  if ( !g_app.window ) {
+    printf( "Could not open window. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
@@ -134,9 +122,9 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Creating SDL renderer." );
 
   /* Create renderer with the default graphics context. */
-  app.renderer = SDL_CreateRenderer( app.window, -1, renderer_flags );
-  if ( !app.renderer ) {
-    Stds_Print( "Failed to initialize renderer: %s.\n", SDL_GetError() );
+  g_app.renderer = SDL_CreateRenderer( g_app.window, -1, renderer_flags );
+  if ( !g_app.renderer ) {
+    printf( "Failed to initialize renderer: %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
@@ -179,13 +167,11 @@ Stds_Quit( void ) {
 static struct app_t
 Stds_CreateApp( void ) {
   struct app_t app;
-  app.Stds_LoadFonts  = NULL;
-  app.Stds_LoadSounds = NULL;
-  app.texture_tail    = NULL;
-  app.trail_tail      = NULL;
-  app.button_tail     = NULL;
-  app.font_tail       = NULL;
-  app.parallax_tail   = NULL;
+  g_app.texture_tail    = NULL;
+  g_app.trail_tail      = NULL;
+  g_app.button_tail     = NULL;
+  g_app.font_tail       = NULL;
+  g_app.parallax_tail   = NULL;
 
   return app;
 }
@@ -219,11 +205,11 @@ Stds_InitAudioContext( void ) {
  */
 static void
 Stds_Cleanup( void ) {
-  app.is_running = false;
+  g_app.is_running = false;
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Cleaning up." );
-  SDL_DestroyRenderer( app.renderer );
-  SDL_DestroyWindow( app.window );
+  SDL_DestroyRenderer( g_app.renderer );
+  SDL_DestroyWindow( g_app.window );
 
   /* Free the memory of the linked lists defined by
      the app struct. */
@@ -234,34 +220,34 @@ Stds_Cleanup( void ) {
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing parallax backgrounds." );
   /* Frees the parallax background linked list. */
-  while ( app.parallax_head.next ) {
-    pbg                    = app.parallax_head.next;
-    app.parallax_head.next = pbg->next;
+  while ( g_app.parallax_head.next ) {
+    pbg                      = g_app.parallax_head.next;
+    g_app.parallax_head.next = pbg->next;
     Stds_BackgroundDie( pbg->background );
     free( pbg );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing textures." );
   /* Frees the texture linked list. */
-  while ( app.texture_head.next ) {
-    t                     = app.texture_head.next;
-    app.texture_head.next = t->next;
+  while ( g_app.texture_head.next ) {
+    t                       = g_app.texture_head.next;
+    g_app.texture_head.next = t->next;
     free( t );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing trails." );
   /* Frees the trail linked list. */
-  while ( app.trail_head.next ) {
-    tr                  = app.trail_head.next;
-    app.trail_head.next = tr->next;
+  while ( g_app.trail_head.next ) {
+    tr                    = g_app.trail_head.next;
+    g_app.trail_head.next = tr->next;
     free( tr );
   }
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing buttons." );
   /* Frees the button linked list. */
-  while ( app.button_head.next ) {
-    b                    = app.button_head.next;
-    app.button_head.next = b->next;
+  while ( g_app.button_head.next ) {
+    b                      = g_app.button_head.next;
+    g_app.button_head.next = b->next;
     free( b );
   }
 

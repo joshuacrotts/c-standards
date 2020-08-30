@@ -1,5 +1,12 @@
 .vscode/*
+.vs/*
 Game
 Game.exe
 bin/*
 obj/*
+Game.dSYM/*
+html/*
+latex/*
+Doxyfile
+Doxyfile.bak
+docs/latex/*

@@ -1,41 +1,25 @@
-//=============================================================================================//
-// FILENAME :       text.c
-//
-// DESCRIPTION :
-//        This file defines font and text-drawing functions.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
-
+/**
+ * @file text.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines fonts and text-drawing functions and features.
+ */
 #include "../include/draw.h"
-
-#define DEFAULT_FONT_COLOR 0xFF
 
 static char text_buffer[MAX_LINE_LENGTH];
 
 static TTF_Font *Stds_GetFont( const char *f, const uint16_t s );
-static void      Stds_LoadFonts( void );
-static void      Stds_AddFont( const char *f, const uint16_t s );
 
 /**
  * Initializes the TTF font library for use.
@@ -52,8 +36,7 @@ Stds_InitFonts( void ) {
     exit( EXIT_FAILURE );
   }
 
-  app.font_tail = &app.font_head;
-  Stds_LoadFonts();
+  g_app.font_tail = &g_app.font_head;
 }
 
 /**
@@ -93,11 +76,14 @@ Stds_DrawText( const float x, float y, const char *font_string, const uint16_t f
 
   if ( message_surface == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Failed to write message: %s.\n", SDL_GetError() );
-    exit( EXIT_ERROR );
+    exit( EXIT_FAILURE );
   }
 
-  SDL_Texture *message_texture = SDL_CreateTextureFromSurface( app.renderer, message_surface );
-  SDL_RenderCopy( app.renderer, message_texture, NULL, &message_rect );
+  SDL_Texture *message_texture = SDL_CreateTextureFromSurface( g_app.renderer, message_surface );
+  SDL_RenderCopy( g_app.renderer, message_texture, NULL, &message_rect );
+
+  /* Destroys the available message texture and surface to prevent a memory leak,
+     this seems superfluous every time through a call, but PLEASE do it. */
   SDL_DestroyTexture( message_texture );
   SDL_FreeSurface( message_surface );
 }
@@ -115,9 +101,9 @@ Stds_FreeFonts( void ) {
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Freeing font.\n" );
 
   /* Frees the font linked list. */
-  while ( app.font_head.next ) {
-    f                  = app.font_head.next;
-    app.font_head.next = f->next;
+  while ( g_app.font_head.next ) {
+    f                    = g_app.font_head.next;
+    g_app.font_head.next = f->next;
     free( f );
   }
 
@@ -150,53 +136,15 @@ Stds_GetStringSize( const char *s, const char *font, const uint16_t size, int32_
 }
 
 /**
+ * Adds a font to the font linked list in the app struct. A font can be loaded
+ * in multiple times, each with different sizes.
  *
- *
- * @param
- * @param
- *
- * @return void.
- */
-static TTF_Font *
-Stds_GetFont( const char *font_str, const uint16_t font_size ) {
-  struct font_t *f;
-
-  for ( f = app.font_head.next; f != NULL; f = f->next ) {
-    if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
-      return f->font;
-    }
-  }
-
-  if ( f == NULL ) {
-    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not find font %s, %d.", font_str, font_size );
-  }
-
-  return NULL;
-}
-
-/**
- *
- *
- * @param void.
+ * @param const char * font name.
+ * @param const uint16_t size of font.
  *
  * @return void.
  */
-static void
-Stds_LoadFonts( void ) {
-  // Stds_AddFont( "res/fonts/nes.ttf", 12 );
-  // Stds_AddFont( "res/fonts/nes.ttf", 18 );
-  // Stds_AddFont( "res/fonts/nes.ttf", 24 );
-}
-
-/**
- *
- *
- * @param
- * @param
- *
- * @return void.
- */
-static void
+void
 Stds_AddFont( const char *font_file, const uint16_t size ) {
   struct font_t *f;
   f = malloc( sizeof( struct font_t ) );
@@ -216,9 +164,37 @@ Stds_AddFont( const char *font_file, const uint16_t size ) {
                  font_file, size );
   }
 
-  strncpy( f->name, font_file, strlen( font_file ) );
+  /* Push the font to the linked list. */
+  strncpy( f->name, font_file, strlen( font_file ) + 1 );
   f->size = size;
 
-  app.font_tail->next = f;
-  app.font_tail       = f;
+  g_app.font_tail->next = f;
+  g_app.font_tail       = f;
+}
+
+/**
+ * Iterate through the linked list of fonts already loaded into the system.
+ * If it is found, we return the font with the corresponding size. Otherwise,
+ * NULL is returned.
+ *
+ * @param const char * font name.
+ * @param const uint16_t font size.
+ *
+ * @return TTF_Font * pointer to font object.
+ */
+static TTF_Font *
+Stds_GetFont( const char *font_str, const uint16_t font_size ) {
+  struct font_t *f;
+
+  for ( f = g_app.font_head.next; f != NULL; f = f->next ) {
+    if ( strcmp( f->name, font_str ) == 0 && f->size == font_size ) {
+      return f->font;
+    }
+  }
+
+  if ( f == NULL ) {
+    SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not find font %s, %d.", font_str, font_size );
+  }
+
+  return NULL;
 }
