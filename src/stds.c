@@ -1,33 +1,22 @@
-//=============================================================================================//
-// FILENAME :       stds.c
-//
-// DESCRIPTION :
-//        This file defines the standard functions and procedures for math, trigonometry,
-//        simple non string.h string manipulation, random numbers, etc. stds.h also defines
-//        a few simple macros for min and max.
-//
-// NOTES :
-//        Permission is hereby granted, free of charge, to any person obtaining a copy
-//        of this software and associated documentation files (the "Software"), to deal
-//        in the Software without restriction, including without limitation the rights
-//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//        copies of the Software, and to permit persons to whom the Software is
-//        furnished to do so, subject to the following conditions:
-//
-//        The above copyright notice and this permission notice shall be included in all
-//        copies or substantial portions of the Software.
-//
-//        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//        SOFTWARE.
-//
-// AUTHOR :   Joshua Crotts        START DATE :    18 Jun 2020
-//
-//=============================================================================================//
+/**
+ * @file stds.c
+ * @author Joshua Crotts
+ * @date June 18 2020
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @section DESCRIPTION
+ *
+ * This file defines the standard functions and procedures for math, trigonometry,
+ * simple non string.h string manipulation, random numbers, etc. stds.h also defines
+ * a few simple macros for min and max.
+ */
 
 #include "../include/stds.h"
 
@@ -67,14 +56,13 @@ Stds_RandomInt( const int32_t min, const int32_t max ) {
 /**
  * Generates a 32-bit integer number between [min, min_upper_bound) U (max_lower_bound, max).
  * For instance, to generate a number between -10 and 10, but no lower than
- * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter;
+ * -5 or 5, do Stds_RandomIntBounded( -10, -5, 5, 10). Precision doesn't really matter.
  *
  * @param min
  * @param min_upper_bound
  * @param max_lower_bound
  * @param max
  *
- * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline int32_t
@@ -113,7 +101,6 @@ Stds_RandomFloat( const float min, const float max ) {
  * @param max_lower_bound
  * @param max
  *
- * In the end,
  * @return min ≤ x ≤ min_upper_bound OR max_lower_bound ≤ x ≤ max;
  */
 inline float
@@ -160,6 +147,35 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
   } else if ( *value > max ) {
     *value = max;
   }
+}
+
+/**
+ * Returns the sign of a 32-bit integer. 
+ * 
+ * @param const n value to check.
+ * 
+ * @return -1 if n < 0, 
+ *          0 if n == 0, 
+ *          1 if n > 0.
+ */
+int8_t
+Stds_SignumInt(const int value) {
+  return value == 0 ? 0 : (value < 0 ? -1 : 1);
+}
+
+/**
+ * Returns the sign of a floating-point value. Be very careful
+ * about the precision of your floating-point values! This only supports
+ * small-ish FP values.
+ *
+ * @param const float value to check for sign.
+ *
+ * @return int8_t -1 for negative value, 0 for zero, 1 for positive.
+ *
+ */
+int8_t
+Stds_SignumFloat( const float value ) {
+  return ( value < 0 ? -1 : ( value > 0 ? 1 : 0 ) );
 }
 
 /**
@@ -267,9 +283,7 @@ Stds_ToDegrees( const float radians ) {
 
 /**
  * Converts an integer into an SDL_Color object. The number should
- * be an unsigned 32-bit integer in the form
- *
- * 0xAARRGGBB (ARGB)
+ * be an unsigned 32-bit integer in the form 0xAARRGGBB (ARGB)
  *
  * @param uint32_t color to be converted.
  *
@@ -286,7 +300,8 @@ Stds_ConvertARGBToColor( const uint32_t c ) {
 }
 
 /**
- * Converts a SDL_Color object into an unsigned 32bit integer.
+ * Converts a SDL_Color object into an unsigned 32bit integer, in the form
+ * 0xAARRGGBB to comply wtih SDL 32-bit colors.
  *
  * @param SDL_Color * color to be converted.
  *
@@ -373,7 +388,7 @@ Stds_IndexOf( const char *s, const char *search_str ) {
 
 /**
  * Concatenates a signed 32-bit integer to the end of
- * a string.
+ * a string pointer.
  *
  * @param const char* string to concatenate onto.
  * @param int32_t integer to concatenate.
@@ -390,7 +405,13 @@ Stds_StrCatIntPtr( const char *s, const int32_t n ) {
 }
 
 /**
- *
+ * Concatenates a signed 32-bit integer to the end of
+ * a string array.
+ * 
+ * @param const char [] array for string.
+ * @param const int32_t integer to concatenate.
+ * 
+ * @return char * string with concatenated integer.
  */
 char *
 Stds_StrCatIntArray( const char s[], const int32_t n ) {

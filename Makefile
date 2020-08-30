@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = src/*.c tests/src/*.c lib/structures/src/*.c
+OBJS = src/*.c tests/basic_test/src/*.c tests/scroller_test/src/*.c lib/structures/src/*.c
 
 #CC specifies which compiler we're using
 CC = gcc
