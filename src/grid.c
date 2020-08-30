@@ -31,6 +31,7 @@
 #include "../include/grid.h"
 #include "../include/animation.h"
 #include "../include/draw.h"
+#include "../include/collision.h"
 
 static bool Stds_AssertGrid( const struct grid_t *grid );
 
@@ -479,11 +480,21 @@ Stds_RenderAnimationToGrid( const struct grid_t *grid, const uint32_t col, const
 /**
  *
  */
-void
-Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
+bool
+Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row, 
+                         const SDL_FRect *object, struct vec2_t *object_velocity ) {
   if ( Stds_AssertGrid( grid ) && col < grid->cols && row < grid->rows ) {
-    /* TODO */
+    SDL_FRect tile_check = {( float ) ( grid->sx + col * grid->sw ), ( float ) ( grid->sy + row * grid->sh ), ( float ) grid->sw, ( float ) grid->sh};
+    struct vec2_t contact_point, contact_normal;
+    float near;
+    if ( Stds_AdvRectVsRect(object, &tile_check, &contact_point, &contact_normal, &near, object_velocity) ) {
+      object_velocity->x = 0;
+      object_velocity->y = 0;
+      return true;
+    }
+    return false;
   }
+  return false;
 }
 
 /**
