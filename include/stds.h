@@ -39,7 +39,7 @@ extern void Stds_ClampInt( int32_t *n, const int32_t min, const int32_t max );
 
 extern void Stds_ClampFloat( float *n, const float min, const float max );
 
-extern void Stds_SignumInt( const int value );
+extern int8_t Stds_SignumInt( const int value );
 
 extern int8_t Stds_SignumFloat( const float value );
 
