@@ -12,7 +12,7 @@ add_enemy( float x, float y ) {
 
   e->pos.x      = x;
   e->pos.y      = y;
-  e->texture[0] = Stds_LoadTexture( "tests/res/img/grass.png" );
+  e->texture[0] = Stds_LoadTexture( "tests/scroller_test/res/img/grass.png" );
   SDL_QueryTexture( e->texture[0], NULL, NULL, &e->w, &e->h );
 
   return e;

@@ -38,8 +38,8 @@ init_player() {
   player->pos   = Stds_CreateVec2( g_app.SCREEN_WIDTH / 2.f, g_app.SCREEN_HEIGHT / 2.f );
   player->angle = 0;
 
-  walk_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 16, 0.05f );
-  idle_animation = Stds_AddAnimation( "tests/res/img/player/test/frame_", 1, 1.f );
+  walk_animation = Stds_AddAnimation( "tests/scroller_test/res/img/player/test/frame_", 16, 0.05f );
+  idle_animation = Stds_AddAnimation( "tests/scroller_test/res/img/player/test/frame_", 1, 1.f );
   walk_animation->is_camera_offset_enabled = true;
   idle_animation->is_camera_offset_enabled = true;
 

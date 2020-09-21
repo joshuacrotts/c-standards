@@ -43,18 +43,18 @@ static void update( void );
  *
  * @return status code.
  */
-int
-main( int argc, char *argv[] ) {
-  atexit( cleanup_stage );
+// int
+// main( int argc, char *argv[] ) {
+//   atexit( cleanup_stage );
 
-  Stds_InitGame( "Basic Game Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
-  Stds_InitAppStructures();
-  Stds_ToggleDebugMode( true );
-  init_scene();
-  Stds_GameLoop();
+//   Stds_InitGame( "Basic Game Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
+//   Stds_InitAppStructures();
+//   Stds_ToggleDebugMode( true );
+//   init_scene();
+//   Stds_GameLoop();
 
-  return 0;
-}
+//   return 0;
+// }
 
 /**
  * Initializes the delegation structure to use the

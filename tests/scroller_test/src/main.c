@@ -51,18 +51,18 @@ static void draw_grid( void );
  *
  * @return status code.
  */
-// int
-// main( int argc, char *argv[] ) {
-//   atexit( cleanup_stage );
+int
+main( int argc, char *argv[] ) {
+  atexit( cleanup_stage );
 
-//   Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
-//   Stds_InitAppStructures();
-//   Stds_ToggleDebugMode( true );
-//   init_scene();
-//   Stds_GameLoop();
+  Stds_InitGame( "Trail, Parallax Test, and Button Test", S_WIDTH, S_HEIGHT, L_WIDTH, L_HEIGHT );
+  Stds_InitAppStructures();
+  Stds_ToggleDebugMode( true );
+  init_scene();
+  Stds_GameLoop();
 
-//   return 0;
-//}
+  return 0;
+}
 
 /**
  * Initializes the delegation structure to use the
@@ -75,7 +75,7 @@ static void draw_grid( void );
 static void
 init_scene( void ) {
 
-  Stds_AddFont( "tests/res/fonts/nes.ttf", 16 );
+  Stds_AddFont( "tests/scroller_test/res/fonts/nes.ttf", 16 );
 
   g_app.delegate.update = update;
   g_app.delegate.draw   = draw;
@@ -97,7 +97,7 @@ init_scene( void ) {
 
   float parallax_scroll[11] = {0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f,
                                0.40f, 0.45f, 0.50f, 0.55f, 0.60f};
-  Stds_AddParallaxBackground( "tests/res/img/background_4/layer_0", parallax_frames, 1.0f,
+  Stds_AddParallaxBackground( "tests/scroller_test/res/img/background_4/layer_0", parallax_frames, 1.0f,
                               parallax_scroll, false );
 
   /* Create the border fade from blue to yellow. */
@@ -110,7 +110,7 @@ init_scene( void ) {
   f.alpha = 0.01f;
 
   /* Initialize the fire animation. */
-  fire_animation = Stds_AddSpritesheet( "tests/res/img/particle/fire_pixel/Fire04_30x40.png", 49,
+  fire_animation = Stds_AddSpritesheet( "tests/scroller_test/res/img/particle/fire_pixel/Fire04_30x40.png", 49,
                                         0.02f, 0, 0, 7, 7 );
 
   /* Static positions for now just to mess around with it. */
@@ -128,12 +128,12 @@ init_scene( void ) {
 
   /* Initializes textures for the grid. */
   Stds_InitializeGridTextures( grid, 1 );
-  testTextureGridId = Stds_AddGridTexture( grid, "tests/res/img/player.png" );
+  testTextureGridId = Stds_AddGridTexture( grid, "tests/scroller_test/res/img/player.png" );
 
   /* Initialize spriteSheet for the grid. */
-  Stds_AddSpriteSheetToGrid( grid, "tests/res/img/Tilemap.png", 10, 10 );
+  Stds_AddSpriteSheetToGrid( grid, "tests/scroller_test/res/img/Tilemap.png", 10, 10 );
 
-  Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/res/img/player/spritesheet_test.png",
+  Stds_AddAnimationToGrid( grid, Stds_AddSpritesheet( "tests/scroller_test/res/img/player/spritesheet_test.png",
                                                       16, 0.05f, 0, 0, 4, 4 ) );
   grid->is_camera_offset_enabled = false;
 
@@ -144,7 +144,7 @@ init_scene( void ) {
 
   /* Init text field for testing. */
   SDL_Color c = {0xff, 0, 0, 0xff};
-  tf          = Stds_CreateTextFieldBlank( 300.f, 300.f, "tests/res/fonts/nes.ttf", 16, &c );
+  tf          = Stds_CreateTextFieldBlank( 300.f, 300.f, "tests/scroller_test/res/fonts/nes.ttf", 16, &c );
   tf->toggle_text_input = true;
 
   g_app.text_field_tail->next = tf;

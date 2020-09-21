@@ -17,7 +17,7 @@ square_particle_init( float x, float y ) {
   p.delta_angle     = Stds_RandomInt( -3, 3 );
   p.particle_update = square_particle_update;
   p.particle_draw   = square_particle_draw;
-  p.current_texture = Stds_LoadTexture( "tests/res/img/particle/beige.png" );
+  p.current_texture = Stds_LoadTexture( "tests/scroller_test/res/img/particle/beige.png" );
   p.color.a         = Stds_RandomInt( 0, 128 );
 
   int32_t pw, ph;
