@@ -20,10 +20,6 @@ static struct text_field_t *tf;
 static struct grid_t *      grid;
 static struct grid_pair_t   p;
 static int32_t              testTextureGridId;
-static struct vec2_t        cp, cn, ray = {100.0f, 100.0f}, ray_direction = {1, 1};
-float                       t;
-static SDL_FRect            ray_rect = {300.0f, 300.0f, 200.0f, 100.0f},
-                 other_rect          = {500.0f, 500.0f, 100.0f, 100.0f};
 
 static struct polygon_t *hexa;
 static struct polygon_t *quad;
@@ -45,7 +41,6 @@ static void draw_trails( void );
 static void draw_enemies( void );
 static void draw_parallax_backgrounds( void );
 static void draw_grid( void );
-static void draw_collision_test( void );
 
 /**
  * Barebones game. This is the minimum amount of code
@@ -246,7 +241,6 @@ draw( void ) {
   player_draw();
   draw_grid();
   Stds_AnimationDraw( fire_animation );
-  draw_collision_test();
 
   Stds_DrawPolygon( quad );
   Stds_DrawPolygon( hexa );
@@ -327,7 +321,6 @@ add_particles( int32_t x, int32_t y, size_t n ) {
 static void
 draw_grid( void ) {
   Stds_DrawLineGrid( grid );
-  Stds_RenderPreMadeSpriteSheet( grid );
 }
 
 /**
@@ -338,50 +331,7 @@ update_grid( void ) {
   /* Hover code for grid */
   p = Stds_OnGridHover( grid );
 }
-
-/**
- *
- */
-static void
-draw_collision_test( void ) {
-  // Ray Vs Rect example.
-  /*
-  ray_direction.x = g_app.mouse.x - ray.x;
-  ray_direction.y = g_app.mouse.y - ray.y;
-
-  SDL_SetRenderDrawColor( g_app.renderer, 0, 0, 255, 255);
-  SDL_RenderDrawLineF( g_app.renderer, ray.x, ray.y, g_app.mouse.x, g_app.mouse.y );
-
-  if ( Stds_RayVsRect( &ray, &ray_direction, &ray_rect, &cp, &cn, &t ) && t < 1 ) {
-    SDL_SetRenderDrawColor( g_app.renderer, 0, 255, 0, 255);
-    SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  } else {
-    SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
-    SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  }
-  */
-
-  // Rect Vs Rect example.
-  /*
-  if ( Stds_AdvRectVsRect( &ray_rect, &other_rect, &cp, &cn, &t, &ray_direction ) ) {
-    ray_direction.x = 0;
-    ray_direction.y = 0;
-    SDL_SetRenderDrawColor( g_app.renderer, 0, 255, 0, 255);
-    SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  } else {
-    SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
-    SDL_RenderFillRectF( g_app.renderer, &ray_rect );
-  }
-
-  SDL_SetRenderDrawColor( g_app.renderer, 255, 0, 0, 255);
-  SDL_RenderFillRectF( g_app.renderer, &other_rect );
-
-  ray_rect.x += ray_direction.x;
-  ray_rect.y += ray_direction.y;
-  */
-}
-
-/**
+/*
  *
  */
 static void

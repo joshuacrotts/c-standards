@@ -19,6 +19,7 @@
 #include "../include/grid.h"
 #include "../include/animation.h"
 #include "../include/draw.h"
+#include "../include/collision.h"
 
 static bool Stds_AssertGrid( const struct grid_t *grid );
 
@@ -461,16 +462,6 @@ Stds_RenderAnimationToGrid( const struct grid_t *grid, const uint32_t col, const
     editAnim->is_camera_offset_enabled = false;
     Stds_AnimationUpdate( editAnim );
     Stds_AnimationDraw( editAnim );
-  }
-}
-
-/**
- *
- */
-void
-Stds_AddCollisionToGrid( struct grid_t *grid, uint32_t col, uint32_t row ) {
-  if ( Stds_AssertGrid( grid ) && col < grid->cols && row < grid->rows ) {
-    /* TODO */
   }
 }
 

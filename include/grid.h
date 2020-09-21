@@ -55,8 +55,6 @@ extern void Stds_RenderAnimationToGrid( const struct grid_t *grid, const uint32_
                                         const uint32_t row, const int32_t index,
                                         const SDL_RendererFlip flip, const uint16_t angle );
 
-extern void Stds_AddCollisionToGrid( struct grid_t *grid, const uint32_t col, const uint32_t row );
-
 extern void Stds_RenderPreMadeSpriteSheet( struct grid_t *grid );
 
 #endif // GRID_H

@@ -99,7 +99,9 @@ update( void ) {}
  * @return void.
  */
 static void
-draw( void ) {}
+draw( void ) {
+
+}
 
 /**
  * Cleans up whatever elements are left via the stage and not Stds itself.
