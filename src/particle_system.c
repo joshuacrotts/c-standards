@@ -92,7 +92,7 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
     if ( p->particle_update ) {
       p->particle_update( p );
     } else {
-      printf( "Error! p->particle_update function pointer is undefined.\n" );
+      fprintf( stderr, "Error! p->particle_update function pointer is undefined.\n" );
       exit( EXIT_FAILURE );
     }
 
@@ -124,7 +124,7 @@ Stds_ParticleSystemDraw( const struct particle_system_t *ps ) {
     if ( p->particle_draw ) {
       p->particle_draw( p );
     } else {
-      printf( "Error! p->particle_draw is not defined." );
+      fprintf( stderr, "Error! p->particle_draw is not defined." );
       exit( EXIT_FAILURE );
     }
   }

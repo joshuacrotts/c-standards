@@ -120,7 +120,7 @@ init_scene( void ) {
   fire_animation->dest_height = 80;
 
   /* Generate a standard particle system. */
-  ps = Stds_CreateParticleSystem( 1024 );
+  ps = Stds_CreateParticleSystem( 50000 );
 
   /* Create the white grid for testing. */
   SDL_Color tempGridColor = {255, 255, 255, 255};
@@ -157,7 +157,7 @@ init_scene( void ) {
 static void
 update( void ) {
   if ( g_app.mouse.button[SDL_BUTTON_LEFT] ) {
-    add_particles( g_app.mouse.x, g_app.mouse.y, 32 );
+    add_particles( g_app.mouse.x, g_app.mouse.y, 1000 );
   }
 
   Stds_CameraUpdate( player );

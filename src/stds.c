@@ -50,7 +50,16 @@ Stds_SetRandomSeed( void ) {
  */
 inline int32_t
 Stds_RandomInt( const int32_t min, const int32_t max ) {
-  return ( rand() % ( max - min + 1 ) ) + min;
+  int32_t n = 0;
+  int32_t tmpMax = max;
+  size_t i = 0;
+  do {
+    n |= ((rand() % ( max - min + 1 ) ) + min) << i;
+    tmpMax -= RAND_MAX;
+    i <<= 8;
+  } while (tmpMax > RAND_MAX);
+
+  return n;
 }
 
 /**
