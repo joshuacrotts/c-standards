@@ -159,6 +159,22 @@ Stds_ClampFloat( float *value, const float min, const float max ) {
 }
 
 /**
+ * Normalizes a floating-point value to a specific range.
+ * 
+ * @param float * pointer to value to normalize.
+ * @param float old minimum possible value.
+ * @param float old maximum possible value.
+ * @param float new minimum possible value.
+ * @param float new maximum possible value.
+ * 
+ * @return void.
+ */ 
+void 
+Stds_NormalizeFloat(float *value, const float old_min, const float old_max, const float new_min, const float new_max ) {
+  *value = (((*value - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
+}
+
+/**
  * Returns the sign of a 32-bit integer. 
  * 
  * @param const n value to check.
