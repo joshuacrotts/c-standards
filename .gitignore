@@ -10,3 +10,7 @@ latex/*
 Doxyfile
 Doxyfile.bak
 docs/latex/*
+app.html
+app.js
+app.wasm
+app.data

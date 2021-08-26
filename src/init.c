@@ -102,10 +102,18 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   g_app.LEVEL_HEIGHT  = level_height;
 
   /* Initialize SDL and exit if we fail. */
-  if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-    printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
-    exit( EXIT_FAILURE );
-  }
+  #ifdef __EMSCRIPTEN__
+    if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS ) < 0 ) {
+      printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
+      exit( EXIT_FAILURE );
+    }
+  #endif
+  #ifndef __EMSCRIPTEN__
+    if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
+      printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
+      exit( EXIT_FAILURE );
+    }
+  #endif
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initializing window." );
 

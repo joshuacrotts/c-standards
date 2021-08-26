@@ -60,15 +60,25 @@ Stds_GameLoop( void ) {
 
   then = SDL_GetTicks();
 
-  /* Main game loop. */
-  while ( g_app.is_running ) {
-    Stds_PrepareScene();
-    Stds_ProcessInput();
-    g_app.delegate.update();
-    g_app.delegate.draw();
-    Stds_PresentScene();
-    Stds_CapFramerate( &then, &remainder );
-  }
+  /* Main game loop. If we're running the code in Emscripten we can't use the normal while loop. */
+  #ifdef __EMSCRIPTEN__
+      Stds_PrepareScene();
+      Stds_ProcessInput();
+      g_app.delegate.update();
+      g_app.delegate.draw();
+      Stds_PresentScene();
+      Stds_CapFramerate( &then, &remainder );
+  #endif
+  #ifndef __EMSCRIPTEN__
+    while ( g_app.is_running ) {
+      Stds_PrepareScene();
+      Stds_ProcessInput();
+      g_app.delegate.update();
+      g_app.delegate.draw();
+      Stds_PresentScene();
+      Stds_CapFramerate( &then, &remainder );
+    }
+  #endif
 }
 
 /**

@@ -1,4 +1,7 @@
 
+#ifdef __EMSCRIPTEN__
+  #include <emscripten.h>
+#endif
 
 #include "../include/main.h"
 #include "../include/player.h"
@@ -59,8 +62,12 @@ main( int argc, char *argv[] ) {
   Stds_InitAppStructures();
   Stds_ToggleDebugMode( true );
   init_scene();
-  Stds_GameLoop();
-
+  #ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(Stds_GameLoop, 0, 1);
+  #endif
+  #ifndef __EMSCRIPTEN__
+    Stds_GameLoop();
+  #endif
   return 0;
 }
 
@@ -296,6 +303,9 @@ cleanup_stage( void ) {
   Stds_AnimationDie( fire_animation );
   Stds_CleanUpPolygon( hexa );
   Stds_CleanUpPolygon( quad );
+  #ifdef __EMSCRIPTEN__
+    emscripten_cancel_main_loop();
+  #endif
 }
 
 /**

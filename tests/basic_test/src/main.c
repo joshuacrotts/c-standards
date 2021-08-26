@@ -17,6 +17,10 @@
  */
 #include "../include/main.h"
 
+#ifdef __EMSCRIPTEN__
+  #include <emscripten.h>
+#endif
+
 #define S_WIDTH  700
 #define S_HEIGHT 700
 #define L_WIDTH  3000
