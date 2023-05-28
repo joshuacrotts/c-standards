@@ -28,7 +28,7 @@
 struct particle_system_t *
 Stds_CreateParticleSystem( const int32_t max_particles ) {
   struct particle_system_t *ps;
-  ps = malloc( sizeof( struct particle_system_t ) );
+  ps = calloc( 1, sizeof( struct particle_system_t ) );
 
   if ( ps == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
@@ -37,13 +37,10 @@ Stds_CreateParticleSystem( const int32_t max_particles ) {
     exit( EXIT_FAILURE );
   }
 
-  memset( ps, 0, sizeof( struct particle_system_t ) );
-
   ps->particles     = malloc( sizeof( struct particle_t ) * max_particles );
   ps->max_particles = max_particles;
   ps->alive_count   = 0;
   ps->dead_index    = 0;
-
   return ps;
 }
 
@@ -92,7 +89,7 @@ Stds_ParticleSystemUpdate( struct particle_system_t *ps ) {
     if ( p->particle_update ) {
       p->particle_update( p );
     } else {
-      fprintf( stderr, "Error! p->particle_update function pointer is undefined.\n" );
+      SDL_Log( "Error! p->particle_update function pointer is undefined.\n" );
       exit( EXIT_FAILURE );
     }
 
@@ -124,7 +121,7 @@ Stds_ParticleSystemDraw( const struct particle_system_t *ps ) {
     if ( p->particle_draw ) {
       p->particle_draw( p );
     } else {
-      fprintf( stderr, "Error! p->particle_draw is not defined." );
+      SDL_Log( "Error! p->particle_draw is not defined." );
       exit( EXIT_FAILURE );
     }
   }

@@ -34,15 +34,13 @@ void
 Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, SDL_RendererFlip flip,
                       bool is_transparent ) {
   struct trail_t *t;
-  t = malloc( sizeof( struct trail_t ) );
+  t = calloc( 1, sizeof( struct trail_t ) );
 
   if ( t == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for trail_t. %s.\n",
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
-  memset( t, 0, sizeof( struct trail_t ) );
 
   t->pos  = Stds_CloneVec2( &parent->pos );
   t->w    = parent->w;
@@ -76,14 +74,13 @@ Stds_AddTextureTrail( struct entity_t *parent, int16_t alpha_decay, SDL_Renderer
 void
 Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, SDL_Color *c ) {
   struct trail_t *t;
-  t = malloc( sizeof( struct trail_t ) );
+  t = calloc( 1, sizeof( struct trail_t ) );
 
   if ( t == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                  "Could not allocate memory for circular trail_t. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-  memset( t, 0, sizeof( struct trail_t ) );
 
   t->pos.x = x;
   t->pos.y = y;
@@ -105,14 +102,13 @@ Stds_AddCircleTrail( float x, float y, int32_t r, int16_t alpha_decay, SDL_Color
 void
 Stds_AddSquareTrail( float x, float y, int32_t w, int32_t h, int16_t alpha_decay, SDL_Color *c ) {
   struct trail_t *t;
-  t = malloc( sizeof( struct trail_t ) );
+  t = calloc( 1, sizeof( struct trail_t ) );
 
   if ( t == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                  "Could not allocate memory for square trail_t. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-  memset( t, 0, sizeof( struct trail_t ) );
 
   t->pos.x = x;
   t->pos.y = y;

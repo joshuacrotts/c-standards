@@ -358,17 +358,17 @@ Stds_Substring( const char *str, const int32_t first, const int32_t last ) {
 
   /* Primitive error checking... */
   if ( s_len <= 0 ) {
-    printf( "Error: your string cannot be empty: %d.\n", s_len );
+    SDL_Log( "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( first >= last ) {
-    printf( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
+    SDL_Log( "Error: your first index %d cannot more than or equal to your last %d.\n", first,
             last );
     exit( EXIT_FAILURE );
   } else if ( first < 0 ) {
-    fprintf( stderr, "Error: your first index cannot be less than 0. %d.\n", first );
+    SDL_Log( "Error: your first index cannot be less than 0. %d.\n", first );
     exit( EXIT_FAILURE );
   } else if ( last >= s_len ) {
-    printf( "Error: your last index cannot be >= length of your string. %d.\n", last );
+    SDL_Log( "Error: your last index cannot be >= length of your string. %d.\n", last );
     exit( EXIT_FAILURE );
   }
 
@@ -392,11 +392,10 @@ Stds_IndexOf( const char *s, const char *search_str ) {
   uint32_t search_str_len = strlen( search_str );
 
   if ( s_len <= 0 ) {
-    fprintf( stderr, "Error: your string cannot be empty: %d.\n", s_len );
+    SDL_Log( "Error: your string cannot be empty: %d.\n", s_len );
     exit( EXIT_FAILURE );
   } else if ( s_len < search_str_len ) {
-    fprintf( stderr,
-             "Error: your string length of %d is less than your search string length of %d.\n",
+    SDL_Log( "Error: your string length of %d is less than your search string length of %d.\n",
              s_len, search_str_len );
     exit( EXIT_FAILURE );
   }

@@ -39,12 +39,9 @@ struct stds_queue_t {
 stds_queue_t *
 Stds_QueueCreate( size_t element_size ) {
   stds_queue_t *q;
-  q = malloc( sizeof( stds_queue_t ) );
-  memset( q, 0, sizeof( stds_queue_t ) );
+  q = calloc( 1, sizeof( stds_queue_t ) );
   q->element_size = element_size;
-
   Stds_QueueClear( q );
-
   return q;
 }
 
@@ -61,8 +58,7 @@ Stds_QueueCreate( size_t element_size ) {
 void
 Stds_QueueAdd( struct stds_queue_t *q, void *data ) {
   stds_queue_node_t *n;
-  n = malloc( sizeof( stds_queue_node_t ) );
-  memset( n, 0, sizeof( stds_queue_node_t ) );
+  n = calloc( 1, sizeof( stds_queue_node_t ) );
   n->data = data;
   n->next = NULL;
 

@@ -115,15 +115,13 @@ struct button_t *
 Stds_AddButtonTexture( const float x, const float y, const char *file_path, const char *font_path,
                        const uint16_t size, const SDL_Color *fc, const char *text ) {
   struct button_t *button;
-  button = malloc( sizeof( struct button_t ) );
+  button = calloc( 1, sizeof( struct button_t ) );
 
   if ( button == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                  "Error: could not allocate memory for button_t, %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
-  memset( button, 0, sizeof( struct button_t ) );
 
   button->texture_id                  = 0;
   button->texture[button->texture_id] = Stds_LoadTexture( file_path );

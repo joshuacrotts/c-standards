@@ -90,7 +90,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
               const uint32_t level_width, const uint32_t level_height ) {
   int8_t renderer_flags;
   int8_t window_flags;
-  renderer_flags = SDL_RENDERER_ACCELERATED;
+  renderer_flags = SDL_RENDERER_PRESENTVSYNC;
   window_flags   = 0;
 
   SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Initialization of SDL started." );
@@ -104,13 +104,13 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   /* Initialize SDL and exit if we fail. */
   #ifdef __EMSCRIPTEN__
     if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS ) < 0 ) {
-      printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
+      SDL_Log( "Could not initialize SDL: %s.\n", SDL_GetError() );
       exit( EXIT_FAILURE );
     }
   #endif
   #ifndef __EMSCRIPTEN__
     if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
-      printf( "Could not initialize SDL: %s.\n", SDL_GetError() );
+      SDL_Log( "Could not initialize SDL: %s.\n", SDL_GetError() );
       exit( EXIT_FAILURE );
     }
   #endif
@@ -121,7 +121,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   g_app.window = SDL_CreateWindow( window_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                    window_width, window_height, window_flags );
   if ( !g_app.window ) {
-    printf( "Could not open window. %s.\n", SDL_GetError() );
+    SDL_Log( "Could not open window. %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 
@@ -132,7 +132,7 @@ Stds_InitSDL( const char *window_name, const uint32_t window_width, const uint32
   /* Create renderer with the default graphics context. */
   g_app.renderer = SDL_CreateRenderer( g_app.window, -1, renderer_flags );
   if ( !g_app.renderer ) {
-    printf( "Failed to initialize renderer: %s.\n", SDL_GetError() );
+    SDL_Log( "Failed to initialize renderer: %s.\n", SDL_GetError() );
     exit( EXIT_FAILURE );
   }
 

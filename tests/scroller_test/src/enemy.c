@@ -6,9 +6,7 @@
 struct entity_t *
 add_enemy( float x, float y ) {
   struct entity_t *e;
-
-  e = malloc( sizeof( struct entity_t ) );
-  memset( e, 0, sizeof( struct entity_t ) );
+  e = calloc( 1, sizeof( struct entity_t ) );
 
   e->pos.x      = x;
   e->pos.y      = y;

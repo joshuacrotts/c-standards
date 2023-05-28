@@ -43,7 +43,7 @@ Stds_CreateGrid( const float x, const float y, const int32_t square_width,
                  const int32_t square_height, const uint32_t cols, const uint32_t rows,
                  const SDL_Color *line_color, const SDL_Color *fill_color ) {
   struct grid_t *grid;
-  grid = malloc( sizeof( struct grid_t ) );
+  grid = calloc( 1, sizeof( struct grid_t ) );
 
   if ( grid == NULL ) {
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION,
@@ -53,7 +53,6 @@ Stds_CreateGrid( const float x, const float y, const int32_t square_width,
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Created grid_t.\n" );
   }
 
-  memset( grid, 0, sizeof( struct grid_t ) );
   grid->x              = x;
   grid->y              = y;
   grid->sx             = x;

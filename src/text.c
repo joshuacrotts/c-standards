@@ -147,15 +147,13 @@ Stds_GetStringSize( const char *s, const char *font, const uint16_t size, int32_
 void
 Stds_AddFont( const char *font_file, const uint16_t size ) {
   struct font_t *f;
-  f = malloc( sizeof( struct font_t ) );
+  f = calloc( 1, sizeof( struct font_t ) );
 
   if ( f == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for font_t. %s.\n",
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
-  memset( f, 0, sizeof( struct font_t ) );
 
   f->font = TTF_OpenFont( font_file, size );
 

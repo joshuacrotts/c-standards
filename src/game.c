@@ -18,8 +18,7 @@
  */
 #include "../include/game.h"
 
-static const char *FPS_STR = " | FPS: ";
-static uint16_t    current_fps;
+static uint16_t current_fps;
 
 static void     Stds_InitWindowFPS( void );
 static void     Stds_CapFramerate( long *, float * );
@@ -139,19 +138,9 @@ Stds_CapFramerate( long *then, float *remainder ) {
 static uint32_t
 Stds_UpdateWindowTitle( uint32_t interval, void *args ) {
   uint16_t fps = *( uint16_t * ) args;
-  /* Create text window buffer. */
-  char window_buffer[SMALL_TEXT_BUFFER];
-
-  /* Copy the title to the buffer. */
-  strncpy( window_buffer, g_app.original_title, strlen( g_app.original_title ) + 1 );
-
-  /* Move temp var to buffer. Receive ptr. */
-  strncat( window_buffer, FPS_STR, strlen( FPS_STR ) + 1 );
-
-  /* Concatenate number to title variable. */
-  char *title;
-  title = Stds_StrCatIntArray( window_buffer, fps );
+  char *title = NULL;
+  int ret = asprintf( &title, "%s - FPS: %d\n", g_app.original_title, fps );
   SDL_SetWindowTitle( g_app.window, title );
-
+  free( title );
   return interval;
 }

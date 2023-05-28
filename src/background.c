@@ -50,15 +50,13 @@ Stds_AddParallaxBackground( const char *directory, const size_t count,
   const char *file_extsn = ".png";
 
   for ( uint32_t i = 0; i < count; i++ ) {
-    layer = malloc( sizeof( struct parallax_background_t ) );
+    layer = calloc( 1, sizeof( struct parallax_background_t ) );
 
     if ( layer == NULL ) {
       SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION,
                    "Could not allocate memory for parallax_background_t. %s.\n", SDL_GetError() );
       exit( EXIT_FAILURE );
     }
-
-    memset( layer, 0, sizeof( struct parallax_background_t ) );
 
     snprintf( number_buffer, MAX_FILE_NUM_DIGITS, "%d", i );
     strncpy( input_buffer, directory, strlen( directory ) + 1 );
@@ -131,21 +129,18 @@ Stds_ParallaxBackgroundDraw( const struct parallax_background_t *p ) {
 struct background_t *
 Stds_AddBackground( const char *file ) {
   struct background_t *background;
-  background = malloc( sizeof( struct background_t ) );
+  background = calloc( 1, sizeof( struct background_t ) );
 
   if ( background == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for background_t. %s.\n",
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-  memset( background, 0, sizeof( struct background_t ) );
 
   background->pos.x              = 0;
   background->pos.y              = 0;
   background->background_texture = Stds_LoadTexture( file );
-
   SDL_QueryTexture( background->background_texture, NULL, NULL, &background->w, &background->h );
-
   return background;
 }
 

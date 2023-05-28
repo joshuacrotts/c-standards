@@ -25,15 +25,13 @@ static void check_bounds( void );
  */
 void
 init_player() {
-  player = malloc( sizeof( struct entity_t ) );
+  player = calloc( 1, sizeof( struct entity_t ) );
 
   if ( player == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for player_t. %s.\n",
                  SDL_GetError() );
     exit( EXIT_FAILURE );
   }
-
-  memset( player, 0, sizeof( struct entity_t ) );
 
   player->pos   = Stds_CreateVec2( g_app.SCREEN_WIDTH / 2.f, g_app.SCREEN_HEIGHT / 2.f );
   player->angle = 0;

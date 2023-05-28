@@ -44,7 +44,7 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
                      const uint16_t x, const uint16_t y, const size_t no_rows,
                      const size_t no_cols ) {
   struct animation_t *a;
-  a = malloc( sizeof( struct animation_t ) );
+  a = calloc( 1, sizeof( struct animation_t ) );
 
   if ( a == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for animation_t. %s.\n",
@@ -60,8 +60,6 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
             no_rows, no_cols, no_of_frames );
     exit( EXIT_FAILURE );
   }
-
-  memset( a, 0, sizeof( struct animation_t ) );
 
   a->number_of_frames = no_of_frames;
   a->current_texture  = Stds_LoadTexture( directory );
@@ -110,7 +108,7 @@ Stds_AddSpritesheet( const char *directory, const uint8_t no_of_frames, const fl
 struct animation_t *
 Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const float frame_delay ) {
   struct animation_t *a;
-  a = malloc( sizeof( struct animation_t ) );
+  a = calloc( 1, sizeof( struct animation_t ) );
 
   if ( a == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for animation_t. %s.\n",
@@ -118,8 +116,7 @@ Stds_AddAnimation( const char *directory, const uint8_t no_of_frames, const floa
     exit( EXIT_FAILURE );
   }
 
-  memset( a, 0, sizeof( struct animation_t ) );
-  a->frames = malloc( sizeof( SDL_Texture * ) * no_of_frames );
+  a->frames = calloc( no_of_frames, sizeof( SDL_Texture * ) );
 
   if ( a->frames == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for a->frames. %s.\n",

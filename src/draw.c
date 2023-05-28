@@ -357,7 +357,7 @@ Stds_GetTexture( const char *file_name ) {
 static void
 Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
   struct texture_t *texture;
-  texture = malloc( sizeof( struct texture_t ) );
+  texture = calloc( 1, sizeof( struct texture_t ) );
 
   if ( texture == NULL ) {
     SDL_LogInfo( SDL_LOG_CATEGORY_APPLICATION, "Could not allocate memory for texture_t. %s.\n",
@@ -365,7 +365,6 @@ Stds_CacheTexture( const char *file_name, SDL_Texture *sdl_texture ) {
     exit( EXIT_FAILURE );
   }
 
-  memset( texture, 0, sizeof( struct texture_t ) );
   g_app.texture_tail->next = texture;
   g_app.texture_tail       = texture;
 

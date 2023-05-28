@@ -41,14 +41,12 @@ struct stds_stack_t {
 stds_stack_t *
 Stds_StackCreate( size_t element_size ) {
   stds_stack_t *s;
-  s = malloc( sizeof( stds_stack_t ) );
+  s = calloc( 1, sizeof( stds_stack_t ) );
 
   if ( s == NULL ) {
     fprintf( stderr, "Error: could not allocate memory for stds_stack_t!\n" );
     exit( EXIT_FAILURE );
   }
-  
-  memset( s, 0, sizeof( stds_stack_t ) );
 
   s->element_size = element_size;
   Stds_StackClear( s );

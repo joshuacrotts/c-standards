@@ -26,14 +26,12 @@ struct text_field_t *
 Stds_CreateTextFieldBlank( float x, float y, const char *font_directory, const uint16_t font_size,
                            SDL_Color *font_color ) {
   struct text_field_t *tf;
-  tf = malloc( sizeof( struct text_field_t ) );
+  tf = calloc( 1, sizeof( struct text_field_t ) );
 
   if ( tf == NULL ) {
-    fprintf( stderr, "Error: could not allocate memory for text_field_t.\n" );
+    SDL_Log( "Error: could not allocate memory for text_field_t.\n" );
     exit( EXIT_FAILURE );
   }
-
-  memset( tf, 0, sizeof( struct text_field_t ) );
 
   tf->x              = x;
   tf->y              = y;
@@ -51,14 +49,12 @@ struct text_field_t *
 Stds_CreateTextField( float x, float y, char *text, const char *font_directory,
                       const uint16_t font_size, SDL_Color *c ) {
   struct text_field_t *tf;
-  tf = malloc( sizeof( struct text_field_t ) );
+  tf = calloc( 1, sizeof( struct text_field_t ) );
 
   if ( tf == NULL ) {
-    fprintf( stderr, "Error: could not allocate memory for text_field_t.\n" );
+    SDL_Log( "Error: could not allocate memory for text_field_t.\n" );
     exit( EXIT_FAILURE );
   }
-
-  memset( tf, 0, sizeof( struct text_field_t ) );
 
   tf->x = x;
   tf->y = y;

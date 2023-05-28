@@ -27,9 +27,8 @@
  */
 void
 Stds_InitAudio( void ) {
-  g_app.sounds = malloc( sizeof( Mix_Chunk * ) * SND_MAX );
+  g_app.sounds = calloc( SND_MAX, sizeof( Mix_Chunk * ) );
   g_app.music  = NULL;
-  memset( g_app.sounds, 0, sizeof( Mix_Chunk * ) * SND_MAX );
 }
 
 /**
@@ -76,7 +75,7 @@ Stds_PlayMusic( const bool loop ) {
 void
 Stds_LoadSFX( const char *path, const int16_t id ) {
   if ( g_app.sounds[id] != NULL ) {
-    fprintf( stderr, "Error, could not add %s audio file to id %d. This id already exists!\n", path,
+    SDL_Log( "Error, could not add %s audio file to id %d. This id already exists!\n", path,
              id );
     exit( EXIT_FAILURE );
   }

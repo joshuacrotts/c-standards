@@ -42,16 +42,14 @@ struct stds_vector_t {
 stds_vector_t *
 Stds_VectorCreate( size_t element_size ) {
   stds_vector_t *v;
-  v = malloc( sizeof( stds_vector_t ) );
+  v = calloc( 1, sizeof( stds_vector_t ) );
 
   if ( v == NULL ) {
     fprintf( stderr, "Error: could not allocate memory for stds_vector_t!\n" );
     exit( EXIT_FAILURE );
   }
 
-  memset( v, 0, sizeof( stds_vector_t ) );
   Stds_VectorClear( v );
-
   return v;
 }
 

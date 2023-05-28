@@ -32,7 +32,7 @@ struct polygon_t *
 Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t position,
                     const float angle ) {
   struct polygon_t *polygon;
-  polygon = malloc( sizeof( struct polygon_t ) );
+  polygon = calloc( 1, sizeof( struct polygon_t ) );
 
   if ( polygon == NULL ) {
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION,
@@ -42,7 +42,6 @@ Stds_CreatePolygon( const int32_t sides, const float size, const struct vec2_t p
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Created polygon_t.\n" );
   }
 
-  memset( polygon, 0, sizeof( struct polygon_t ) );
   polygon->sides       = sides;
   polygon->has_overlap = false;
   polygon->model       = malloc( sizeof( struct vec2_t ) * sides );
@@ -134,7 +133,7 @@ Stds_CleanUpPolygon( struct polygon_t *polygon ) {
 struct polygon_t *
 Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
   struct polygon_t *polygon;
-  polygon = malloc( sizeof( struct polygon_t ) );
+  polygon = calloc( 1, sizeof( struct polygon_t ) );
 
   if ( polygon == NULL ) {
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION,
@@ -144,7 +143,6 @@ Stds_BoundingBox( float x, float y, float w, float h, float angle ) {
     SDL_LogDebug( SDL_LOG_CATEGORY_APPLICATION, "Created polygon_t.\n" );
   }
 
-  memset( polygon, 0, sizeof( struct polygon_t ) );
   polygon->sides   = 4;
   polygon->has_overlap = false;
   polygon->model   = malloc( sizeof( struct vec2_t ) * 4 );
